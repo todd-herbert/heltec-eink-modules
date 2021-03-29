@@ -4,4 +4,3 @@ include
 lib
 test
 platformio.ini
-.gitignore
