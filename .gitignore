@@ -3,4 +3,5 @@
 include
 lib
 test
-plaformio.ini
+platformio.ini
+.gitignore
