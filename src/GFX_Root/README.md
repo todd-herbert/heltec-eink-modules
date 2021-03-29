@@ -1,0 +1,1 @@
+This folder will contain the GFX_Root Libraries, with the exception of fonts, which will be placed in src/Fonts for accessibility 
