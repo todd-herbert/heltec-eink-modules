@@ -1,0 +1,6 @@
+.pio
+.vscode
+include
+lib
+test
+plaformio.ini
