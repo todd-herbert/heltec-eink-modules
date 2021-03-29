@@ -1,1 +1,2 @@
-This folder will contain the GFX_Root Libraries, with the exception of fonts, which will be placed in src/Fonts for accessibility 
+This folder contains GFX_Root 2.0.0 from https://github.com/ZinggJM/GFX_Root
+Please find attached license files relevant to content in this folder
