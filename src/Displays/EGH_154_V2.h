@@ -2,33 +2,34 @@
 #include <SPI.h>
 #include "GFX_Root/GFX.h"
 
-///Heltec 2.13" Red V2
-///Declaration: EGH_213RED_V2(  d/c pin  , cs pin , busy pin )
-class EGH_213Red_V2 : public GFX {
+///Heltec 1.54" V2
+///Declaration: EGH_154_V2(  d/c pin  , cs pin , busy pin )
+class EGH_154_V2 : public GFX {
 
     //Consts
     //===================
     private:
-        //These are correct for the Heltect 2.13" Red V2, but are still defined here for easy access
+        //These are correct for the Heltec 1.54" V2, but are still defined here for easy access
         const SPISettings spi_settings = SPISettings(200000, MSBFIRST, SPI_MODE0);
-        const uint16_t panel_width = 128;
-        const uint16_t panel_height = 250;
-        const int16_t drawing_width = 122;  //Panel needs 128 * 250 bytes of data, however the useful drawing area is slightly smaller
-        const int16_t drawing_height = 250;
+        const uint16_t panel_width = 200;
+        const uint16_t panel_height = 200;
+        const int16_t drawing_width = 200;  //Panel needs 128 * 250 bytes of data, however the useful drawing area is slightly smaller
+        const int16_t drawing_height = 200;
 
     //Consts for user config
     //==================
     public:
-        enum Colors{BLACK = 0, WHITE = 1, RED = 3};
+        enum Colors{BLACK = 0, WHITE = 1};
         struct PageProfile {
             uint16_t height;
             uint16_t count;
         };
-        const PageProfile   PAGESIZE_TINY       {.height = 2, .count = 250};    //64kb of SRAM, 4% of total (Arduino UNO)
-        const PageProfile   PAGESIZE_SMALL      {.height = 5, .count = 50};     //160kb of SRAM, 8% of total (Arduino UNO)
-        const PageProfile   PAGESIZE_MEDIUM     {.height = 10, .count = 25};    //320kb of SRAM, 16% of total (Arduino UNO)
-        const PageProfile   PAGESIZE_LARGE      {.height = 25, .count = 10};    //800kb of SRAM, 40% of total (Arduino UNO)
-        //Feel free to add any other profiles you wish. The only requirement is that ".height" * count = panel height (250px)
+        //TODO: calculate profiles for 154black
+        const PageProfile   PAGESIZE_TINY      {.height = 4, .count = 50};      //100kb of SRAM, 5% of total (Arduino UNO)
+        const PageProfile   PAGESIZE_SMALL     {.height = 10, .count = 20};     //250kb of SRAM, 12.5% of total (Arduino UNO)
+        const PageProfile   PAGESIZE_MEDIUM    {.height = 20, .count = 10};     //500kb of SRAM, 25% of total (Arduino UNO)
+        const PageProfile   PAGESIZE_LARGE     {.height = 40, .count = 5};      //1000kb of SRAM, 50% of total (Arduino UNO)
+        //Feel free to add any other profiles you wish. The only requirement is that ".height" * count = panel height (200px)
 
 
 
@@ -37,7 +38,7 @@ class EGH_213Red_V2 : public GFX {
     public:
         //Constructor
         //Have to initialize because of GFX class
-        EGH_213Red_V2( uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy) : GFX(panel_width, panel_height),
+        EGH_154_V2( uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy) : GFX(panel_width, panel_height),
                                                                                 pin_dc(pin_dc), 
                                                                                 pin_cs(pin_cs), 
                                                                                 pin_busy(pin_busy)
@@ -89,7 +90,7 @@ class EGH_213Red_V2 : public GFX {
         PageProfile page_profile;
         uint16_t page_bytecount;
         uint8_t *page_black;
-        uint8_t *page_red;
+
         uint8_t page_cursor = 0;
         uint8_t page_top, page_bottom;  //Counters
 

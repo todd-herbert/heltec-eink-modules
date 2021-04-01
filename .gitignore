@@ -5,3 +5,4 @@ lib
 test
 platformio.ini
 src/main.cpp
+src/Debug*
