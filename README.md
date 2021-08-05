@@ -161,7 +161,7 @@ If you need a hint on how to use it, I have thrown together a [tutorial on prepa
 * [Pins](#pins)
 * [Page Size](#page-size)
 * [Power Management](#power-management)
-* [Non-Blocking Updates](#blocking-vs.-non-blocking)
+* [Non-Blocking Updates](#blocking-vs-non-blocking)
 * [Update Region](#update-region)
 * [Update Quality](#update-quality)
 * [Code Readability](#code-readability)
