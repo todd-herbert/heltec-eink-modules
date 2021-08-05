@@ -5,12 +5,11 @@ Supports run-time graphics and text generation using Adafruit-GFX (via [ZinggJM/
 
 This is made possible with *"paging".*
 
-[Huh? Paging?](#what-is-paging) 
-[Supported Displays](#supported-displays) 
-[Wiring](#wiring) 
-[Using the library](#using-the-library) 
-[Configuration](#configuration-options)
-[Acknowledgements](#acknowledgements)  
+[Huh? Paging?](#what-is-paging) <br />[Supported Displays](#supported-displays) <br />
+[Wiring](#wiring) <br />
+[Using the library](#using-the-library) <br />
+[Configuration](#configuration-options) <br />
+[Acknowledgements](#acknowledgements)  <br />
 
 
 
