@@ -22,7 +22,7 @@ In this tutorial, I am using a *Heltec 2.13" Red V2 Display*, which has a size o
 
 In this tutorial I will be using [this image](https://pixabay.com/photos/macaw-parrot-bird-fly-wings-209128/) from pixabay.
 
-![tutorial image source](https://github.com/todd-herbert/Heltec-213R-V2/blob/main/docs/XBitmapTutorial/3C_source.png?raw=true)
+![tutorial image source](https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/3C_source.png?raw=true)
 ## Resize Image
 Your image can be either fullscreen on cover just a small part; the process is the same.
 
@@ -31,11 +31,11 @@ Purely for design purposes, I am cropping the most interesting part of my tutori
 Keeping the dimensions of your display in mind, it is now time to resize your image. 
 * Use the *Image* -> *Scale Image* dialog in GIMP to achieve an appropriate size.
 
-![scale](https://github.com/todd-herbert/Heltec-213R-V2/blob/main/docs/XBitmapTutorial/3C_scale.png?raw=true)
+![scale](https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/3C_scale.png?raw=true)
 
 Note that the new dimensions of 250x157 are still too large for my 250x122 display, so I will now crop the image using the *Image* -> *Canvas Size* dialog.
 
-![scale](https://github.com/todd-herbert/Heltec-213R-V2/blob/main/docs/XBitmapTutorial/3C_crop.png?raw=true)  
+![scale](https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/3C_crop.png?raw=true)  
 Entering the desired height, and then pushing *Center* will give the right dimensions for the crop operation.
 
 ## Define a Color Palette
@@ -50,7 +50,7 @@ As my display has white, black, and red, I will be creating a palette with these
 The dockable *Palette Dialog* will appear in the top right corner of the screen.
 * At the bottom of the Palette Dialog, click the icon for *"Create a New Palette"*, as indicated in the image below.
 
-![](https://github.com/todd-herbert/Heltec-213R-V2/blob/main/docs/XBitmapTutorial/3C_palette_dialog.png?raw=true)
+![](https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/3C_palette_dialog.png?raw=true)
 
 The Palette editor will appear in the same location
 
@@ -62,7 +62,7 @@ Three small squares should appear, in the editor, alongside some blank black spa
 
 * For each entry we created, double click the square that appeared and set its color.
 
-![](https://github.com/todd-herbert/Heltec-213R-V2/blob/main/docs/XBitmapTutorial/3C_edit_palette.png?raw=true)
+![](https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/3C_edit_palette.png?raw=true)
 
 
 ## Change to "Indexed Color Mode"
@@ -72,7 +72,7 @@ By changing to *Indexed Color Mode*, we are reducing the entire image down to ju
 * Select "*Use custom palette*"
 * Selecting the small icon next to the text field, scroll through the list of available palettes until you find the one we just created, then select it.
  
-![](https://github.com/todd-herbert/Heltec-213R-V2/blob/main/docs/XBitmapTutorial/3C_index.png?raw=true)
+![](https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/3C_index.png?raw=true)
 
 An important option to explore here is *Dithering*.
 This setting controls how shades of colors will be converted into the the fixed values of our palette. Different settings will suit different images
@@ -80,10 +80,10 @@ This setting controls how shades of colors will be converted into the the fixed 
 
 Dithering Style | Example
 ----------------|-------
-None                     | <img src="https://github.com/todd-herbert/Heltec-213R-V2/blob/main/docs/XBitmapTutorial/DitheringExamples/NoDither.jpg?raw=true" width="250">
-Floyd-Steinberg (normal) |  <img src="https://github.com/todd-herbert/Heltec-213R-V2/blob/main/docs/XBitmapTutorial/DitheringExamples/FSNormal.jpg?raw=true" width="250">
-Floyd-Steinberg (reduced color bleeding) | <img src="https://github.com/todd-herbert/Heltec-213R-V2/blob/main/docs/XBitmapTutorial/DitheringExamples/FSReduced.jpg?raw=true" width="250">
-Positioned | <img src="https://github.com/todd-herbert/Heltec-213R-V2/blob/main/docs/XBitmapTutorial/DitheringExamples/Positioned.jpg?raw=true" width="250">
+None                     | <img src="https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/DitheringExamples/NoDither.jpg?raw=true" width="250">
+Floyd-Steinberg (normal) |  <img src="https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/DitheringExamples/FSNormal.jpg?raw=true" width="250">
+Floyd-Steinberg (reduced color bleeding) | <img src="https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/DitheringExamples/FSReduced.jpg?raw=true" width="250">
+Positioned | <img src="https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/DitheringExamples/Positioned.jpg?raw=true" width="250">
 
 For the tutorial image, I think that the *"Floyd-Steinberd (reduced color bleeding)"* option will probably work best.
 
@@ -108,7 +108,7 @@ This means that we need to make up two separate XBitmaps for the remaining color
 
 Every red pixel in the image copy will be deleted and replaced with white, leaving only the black.
 
-![scale](https://github.com/todd-herbert/Heltec-213R-V2/blob/main/docs/XBitmapTutorial/3C_color_map.png?raw=true)
+![scale](https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/3C_color_map.png?raw=true)
 
 ## Export as XBitmap
 
@@ -121,7 +121,7 @@ Be aware that the name you choose here will determine the name of the image in t
 
 After pressing *Export*, another "Export Image as XBM" dialog will appear. No changes are needed here, and you can click *Export* to continue.
 
-![export dialog](https://github.com/todd-herbert/Heltec-213R-V2/blob/main/docs/XBitmapTutorial/3C_export.png?raw=true)
+![export dialog](https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/3C_export.png?raw=true)
 ## Rinse and Repeat
 Now it is time to go back to [Isolating Colors](#isolating-colors) and repeat the process with a fresh duplicate of the image, only this time for the red pixels instead of the black.
 
@@ -151,4 +151,4 @@ panel.drawXBitmap(0, 0, parrot_red_bits, parrot_red_width, parrot_red_height, pa
 ```
 <br />
 
-![](https://github.com/todd-herbert/Heltec-213R-V2/blob/main/docs/XBitmapTutorial/3C_result.jpg?raw=true)
+![](https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/3C_result.jpg?raw=true)

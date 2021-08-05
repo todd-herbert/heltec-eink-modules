@@ -16,7 +16,7 @@ When selecting an image, it pays to remember the limations of E-INK displays. Pi
 
 In this tutorial I will be using [this image](https://commons.wikimedia.org/wiki/File:Black_and_White_Chessboard.jpg) from Wikimedia Commons.
 
-![tutorial image source](https://github.com/todd-herbert/Heltec-213R-V2/blob/main/docs/XBitmapTutorial/source.png?raw=true)
+![tutorial image source](https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/source.png?raw=true)
 ## Resize Image
 Your image can be either fullscreen on cover just a small part; the process is the same.
 Keeping the dimensions of your display in mind, it is now time to resize your image.
@@ -24,11 +24,11 @@ Keeping the dimensions of your display in mind, it is now time to resize your im
 In this tutorial, I am using a Heltec 2.13" Red V2 Display, which has a size of 122px x 250px. 
 
 Use the *Image* -> *Scale Image* dialog in GIMP to achieve an appropriate size.
-![scale](https://github.com/todd-herbert/Heltec-213R-V2/blob/main/docs/XBitmapTutorial/scale.png?raw=true)
+![scale](https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/scale.png?raw=true)
 
 Note that the new dimensions of 250x141 are still too large for my 250x122 display, so I will now crop the image using the *Image* -> *Canvas Size* dialog.
 
-![scale](https://github.com/todd-herbert/Heltec-213R-V2/blob/main/docs/XBitmapTutorial/crop.png?raw=true)
+![scale](https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/crop.png?raw=true)
 
 Entering the desired height, and then pushing *Center* will give the right dimensions for the crop operation.
 
@@ -36,7 +36,7 @@ Entering the desired height, and then pushing *Center* will give the right dimen
 By changing to *Indexed Color Mode*, we are reducing the entire image down to a small set of states for each pixel. In this case, *Black* or *White*.
 
 After zooming in, to get a better look at the image, open the *Indexed Color Conversion* dialog by selecting *Image*-> *Mode* -> *Indexed..*
-![scale](https://github.com/todd-herbert/Heltec-213R-V2/blob/main/docs/XBitmapTutorial/index.png?raw=true)
+![scale](https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/index.png?raw=true)
 
 You can then select "Use black and white (1-bit) palette".
 
@@ -46,10 +46,10 @@ This setting controls how shades of gray will be converted into the the all blac
 This table shows the different possible outcomes:
 Dithering Style | Result
 ----------------|-------
-None                     | <img src="https://github.com/todd-herbert/Heltec-213R-V2/blob/main/docs/XBitmapTutorial/DitheringExamples/NoDither.jpg?raw=true" width="250">
-Floyd-Steinberg (normal) |  <img src="https://github.com/todd-herbert/Heltec-213R-V2/blob/main/docs/XBitmapTutorial/DitheringExamples/FSNormal.jpg?raw=true" width="250">
-Floyd-Steinberg (reduced color bleeding) | <img src="https://github.com/todd-herbert/Heltec-213R-V2/blob/main/docs/XBitmapTutorial/DitheringExamples/FSReduced.jpg?raw=true" width="250">
-Positioned | <img src="https://github.com/todd-herbert/Heltec-213R-V2/blob/main/docs/XBitmapTutorial/DitheringExamples/Positioned.jpg?raw=true" width="250">
+None                     | <img src="https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/DitheringExamples/NoDither.jpg?raw=true" width="250">
+Floyd-Steinberg (normal) |  <img src="https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/DitheringExamples/FSNormal.jpg?raw=true" width="250">
+Floyd-Steinberg (reduced color bleeding) | <img src="https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/DitheringExamples/FSReduced.jpg?raw=true" width="250">
+Positioned | <img src="https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/DitheringExamples/Positioned.jpg?raw=true" width="250">
 
 For this image, I think that the *"Floyd-Steinberd (reduced color bleeding)"* option probably looks best.
 
@@ -62,7 +62,7 @@ Be aware that the name you choose here will determine the name of the image in t
 
 After pressing *Export*, another "Export Image as XBM" dialog will appear. No changes are needed here, and you can click *Export* to continue.
 
-![export dialog](https://github.com/todd-herbert/Heltec-213R-V2/blob/main/docs/XBitmapTutorial/export.png?raw=true)
+![export dialog](https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/export.png?raw=true)
 ## Importing and Modifying
 The XBitmap format only needs slight modification to be used with Adafruit_GFX.
 
@@ -85,6 +85,6 @@ Here, we are drawing from the top left corner (0,0), with the width and height t
 panel.fillScreen(panel.WHITE);
 panel.drawXBitmap(0, 0, chess_bits, chess_width, chess_height, panel.BLACK);
 ```
-![mono-result](https://github.com/todd-herbert/Heltec-213R-V2/blob/main/docs/XBitmapTutorial/MonoResult.png?raw=true)
+![mono-result](https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/MonoResult.png?raw=true)
 
 Note: This image data doesn't necessarily have to be written as black data on white background; any color supported by the display will work.
