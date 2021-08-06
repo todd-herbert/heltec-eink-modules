@@ -132,20 +132,22 @@ This library *should* work pretty much the same, with a few small exceptions:
 * The adafruit ```.fillScreen()``` method will work just fine, however it is more efficient to use ```.setDefaultColor()```, before the paging while loop.
 
 * A few new handy methods have been added to help with layout:
-  * `.bounds.full.`	---   *Dimensions for the whole screen*
-       							`.left()` 
-                    						`.right()` 
-                    						`.top()` 
-                    						`.bottom()` 
-                    						`.centerX()`
-                    						`.centerY()``
-  * `bounds.window.`	---   *Dimensions for the current window ([see here](#update-region))* 
-       							`.left()` 
-                    						`.right()` 
-                    						`.top()` 
-                    						`.bottom()` 
-                    						`.centerX()`
-                    						`.centerY()`
+  * `.bounds.full.`	---   *Dimensions for the whole screen* <br />
+       							* `.left()` <br />
+							* `.right()` <br />
+							* `.top()` <br />
+							* `.bottom()` <br />
+							* `.centerX()` <br />
+							* `.centerY()` <br />
+							<br />
+  * `bounds.window.`	---   *Dimensions for the current window ([see here](#update-region))* <br />
+         						* `.left()` <br />
+							* `.right()` <br />
+							* `.top()` <br />
+							* `.bottom()` <br />
+							* `.centerX()` <br />
+							* `.centerY()` <br />
+							<br />
   * `.setCursorTopLeft()`  --- *sets text-cursor position by upper-left corner value*
   * `.getTextWidth()` 
   * `.getTextHeight()` 
@@ -232,14 +234,14 @@ By default, the entire screen contents will be erased and updated when ```while 
 To perform a windowed update, the parameter for *region*, along with the window dimensions should be set when calling `.calculating()`:
 
 ```c++
-while( display.calculating(display.region.WINDOWED, 
-                                                   /*left*/, 
-                                                   /*top*/, 
-                                                   /*width*/, 
-                                                   /*height*/) )
+while( display.calculating(display.region.WINDOWED,
+						/*left*/,
+						/*top*/,
+						/*width*/,
+						/*height*/) )
 {
 	//Graphics commands go here e.g
-    //display.drawRect(0, 0, 100, 100, display.colors.BLACK);
+	//display.drawRect(0, 0, 100, 100, display.colors.BLACK);
 }
 display.update();
 ```
