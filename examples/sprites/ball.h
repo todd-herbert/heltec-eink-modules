@@ -1,4 +1,4 @@
-//XBitmap Image used in example: "sprits.cpp"
+//XBitmap Image used in example: "sprits.ino"
 //Image description: "football (eu)"
 
 //See https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/xbitmap-tutorial.md

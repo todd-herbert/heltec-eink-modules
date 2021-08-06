@@ -1,4 +1,4 @@
-//XBitmap Image used in example: "windowed.cpp"
+//XBitmap Image used in example: "windowed.ino"
 //Image description: "cartoon window"
 
 //See https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/xbitmap-tutorial.md

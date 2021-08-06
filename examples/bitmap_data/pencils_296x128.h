@@ -1,5 +1,5 @@
 //Sample set of raw bitmap data
-//Used with example "bitmap_data.cpp"
+//Used with example "bitmap_data.ino"
 
 //Image description: container of pencils
 //Generated with https://lvgl.io/tools/imageconverter

@@ -1,4 +1,4 @@
-//XBitmap Image used in example: "fast_mode.cpp"
+//XBitmap Image used in example: "fast_mode.ino"
 //Image description: "loading symbol - hourglass"
 
 //See https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/xbitmap-tutorial.md

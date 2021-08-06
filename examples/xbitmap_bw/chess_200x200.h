@@ -1,4 +1,4 @@
-//XBitmap Image used in example: "xbitmap_bw.cpp"
+//XBitmap Image used in example: "xbitmap_bw.ino"
 //Image description: "chessboard"
 
 //See https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/xbitmap-tutorial.md

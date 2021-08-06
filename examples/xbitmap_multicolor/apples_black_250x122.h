@@ -1,4 +1,4 @@
-//XBitmap Image used in example: "xbitmap_multicolor.cpp"
+//XBitmap Image used in example: "xbitmap_multicolor.ino"
 //Image description: "apples - black bit values"
 
 //See https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/xbitmap-tutorial.md
