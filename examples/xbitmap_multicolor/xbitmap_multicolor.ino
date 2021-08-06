@@ -15,8 +15,8 @@
 //(Example automatically picks the correct class and sample image)
 #if defined   USING_Heltec_213Red_V2
               #define     PANEL_CLASS       Heltec_213Red_V2    
-              #define     APPLES_BLACK_H    "images/apples_black_250x122.h"
-              #define     APPLES_RED_H      "images/apples_red_250x122.h"
+              #define     APPLES_BLACK_H    "apples_black_250x122.h"
+              #define     APPLES_RED_H      "apples_red_250x122.h"
 #endif
 
 //----------------------------------------------------------------------
@@ -31,7 +31,7 @@
     //The process of creating these images (especially multicolored) is a little bit involved.
     //Please see the tutorial at:
 
-    // https://github.com/todd-herbert/Heltec-213R-V2/blob/main/docs/XBitmapTutorial/xbitmap-tutorial.md
+    //https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/xbitmap-tutorial.md
 
 #include "heltec-eink-modules.h"
 

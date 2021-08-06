@@ -28,9 +28,9 @@
 #include "heltec-eink-modules.h"
 
 //Loading icon images
-#include "hourglass/hourglass_1.h"
-#include "hourglass/hourglass_2.h"
-#include "hourglass/hourglass_3.h"
+#include "hourglass_1.h"
+#include "hourglass_2.h"
+#include "hourglass_3.h"
 const unsigned char* hourglasses[] = {hourglass_1_bits, hourglass_2_bits, hourglass_3_bits};
 
 PANEL_CLASS display(DC_PIN, CS_PIN, BUSY_PIN);

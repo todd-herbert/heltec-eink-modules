@@ -16,13 +16,13 @@
 //(Example automatically picks the correct class and sample image)
 #if     defined USING_Heltec_154_V2
             #define     PANEL_CLASS     Heltec_154_V2    
-            #define     CHESS_H    "images/chess_200x200.h"
+            #define     CHESS_H    "chess_200x200.h"
 #elif   defined USING_Heltec_213Red_V2
             #define     PANEL_CLASS     Heltec_213Red_V2    
-            #define     CHESS_H    "images/chess_250x122.h"
+            #define     CHESS_H    "chess_250x122.h"
 #elif   defined USING_Heltec_290_V2
             #define     PANEL_CLASS     Heltec_290_V2    
-            #define     CHESS_H    "images/chess_296x128.h"
+            #define     CHESS_H    "chess_296x128.h"
 #endif
 
 //----------------------------------------------------------------------
@@ -38,7 +38,7 @@
     //The process of creating these images is a little bit involved.
     //Please see the tutorial at:
 
-    // https://github.com/todd-herbert/Heltec-213R-V2/blob/main/docs/XBitmapTutorial/xbitmap-tutorial.md
+    //https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/xbitmap-tutorial.md
 
 #include "heltec-eink-modules.h"
 

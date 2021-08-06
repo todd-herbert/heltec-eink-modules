@@ -1,3 +1,8 @@
+//XBitmap Image used in example: "windowed.cpp"
+//Image description: "cartoon window"
+
+//See https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/xbitmap-tutorial.md
+
 //Source image by Arek Socha
 //https://pixabay.com/users/qimono-1962238/
 

@@ -1,3 +1,8 @@
+//XBitmap Image used in example: "fast_mode.cpp"
+//Image description: "loading symbol - hourglass"
+
+//See https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/xbitmap-tutorial.md
+
 #define hourglass_3_width 70
 #define hourglass_3_height 100
 PROGMEM const static unsigned char hourglass_3_bits[] = {

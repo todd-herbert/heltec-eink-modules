@@ -16,13 +16,13 @@
 //(Example automatically picks the correct class and sample image)
 #if     defined USING_Heltec_154_V2
             #define     PANEL_CLASS     Heltec_154_V2    
-            #define     PENCILS_H    "images/pencils_200x200.h"
+            #define     PENCILS_H    "pencils_200x200.h"
 #elif   defined USING_Heltec_213Red_V2
             #define     PANEL_CLASS     Heltec_213Red_V2    
-            #define     PENCILS_H    "images/pencils_250x122.h"
+            #define     PENCILS_H    "pencils_250x122.h"
 #elif   defined USING_Heltec_290_V2
             #define     PANEL_CLASS     Heltec_290_V2    
-            #define     PENCILS_H    "images/pencils_296x128.h"
+            #define     PENCILS_H    "pencils_296x128.h"
 #endif
 
 //----------------------------------------------------------------------
