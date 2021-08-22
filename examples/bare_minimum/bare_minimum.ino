@@ -5,9 +5,11 @@
 
 //Pick your panel:	(uncomment one)
 
-//Heltec_154_V2 		display(/* DC PIN */  8, /* CS PIN */  10, /* BUSY PIN */ 7);
-//Heltec_213Red_V2  	display(/* DC PIN */  8, /* CS PIN */  10, /* BUSY PIN */ 7);
-//Heltec_290_V2 		display(/* DC PIN */  8, /* CS PIN */  10, /* BUSY PIN */ 7);
+	//Heltec_154_V2	display(/* DC PIN */  8, /* CS PIN */  10, /* BUSY PIN */ 7);
+
+	//Heltec_213Red_V2 display(/* DC PIN */  8, /* CS PIN */  10, /* BUSY PIN */ 7);
+
+	//Heltec_290_V2 display(/* DC PIN */  8, /* CS PIN */  10, /* BUSY PIN */ 7);
 
 void setup() {
 	//Get everything ready
