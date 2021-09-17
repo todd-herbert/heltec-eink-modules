@@ -112,7 +112,7 @@ To summarise:
 
 * Set your hardware pins in the constructor
 * Call ```.begin()```
-* All drawing commands go inside the ```while ( .calculating () )``` loop
+* All drawing commands go inside the ```while ( .calculating () )``` loop. <br />
   This loop repeats the commands for each little slice (page) of the screen, as many times as needed
 * Call ```.update()``` to show this new image data on the screen
 
