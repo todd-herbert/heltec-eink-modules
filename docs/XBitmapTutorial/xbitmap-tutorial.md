@@ -1,1 +1,1 @@
-﻿Moved to [](https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/README.md) 
+﻿Moved to [https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/README.md](https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/README.md) 
