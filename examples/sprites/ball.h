@@ -1,7 +1,7 @@
 //XBitmap Image used in example: "sprits.ino"
 //Image description: "football (eu)"
 
-//See https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/xbitmap-tutorial.md
+//See https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/README.md
 
 #define ball_width 100
 #define ball_height 100

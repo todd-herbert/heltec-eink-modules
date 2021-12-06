@@ -1,7 +1,7 @@
 //XBitmap Image used in example: "windowed.ino"
 //Image description: "cartoon window"
 
-//See https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/xbitmap-tutorial.md
+//See https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/README.md
 
 //Source image by Arek Socha
 //https://pixabay.com/users/qimono-1962238/

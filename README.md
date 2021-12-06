@@ -154,7 +154,7 @@ This library *should* work pretty much the same, with a few small exceptions:
 
 As decided by the Adafruit library, the ancient *"XBitmap"* is the format of choice for pre-rendered graphics. Luckily, GIMP maintains good support for it.
 
-If you need a hint on how to use it, I have thrown together a [tutorial on preparing XBitmap images](https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/xbitmap-tutorial.md).
+If you need a hint on how to use it, I have thrown together a [tutorial on preparing XBitmap images](https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/README.md).
 
 
 

@@ -31,7 +31,7 @@
     //The process of creating these images (especially multicolored) is a little bit involved.
     //Please see the tutorial at:
 
-    //https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/xbitmap-tutorial.md
+    //https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/README.md
 
 #include "heltec-eink-modules.h"
 
