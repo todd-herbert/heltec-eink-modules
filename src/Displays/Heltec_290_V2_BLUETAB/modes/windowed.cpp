@@ -210,7 +210,8 @@ void Heltec_290_V2_BLUETAB::writePage_Windowed() {
 	sendData(sy2);										
 
 	//Now we can send over our image data
-	sendCommand(0x24);   //write memory for black(0)/white (1)
+	//0x26 is undocumented, but seems to produce good results
+	sendCommand(0x26);   //write memory for black(0)/white (1)
 	for (uint16_t i = 0; i < pagefile_length; i++) {
 		sendData(page_black[i]);
 	}

@@ -2,14 +2,14 @@
 #include <SPI.h>
 #include "GFX_Root/GFX.h"
 
-///Heltec 2.13" Red V2
+///Heltec 2.9" V2
 ///Declaration: Heltec_290_V2(  d/c pin  , cs pin , busy pin )
 class Heltec_290_V2 : public GFX {
 
     //Consts
     //===================
     private:
-        //These are correct for the Heltect 2.13" Red V2, but are still defined here for easy access
+        //These are correct for the Heltect 2.9" Red V2, but are still defined here for easy access
         const SPISettings spi_settings = SPISettings(200000, MSBFIRST, SPI_MODE0);
         const uint16_t panel_width = 128;
         const uint16_t panel_height = 296;
