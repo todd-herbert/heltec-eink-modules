@@ -12,7 +12,7 @@ If you haven't already done so, head over to https://www.gimp.org/ and download 
 
 ## Open Image in GIMP
 You can go ahead and open your source image in GIMP. 
-When selecting an image, it pays to remember the limations of E-INK displays. Pixels are either ON or OFF, there is no inbetween.
+When selecting an image, it pays to remember the limations of E-INK displays. Pixels are either ON or OFF, there is no inbetween, no grayscale.
 
 In this tutorial I will be using [this image](https://commons.wikimedia.org/wiki/File:Black_and_White_Chessboard.jpg) from Wikimedia Commons.
 
