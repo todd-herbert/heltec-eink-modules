@@ -1,7 +1,7 @@
-#include "GDEH029A1.h"
+#include "HTE029A1.h"
 
 ///Begin the E-Ink library
-void GDEH029A1::begin(const PageProfile profile,  void (*wake_callback)(void), void (*sleep_callback)(void)) {
+void HTE029A1::begin(const PageProfile profile,  void (*wake_callback)(void), void (*sleep_callback)(void)) {
 	//Store the page profile
 	this->page_profile = profile;
 
@@ -33,7 +33,7 @@ void GDEH029A1::begin(const PageProfile profile,  void (*wake_callback)(void), v
 
 
 ///Wait until the PanelHardware is idle. Important as any commands made while PanelHardware is busy will be discarded.
-void GDEH029A1::wait() {
+void HTE029A1::wait() {
 	while(digitalRead(pin_busy) == HIGH)	{	//Low = idle	
 		delay(1);
 	}
@@ -41,17 +41,17 @@ void GDEH029A1::wait() {
 
 //Allocate and Deallocate dynamic memory for graphics operations
 
-void GDEH029A1::grabPageMemory() {
+void HTE029A1::grabPageMemory() {
     page_black = new uint8_t[page_bytecount];
 }
 
-void GDEH029A1::freePageMemory() {
+void HTE029A1::freePageMemory() {
 	delete page_black;
 }
 
 //Interface directly with display
 
-void GDEH029A1::sendCommand(uint8_t command) {
+void HTE029A1::sendCommand(uint8_t command) {
 	SPI.beginTransaction(spi_settings);
 	digitalWrite(pin_dc, LOW);	//DC pin low, tell PanelHardware this spi transfer is a command
 	digitalWrite(pin_cs, LOW);
@@ -62,7 +62,7 @@ void GDEH029A1::sendCommand(uint8_t command) {
 	SPI.endTransaction();
 }
 
-void GDEH029A1::sendData(uint8_t data) {
+void HTE029A1::sendData(uint8_t data) {
 	SPI.beginTransaction(spi_settings);
 	digitalWrite(pin_dc, HIGH);	//DC pin low, tell PanelHardware this spi transfer is a command
 	digitalWrite(pin_cs, LOW);
@@ -74,7 +74,7 @@ void GDEH029A1::sendData(uint8_t data) {
 }
 
 ///Wake the PanelHardware from sleep mode, so it can be changed
-void GDEH029A1::wake() {
+void HTE029A1::wake() {
 	//To be honest, not having read the datasheet, this is all well over my head
 
 	//But first, callback anyone?
@@ -118,7 +118,7 @@ void GDEH029A1::wake() {
 
 
 ///Draw the image in PanelHardware's memory to the screen
-void GDEH029A1::update(bool blocking) {
+void HTE029A1::update(bool blocking) {
 		wake();
 		sendCommand(0x22);	//Display update control 2
 		sendData(0xC4);
@@ -134,7 +134,7 @@ void GDEH029A1::update(bool blocking) {
 
 
 ///Clear the screen in one step
-void GDEH029A1::clear() {
+void HTE029A1::clear() {
 	wake();
 	wait();
 

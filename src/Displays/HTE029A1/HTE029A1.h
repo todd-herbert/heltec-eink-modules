@@ -3,8 +3,8 @@
 #include "GFX_Root/GFX.h"
 
 ///Heltec 2.9" V2 w/ Blue Tab on screen protector
-///Declaration: GDEH029A1(  d/c pin  , cs pin , busy pin )
-class GDEH029A1 : public GFX {
+///Declaration: HTE029A1(  d/c pin  , cs pin , busy pin )
+class HTE029A1 : public GFX {
 
     //Consts
     //===================
@@ -58,7 +58,7 @@ class GDEH029A1 : public GFX {
     public:
         //Constructor
         //Have to initialize because of GFX class
-        GDEH029A1( uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy) : GFX(panel_width, panel_height),
+        HTE029A1( uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy) : GFX(panel_width, panel_height),
                                                                                 pin_dc(pin_dc), 
                                                                                 pin_cs(pin_cs), 
                                                                                 pin_busy(pin_busy)

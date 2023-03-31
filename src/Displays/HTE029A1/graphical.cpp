@@ -1,8 +1,8 @@
-#include "GDEH029A1.h"
+#include "HTE029A1.h"
 
 ///Draw a single pixel. 
 ///This method is overriden from GFX_Root, and all other drawing methods pass through here
-void GDEH029A1::drawPixel(int16_t x, int16_t y, uint16_t color) {
+void HTE029A1::drawPixel(int16_t x, int16_t y, uint16_t color) {
 	if (update_region == region.FULLSCREEN)
 		return drawPixel_Fullscreen(x, y, color);
 	else //if windowed
@@ -11,21 +11,21 @@ void GDEH029A1::drawPixel(int16_t x, int16_t y, uint16_t color) {
 
 ///Set the image flip
 ///Proceed with caution - Window locations do not flip, but content drawn into them does
-void GDEH029A1::setFlip(FlipList::Flip flip) {
+void HTE029A1::setFlip(FlipList::Flip flip) {
 	this->imgflip = flip;
 }
 
 
 ///Set the color of the blank canvas, before any drawing is done
 ///Note: Function is efficient, but only takes effect at the start of a calculation. At any other time, use fillScreen()
-void GDEH029A1::setDefaultColor(uint16_t bgcolor) {
+void HTE029A1::setDefaultColor(uint16_t bgcolor) {
 	default_color = bgcolor;
 }
 
 
 
 ///Clear the data arrays in between pages
-void GDEH029A1::clearPage(uint16_t bgcolor) {
+void HTE029A1::clearPage(uint16_t bgcolor) {
 	for (uint16_t i = 0; i < page_bytecount; i++) {
 		uint8_t black_byte = (bgcolor & colors.WHITE) * 255;	//We're filling in bulk here; bits are either all on or all off
 		page_black[i] = black_byte;
@@ -34,20 +34,20 @@ void GDEH029A1::clearPage(uint16_t bgcolor) {
 
 
 ///Set the text cursor according to the desired upper left corner
-void GDEH029A1::setCursorTopLeft(const char* text, uint16_t x, uint16_t y) {
+void HTE029A1::setCursorTopLeft(const char* text, uint16_t x, uint16_t y) {
 	int16_t offset_x(0), offset_y(0);
 	getTextBounds(text, 0, 0, &offset_x, &offset_y, NULL, NULL);
 	setCursor(x - offset_x, y - offset_y);
 }
 
-uint16_t GDEH029A1::getTextWidth(const char* text) {
+uint16_t HTE029A1::getTextWidth(const char* text) {
 	int16_t x(0),y(0);
 	uint16_t w(0);
 	getTextBounds(text, 0, 0, &x, &y, &w, NULL);	//Need to keep x and y as they appear to be used internally by getTextBounds()
 	return w;
 }
 
-uint16_t GDEH029A1::getTextHeight(const char* text) {
+uint16_t HTE029A1::getTextHeight(const char* text) {
 	int16_t x(0),y(0);
 	uint16_t h(0);
 	getTextBounds(text, 0, 0, &x, &y, NULL, &h);
@@ -59,7 +59,7 @@ uint16_t GDEH029A1::getTextHeight(const char* text) {
 //Helper methods to find window bounds
 //======================================
 
-uint16_t GDEH029A1::Bounds::Window::top() {
+uint16_t HTE029A1::Bounds::Window::top() {
 	switch (*m_rotation) {
 		case RotationList::PINS_ABOVE:
 			return *edges[T];
@@ -73,7 +73,7 @@ uint16_t GDEH029A1::Bounds::Window::top() {
 	return 0;	//Supress error
 }
 
-uint16_t GDEH029A1::Bounds::Window::right() {
+uint16_t HTE029A1::Bounds::Window::right() {
 	switch (*m_rotation) {
 		case RotationList::PINS_ABOVE:
 			return *edges[R];
@@ -87,7 +87,7 @@ uint16_t GDEH029A1::Bounds::Window::right() {
 	return 0;	//Supress error
 }
 
-uint16_t GDEH029A1::Bounds::Window::bottom() {
+uint16_t HTE029A1::Bounds::Window::bottom() {
 	switch (*m_rotation) {
 		case RotationList::PINS_ABOVE:
 			return *edges[B];
@@ -101,7 +101,7 @@ uint16_t GDEH029A1::Bounds::Window::bottom() {
 	return 0;	//Supress error
 }
 
-uint16_t GDEH029A1::Bounds::Window::left() {
+uint16_t HTE029A1::Bounds::Window::left() {
 	switch (*m_rotation) {
 		case RotationList::PINS_ABOVE:
 			return *edges[L];
@@ -166,7 +166,7 @@ inline uint8_t *pgm_read_bitmap_ptr(const GFXfont *gfxFont) {
 #endif //__AVR__
 }
 
-size_t GDEH029A1::write(uint8_t c) 
+size_t HTE029A1::write(uint8_t c) 
 {
   if (!gfxFont) { // 'Classic' built-in font
 
@@ -213,7 +213,7 @@ size_t GDEH029A1::write(uint8_t c)
   return 1;
 }
 
-void GDEH029A1::charBounds(unsigned char c, int16_t *x, int16_t *y, int16_t *minx, int16_t *miny, int16_t *maxx, int16_t *maxy) 
+void HTE029A1::charBounds(unsigned char c, int16_t *x, int16_t *y, int16_t *minx, int16_t *miny, int16_t *maxx, int16_t *maxy) 
 {
 
   if (gfxFont) {

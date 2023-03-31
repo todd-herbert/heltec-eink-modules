@@ -1,9 +1,9 @@
-#include "Displays/GDEH029A1/GDEH029A1.h"
+#include "Displays/HTE029A1/HTE029A1.h"
 
 //Methods that run only in windowed mode
 
 
-bool GDEH029A1::calculating_Windowed() {
+bool HTE029A1::calculating_Windowed() {
 
 	//Beginning of first loop
 	//===============
@@ -110,7 +110,7 @@ bool GDEH029A1::calculating_Windowed() {
 	}
 }
 
-void GDEH029A1::drawPixel_Windowed(int16_t x, int16_t y, uint16_t color) {
+void HTE029A1::drawPixel_Windowed(int16_t x, int16_t y, uint16_t color) {
 
 	//Rotate the pixel
 	int16_t x1, y1;
@@ -169,7 +169,7 @@ void GDEH029A1::drawPixel_Windowed(int16_t x, int16_t y, uint16_t color) {
 	}
 }
 
-void GDEH029A1::writePage_Windowed() {
+void HTE029A1::writePage_Windowed() {
 	//Calculate rotate x start and stop values (y is already done via paging)
 
 	int16_t sx, sy, ex, ey;

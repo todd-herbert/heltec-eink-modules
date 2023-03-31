@@ -1,8 +1,8 @@
-// #include "Displays/GDEH029A1/GDEH029A1.h"
+// #include "Displays/HTE029A1/HTE029A1.h"
 
 // //Methods that run only in fullscreen mode
 
-// void GDEH029A1::drawPixel_Fullscreen(int16_t x, int16_t y, uint16_t color) {
+// void HTE029A1::drawPixel_Fullscreen(int16_t x, int16_t y, uint16_t color) {
 
 // 	//Translate the pixel here to allow screen rotation
 // 	int16_t x1, y1;
@@ -53,7 +53,7 @@
 // 	}
 // }
 
-// bool GDEH029A1::calculating_Fullscreen() {
+// bool HTE029A1::calculating_Fullscreen() {
 // 	//Some of this looks weird, but it's that everything is being evaluated at the start of the next loop
 // 	//No real reason for this over a do while, I just think it looks tidier on the front end
 
@@ -92,7 +92,7 @@
 // }
 
 // ///Write one small slice of the screen
-// void GDEH029A1::writePage_Fullscreen() {
+// void HTE029A1::writePage_Fullscreen() {
 
 // 	//Calculate memory values for the slice
 // 	//Note, x values are divided by 8 as horizontal lines are rows of 8bit bytes
