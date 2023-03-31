@@ -3,7 +3,7 @@
 
 //#define   USING_DEPG0150BNS810
 //#define   USING_QYEG0213RWS800
-//#define   USING_DEPG0290BNS800
+//#define   USING_DEPG0290BNS75A
 
 
 //Where is your panel connected?
@@ -20,8 +20,8 @@
 #elif   defined USING_QYEG0213RWS800
             #define     PANEL_CLASS     QYEG0213RWS800    
             #define     PENCILS_H    "pencils_250x122.h"
-#elif   defined USING_DEPG0290BNS800
-            #define     PANEL_CLASS     DEPG0290BNS800    
+#elif   defined USING_DEPG0290BNS75A
+            #define     PANEL_CLASS     DEPG0290BNS75A    
             #define     PENCILS_H    "pencils_296x128.h"
 #endif
 

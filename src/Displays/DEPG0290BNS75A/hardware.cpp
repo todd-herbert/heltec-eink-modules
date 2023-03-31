@@ -1,7 +1,7 @@
-#include "DEPG0290BNS800.h"
+#include "DEPG0290BNS75A.h"
 
 ///Begin the E-Ink library
-void DEPG0290BNS800::begin(const PageProfile profile,  void (*wake_callback)(void), void (*sleep_callback)(void)) {
+void DEPG0290BNS75A::begin(const PageProfile profile,  void (*wake_callback)(void), void (*sleep_callback)(void)) {
 	//Store the page profile
 	this->page_profile = profile;
 
@@ -33,7 +33,7 @@ void DEPG0290BNS800::begin(const PageProfile profile,  void (*wake_callback)(voi
 
 
 ///Wait until the PanelHardware is idle. Important as any commands made while PanelHardware is busy will be discarded.
-void DEPG0290BNS800::wait() {
+void DEPG0290BNS75A::wait() {
 	while(digitalRead(pin_busy) == HIGH)	{	//Low = idle	
 		delay(1);
 	}
@@ -41,17 +41,17 @@ void DEPG0290BNS800::wait() {
 
 //Allocate and Deallocate dynamic memory for graphics operations
 
-void DEPG0290BNS800::grabPageMemory() {
+void DEPG0290BNS75A::grabPageMemory() {
     page_black = new uint8_t[page_bytecount];
 }
 
-void DEPG0290BNS800::freePageMemory() {
+void DEPG0290BNS75A::freePageMemory() {
 	delete page_black;
 }
 
 //Interface directly with display
 
-void DEPG0290BNS800::sendCommand(uint8_t command) {
+void DEPG0290BNS75A::sendCommand(uint8_t command) {
 	SPI.beginTransaction(spi_settings);
 	digitalWrite(pin_dc, LOW);	//DC pin low, tell PanelHardware this spi transfer is a command
 	digitalWrite(pin_cs, LOW);
@@ -62,7 +62,7 @@ void DEPG0290BNS800::sendCommand(uint8_t command) {
 	SPI.endTransaction();
 }
 
-void DEPG0290BNS800::sendData(uint8_t data) {
+void DEPG0290BNS75A::sendData(uint8_t data) {
 	SPI.beginTransaction(spi_settings);
 	digitalWrite(pin_dc, HIGH);	//DC pin low, tell PanelHardware this spi transfer is a command
 	digitalWrite(pin_cs, LOW);
@@ -74,7 +74,7 @@ void DEPG0290BNS800::sendData(uint8_t data) {
 }
 
 ///Wake the Panel Hardware from sleep mode, so it can be changed
-void DEPG0290BNS800::wake() {
+void DEPG0290BNS75A::wake() {
 	//User callback
 	if(wake_callback != NULL) 
 		(*wake_callback)();
@@ -102,7 +102,7 @@ void DEPG0290BNS800::wake() {
 }
 
 
-void DEPG0290BNS800::writePage() {
+void DEPG0290BNS75A::writePage() {
 
 	//Calculate rotate x start and stop values (y is already done in the page calculations)
 	int16_t sx, sy, ex, ey;
@@ -154,7 +154,7 @@ void DEPG0290BNS800::writePage() {
 
 
 ///Draw the image in PanelHardware's memory to the screen
-void DEPG0290BNS800::update(bool blocking) {
+void DEPG0290BNS75A::update(bool blocking) {
 	sendCommand(0x21);	// Which of the display's two memory areas to draw from
 	sendData(0x40);
 	sendCommand(0x22);	// Operation sequence for the display hardware
@@ -171,7 +171,7 @@ void DEPG0290BNS800::update(bool blocking) {
 
 
 ///Clear the screen in one step
-void DEPG0290BNS800::clear() {
+void DEPG0290BNS75A::clear() {
 	wake();
 	wait();
 

@@ -3,7 +3,7 @@
 
 //#define   USING_DEPG0150BNS810
 //#define   USING_QYEG0213RWS800
-//#define   USING_DEPG0290BNS800
+//#define   USING_DEPG0290BNS75A
 
 
 //Where is your display connected?
@@ -18,8 +18,8 @@
             #define     PANEL_CLASS     DEPG0150BNS810    
 #elif   defined USING_QYEG0213RWS800
             #define     PANEL_CLASS     QYEG0213RWS800    
-#elif   defined USING_DEPG0290BNS800
-            #define     PANEL_CLASS     DEPG0290BNS800    
+#elif   defined USING_DEPG0290BNS75A
+            #define     PANEL_CLASS     DEPG0290BNS75A    
 #endif
 //----------------------------------------------------------------------
 
@@ -61,7 +61,7 @@ void setup() {
               BGCOLOR = c.RED;
               ACCENT1 = c.WHITE;
               ACCENT2 = c.BLACK;  
-  #elif   defined USING_DEPG0290BNS800
+  #elif   defined USING_DEPG0290BNS75A
               BGCOLOR = c.BLACK;
               ACCENT1 = c.WHITE;
               ACCENT2 = c.WHITE;    

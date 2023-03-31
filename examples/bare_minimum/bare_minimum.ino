@@ -9,7 +9,7 @@
 
 	//QYEG0213RWS800 display(/* DC PIN */  8, /* CS PIN */  10, /* BUSY PIN */ 7);
 
-	//DEPG0290BNS800 display(/* DC PIN */  8, /* CS PIN */  10, /* BUSY PIN */ 7);
+	//DEPG0290BNS75A display(/* DC PIN */  8, /* CS PIN */  10, /* BUSY PIN */ 7);
 
 void setup() {
 	//Get everything ready
