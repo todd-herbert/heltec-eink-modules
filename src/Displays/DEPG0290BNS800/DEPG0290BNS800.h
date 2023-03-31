@@ -77,17 +77,6 @@ class DEPG0290BNS800 : public GFX {
         void clearPage(uint16_t bgcolor);
         void writePage();
 
-    private:
-        private:   //Screen-mode specific methods
-        bool calculating_Fullscreen() {return false;}   //Non-functioning, currently served by _windowed
-        bool calculating_Windowed();
-
-        void drawPixel_Fullscreen(int16_t x, int16_t y, uint16_t color) {} //Non-functioning, currently served by _windowed
-        void drawPixel_Windowed(int16_t x, int16_t y, uint16_t color);
-
-        void writePage_Fullscreen() {} //Non-functioning, currently served by _windowed
-        void writePage_Windowed(); 
-
     private:    //Deleted methods
         using GFX::drawGrayscaleBitmap;
         using GFX::drawRGBBitmap;

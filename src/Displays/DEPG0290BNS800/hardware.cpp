@@ -127,6 +127,55 @@ void DEPG0290BNS800::wake() {
 	wait();
 }
 
+void DEPG0290BNS800::writePage() {
+	//Calculate rotate x start and stop values (y is already done via paging)
+
+	int16_t sx, sy, ex, ey;
+	int16_t sy2(0), ey2(0);
+
+	sx = (winrot_left / 8);
+	sy = page_top;
+	ex = (winrot_right / 8) - 1;
+	ey = page_bottom;
+
+	if(sy>=256) {	//Imported from heltec driver
+		sy2=sy/256;
+		sy=sy%256;
+	}
+
+	if(ey>=256) {
+		ey2=ey/256;
+		ey=ey%256;		
+	}		
+
+	//"Data entry mode??"	-- new command demonstrated in heltec sdk
+	sendCommand(0x11); //data entry mode
+  	sendData(0x03);	//Increment x, increment y
+
+	//Inform the panel hardware of our chosen memory location
+	sendCommand(0x44);	//Memory X start - end
+	sendData(sx);
+	sendData(ex);
+	sendCommand(0x45);	//Memory Y start - end
+	sendData(sy);
+	sendData(sy2);										
+	sendData(ey);
+	sendData(ey2);										
+	sendCommand(0x4E);	//Memory cursor X
+	sendData(sx);
+	sendCommand(0x4F);	//Memory cursor y
+	sendData(sy);
+	sendData(sy2);										
+
+	//Now we can send over our image data
+	sendCommand(0x24);   //write memory for black(0)/white (1)
+	for (uint16_t i = 0; i < pagefile_length; i++) {
+		sendData(page_black[i]);
+	}
+
+	wait();
+	//Nothing happens now until update() is called
+}
 
 
 ///Draw the image in PanelHardware's memory to the screen

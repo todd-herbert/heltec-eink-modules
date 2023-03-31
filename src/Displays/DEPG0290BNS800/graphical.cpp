@@ -3,10 +3,67 @@
 ///Draw a single pixel. 
 ///This method is overriden from GFX_Root, and all other drawing methods pass through here
 void DEPG0290BNS800::drawPixel(int16_t x, int16_t y, uint16_t color) {
-	if (update_region == region.FULLSCREEN)
-		return drawPixel_Fullscreen(x, y, color);
-	else //if windowed
-		return drawPixel_Windowed(x, y, color);
+	// if (update_region == region.FULLSCREEN)
+	// 	return drawPixel_Fullscreen(x, y, color);
+	// else //if windowed
+	// 	return drawPixel_Windowed(x, y, color);
+
+  
+	//Rotate the pixel
+	int16_t x1, y1;
+	switch(rotation) {
+		case 0:			//No rotation
+			x1=x;
+			y1=y;
+			break;
+		case 1:			//90deg clockwise
+			x1 = (drawing_width - y - 1);
+			y1 = x;
+			break;
+		case 2:			//180deg
+			x1 = (drawing_width - 1) - x;	//Make sure we really do draw the pixel within the imaginary margins, even though window is larger
+			y1 = (drawing_height - 1) - y;
+			break;
+		case 3:			//270deg clockwise
+			x1 = y;
+			y1 = (drawing_height - 1) - x;
+			break;
+	}
+	x = x1;
+	y = y1;
+
+	//Handle flip
+	if (imgflip & FlipList::HORIZONTAL) {
+		if (rotation % 2)	//If landscape
+			y = (drawing_height - 1) - y;
+		else					//If portrait
+			x = (drawing_width - 1) - x;
+	}
+	if (imgflip & FlipList::VERTICAL) {
+		if (rotation % 2)	//If landscape
+			x = (drawing_width - 1) - x;
+		else					//If portrait
+			y = (drawing_height - 1) - y;
+	}
+
+	//Check if pixel falls in our page
+	if(x >= (int16_t)winrot_left && y >= (int16_t)page_top && y <= (int16_t)page_bottom && x <= (int16_t)winrot_right - 1) {	//typecasts only to silence warnings
+
+		//Calculate a memory location for our pixel
+		//A whole lot of emperically derived "inverting" went on here
+
+		uint16_t memory_location;
+		
+		memory_location = ((page_bottom - page_top) - (page_bottom - y)) * ((winrot_right - winrot_left) / 8);
+		memory_location += ((x - winrot_left) / 8);		
+		uint8_t bit_location = x % 8;	//Find the location of the bit in which the value will be stored
+		bit_location = (7 - bit_location);	//For some reason, the screen wants the bit order flipped. MSB vs LSB?
+
+		//Insert the correct color values into the appropriate location
+		uint8_t bitmask = ~(1 << bit_location);
+		page_black[memory_location] &= bitmask;
+		page_black[memory_location] |= (color & colors.WHITE) << bit_location;
+	}
 }
 
 ///Set the image flip
