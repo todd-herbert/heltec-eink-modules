@@ -2,7 +2,7 @@
 //Which display are you using?  (uncomment one)
 //(Only panels supporting fast mode are shown)
 
-#define   USING_Heltec_154_V2
+#define   USING_DEPG0150BNS810
 
 //Where is your display connected?
 
@@ -12,8 +12,8 @@
 
 
 //(Example automatically picks the correct class and sample image)
-#if     defined USING_Heltec_154_V2
-            #define     PANEL_CLASS     Heltec_154_V2      
+#if     defined USING_DEPG0150BNS810
+            #define     PANEL_CLASS     DEPG0150BNS810      
 #endif
 //----------------------------------------------------------------------
 

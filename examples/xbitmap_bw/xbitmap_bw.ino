@@ -1,9 +1,9 @@
 //---------------------------------------------------------------------
 //Which panel are you using?  (uncomment one)
 
-//#define   USING_Heltec_154_V2
-//#define   USING_Heltec_213Red_V2
-//#define   USING_Heltec_290_V2
+//#define   USING_DEPG0150BNS810
+//#define   USING_QYEG0213RWS800
+//#define   USING_DEPG0290BNS800
 
 
 //Where is your panel connected?
@@ -14,14 +14,14 @@
 
 
 //(Example automatically picks the correct class and sample image)
-#if     defined USING_Heltec_154_V2
-            #define     PANEL_CLASS     Heltec_154_V2    
+#if     defined USING_DEPG0150BNS810
+            #define     PANEL_CLASS     DEPG0150BNS810    
             #define     CHESS_H    "chess_200x200.h"
-#elif   defined USING_Heltec_213Red_V2
-            #define     PANEL_CLASS     Heltec_213Red_V2    
+#elif   defined USING_QYEG0213RWS800
+            #define     PANEL_CLASS     QYEG0213RWS800    
             #define     CHESS_H    "chess_250x122.h"
-#elif   defined USING_Heltec_290_V2
-            #define     PANEL_CLASS     Heltec_290_V2    
+#elif   defined USING_DEPG0290BNS800
+            #define     PANEL_CLASS     DEPG0290BNS800    
             #define     CHESS_H    "chess_296x128.h"
 #endif
 

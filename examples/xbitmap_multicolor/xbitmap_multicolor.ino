@@ -2,7 +2,7 @@
 //Which panel are you using?  (uncomment one)
 //(Only panels supported 3-color are shown)
 
-#define   USING_Heltec_213Red_V2
+#define   USING_QYEG0213RWS800
 //More panels to come?
 
 //Where is your panel connected?
@@ -13,8 +13,8 @@
 
 
 //(Example automatically picks the correct class and sample image)
-#if defined   USING_Heltec_213Red_V2
-              #define     PANEL_CLASS       Heltec_213Red_V2    
+#if defined   USING_QYEG0213RWS800
+              #define     PANEL_CLASS       QYEG0213RWS800    
               #define     APPLES_BLACK_H    "apples_black_250x122.h"
               #define     APPLES_RED_H      "apples_red_250x122.h"
 #endif

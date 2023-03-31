@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include "GFX_Root/GFX.h"
 
-#include "Displays/Heltec_154_V2/Heltec_154_V2.h"                           //Heltec 1.54" BW V2
-#include "Displays/Heltec_213Red_V2/Heltec_213Red_V2.h"                     //Heltec 2.13" RED V2
-#include "Displays/Heltec_290_V2/Heltec_290_V2.h"                           //Heltec 2.9" BW V2
-#include "Displays/Heltec_290_V2_BLUETAB/Heltec_290_V2_BLUETAB.h"           //Heltec 2.9" BW V2 w/ Blue Tab on Screen Protector
+#include "Displays/DEPG0150BNS810/DEPG0150BNS810.h"                     //Heltec 1.54" BW V2    -   Red Tab
+#include "Displays/QYEG0213RWS800/QYEG0213RWS800.h"                     //Heltec 2.13" RED V2   -   Red Tab
+#include "Displays/DEPG0290BNS800/DEPG0290BNS800.h"                     //Heltec 2.9" BW V2     -   Red Tab
+#include "Displays/GDEH029A1/GDEH029A1.h"                               //Heltec 2.9" BW V2     -   Blue Tab
