@@ -73,63 +73,38 @@ void DEPG0290BNS800::sendData(uint8_t data) {
 	SPI.endTransaction();
 }
 
-///Wake the PanelHardware from sleep mode, so it can be changed
+///Wake the Panel Hardware from sleep mode, so it can be changed
 void DEPG0290BNS800::wake() {
-	//To be honest, not having read the datasheet, this is all well over my head
-	//It came copied and pasted from the half-baked heltec driver
-
-	//But first, callback anyone?
+	//User callback
 	if(wake_callback != NULL) 
 		(*wake_callback)();
 
 	wait();
 
-	sendCommand(0x12); // soft reset
+	sendCommand(0x12); //Soft Reset
 	wait();
-	sendCommand(0x74); //set analog block control       
+
+	// Technical Hardware Settings (ex. Heltec)
+	//--------------------------------------------------------
+	sendCommand(0x74); //Analog block control       
     sendData(0x54);
-    sendCommand(0x7E); //set digital block control          
+    sendCommand(0x7E); //Digital block control          
     sendData(0x3B);
-
-    sendCommand(0x01); //Driver output control      
+	sendCommand(0x01); //Driver output control      
     sendData(0x27);
     sendData(0x01);
     sendData(0x00);
-
-    sendCommand(0x11); //data entry mode       
-    sendData(0x01);
-
-    sendCommand(0x44); //set Ram-X address start/end position   
-    sendData(0x00);
-    sendData(0x0F);    //0x0F-->(15+1)*8=128
-
-    sendCommand(0x45); //set Ram-Y address start/end position          
-    sendData(0x27);   //0x0127-->(295+1)=296
-    sendData(0x01);
-    sendData(0x00);
-    sendData(0x00); 
-    sendCommand(0x3C); //set border 
-    sendData(0x01);	
-
-    sendCommand(0x18); // use the internal temperature sensor
+	sendCommand(0x18); //Use internal temperature sensor
     sendData(0x80);
-
-
-    sendCommand(0x22);  
-    sendData(0xB1); 
-    sendCommand(0x20); 
-
-    sendCommand(0x4E);     
-    sendData(0x00);
-    sendCommand(0x4F);       
-    sendData(0x27);
-    sendData(0x01);
-	wait();
+	sendCommand(0x3C); //Border waveform
+    sendData(0x01);	
+	//---------------------------------------------------------
 }
 
-void DEPG0290BNS800::writePage() {
-	//Calculate rotate x start and stop values (y is already done via paging)
 
+void DEPG0290BNS800::writePage() {
+
+	//Calculate rotate x start and stop values (y is already done in the page calculations)
 	int16_t sx, sy, ex, ey;
 	int16_t sy2(0), ey2(0);
 
@@ -138,7 +113,7 @@ void DEPG0290BNS800::writePage() {
 	ex = (winrot_right / 8) - 1;
 	ey = page_bottom;
 
-	if(sy>=256) {	//Imported from heltec driver
+	if(sy>=256) {
 		sy2=sy/256;
 		sy=sy%256;
 	}
@@ -148,9 +123,9 @@ void DEPG0290BNS800::writePage() {
 		ey=ey%256;		
 	}		
 
-	//"Data entry mode??"	-- new command demonstrated in heltec sdk
-	sendCommand(0x11); //data entry mode
-  	sendData(0x03);	//Increment x, increment y
+	// Data entry mode - which was the image bits are sent
+	sendCommand(0x11);
+  	sendData(0x03);		//Increment Y, increment X. What you'd expect
 
 	//Inform the panel hardware of our chosen memory location
 	sendCommand(0x44);	//Memory X start - end
@@ -180,12 +155,12 @@ void DEPG0290BNS800::writePage() {
 
 ///Draw the image in PanelHardware's memory to the screen
 void DEPG0290BNS800::update(bool blocking) {
-	sendCommand(0x21);
+	sendCommand(0x21);	// Which of the display's two memory areas to draw from
 	sendData(0x40);
-	
-	sendCommand(0x22);
-	sendData(0xC7);
-	sendCommand(0x20);
+	sendCommand(0x22);	// Operation sequence for the display hardware
+	sendData(0xF7);
+
+	sendCommand(0x20); // Actually update the display
 
 	if (blocking) {
 		wait();	//Block while the command runs
