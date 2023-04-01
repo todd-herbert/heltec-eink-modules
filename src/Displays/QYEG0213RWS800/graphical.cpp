@@ -172,13 +172,16 @@ inline uint8_t *pgm_read_bitmap_ptr(const GFXfont *gfxFont) {
 
 size_t QYEG0213RWS800::write(uint8_t c) 
 {
+  int16_t start_x = 0;
+  int16_t end_x = rotation%2?drawing_height:drawing_width;
+
   if (!gfxFont) { // 'Classic' built-in font
     if (c == '\n') {              // Newline?
       cursor_x = (int16_t)bounds.window.left();               // Reset x to zero,
       cursor_y += textsize_y * 8; // advance y one line
     } else if (c != '\r') {       // Ignore carriage returns
-      if (wrap && ((cursor_x + textsize_x * 6) > (int16_t)bounds.window.right())) { // Off right?
-        cursor_x = (int16_t)bounds.window.left();                                       // Reset x to zero,
+      if (wrap && ((cursor_x + textsize_x * 6) > end_x)) { // Off right?
+        cursor_x = start_x;                                       // Reset x to zero,
         cursor_y += textsize_y * 8; // advance y one line
       }
       drawChar(cursor_x, cursor_y, c, textcolor, textbgcolor, textsize_x,
