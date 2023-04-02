@@ -161,11 +161,11 @@ class QYEG0213RWS800 : public GFX {
                     class Full {
                         public:
                             uint8_t left() {return 0;}
-                            uint8_t right() {return ((*rotation % 2) ? drawing_height : drawing_width) - 1;}   //Width if portrait, height if landscape
+                            uint8_t right() {return ((*rotation % 2) ? drawing_height : drawing_width) ;}   //Width if portrait, height if landscape
                             uint8_t top() {return 0;}
-                            uint8_t bottom() {return ((*rotation % 2) ? drawing_width : drawing_height) - 1;}  //Height if portrait, width if landscape
+                            uint8_t bottom() {return ((*rotation % 2) ? drawing_width : drawing_height) ;}  //Height if portrait, width if landscape
 
-                            uint8_t width() {return right();}
+                            uint8_t width() {return right() ;}
                             uint8_t height() {return bottom();}
 
                             uint8_t centerX() {return (right() / 2);}
