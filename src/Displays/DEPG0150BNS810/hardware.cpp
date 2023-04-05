@@ -186,6 +186,50 @@ void DEPG0150BNS810::setModeFull() {
 	wait();
 }
 
+void DEPG0150BNS810::writePage() {
+	//Calculate rotate x start and stop values (y is already done via paging)
+	int16_t sx, sy, ex, ey;
+
+	sx = winrot_left / 8;
+	sy = page_top;
+	ex = (winrot_right / 8) - 1;
+	ey = page_bottom;
+
+	//"Data entry mode??"	-- new undocumented command from heltec sdk
+	sendCommand(0x11); //data entry mode
+  	sendData(0x03);
+
+	//Inform the panel hardware of our chosen memory location
+	sendCommand(0x44);	//Memory X start - end
+	sendData(sx);
+	sendData(ex);
+	sendCommand(0x45);	//Memory Y start - end
+	sendData(sy);
+	sendData(0);										//Bit 8 - not required, max y is 250
+	sendData(ey);
+	sendData(0);										//Bit 8 - not required, max y is 250
+	sendCommand(0x4E);	//Memory cursor X
+	sendData(sx);
+	sendCommand(0x4F);	//Memory cursor y
+	sendData(sy);
+	sendData(0);										//Bit 8 - not required, max y is 250
+
+	//Now we can send over our image data
+
+	sendCommand(0x24);   //write memory for black(0)/white (1)
+	for (uint16_t i = 0; i < pagefile_length; i++) {
+		sendData(page_black[i]);
+	}
+
+    sendCommand(0x26);   //write memory for black(0)/white (1)
+	for (uint16_t i = 0; i < pagefile_length; i++) {
+		sendData(~page_black[i]);
+	}
+
+	wait();
+	//Nothing happens now until update() is called
+}
+
 ///Draw the image in Panel's memory to the screen
 void DEPG0150BNS810::update(QualityList::Quality update_quality, bool blocking) {
 	if (update_quality == quality.FAST) {	//If partial mode
