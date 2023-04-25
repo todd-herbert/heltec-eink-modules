@@ -32,6 +32,34 @@ void QYEG0213RWS800::clear() {
 	reset();
 	wait();
 
+	// Tell panel hardware that we want to clear the whole screen
+	fullscreen();
+	
+	int16_t sx, sy, ex, ey;
+	sx = (bounds.full.left() / 8) + 1;		// I don't understand why this is +1, but it seems necessary, and the official Heltec driver also does this.
+	ex = ((bounds.full.right()) / 8) + 1;
+	sy = bounds.full.top();
+	ey = bounds.full.bottom();
+
+	// Data entry mode - Right to Left, Top to Bottom
+	sendCommand(0x11);
+  	sendData(0x03);
+
+	// Inform the panel hardware of our chosen memory location
+	sendCommand(0x44);	// Memory X start - end
+	sendData(sx);
+	sendData(ex);
+	sendCommand(0x45);	// Memory Y start - end
+	sendData(sy);
+	sendData(0);		// NB: Controller accepts Y values > 256, but this panel is small, so second byte is always 0
+	sendData(ey);
+	sendData(0);										
+	sendCommand(0x4E);	// Memory cursor X
+	sendData(sx);
+	sendCommand(0x4F);	// Memory cursor y
+	sendData(sy);
+	sendData(0);	
+
 	uint16_t x, y;
 	uint8_t black_byte = (default_color & colors.WHITE) * 255;			// We're filling in bulk here; bits are either all on or all off
 	uint8_t red_byte = ((default_color & colors.RED) >> 1) * 255;
@@ -50,6 +78,7 @@ void QYEG0213RWS800::clear() {
 		}
   	}
 	update();
+	wait();
 }
 
 
