@@ -17,6 +17,56 @@ void QYEG0213RWS800::setWindow(uint8_t left, uint8_t top, uint8_t width, uint8_t
 	this->window_top = top;
 	this->window_right = right;
 	this->window_bottom = bottom;
+
+	// Calculate rotated window locations
+		// These "winrot" values are the *absolute* locations of the window borders, i.e. a rectangle as described when rotation = 0
+	switch (rotation) {
+		case 0:
+			winrot_left = window_left;
+			winrot_left = winrot_left - (winrot_left % 8);	//Expand box on left to fit contents
+
+			winrot_right = winrot_left + 7;
+			while(winrot_right < window_right) winrot_right += 8;	//Iterate until box includes the byte where our far-left bit lives
+
+			winrot_top = window_top;
+			winrot_bottom = window_bottom;
+			break;
+
+		case 1:
+			winrot_left = (drawing_width - 1) - window_bottom;
+			winrot_left = winrot_left - (winrot_left % 8);	//Expand box on left to fit contents
+
+			winrot_right = winrot_left + 7;
+			while(winrot_right < (drawing_width - 1) - window_top) winrot_right += 8;	//Iterate until box includes the byte where our far-left bit lives
+
+			winrot_top = window_left;
+			winrot_bottom = window_right;
+			break;
+
+		case 2:	
+			winrot_left = (drawing_width - 1) - window_right;
+			winrot_left = winrot_left - (winrot_left % 8);	//Expand box on left to fit contents
+
+			winrot_right = winrot_left + 7;
+			while(winrot_right < (drawing_width - 1) - window_left) winrot_right += 8;	//Iterate until box includes the byte where our far-left bit lives
+
+			winrot_bottom = (drawing_height - 1) - window_top;
+			winrot_top = (drawing_height - 1) - window_bottom;
+
+			break;
+
+		
+		case 3:
+			winrot_left = window_top;
+			winrot_left = winrot_left - (winrot_left % 8);	//Expand box on left to fit contents
+
+			winrot_right = winrot_left + 7;
+			while(winrot_right < window_bottom) winrot_right += 8;	//Iterate until box includes the byte where our far-left bit lives
+
+			winrot_top = (drawing_height - 1) - window_right;
+			winrot_bottom = (drawing_height - 1) - window_left;
+			break;
+	}	// -- Finish calculating window rotation
 }
 
 /// Used with a WHILE loop, to render the screen image in several small pieces, rather than all at once. Workaround for low-memory devices.
@@ -42,56 +92,6 @@ bool QYEG0213RWS800::calculating() {
 			if (window_right >= panel_width - 1)		window_right = panel_width - 1;
 			if (window_bottom >= panel_height - 1)		window_bottom = panel_height - 1;
 		}
-
-		// Calculate rotated window locations
-		// These "winrot" values are the *absolute* locations of the window borders, i.e. a rectangle as described when rotation = 0
-		switch (rotation) {
-			case 0:
-				winrot_left = window_left;
-				winrot_left = winrot_left - (winrot_left % 8);	//Expand box on left to fit contents
-
-				winrot_right = winrot_left + 7;
-				while(winrot_right < window_right) winrot_right += 8;	//Iterate until box includes the byte where our far-left bit lives
-
-				winrot_top = window_top;
-				winrot_bottom = window_bottom;
-				break;
-
-			case 1:
-				winrot_left = (drawing_width - 1) - window_bottom;
-				winrot_left = winrot_left - (winrot_left % 8);	//Expand box on left to fit contents
-
-				winrot_right = winrot_left + 7;
-				while(winrot_right < (drawing_width - 1) - window_top) winrot_right += 8;	//Iterate until box includes the byte where our far-left bit lives
-
-				winrot_top = window_left;
-				winrot_bottom = window_right;
-				break;
-
-			case 2:	
-				winrot_left = (drawing_width - 1) - window_right;
-				winrot_left = winrot_left - (winrot_left % 8);	//Expand box on left to fit contents
-
-				winrot_right = winrot_left + 7;
-				while(winrot_right < (drawing_width - 1) - window_left) winrot_right += 8;	//Iterate until box includes the byte where our far-left bit lives
-
-				winrot_bottom = (drawing_height - 1) - window_top;
-				winrot_top = (drawing_height - 1) - window_bottom;
-
-				break;
-
-			
-			case 3:
-				winrot_left = window_top;
-				winrot_left = winrot_left - (winrot_left % 8);	//Expand box on left to fit contents
-
-				winrot_right = winrot_left + 7;
-				while(winrot_right < window_bottom) winrot_right += 8;	//Iterate until box includes the byte where our far-left bit lives
-
-				winrot_top = (drawing_height - 1) - window_right;
-				winrot_bottom = (drawing_height - 1) - window_left;
-				break;
-		}	// -- Finish calculating window rotation
 
 		grabPageMemory();							// Dynamically grab the page memory. TODO: Compile-time option for static memory?
 		clearPage(default_color);

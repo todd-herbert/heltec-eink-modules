@@ -19,33 +19,6 @@ void DEPG0290BNS75A::setWindow(uint16_t left, uint16_t top, uint16_t width, uint
 		this->window_top = top;
 		this->window_right = right;
 		this->window_bottom = bottom;
-}
-
-///Used with a WHILE loop, to break the graphics into small parts, and draw them one at a time
-bool DEPG0290BNS75A::calculating() {
-	//Pass the processing over to the mode-specific calculating method
-
-	//NOTE: this loop runs BEFORE every new page.
-	//This means that it is actually also processing all the data generated in the last loop
-
-	//Some of this looks weird, but it's that everything is being evaluated at the start of the next loop
-	//No real reason for this over a do while, just personal preference
-
-	//Beginning of first loop
-	//===============
-	if (page_cursor == 0) {
-
-		//Limit window to panel 
-		if (window_left < 0) 					window_left = 0;
-		if (window_top < 0)						window_top = 0;
-		if (rotation % 2) {	//Landscape
-			if (window_right >= drawing_height - 1)		window_right = drawing_height - 1;
-			if (window_bottom >= drawing_width - 1)		window_bottom = drawing_width - 1;
-		}
-		else {	//Portrait
-			if (window_right >= drawing_width - 1)		window_right = drawing_width - 1;
-			if (window_bottom >= drawing_height - 1)	window_bottom = drawing_height - 1;
-		}
 
 		//Calculate rotated window locations
 		switch (rotation) {
@@ -95,6 +68,34 @@ bool DEPG0290BNS75A::calculating() {
 				winrot_bottom = (drawing_height - 1) - window_left;
 				break;
 		} 	// -- Finish calculating window rotation
+
+}
+
+///Used with a WHILE loop, to break the graphics into small parts, and draw them one at a time
+bool DEPG0290BNS75A::calculating() {
+	//Pass the processing over to the mode-specific calculating method
+
+	//NOTE: this loop runs BEFORE every new page.
+	//This means that it is actually also processing all the data generated in the last loop
+
+	//Some of this looks weird, but it's that everything is being evaluated at the start of the next loop
+	//No real reason for this over a do while, just personal preference
+
+	//Beginning of first loop
+	//===============
+	if (page_cursor == 0) {
+
+		//Limit window to panel 
+		if (window_left < 0) 					window_left = 0;
+		if (window_top < 0)						window_top = 0;
+		if (rotation % 2) {	//Landscape
+			if (window_right >= drawing_height - 1)		window_right = drawing_height - 1;
+			if (window_bottom >= drawing_width - 1)		window_bottom = drawing_width - 1;
+		}
+		else {	//Portrait
+			if (window_right >= drawing_width - 1)		window_right = drawing_width - 1;
+			if (window_bottom >= drawing_height - 1)	window_bottom = drawing_height - 1;
+		}
 
 		grabPageMemory();		//This will grab slightly too much memory, but not a priority right now. TODO: fix eventually
 		clearPage(default_color);

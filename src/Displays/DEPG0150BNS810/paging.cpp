@@ -13,12 +13,61 @@ void DEPG0150BNS810::fullscreen() {
 ///Draw on only part of the screen, leaving the rest unchanged
 ///Call before calculating
 void DEPG0150BNS810::setWindow(uint8_t left, uint8_t top, uint8_t width, uint8_t height) {
-		uint8_t right = left + (width - 1);
-		uint8_t bottom = top + (height - 1);
-		this->window_left = left;
-		this->window_top = top;
-		this->window_right = right;
-		this->window_bottom = bottom;
+	uint8_t right = left + (width - 1);
+	uint8_t bottom = top + (height - 1);
+	this->window_left = left;
+	this->window_top = top;
+	this->window_right = right;
+	this->window_bottom = bottom;
+
+	//Calculate rotated window locations
+	switch (rotation) {
+		case 0:
+			winrot_left = window_left;
+			winrot_left = winrot_left - (winrot_left % 8);	//Expand box on left to fit contents
+
+			winrot_right = winrot_left + 7;
+			while(winrot_right < window_right) winrot_right += 8;	//Iterate until box includes the byte where our far-left bit lives
+
+			winrot_top = window_top;
+			winrot_bottom = window_bottom;
+			break;
+
+		case 1:
+			winrot_left = (drawing_width - 1) - window_bottom;
+			winrot_left = winrot_left - (winrot_left % 8);	//Expand box on left to fit contents
+
+			winrot_right = winrot_left + 7;
+			while(winrot_right < (drawing_width - 1) - window_top) winrot_right += 8;	//Iterate until box includes the byte where our far-left bit lives
+
+			winrot_top = window_left;
+			winrot_bottom = window_right + 1;
+			break;
+
+		case 2:	
+			winrot_left = (drawing_width - 1) - window_right;
+			winrot_left = winrot_left - (winrot_left % 8);	//Expand box on left to fit contents
+
+			winrot_right = winrot_left + 7;
+			while(winrot_right < (drawing_width - 1) - window_left) winrot_right += 8;	//Iterate until box includes the byte where our far-left bit lives
+
+			winrot_bottom = (drawing_height - 1) - window_top;
+			winrot_top = (drawing_height - 1) - window_bottom;
+
+			break;
+
+		
+		case 3:
+			winrot_left = window_top;
+			winrot_left = winrot_left - (winrot_left % 8);	//Expand box on left to fit contents
+
+			winrot_right = winrot_left + 7;
+			while(winrot_right < window_bottom) winrot_right += 8;	//Iterate until box includes the byte where our far-left bit lives
+
+			winrot_top = (drawing_height - 1) - window_right;
+			winrot_bottom = (drawing_height - 1) - window_left;
+			break;
+	}	// -- Finish calculating window rotation
 }
 
 ///Used with a WHILE loop, to break the graphics into small parts, and draw them one at a time
@@ -46,55 +95,6 @@ bool DEPG0150BNS810::calculating() {
 			if (window_right >= drawing_width - 1)		window_right = drawing_width - 1;
 			if (window_bottom >= drawing_height - 1)	window_bottom = drawing_height - 1;
 		}
-
-		//Calculate rotated window locations
-		switch (rotation) {
-			case 0:
-				winrot_left = window_left;
-				winrot_left = winrot_left - (winrot_left % 8);	//Expand box on left to fit contents
-
-				winrot_right = winrot_left + 7;
-				while(winrot_right < window_right) winrot_right += 8;	//Iterate until box includes the byte where our far-left bit lives
-
-				winrot_top = window_top;
-				winrot_bottom = window_bottom;
-				break;
-
-			case 1:
-				winrot_left = (drawing_width - 1) - window_bottom;
-				winrot_left = winrot_left - (winrot_left % 8);	//Expand box on left to fit contents
-
-				winrot_right = winrot_left + 7;
-				while(winrot_right < (drawing_width - 1) - window_top) winrot_right += 8;	//Iterate until box includes the byte where our far-left bit lives
-
-				winrot_top = window_left;
-				winrot_bottom = window_right + 1;
-				break;
-
-			case 2:	
-				winrot_left = (drawing_width - 1) - window_right;
-				winrot_left = winrot_left - (winrot_left % 8);	//Expand box on left to fit contents
-
-				winrot_right = winrot_left + 7;
-				while(winrot_right < (drawing_width - 1) - window_left) winrot_right += 8;	//Iterate until box includes the byte where our far-left bit lives
-
-				winrot_bottom = (drawing_height - 1) - window_top;
-				winrot_top = (drawing_height - 1) - window_bottom;
-
-				break;
-
-			
-			case 3:
-				winrot_left = window_top;
-				winrot_left = winrot_left - (winrot_left % 8);	//Expand box on left to fit contents
-
-				winrot_right = winrot_left + 7;
-				while(winrot_right < window_bottom) winrot_right += 8;	//Iterate until box includes the byte where our far-left bit lives
-
-				winrot_top = (drawing_height - 1) - window_right;
-				winrot_bottom = (drawing_height - 1) - window_left;
-				break;
-		}	// -- Finish calculating window rotation
 
 		grabPageMemory();		//This will grab slightly too much memory, but not a priority right now. TODO: fix eventually
 		clearPage(default_color);
