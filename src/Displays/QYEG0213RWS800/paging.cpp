@@ -93,18 +93,6 @@ bool QYEG0213RWS800::calculating() {
 				break;
 		}	// -- Finish calculating window rotation
 
-		Serial.println("asked for:");
-		Serial.print("left:");	Serial.println(window_left);
-		Serial.print("top:");	Serial.println(window_top);
-		Serial.print("bottom:");	Serial.println(window_bottom);
-		Serial.print("right:");	Serial.println(window_right);
-		Serial.println("\n");
-
-		Serial.print("left:");	Serial.println(winrot_left);
-		Serial.print("top:");	Serial.println(winrot_top);
-		Serial.print("bottom:");	Serial.println(winrot_bottom);
-		Serial.print("right:");	Serial.println(winrot_right);
-
 		grabPageMemory();							// Dynamically grab the page memory. TODO: Compile-time option for static memory?
 		clearPage(default_color);
 		reset();										// If panel is asleep, Wake to receive SPI image data.

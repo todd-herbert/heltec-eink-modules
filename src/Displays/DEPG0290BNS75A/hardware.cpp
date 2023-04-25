@@ -228,7 +228,6 @@ void DEPG0290BNS75A::writePage() {
 
 ///Draw the image in Panel's memory to the screen
 void DEPG0290BNS75A::update(bool override_checks) {
-	Serial.println("updating");
 	if (mode == fastmode.OFF || override_checks) {
 		// Specify the update operation to run
 		sendCommand(0x22);
