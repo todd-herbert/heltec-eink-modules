@@ -99,8 +99,6 @@ bool DEPG0150BNS810::calculating() {
 		grabPageMemory();		//This will grab slightly too much memory, but not a priority right now. TODO: fix eventually
 		clearPage(default_color);
 		reset();
-		Serial.print("resetting: calculating() 0  --  this->mode = ");
-		Serial.println(this->mode);
 
 		page_top = winrot_top;	//We're now translating the window in drawPixel()
 		page_bottom = (winrot_top + page_profile.height) - 1;

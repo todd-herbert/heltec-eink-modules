@@ -122,7 +122,6 @@ void DEPG0150BNS810::sendData(uint8_t data) {
 ///Reset the panel
 void DEPG0150BNS810::reset() {
 	if (mode == fastmode.OFF) { 
-		Serial.println("* performed reset *\n");
 		sendCommand(0x12); // Software Reset
 		wait();
 	}
@@ -142,8 +141,6 @@ void DEPG0150BNS810::setFastmode(FastmodeList::Fastmode mode) {
 	// Moving to partial refresh (fastmode)
 	if (mode == fastmode.ON && this->mode != fastmode.ON) {
 		reset();
-
-		Serial.println("Resetting: entering fastmode");
 
 		// Technical settings on display, to allow partial refresh (fastmode). Released by Heltec.
 		//-----------------------------------------------
