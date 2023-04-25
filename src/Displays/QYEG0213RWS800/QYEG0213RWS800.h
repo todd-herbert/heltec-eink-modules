@@ -11,8 +11,8 @@ class QYEG0213RWS800 : public GFX {
     private:
         //These are correct for the Heltect 2.13" Red V2, but are still defined here for easy access
         const SPISettings spi_settings = SPISettings(200000, MSBFIRST, SPI_MODE0);
-        const uint16_t panel_width = 128;
-        const uint16_t panel_height = 250;
+        static const uint16_t panel_width = 128;
+        static const uint16_t panel_height = 250;
         static const int16_t drawing_width = 122;  //Panel needs 128 * 250 bytes of data, however the useful drawing area is slightly smaller
         static const int16_t drawing_height = 250;
 
@@ -21,7 +21,6 @@ class QYEG0213RWS800 : public GFX {
     public:
         static struct FlipList{enum Flip{NONE = 0, HORIZONTAL=1, VERTICAL=2}; } flip;
         static struct ColorList{enum Colors{BLACK = 0, WHITE = 1, RED = 3}; } colors;
-        static struct RegionList {enum Region{FULLSCREEN = 0, WINDOWED = 1}; } region;
         static struct RotationList {enum Rotations{PINS_ABOVE = 0, PINS_LEFT=1, PINS_BELOW = 2, PINS_RIGHT = 3};} orientation;  //NB: member is "orientation", as GFX::rotation already exists
         struct PageProfile {
             uint16_t height;
@@ -60,10 +59,11 @@ class QYEG0213RWS800 : public GFX {
 
         //Paging and Hardware methods
         void begin() {begin(pageSize.MEDIUM);}
-        void begin(PageProfile page_size, void (*wake_callback)(void) = NULL, void (*sleep_callback)(void) = NULL);
-        bool calculating(RegionList::Region update_region, uint8_t left, uint8_t top, uint8_t width, uint8_t height);
-        bool calculating(RegionList::Region update_region = region.FULLSCREEN);
-        void update(bool blocking = true);
+        void begin(PageProfile page_size);
+        void fullscreen();
+        void setWindow(uint8_t left, uint8_t top, uint8_t width, uint8_t height);
+        bool calculating();
+        void update();
         bool busy() {return digitalRead(pin_busy);}
         void clear();
 
@@ -73,21 +73,10 @@ class QYEG0213RWS800 : public GFX {
 
         void sendCommand(uint8_t command);
         void sendData(uint8_t data);
-        void wake();
+        void reset();
         void wait();
         void clearPage(uint16_t bgcolor);
         void writePage();
-
-    private:
-        private:   //Screen-mode specific methods
-        bool calculating_Fullscreen();
-        bool calculating_Windowed();
-
-        void drawPixel_Fullscreen(int16_t x, int16_t y, uint16_t color);
-        void drawPixel_Windowed(int16_t x, int16_t y, uint16_t color);
-
-        void writePage_Fullscreen();
-        void writePage_Windowed();
 
     private:    //Deleted methods
         using GFX::drawGrayscaleBitmap;
@@ -131,13 +120,18 @@ class QYEG0213RWS800 : public GFX {
                     //Reference dimensions for windows
                     class Window {
                         public:
+                            //TODO: calculate window boundaries early to facilitate user layout calculation
+                            //  --- problematic interplay with setRotation() method
+
+                            //TODO: Bounds.Window subclass with info about "Requested Bounds" vs "Actual Bounds"
+
                             uint8_t top();
                             uint8_t right();
                             uint8_t bottom();
                             uint8_t left();
 
-                            uint8_t width() {return right() - left();}
-                            uint8_t height() {return bottom() - top();}
+                            uint8_t width() {return right() - left() + 1;}
+                            uint8_t height() {return bottom() - top() + 1;}
 
                             uint8_t centerX() {return right() - (width() / 2);}
                             uint8_t centerY() {return bottom() - (height() / 2);}
@@ -161,12 +155,12 @@ class QYEG0213RWS800 : public GFX {
                     class Full {
                         public:
                             uint8_t left() {return 0;}
-                            uint8_t right() {return ((*rotation % 2) ? drawing_height : drawing_width) ;}   //Width if portrait, height if landscape
+                            uint8_t right() {return width() - 1;}   
                             uint8_t top() {return 0;}
-                            uint8_t bottom() {return ((*rotation % 2) ? drawing_width : drawing_height) ;}  //Height if portrait, width if landscape
+                            uint8_t bottom() {return height() - 1;}
 
-                            uint8_t width() {return right() ;}
-                            uint8_t height() {return bottom();}
+                            uint8_t width() {return ((*rotation % 2) ? drawing_height : drawing_width);} //Width if portrait, height if landscape
+                            uint8_t height() {return ((*rotation % 2) ? drawing_width : drawing_height);}
 
                             uint8_t centerX() {return (right() / 2);}
                             uint8_t centerY() {return (bottom() / 2);}
@@ -184,7 +178,7 @@ class QYEG0213RWS800 : public GFX {
                                                                                                                     full = Full(arg_rotation);
                                                                                                                 }      
                     };
-        Bounds bounds = Bounds(nullptr, nullptr, nullptr, nullptr, nullptr); 
+        Bounds bounds = Bounds(nullptr, nullptr, nullptr, nullptr, nullptr);
 
     //Members
     //=========================================================================================
@@ -192,23 +186,23 @@ class QYEG0213RWS800 : public GFX {
     private:
         uint8_t pin_dc, pin_cs, pin_busy;
 
-        void (*wake_callback)(void);
-        void (*sleep_callback)(void);
+        uint16_t default_color = colors.WHITE;
+        FlipList::Flip imgflip = FlipList::NONE;
         
+        //Paging
         PageProfile page_profile;
         uint16_t page_bytecount;
-        uint16_t pagefile_length = 0;   //Marks the amount of data to be written from pagefile, in case of window
         uint8_t *page_black;
         uint8_t *page_red;
+        uint16_t pagefile_length = 0;   //Marks the amount of data to be written from pagefile
+
+
         uint8_t page_cursor = 0;
         uint8_t page_top, page_bottom;  //Counters
 
-        uint16_t default_color = colors.WHITE;
-        FlipList::Flip imgflip = FlipList::NONE;
-
 
         //Values defining windowed updated region
-        RegionList::Region update_region;
+        enum Region{FULLSCREEN = 0, WINDOWED = 1} region=FULLSCREEN;
         uint8_t window_left, window_top, window_right, window_bottom;
         uint8_t winrot_left, winrot_top, winrot_right, winrot_bottom;   //Window boundaries in reference frame of rotation(0)
 

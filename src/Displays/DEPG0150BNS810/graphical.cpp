@@ -12,7 +12,7 @@ void DEPG0150BNS810::drawPixel(int16_t x, int16_t y, uint16_t color) {
 			y1=y;
 			break;
 		case 1:			//90deg clockwise
-			x1 = (panel_height - y - 1);
+			x1 = (panel_width - 1) - y;
 			y1 = x;
 			break;
 		case 2:			//180deg
@@ -42,7 +42,7 @@ void DEPG0150BNS810::drawPixel(int16_t x, int16_t y, uint16_t color) {
 	}
 
 	//Check if pixel falls in our page
-	if(x >= winrot_left && y >= page_top && y <= page_bottom && x <= winrot_right - 1) {
+	if(x >= winrot_left && y >= page_top && y <= page_bottom && x <= winrot_right) {
 
 		//Calculate a memory location for our pixel
 		//A whole lot of emperically derived "inverting" went on here
@@ -53,7 +53,7 @@ void DEPG0150BNS810::drawPixel(int16_t x, int16_t y, uint16_t color) {
 
 		uint16_t memory_location;
 		
-		memory_location = (y - page_top) * ((winrot_right - winrot_left) / 8);
+		memory_location = (y - page_top) * ((winrot_right - winrot_left + 1) / 8);
 		memory_location += ((x - winrot_left) / 8);		
 		uint8_t bit_location = x % 8;	//Find the location of the bit in which the value will be stored
 		bit_location = (7 - bit_location);	//For some reason, the screen wants the bit order flipped. MSB vs LSB?
@@ -108,9 +108,9 @@ uint8_t DEPG0150BNS810::Bounds::Window::top() {
 		case RotationList::PINS_ABOVE:
 			return *edges[T];
 		case RotationList::PINS_LEFT:
-			return (drawing_width) - *edges[R];
+			return (drawing_width - 1) - *edges[R];
 		case RotationList::PINS_BELOW:
-			return (drawing_height) - *edges[B];
+			return (drawing_height - 1) - *edges[B];
 		case RotationList::PINS_RIGHT:
 			return *edges[L];
 	}
@@ -122,11 +122,11 @@ uint8_t DEPG0150BNS810::Bounds::Window::right() {
 		case RotationList::PINS_ABOVE:
 			return *edges[R];
 		case RotationList::PINS_LEFT:
-			return *edges[B];
+			return *edges[B] - 1;
 		case RotationList::PINS_BELOW:
-			return (drawing_width) - *edges[L];
+			return (drawing_width - 1) - *edges[L];
 		case RotationList::PINS_RIGHT:
-			return (drawing_height) - *edges[T];
+			return (drawing_height - 1) - *edges[T];
 	}
 	return 0;	//Supress error
 }
@@ -136,9 +136,9 @@ uint8_t DEPG0150BNS810::Bounds::Window::bottom() {
 		case RotationList::PINS_ABOVE:
 			return *edges[B];
 		case RotationList::PINS_LEFT:
-			return (drawing_width) - *edges[L];
+			return (drawing_width - 1) - *edges[L];
 		case RotationList::PINS_BELOW:
-			return (drawing_height) - *edges[T];
+			return (drawing_height - 1) - *edges[T];
 		case RotationList::PINS_RIGHT:
 			return *edges[R];
 	}
@@ -152,9 +152,9 @@ uint8_t DEPG0150BNS810::Bounds::Window::left() {
 		case RotationList::PINS_LEFT:
 			return *edges[T];
 		case RotationList::PINS_BELOW:
-			return (drawing_width) - *edges[R];
+			return (drawing_width - 1) - *edges[R];
 		case RotationList::PINS_RIGHT:
-			return (drawing_height) - *edges[B];
+			return (drawing_height - 1) - *edges[B];
 	}
 	return 0;	//Supress error
 }

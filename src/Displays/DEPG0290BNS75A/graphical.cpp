@@ -2,13 +2,8 @@
 
 ///Draw a single pixel. 
 ///This method is overriden from GFX_Root, and all other drawing methods pass through here
-void DEPG0290BNS75A::drawPixel(int16_t x, int16_t y, uint16_t color) {
-	// if (update_region == region.FULLSCREEN)
-	// 	return drawPixel_Fullscreen(x, y, color);
-	// else //if windowed
-	// 	return drawPixel_Windowed(x, y, color);
 
-  
+void DEPG0290BNS75A::drawPixel(int16_t x, int16_t y, uint16_t color) {
 	//Rotate the pixel
 	int16_t x1, y1;
 	switch(rotation) {
@@ -17,18 +12,19 @@ void DEPG0290BNS75A::drawPixel(int16_t x, int16_t y, uint16_t color) {
 			y1=y;
 			break;
 		case 1:			//90deg clockwise
-			x1 = (drawing_width - y - 1);
+			x1 = (panel_width - 1) - y;
 			y1 = x;
 			break;
 		case 2:			//180deg
-			x1 = (drawing_width - 1) - x;	//Make sure we really do draw the pixel within the imaginary margins, even though window is larger
-			y1 = (drawing_height - 1) - y;
+			x1 = (panel_width - 1) - x;
+			y1 = (panel_height - 1) - y;
 			break;
 		case 3:			//270deg clockwise
 			x1 = y;
-			y1 = (drawing_height - 1) - x;
+			y1 = (panel_height - 1) - x;
 			break;
 	}
+
 	x = x1;
 	y = y1;
 
@@ -46,15 +42,20 @@ void DEPG0290BNS75A::drawPixel(int16_t x, int16_t y, uint16_t color) {
 			y = (drawing_height - 1) - y;
 	}
 
-	//Check if pixel falls in our page
-	if(x >= (int16_t)winrot_left && y >= (int16_t)page_top && y <= (int16_t)page_bottom && x <= (int16_t)winrot_right - 1) {	//typecasts only to silence warnings
+	// Check if pixel falls in our page
+	// Casts suppress build warnings	
+	if((uint16_t)x >= winrot_left && (uint16_t)y >= page_top && (uint16_t)y <= page_bottom && (uint16_t)x <= winrot_right) {
 
 		//Calculate a memory location for our pixel
 		//A whole lot of emperically derived "inverting" went on here
+		//The y values of the pixels in each page are inverted, but not the pages themselves
+		//The bit order of the x pixels is inverted, but not the order of the pixels themselves
+		//To top it off, one final inversion is needed in writePage(), but all the nonsense seems to balance out eventually
+		//(This is probably all my fault)
 
 		uint16_t memory_location;
 		
-		memory_location = ((page_bottom - page_top) - (page_bottom - y)) * ((winrot_right - winrot_left) / 8);
+		memory_location = (y - page_top) * ((winrot_right - winrot_left + 1) / 8);
 		memory_location += ((x - winrot_left) / 8);		
 		uint8_t bit_location = x % 8;	//Find the location of the bit in which the value will be stored
 		bit_location = (7 - bit_location);	//For some reason, the screen wants the bit order flipped. MSB vs LSB?
@@ -72,23 +73,11 @@ void DEPG0290BNS75A::setFlip(FlipList::Flip flip) {
 	this->imgflip = flip;
 }
 
-
 ///Set the color of the blank canvas, before any drawing is done
 ///Note: Function is efficient, but only takes effect at the start of a calculation. At any other time, use fillScreen()
 void DEPG0290BNS75A::setDefaultColor(uint16_t bgcolor) {
 	default_color = bgcolor;
 }
-
-
-
-///Clear the data arrays in between pages
-void DEPG0290BNS75A::clearPage(uint16_t bgcolor) {
-	for (uint16_t i = 0; i < page_bytecount; i++) {
-		uint8_t black_byte = (bgcolor & colors.WHITE) * 255;	//We're filling in bulk here; bits are either all on or all off
-		page_black[i] = black_byte;
-	}
-}
-
 
 ///Set the text cursor according to the desired upper left corner
 void DEPG0290BNS75A::setCursorTopLeft(const char* text, uint16_t x, uint16_t y) {
@@ -121,9 +110,9 @@ uint16_t DEPG0290BNS75A::Bounds::Window::top() {
 		case RotationList::PINS_ABOVE:
 			return *edges[T];
 		case RotationList::PINS_LEFT:
-			return (drawing_width) - *edges[R];
+			return (drawing_width - 1) - *edges[R];
 		case RotationList::PINS_BELOW:
-			return (drawing_height) - *edges[B];
+			return (drawing_height - 1) - *edges[B];
 		case RotationList::PINS_RIGHT:
 			return *edges[L];
 	}
@@ -135,11 +124,11 @@ uint16_t DEPG0290BNS75A::Bounds::Window::right() {
 		case RotationList::PINS_ABOVE:
 			return *edges[R];
 		case RotationList::PINS_LEFT:
-			return *edges[B];
+			return *edges[B] - 1;
 		case RotationList::PINS_BELOW:
-			return (drawing_width) - *edges[L];
+			return (drawing_width - 1) - *edges[L];
 		case RotationList::PINS_RIGHT:
-			return (drawing_height) - *edges[T];
+			return (drawing_height - 1) - *edges[T];
 	}
 	return 0;	//Supress error
 }
@@ -149,9 +138,9 @@ uint16_t DEPG0290BNS75A::Bounds::Window::bottom() {
 		case RotationList::PINS_ABOVE:
 			return *edges[B];
 		case RotationList::PINS_LEFT:
-			return (drawing_width) - *edges[L];
+			return (drawing_width - 1) - *edges[L];
 		case RotationList::PINS_BELOW:
-			return (drawing_height) - *edges[T];
+			return (drawing_height - 1) - *edges[T];
 		case RotationList::PINS_RIGHT:
 			return *edges[R];
 	}
@@ -165,9 +154,9 @@ uint16_t DEPG0290BNS75A::Bounds::Window::left() {
 		case RotationList::PINS_LEFT:
 			return *edges[T];
 		case RotationList::PINS_BELOW:
-			return (drawing_width) - *edges[R];
+			return (drawing_width - 1) - *edges[R];
 		case RotationList::PINS_RIGHT:
-			return (drawing_height) - *edges[B];
+			return (drawing_height - 1) - *edges[B];
 	}
 	return 0;	//Supress error
 }

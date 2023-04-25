@@ -3,10 +3,60 @@
 ///Draw a single pixel. 
 ///This method is overriden from GFX_Root, and all other drawing methods pass through here
 void QYEG0213RWS800::drawPixel(int16_t x, int16_t y, uint16_t color) {
-	if (update_region == region.FULLSCREEN)
-		return drawPixel_Fullscreen(x, y, color);
-	else //if windowed
-		return drawPixel_Windowed(x, y, color);
+  //Rotate the pixel
+  int16_t x1, y1;
+  switch(rotation) {
+	case 0:			//No rotation
+	  x1=x;
+	  y1=y;
+	  break;
+	case 1:			//90deg clockwise
+	  x1 = (drawing_width - 1) - y;
+	  y1 = x;
+	  break;
+	case 2:			//180deg
+	  x1 = (drawing_width - 1) - x;
+	  y1 = (drawing_height - 1) - y;
+	  break;
+	case 3:			//270deg clockwise
+	  x1 = y;
+	  y1 = (drawing_height - 1) - x;
+	  break;
+  }
+  x = x1;
+  y = y1;
+
+  //Handle flip
+  if (imgflip & FlipList::HORIZONTAL) {
+	if (rotation % 2)	//If landscape
+	  y = (drawing_height - 1) - y;
+	else					//If portrait
+	  x = (drawing_width - 1) - x;
+  }
+  if (imgflip & FlipList::VERTICAL) {
+	if (rotation % 2)	//If landscape
+	  x = (drawing_width - 1) - x;
+	else					//If portrait
+	  y = (drawing_height - 1) - y;
+  }
+
+  //Check if pixel falls in our page
+  if(x >= winrot_left && y >= page_top && y <= page_bottom && x <= winrot_right) {
+
+	//Calculate a memory location (byte) for our pixel
+	uint16_t memory_location;
+	memory_location = (y - page_top) * ((winrot_right - winrot_left + 1) / 8);
+	memory_location += ((x - winrot_left) / 8);		
+	uint8_t bit_location = x % 8;	//Find the location of the bit in which the value will be stored
+	bit_location = (7 - bit_location);	//For some reason, the screen wants the bit order flipped. MSB vs LSB?
+
+	//Insert the correct color values into the appropriate location (bit)
+	uint8_t bitmask = ~(1 << bit_location);
+	page_black[memory_location] &= bitmask;
+	page_black[memory_location] |= (color & colors.WHITE) << bit_location;
+	page_red[memory_location] &= bitmask;
+	page_red[memory_location] |= (color >> 1) << bit_location;
+  }
 }
 
 ///Set the image flip
@@ -60,17 +110,18 @@ uint16_t QYEG0213RWS800::getTextHeight(const char* text) {
 
 //Helper methods to find window bounds
 //======================================
+// note - min() resolves drawing_width / panel_width type conflicts
 
 uint8_t QYEG0213RWS800::Bounds::Window::top() {
 	switch (*m_rotation) {
 		case RotationList::PINS_ABOVE:
 			return *edges[T];
 		case RotationList::PINS_LEFT:
-			return (drawing_width) - *edges[R];
+			return (drawing_width - 1) - *edges[R];
 		case RotationList::PINS_BELOW:
-			return (drawing_height) - *edges[B];
+			return (drawing_height - 1) - *edges[B];
 		case RotationList::PINS_RIGHT:
-			return *edges[L];
+			return min( *edges[L], drawing_width - 1);
 	}
 	return 0;	//Supress error
 }
@@ -78,13 +129,13 @@ uint8_t QYEG0213RWS800::Bounds::Window::top() {
 uint8_t QYEG0213RWS800::Bounds::Window::right() {
 	switch (*m_rotation) {
 		case RotationList::PINS_ABOVE:
-			return *edges[R];
+			return min( *edges[R], drawing_width - 1);
 		case RotationList::PINS_LEFT:
 			return *edges[B];
 		case RotationList::PINS_BELOW:
-			return (drawing_width) - *edges[L];
+			return min( (drawing_width - 1) - *edges[L], drawing_width - 1);
 		case RotationList::PINS_RIGHT:
-			return (drawing_height) - *edges[T];
+			return (drawing_height - 1) - *edges[T];
 	}
 	return 0;	//Supress error
 }
@@ -94,11 +145,11 @@ uint8_t QYEG0213RWS800::Bounds::Window::bottom() {
 		case RotationList::PINS_ABOVE:
 			return *edges[B];
 		case RotationList::PINS_LEFT:
-			return (drawing_width) - *edges[L];
+			return min( (drawing_width - 1) - *edges[L], drawing_width -1 );
 		case RotationList::PINS_BELOW:
-			return (drawing_height) - *edges[T];
+			return (drawing_height - 1) - *edges[T];
 		case RotationList::PINS_RIGHT:
-			return *edges[R];
+			return min( *edges[R], drawing_width - 1);
 	}
 	return 0;	//Supress error
 }
@@ -110,9 +161,9 @@ uint8_t QYEG0213RWS800::Bounds::Window::left() {
 		case RotationList::PINS_LEFT:
 			return *edges[T];
 		case RotationList::PINS_BELOW:
-			return (drawing_width) - *edges[R];
+			return max((drawing_width - 1) - *edges[R], 0);
 		case RotationList::PINS_RIGHT:
-			return (drawing_height) - *edges[B];
+			return (panel_height - 1) - *edges[B];
 	}
 	return 0;	//Supress error
 }
@@ -121,7 +172,7 @@ uint8_t QYEG0213RWS800::Bounds::Window::left() {
 
 
 //Font overrides to use bounds.window.left() and bounds.window.right() instead of _width from GFX
-
+//------------------------------------------------------------------------------------------------
 
 // Many (but maybe not all) non-AVR board installs define macros
 // for compatibility with existing PROGMEM-reading AVR code.
@@ -176,45 +227,45 @@ size_t QYEG0213RWS800::write(uint8_t c)
   int16_t end_x = rotation%2?drawing_height:drawing_width;
 
   if (!gfxFont) { // 'Classic' built-in font
-    if (c == '\n') {              // Newline?
-      cursor_x = (int16_t)bounds.window.left();               // Reset x to zero,
-      cursor_y += textsize_y * 8; // advance y one line
-    } else if (c != '\r') {       // Ignore carriage returns
-      if (wrap && ((cursor_x + textsize_x * 6) > end_x)) { // Off right?
-        cursor_x = start_x;                                       // Reset x to zero,
-        cursor_y += textsize_y * 8; // advance y one line
-      }
-      drawChar(cursor_x, cursor_y, c, textcolor, textbgcolor, textsize_x,
-               textsize_y);
-      cursor_x += textsize_x * 6; // Advance x one char
-    }
+	if (c == '\n') {              // Newline?
+	  cursor_x = (int16_t)bounds.window.left();               // Reset x to zero,
+	  cursor_y += textsize_y * 8; // advance y one line
+	} else if (c != '\r') {       // Ignore carriage returns
+	  if (wrap && ((cursor_x + textsize_x * 6) > end_x)) { // Off right?
+		cursor_x = start_x;                                       // Reset x to zero,
+		cursor_y += textsize_y * 8; // advance y one line
+	  }
+	  drawChar(cursor_x, cursor_y, c, textcolor, textbgcolor, textsize_x,
+			   textsize_y);
+	  cursor_x += textsize_x * 6; // Advance x one char
+	}
 
   } else { // Custom font
 
-    if (c == '\n') {
-      cursor_x = (int16_t)bounds.window.left();
-      cursor_y +=
-        (int16_t)textsize_y * (uint8_t)pgm_read_byte(&gfxFont->yAdvance);
-    } else if (c != '\r') {
-      uint8_t first = pgm_read_byte(&gfxFont->first);
-      if ((c >= first) && (c <= (uint8_t)pgm_read_byte(&gfxFont->last))) {
-        GFXglyph *glyph = pgm_read_glyph_ptr(gfxFont, c - first);
-        uint8_t w = pgm_read_byte(&glyph->width),
-                h = pgm_read_byte(&glyph->height);
-        if ((w > 0) && (h > 0)) { // Is there an associated bitmap?
-          int16_t xo = (int8_t)pgm_read_byte(&glyph->xOffset); // sic
-          if (wrap && ((cursor_x + textsize_x * (xo + w)) > (int16_t)bounds.window.right())) {
-            cursor_x = (int16_t)bounds.window.left();
-            cursor_y += (int16_t)textsize_y *
-                        (uint8_t)pgm_read_byte(&gfxFont->yAdvance);
-          }
-          drawChar(cursor_x, cursor_y, c, textcolor, textbgcolor, textsize_x,
-                   textsize_y);
-        }
-        cursor_x +=
-          (uint8_t)pgm_read_byte(&glyph->xAdvance) * (int16_t)textsize_x;
-      }
-    }
+	if (c == '\n') {
+	  cursor_x = (int16_t)bounds.window.left();
+	  cursor_y +=
+		(int16_t)textsize_y * (uint8_t)pgm_read_byte(&gfxFont->yAdvance);
+	} else if (c != '\r') {
+	  uint8_t first = pgm_read_byte(&gfxFont->first);
+	  if ((c >= first) && (c <= (uint8_t)pgm_read_byte(&gfxFont->last))) {
+		GFXglyph *glyph = pgm_read_glyph_ptr(gfxFont, c - first);
+		uint8_t w = pgm_read_byte(&glyph->width),
+				h = pgm_read_byte(&glyph->height);
+		if ((w > 0) && (h > 0)) { // Is there an associated bitmap?
+		  int16_t xo = (int8_t)pgm_read_byte(&glyph->xOffset); // sic
+		  if (wrap && ((cursor_x + textsize_x * (xo + w)) > (int16_t)bounds.window.right())) {
+			cursor_x = (int16_t)bounds.window.left();
+			cursor_y += (int16_t)textsize_y *
+						(uint8_t)pgm_read_byte(&gfxFont->yAdvance);
+		  }
+		  drawChar(cursor_x, cursor_y, c, textcolor, textbgcolor, textsize_x,
+				   textsize_y);
+		}
+		cursor_x +=
+		  (uint8_t)pgm_read_byte(&glyph->xAdvance) * (int16_t)textsize_x;
+	  }
+	}
   }
   return 1;
 }
@@ -224,60 +275,63 @@ void QYEG0213RWS800::charBounds(unsigned char c, int16_t *x, int16_t *y, int16_t
 
   if (gfxFont) {
 
-    if (c == '\n') { // Newline?
-      *x = (int16_t)bounds.window.left();        // Reset x to zero, advance y by one line
-      *y += textsize_y * (uint8_t)pgm_read_byte(&gfxFont->yAdvance);
-    } else if (c != '\r') { // Not a carriage return; is normal char
-      uint8_t first = pgm_read_byte(&gfxFont->first),
-              last = pgm_read_byte(&gfxFont->last);
-      if ((c >= first) && (c <= last)) { // Char present in this font?
-        GFXglyph *glyph = pgm_read_glyph_ptr(gfxFont, c - first);
-        uint8_t gw = pgm_read_byte(&glyph->width),
-                gh = pgm_read_byte(&glyph->height),
-                xa = pgm_read_byte(&glyph->xAdvance);
-        int8_t xo = pgm_read_byte(&glyph->xOffset),
-               yo = pgm_read_byte(&glyph->yOffset);
-        if (wrap && ((*x + (((int16_t)xo + gw) * textsize_x)) > (int16_t)bounds.window.right())) {
-          *x = (int16_t)bounds.window.left(); // Reset x to zero, advance y by one line
-          *y += textsize_y * (uint8_t)pgm_read_byte(&gfxFont->yAdvance);
-        }
-        int16_t tsx = (int16_t)textsize_x, tsy = (int16_t)textsize_y,
-                x1 = *x + xo * tsx, y1 = *y + yo * tsy, x2 = x1 + gw * tsx - 1,
-                y2 = y1 + gh * tsy - 1;
-        if (x1 < *minx)
-          *minx = x1;
-        if (y1 < *miny)
-          *miny = y1;
-        if (x2 > *maxx)
-          *maxx = x2;
-        if (y2 > *maxy)
-          *maxy = y2;
-        *x += xa * tsx;
-      }
-    }
+	if (c == '\n') { // Newline?
+	  *x = (int16_t)bounds.window.left();        // Reset x to zero, advance y by one line
+	  *y += textsize_y * (uint8_t)pgm_read_byte(&gfxFont->yAdvance);
+	} else if (c != '\r') { // Not a carriage return; is normal char
+	  uint8_t first = pgm_read_byte(&gfxFont->first),
+			  last = pgm_read_byte(&gfxFont->last);
+	  if ((c >= first) && (c <= last)) { // Char present in this font?
+		GFXglyph *glyph = pgm_read_glyph_ptr(gfxFont, c - first);
+		uint8_t gw = pgm_read_byte(&glyph->width),
+				gh = pgm_read_byte(&glyph->height),
+				xa = pgm_read_byte(&glyph->xAdvance);
+		int8_t xo = pgm_read_byte(&glyph->xOffset),
+			   yo = pgm_read_byte(&glyph->yOffset);
+		if (wrap && ((*x + (((int16_t)xo + gw) * textsize_x)) > (int16_t)bounds.window.right())) {
+		  *x = (int16_t)bounds.window.left(); // Reset x to zero, advance y by one line
+		  *y += textsize_y * (uint8_t)pgm_read_byte(&gfxFont->yAdvance);
+		}
+		int16_t tsx = (int16_t)textsize_x, tsy = (int16_t)textsize_y,
+				x1 = *x + xo * tsx, y1 = *y + yo * tsy, x2 = x1 + gw * tsx - 1,
+				y2 = y1 + gh * tsy - 1;
+		if (x1 < *minx)
+		  *minx = x1;
+		if (y1 < *miny)
+		  *miny = y1;
+		if (x2 > *maxx)
+		  *maxx = x2;
+		if (y2 > *maxy)
+		  *maxy = y2;
+		*x += xa * tsx;
+	  }
+	}
 
   } else { // Default font
 
-    if (c == '\n') {        // Newline?
-      *x = (int16_t)bounds.window.left();               // Reset x to zero,
-      *y += textsize_y * 8; // advance y one line
-      // min/max x/y unchaged -- that waits for next 'normal' character
-    } else if (c != '\r') { // Normal char; ignore carriage returns
-      if (wrap && ((*x + textsize_x * 6) > (int16_t)bounds.window.right())) { // Off right?
-        *x = (int16_t)bounds.window.left();                                       // Reset x to zero,
-        *y += textsize_y * 8;                         // advance y one line
-      }
-      int x2 = *x + textsize_x * 6 - 1, // Lower-right pixel of char
-          y2 = *y + textsize_y * 8 - 1;
-      if (x2 > *maxx)
-        *maxx = x2; // Track max x, y
-      if (y2 > *maxy)
-        *maxy = y2;
-      if (*x < *minx)
-        *minx = *x; // Track min x, y
-      if (*y < *miny)
-        *miny = *y;
-      *x += textsize_x * 6; // Advance x one char
-    }
+	if (c == '\n') {        // Newline?
+	  *x = (int16_t)bounds.window.left();               // Reset x to zero,
+	  *y += textsize_y * 8; // advance y one line
+	  // min/max x/y unchaged -- that waits for next 'normal' character
+	} else if (c != '\r') { // Normal char; ignore carriage returns
+	  if (wrap && ((*x + textsize_x * 6) > (int16_t)bounds.window.right())) { // Off right?
+		*x = (int16_t)bounds.window.left();                                       // Reset x to zero,
+		*y += textsize_y * 8;                         // advance y one line
+	  }
+	  int x2 = *x + textsize_x * 6 - 1, // Lower-right pixel of char
+		  y2 = *y + textsize_y * 8 - 1;
+	  if (x2 > *maxx)
+		*maxx = x2; // Track max x, y
+	  if (y2 > *maxy)
+		*maxy = y2;
+	  if (*x < *minx)
+		*minx = *x; // Track min x, y
+	  if (*y < *miny)
+		*miny = *y;
+	  *x += textsize_x * 6; // Advance x one char
+	}
   }
+  // End of font method overrides from GFX library
+  //--------------------------------------------------------
+
 }

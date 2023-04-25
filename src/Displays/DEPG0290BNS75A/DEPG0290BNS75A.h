@@ -9,31 +9,44 @@ class DEPG0290BNS75A : public GFX {
     //Consts
     //===================
     private:
-        //These are correct for the Heltect 2.9" Red V2, but are still defined here for easy access
+        //These are correct for the Heltec 1.54" V2, but are still defined here for easy access
         const SPISettings spi_settings = SPISettings(200000, MSBFIRST, SPI_MODE0);
-        const uint16_t panel_width = 128;
-        const uint16_t panel_height = 296;
-        static const int16_t drawing_width = 128;  //Panel needs 128 * 250 bytes of data, however the useful drawing area is slightly smaller
+        static const int16_t panel_width = 128;
+        static const int16_t panel_height = 296;
+        static const int16_t drawing_width = 128;       // Redundant for this display, handles odd resolutions. 
         static const int16_t drawing_height = 296;
+
+        // LUT for partial refresh - unimplemented
+        // const unsigned char lut_partil[70] = {}; // LUT for this display should *allegedly* be 70 bytes
+        const unsigned char *lut_partial = nullptr;  // Placeholder
+        	
+
+
 
     //Consts for user config
     //==================
     public:
         static struct FlipList{enum Flip{NONE = 0, HORIZONTAL=1, VERTICAL=2}; } flip;
         static struct ColorList{enum Colors{BLACK = 0, WHITE = 1}; } colors;
-        static struct RegionList {enum Region{FULLSCREEN = 0, WINDOWED = 1}; } region;
-        static struct RotationList {enum Rotations{PINS_ABOVE = 0, PINS_LEFT=1, PINS_BELOW = 2, PINS_RIGHT = 3};} orientation;  //NB: member is "orientation", as GFX::rotation already exists
+        static struct FastmodeList{enum Fastmode{OFF = 0, ON = 1, FINALIZE = 2}; } fastmode;
+        static struct RotationList {enum Rotations{PINS_ABOVE = 0, PINS_LEFT=1, PINS_BELOW = 2, PINS_RIGHT = 3};} orientation;  //NB: member is "orientation", as GFX::rotation already exists //TODO:rename
+  
         struct PageProfile {
             uint16_t height;
             uint16_t count;
         };
+
         struct PageProfileList {
-            const PageProfile   SMALL       {.height = 4, .count = 74};    //64kb of SRAM, 3% of total (Arduino UNO)
-            const PageProfile   MEDIUM      {.height = 8, .count = 37};    //128kb of SRAM, 6% of total (Arduino UNO)
-            const PageProfile   LARGE     {.height = 37, .count = 8};    //592kb of SRAM, 30% of total (Arduino UNO)
-            //Feel free to add any other profiles you wish. The only requirement is that ".height" * count = panel height (296px)
+            const PageProfile   TINY      {.height = 4, .count = 74};      //64kb of SRAM, 4% of total (Arduino UNO)
+            const PageProfile   SMALL     {.height = 10, .count = 30};     //160kb of SRAM, 8% of total (Arduino UNO)
+            const PageProfile   MEDIUM    {.height = 20, .count = 15};     //320kb of SRAM, 16% of total (Arduino UNO)
+            const PageProfile   LARGE     {.height = 37, .count = 8};      //592kb of SRAM, 29% of total (Arduino UNO)
+            const PageProfile   EXTREME   {.height = 74, .count = 4};      //1184kb of SRAM, 58% of total (Arduino UNO)
+            //Feel free to add any other profiles you wish
         } pageSize;
   
+
+
 
     //Methods
     //=============================================================================
@@ -50,7 +63,6 @@ class DEPG0290BNS75A : public GFX {
                                                                                                     &winrot_bottom, 
                                                                                                     &winrot_left, 
                                                                                                     &rotation); }
-                                                                                
         //Graphics overloads and config methods                                                                
         void drawPixel(int16_t x, int16_t y, uint16_t color);
         void setDefaultColor(uint16_t bgcolor);
@@ -59,30 +71,41 @@ class DEPG0290BNS75A : public GFX {
 
         //Paging and Hardware methods
         void begin() {begin(pageSize.MEDIUM);}
-        void begin(PageProfile page_size, void (*wake_callback)(void) = NULL, void (*sleep_callback)(void) = NULL);
-        bool calculating(RegionList::Region update_region, uint16_t left, uint16_t top, uint16_t width, uint16_t height);
-        bool calculating(RegionList::Region update_region = RegionList::FULLSCREEN);
-        void update(bool blocking = true);
+        void begin(PageProfile page_size);
+        void fullscreen();
+        void setWindow(uint16_t left, uint16_t top, uint16_t width, uint16_t height);
+        void setFastmode(FastmodeList::Fastmode mode) = delete; // Not Implemented for this display
+        bool calculating();
+        void update() { update(false); }
         bool busy() {return digitalRead(pin_busy);}
         void clear();
+
+        // TODO: delete this, re-link to bounds.fullscreen
+        //Added drawing tool methods
+        int16_t height(void) const {return rotation % 2 ? drawing_width : drawing_height;}
+        int16_t width(void) const {return rotation % 2 ? drawing_height : drawing_width;}
+        int16_t right(void) const {return width() - 1;}
+        int16_t bottom(void) const {return height() - 1;}
+        int16_t centerX(void) const {return (width() / 2) - 1;}
+        int16_t centerY(void) const {return (height() / 2) - 1;}
 
     private:    //Hardware methods
         void grabPageMemory();
         void freePageMemory();
-        
+
         void sendCommand(uint8_t command);
         void sendData(uint8_t data);
-        void wake();
+        void reset();
         void wait();
+        void update(bool override_checks);
         void clearPage(uint16_t bgcolor);
         void writePage();
 
     private:    //Deleted methods
         using GFX::drawGrayscaleBitmap;
         using GFX::drawRGBBitmap;
-        using GFX::invertDisplay;
 
-    //Supplementary Drawing Methods
+   //Supplementary Drawing Methods
     //========================================================================================
 
     //==================================
@@ -110,6 +133,7 @@ class DEPG0290BNS75A : public GFX {
     //==================================
 
     public:
+
         void setFlip(FlipList::Flip flip);
         void setCursorTopLeft(const char* text, uint16_t x, uint16_t y);
         uint16_t getTextWidth(const char* text);
@@ -120,13 +144,15 @@ class DEPG0290BNS75A : public GFX {
                     //Reference dimensions for windows
                     class Window {
                         public:
+                           //TODO: add a precalculation for early value calculation 
+
                             uint16_t top();
                             uint16_t right();
                             uint16_t bottom();
                             uint16_t left();
 
-                            uint16_t width() {return right() - left();}
-                            uint16_t height() {return bottom() - top();}
+                            uint16_t width() {return right() - left() + 1;}
+                            uint16_t height() {return bottom() - top() + 1;}
 
                             uint16_t centerX() {return right() - (width() / 2);}
                             uint16_t centerY() {return bottom() - (height() / 2);}
@@ -150,12 +176,12 @@ class DEPG0290BNS75A : public GFX {
                     class Full {
                         public:
                             uint16_t left() {return 0;}
-                            uint16_t right() {return ((*rotation % 2) ? drawing_height : drawing_width) - 1;}   //Width if portrait, height if landscape
+                            uint16_t right() {return width() - 1;}   
                             uint16_t top() {return 0;}
-                            uint16_t bottom() {return ((*rotation % 2) ? drawing_width : drawing_height) - 1;}  //Height if portrait, width if landscape
+                            uint16_t bottom() {return height() - 1;}
 
-                            uint16_t width() {return right();}
-                            uint16_t height() {return bottom();}
+                            uint16_t width() {return ((*rotation % 2) ? drawing_height : drawing_width);} //Width if portrait, height if landscape
+                            uint16_t height() {return ((*rotation % 2) ? drawing_width : drawing_height);}
 
                             uint16_t centerX() {return (right() / 2);}
                             uint16_t centerY() {return (bottom() / 2);}
@@ -173,30 +199,29 @@ class DEPG0290BNS75A : public GFX {
                                                                                                                     full = Full(arg_rotation);
                                                                                                                 }      
                     };
-        Bounds bounds = Bounds(nullptr, nullptr, nullptr, nullptr, nullptr); 
+        Bounds bounds = Bounds(nullptr, nullptr, nullptr, nullptr, nullptr);
 
     //Members
     //=========================================================================================
-
     private:
         uint8_t pin_dc, pin_cs, pin_busy;
 
-        void (*wake_callback)(void);
-        void (*sleep_callback)(void);
-        
+        uint16_t default_color = colors.WHITE;
+        FlipList::Flip imgflip = FlipList::NONE;
+        FastmodeList::Fastmode mode = FastmodeList::OFF;  //Unimplemented, should be inaccessible
+
+        //Paging
         PageProfile page_profile;
         uint16_t page_bytecount;
-        uint16_t pagefile_length = 0;   //Marks the amount of data to be written from pagefile, in case of window
         uint8_t *page_black;
+        uint16_t pagefile_length = 0;   //Used for windowed memory ops
+
         uint16_t page_cursor = 0;
         uint16_t page_top, page_bottom;  //Counters
 
-        uint16_t default_color = colors.WHITE;
-        FlipList::Flip imgflip = FlipList::NONE;
-
-        //Values defining windowed updated region
-        RegionList::Region update_region;
+        //Mode settings
+        enum Region{FULLSCREEN = 0, WINDOWED = 1} region=FULLSCREEN;
         uint16_t window_left, window_top, window_right, window_bottom;
         uint16_t winrot_left, winrot_top, winrot_right, winrot_bottom;   //Window boundaries in reference frame of rotation(0)
-
+        bool first_pass = true;
 };
