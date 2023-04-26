@@ -1,47 +1,50 @@
-//---------------------------------------------------------------------
-//Which display are you using?  (uncomment one)
-//(Only panels supporting fast mode are shown)
-
-#define   USING_DEPG0150BNS810
-
-//Where is your display connected?
-
-#define DC_PIN 8
-#define CS_PIN 10
-#define BUSY_PIN 7
+// Which panel are you using?  (uncomment one)
+// --------------------------------------------
+	// #define   USING_DEPG0150BNS810		// 1.54" V2 - BW
 
 
-//(Example automatically picks the correct class and sample image)
+// Where is your panel connected?
+// --------------------------------
+	#define DC_PIN 8
+	#define CS_PIN 10
+	#define BUSY_PIN 7
+
+
+// (Example automatically picks the correct class)
 #if     defined USING_DEPG0150BNS810
-            #define     PANEL_CLASS     DEPG0150BNS810      
+	#define     PANEL_CLASS     DEPG0150BNS810  
 #endif
-//----------------------------------------------------------------------
 
 
-//DEMO: Fast Update
-//=================================
-    //Some panels have the ability to perform a "fast update".
-    //If your panel supports it, you can select is as a parameter when calling update()
-    //This feature SHOULD be present in most panels, however is rarely implemented by Heltec
-    //Hopefully future updates will bring wider support
+// DEMO: Fast Mode
+// ------------------
+		// Some panels have the ability to perform a "fast update",
+		// The technical term for this feature is "partial refresh".
+
+		// If your panel supports it, you can select is as a parameter when calling update()
+		// This feature SHOULD be present in most panels, however is rarely implemented by Heltec
+		// Hopefully future updates will bring wider support
 
 #include "heltec-eink-modules.h"
 
-//Loading icon images
+// Loading icon images
+// --------------------
 #include "hourglass_1.h"
 #include "hourglass_2.h"
 #include "hourglass_3.h"
 const unsigned char* hourglasses[] = {hourglass_1_bits, hourglass_2_bits, hourglass_3_bits};
 
-PANEL_CLASS display(DC_PIN, CS_PIN, BUSY_PIN);
+PANEL_CLASS display(DC_PIN, CS_PIN, BUSY_PIN);	// PANEL_CLASS is a shortcut for your display; Line 13
 
-//Shortcuts to save typing
+// Shortcuts to save typing
+// https://github.com/todd-herbert/heltec-eink-modules#code-readability
+// -------------------------
 PANEL_CLASS::Bounds::Full f = display.bounds.full;
 PANEL_CLASS::Bounds::Window w = display.bounds.window;
 PANEL_CLASS::ColorList c = display.colors;
 
 const uint16_t ICON_L = f.centerX() - (hourglass_1_width / 2);
-const uint16_t ICON_T = f.centerY() - (hourglass_1_height / 2) - 15;  //Slightly towards screen top
+const uint16_t ICON_T = f.centerY() - (hourglass_1_height / 2) - 15;  // Slightly towards screen top
 
 const uint16_t SPOTS_W = 100;
 const uint16_t SPOTS_H = 20;
@@ -49,49 +52,80 @@ const uint16_t SPOTS_L = f.centerX() - (SPOTS_W / 2);
 const uint16_t SPOTS_R = f.centerX() + (SPOTS_W / 2);
 
 void setup() {
-  display.begin();
-  display.setDefaultColor(c.WHITE);
-  display.setTextSize(2);
-  display.clear();
+	display.begin();
+	display.setDefaultColor(c.WHITE);
+	display.setTextSize(2);
+	display.clear();
 
-  //A nice little label
-  //========================================
-  while(display.calculating()) {
-    display.setCursor(5, f.bottom() - 15);
-    display.print("Quality: Fast");
-  }
-  display.update(display.quality.FAST);
-
-
-  //Play loading animation, and countdown in corner
-  //=================================
-  display.setTextColor(c.WHITE);
-  for (uint8_t demo = 0; demo < 10; demo++) { //10 times in total
-
-      while(display.calculating(display.region.WINDOWED,  f.left(), f.top(), f.width(), f.height() - 50)) {
-          //Draw a new loading icon from hourglasses[]
-          display.drawXBitmap(  ICON_L, ICON_T, hourglasses[demo % 3], hourglass_1_width, hourglass_1_height, c.BLACK);
-
-          //Draw a square in the corner with a digit
-          display.fillRect(0, 0, 30, 30, c.BLACK);
-          display.setCursor(10, 10);
-          display.print(demo);
-      }
-
-      display.update(display.quality.FAST);
-  }
-
-  //Change the label text
-  display.setTextColor(c.BLACK);
-  while(display.calculating(display.region.WINDOWED,  f.left(), f.bottom() - 15, f.width(), 15)) {
-    display.setCursor(5, f.bottom() - 15);
-    display.print("Quality:Detailed");
-  }
-  display.update(display.quality.FAST); //We're drawing this with fast mode, but will "convert" it next
+	// A nice little label, not in fast-mode
+	// --------------------
+	while(display.calculating()) {
+		display.setCursor(5, f.bottom() - 15);
+		display.print("ON");
+	}
+	display.update();
 
 
-  //Now we will take the time to upgrade the whole display from FAST to DETAILED
-  display.detail();
+	// Play loading animation, and countdown in corner
+	// ------------------------------------------------
+	display.setTextColor(c.WHITE);
+	display.setWindow( f.left(), f.top(), f.width(), f.height() - 50 );	// Don't overwrite the bottom 50px
+	display.setFastmode( display.fastmode.ON );
+
+	for (uint8_t demo = 0; demo <= 9; demo++) { // 10 times in total
+
+		// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		// To exit fast-mode, you must set to fastmode.FINALIZE
+
+		if (demo == 9)
+			display.setFastmode( display.fastmode.FINALIZE );
+
+		// This takes slightly longer than fastmode.ON, but preserves the image when reconfiguring.
+		// Display automatically returns to fastmode.OFF after finalize is complete
+		// Should also be called when changing window dimensions
+		// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+
+		// Drawing operations
+		// --------------------
+		while (display.calculating()) {
+			// Draw a new loading icon from hourglasses[]
+			display.drawXBitmap(  ICON_L, ICON_T, hourglasses[demo % 3], hourglass_1_width, hourglass_1_height, c.BLACK);
+
+			// Draw a square in the corner with a digit
+			display.fillRect(0, 0, 30, 30, c.BLACK);
+			display.setCursor(10, 10);
+			display.print(demo);
+		}
+		// update() is called automatically during fast-mode
+	}
+
+	// Change the label text
+	// ----------------------
+	display.setTextColor(c.BLACK);
+	display.setWindow ( f.left(), f.bottom() - 15, f.width(), 15 );	// Only write to the bottom 15px
+
+	// Straight to FINALIZE
+	// If there was more drawing to do, we might use fastmode.ON, but this is the final operation.
+	// Do not stay in fast-mode longer than required; it may damage the display.
+
+	display.setFastmode( display.fastmode.FINALIZE );
+
+	while(display.calculating()) {
+		display.setCursor(5, f.bottom() - 15);
+		display.print("FINALIZE");
+	}
+
+	// Pause here, and redraw in detail
+	// --------------------------------
+	delay(4000);
+
+	while(display.calculating()) {
+		display.setCursor(5, f.bottom() - 15);
+		display.print("OFF");
+	}
+
+	display.fullscreen();	// Unconvential use of fullscreen() / setWindow(). Tell display we want the WHOLE SCREEN refreshed.
+	display.update();
 }
 
 void loop() {}
