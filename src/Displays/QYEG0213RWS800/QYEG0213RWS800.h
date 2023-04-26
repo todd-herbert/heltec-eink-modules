@@ -67,6 +67,7 @@ class QYEG0213RWS800 : public GFX {
 		void update();
 		bool busy() {return digitalRead(pin_busy);}
 		void clear();
+		void wait();
 
 	private:    // Hardware methods
 		void grabPageMemory();
@@ -75,7 +76,6 @@ class QYEG0213RWS800 : public GFX {
 		void sendCommand(uint8_t command);
 		void sendData(uint8_t data);
 		void reset();
-		void wait();
 		void clearPage(uint16_t bgcolor);
 		void writePage();
 
