@@ -1,25 +1,25 @@
 #include "DEPG0290BNS75A.h"
 
-///Draw a single pixel. 
-///This method is overriden from GFX_Root, and all other drawing methods pass through here
+/// Draw a single pixel. 
+/// This method is overriden from GFX_Root, and all other drawing methods pass through here
 
 void DEPG0290BNS75A::drawPixel(int16_t x, int16_t y, uint16_t color) {
-	//Rotate the pixel
+	// Rotate the pixel
 	int16_t x1, y1;
 	switch(rotation) {
-		case 0:			//No rotation
+		case 0:			// No rotation
 			x1=x;
 			y1=y;
 			break;
-		case 1:			//90deg clockwise
+		case 1:			// 90deg clockwise
 			x1 = (panel_width - 1) - y;
 			y1 = x;
 			break;
-		case 2:			//180deg
+		case 2:			// 180deg
 			x1 = (panel_width - 1) - x;
 			y1 = (panel_height - 1) - y;
 			break;
-		case 3:			//270deg clockwise
+		case 3:			// 270deg clockwise
 			x1 = y;
 			y1 = (panel_height - 1) - x;
 			break;
@@ -28,17 +28,17 @@ void DEPG0290BNS75A::drawPixel(int16_t x, int16_t y, uint16_t color) {
 	x = x1;
 	y = y1;
 
-	//Handle flip
+	// Handle flip
 	if (imgflip & FlipList::HORIZONTAL) {
-		if (rotation % 2)	//If landscape
+		if (rotation % 2)	// If landscape
 			y = (drawing_height - 1) - y;
-		else					//If portrait
+		else					// If portrait
 			x = (drawing_width - 1) - x;
 	}
 	if (imgflip & FlipList::VERTICAL) {
-		if (rotation % 2)	//If landscape
+		if (rotation % 2)	// If landscape
 			x = (drawing_width - 1) - x;
-		else					//If portrait
+		else					// If portrait
 			y = (drawing_height - 1) - y;
 	}
 
@@ -46,40 +46,40 @@ void DEPG0290BNS75A::drawPixel(int16_t x, int16_t y, uint16_t color) {
 	// Casts suppress build warnings	
 	if((uint16_t)x >= winrot_left && (uint16_t)y >= page_top && (uint16_t)y <= page_bottom && (uint16_t)x <= winrot_right) {
 
-		//Calculate a memory location for our pixel
-		//A whole lot of emperically derived "inverting" went on here
-		//The y values of the pixels in each page are inverted, but not the pages themselves
-		//The bit order of the x pixels is inverted, but not the order of the pixels themselves
-		//To top it off, one final inversion is needed in writePage(), but all the nonsense seems to balance out eventually
-		//(This is probably all my fault)
+		// Calculate a memory location for our pixel
+		// A whole lot of emperically derived "inverting" went on here
+		// The y values of the pixels in each page are inverted, but not the pages themselves
+		// The bit order of the x pixels is inverted, but not the order of the pixels themselves
+		// To top it off, one final inversion is needed in writePage(), but all the nonsense seems to balance out eventually
+		// (This is probably all my fault)
 
 		uint16_t memory_location;
 		
 		memory_location = (y - page_top) * ((winrot_right - winrot_left + 1) / 8);
 		memory_location += ((x - winrot_left) / 8);		
-		uint8_t bit_location = x % 8;	//Find the location of the bit in which the value will be stored
-		bit_location = (7 - bit_location);	//For some reason, the screen wants the bit order flipped. MSB vs LSB?
+		uint8_t bit_location = x % 8;	// Find the location of the bit in which the value will be stored
+		bit_location = (7 - bit_location);	// For some reason, the screen wants the bit order flipped. MSB vs LSB?
 
-		//Insert the correct color values into the appropriate location
+		// Insert the correct color values into the appropriate location
 		uint8_t bitmask = ~(1 << bit_location);
 		page_black[memory_location] &= bitmask;
 		page_black[memory_location] |= (color & colors.WHITE) << bit_location;
 	}
 }
 
-///Set the image flip
-///Proceed with caution - Window locations do not flip, but content drawn into them does
+/// Set the image flip
+/// Proceed with caution - Window locations do not flip, but content drawn into them does
 void DEPG0290BNS75A::setFlip(FlipList::Flip flip) {
 	this->imgflip = flip;
 }
 
-///Set the color of the blank canvas, before any drawing is done
-///Note: Function is efficient, but only takes effect at the start of a calculation. At any other time, use fillScreen()
+/// Set the color of the blank canvas, before any drawing is done
+/// Note: Function is efficient, but only takes effect at the start of a calculation. At any other time, use fillScreen()
 void DEPG0290BNS75A::setDefaultColor(uint16_t bgcolor) {
 	default_color = bgcolor;
 }
 
-///Set the text cursor according to the desired upper left corner
+/// Set the text cursor according to the desired upper left corner
 void DEPG0290BNS75A::setCursorTopLeft(const char* text, uint16_t x, uint16_t y) {
 	int16_t offset_x(0), offset_y(0);
 	getTextBounds(text, 0, 0, &offset_x, &offset_y, NULL, NULL);
@@ -89,7 +89,7 @@ void DEPG0290BNS75A::setCursorTopLeft(const char* text, uint16_t x, uint16_t y) 
 uint16_t DEPG0290BNS75A::getTextWidth(const char* text) {
 	int16_t x(0),y(0);
 	uint16_t w(0);
-	getTextBounds(text, 0, 0, &x, &y, &w, NULL);	//Need to keep x and y as they appear to be used internally by getTextBounds()
+	getTextBounds(text, 0, 0, &x, &y, &w, NULL);	// Need to keep x and y as they appear to be used internally by getTextBounds()
 	return w;
 }
 
@@ -102,8 +102,8 @@ uint16_t DEPG0290BNS75A::getTextHeight(const char* text) {
 
 
 
-//Helper methods to find window bounds
-//======================================
+// Helper methods to find window bounds
+// ======================================
 
 uint16_t DEPG0290BNS75A::Bounds::Window::top() {
 	switch (*m_rotation) {
@@ -116,7 +116,7 @@ uint16_t DEPG0290BNS75A::Bounds::Window::top() {
 		case RotationList::PINS_RIGHT:
 			return *edges[L];
 	}
-	return 0;	//Supress error
+	return 0;	// Supress error
 }
 
 uint16_t DEPG0290BNS75A::Bounds::Window::right() {
@@ -130,7 +130,7 @@ uint16_t DEPG0290BNS75A::Bounds::Window::right() {
 		case RotationList::PINS_RIGHT:
 			return (drawing_height - 1) - *edges[T];
 	}
-	return 0;	//Supress error
+	return 0;	// Supress error
 }
 
 uint16_t DEPG0290BNS75A::Bounds::Window::bottom() {
@@ -144,7 +144,7 @@ uint16_t DEPG0290BNS75A::Bounds::Window::bottom() {
 		case RotationList::PINS_RIGHT:
 			return *edges[R];
 	}
-	return 0;	//Supress error
+	return 0;	// Supress error
 }
 
 uint16_t DEPG0290BNS75A::Bounds::Window::left() {
@@ -158,12 +158,12 @@ uint16_t DEPG0290BNS75A::Bounds::Window::left() {
 		case RotationList::PINS_RIGHT:
 			return (drawing_height - 1) - *edges[B];
 	}
-	return 0;	//Supress error
+	return 0;	// Supress error
 }
 
 
-//Font overrides to use bounds.window.left() and bounds.window.right() instead of _width from GFX
-//===============================================================================================
+// Font overrides to use bounds.window.left() and bounds.window.right() instead of _width from GFX
+// ===============================================================================================
 
 // Many (but maybe not all) non-AVR board installs define macros
 // for compatibility with existing PROGMEM-reading AVR code.
@@ -197,7 +197,7 @@ inline GFXglyph *pgm_read_glyph_ptr(const GFXfont *gfxFont, uint8_t c) {
   // platforms (such as STM32) there is no need to do this pointer magic as
   // program memory may be read in a usual way So expression may be simplified
   return gfxFont->glyph + c;
-#endif //__AVR__
+#endif // __AVR__
 }
 
 inline uint8_t *pgm_read_bitmap_ptr(const GFXfont *gfxFont) {
@@ -209,7 +209,7 @@ inline uint8_t *pgm_read_bitmap_ptr(const GFXfont *gfxFont) {
   // as STM32) there is no need to do this pointer magic as program memory may
   // be read in a usual way So expression may be simplified
   return gfxFont->bitmap;
-#endif //__AVR__
+#endif // __AVR__
 }
 
 size_t DEPG0290BNS75A::write(uint8_t c) 

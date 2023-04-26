@@ -1,7 +1,7 @@
-//XBitmap Image used in example: "xbitmap_multicolor.ino"
-//Image description: "apples - black bit values"
+// XBitmap Image used in example: "xbitmap_multicolor.ino"
+// Image description: "apples - black bit values"
 
-//See https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/README.md
+// See https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/README.md
 
 #define apples_black_width 250
 #define apples_black_height 122

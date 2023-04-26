@@ -92,7 +92,7 @@ class QYEG0213RWS800 : public GFX {
 	//      setCursorTopLeft
 	//      getTextWidth
 	//      getTextHeight
-	//
+	// 
 	//      Bounds ->
 	//          Window->
 	//                  Left

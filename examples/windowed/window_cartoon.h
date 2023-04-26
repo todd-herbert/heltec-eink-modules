@@ -1,10 +1,10 @@
-//XBitmap Image used in example: "windowed.ino"
-//Image description: "cartoon window"
+// XBitmap Image used in example: "windowed.ino"
+// Image description: "cartoon window"
 
-//See https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/README.md
+// See https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/README.md
 
-//Source image by Arek Socha
-//https://pixabay.com/users/qimono-1962238/
+// Source image by Arek Socha
+// https://pixabay.com/users/qimono-1962238/
 
 #define window_cartoon_width 139
 #define window_cartoon_height 100

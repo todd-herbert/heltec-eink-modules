@@ -64,7 +64,7 @@ void setup() {
 
 
 	// Graphics GO!
-	// ==============================================
+	// -------------
 
 	while( display.calculating() ) {
 

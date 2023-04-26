@@ -1,8 +1,8 @@
-//Sample set of raw bitmap data
-//Used with example "bitmap_data.ino"
+// Sample set of raw bitmap data
+// Used with example "bitmap_data.ino"
 
-//Image description: container of pencils
-//Generated with https://lvgl.io/tools/imageconverter
+// Image description: container of pencils
+// Generated with https://lvgl.io/tools/imageconverter
 
 #define pencils_width 250
 #define pencils_height 122

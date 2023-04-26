@@ -1,7 +1,7 @@
-//XBitmap Image used in example: "fast_mode.ino"
-//Image description: "loading symbol - hourglass"
+// XBitmap Image used in example: "fast_mode.ino"
+// Image description: "loading symbol - hourglass"
 
-//See https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/README.md
+// See https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/README.md
 
 #define hourglass_1_width 70
 #define hourglass_1_height 100

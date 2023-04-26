@@ -1,7 +1,7 @@
-//XBitmap Image used in example: "xbitmap_bw.ino"
-//Image description: "chessboard"
+// XBitmap Image used in example: "xbitmap_bw.ino"
+// Image description: "chessboard"
 
-//See https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/README.md
+// See https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/README.md
 
 #define chess_width 200
 #define chess_height 200

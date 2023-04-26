@@ -105,7 +105,7 @@ class DEPG0290BNS75A : public GFX {
     //      setCursorTopLeft
     //      getTextWidth
     //      getTextHeight
-    //
+    // 
     //      Bounds ->
     //          Window->
     //                  Left

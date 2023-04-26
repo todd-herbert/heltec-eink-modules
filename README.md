@@ -96,22 +96,22 @@ Make sure to specify the location of your *D/C, CS* and *BUSY* pins in the const
 ```c++
 #include "heltec-eink-modules.h"
 
-//Use the correct class for your display
+// Use the correct class for your display
 DEPG0150BNS810 display(/* DC PIN */  8, /* CS PIN */  10, /* BUSY PIN */ 7);
 
 void setup() {
-	//Get everything ready
+	// Get everything ready
 	display.begin();
 	
-	//All drawing commands go intside this WHILE
+	// All drawing commands go intside this WHILE
 	while ( display.calculating() ) {
-		//================================
-		//Graphics commands here
-		//For example:
+		// ================================
+		// Graphics commands here
+		// For example:
 		display.fillCircle(50, 100, 20, display.colors.RED);
-		//================================
+		// ================================
 	}
-		//Draw this new image to the display
+		// Draw this new image to the display
 		display.update();
 }
 
@@ -180,7 +180,7 @@ If you need a hint on how to use it, I have thrown together a [tutorial on prepa
 ### Pins
 
 ```c++
-//Make sure to use the correct class for your display model
+// Make sure to use the correct class for your display model
 DEPG0150BNS810 display(dc, cs, busy);	
 ```
 
@@ -191,10 +191,10 @@ Pass the Arduino digital pin numbers where the *D/C*, *CS*, and *BUSY* pins from
 It is possible to change the *speed vs. memory* tradeoff while calling `.begin()`.
 
 ```c++
-display.begin(display.pageSize.TINY); 	//100kb of SRAM, 5% of total (Arduino UNO)
-display.begin(display.pageSize.SMALL); 	//250kb of SRAM, 12.5% of total (Arduino UNO)
-display.begin(display.pageSize.MEDIUM); //500kb of SRAM, 25% of total (Arduino UNO)
-display.begin(display.pageSize.LARGE); 	//1000kb of SRAM, 50% of total (Arduino UNO)
+display.begin(display.pageSize.TINY); 	// 100kb of SRAM, 5% of total (Arduino UNO)
+display.begin(display.pageSize.SMALL); 	// 250kb of SRAM, 12.5% of total (Arduino UNO)
+display.begin(display.pageSize.MEDIUM); // 500kb of SRAM, 25% of total (Arduino UNO)
+display.begin(display.pageSize.LARGE); 	// 1000kb of SRAM, 50% of total (Arduino UNO)
 ```
 
 If `begin()` is called with no parameters, `.pageSize.MEDIUM` is selected.
@@ -249,8 +249,8 @@ display.setWindow( LEFT, TOP, WIDTH, HEIGHT );
 
 while( display.calculating() )
 {
-	//Graphics commands go here e.g
-	//display.drawRect(0, 0, 100, 100, display.colors.BLACK);
+	// Graphics commands go here e.g
+	// display.drawRect(0, 0, 100, 100, display.colors.BLACK);
 }
 display.update();
 ```
@@ -323,11 +323,11 @@ display.drawRect(	display.bounds.window.left(),
 As an alternative, declaring reusable "shortcuts" at the start of the code can really cut down on a lot of the bloat:
 
 ```c++
-//Ugly mess here but
+// Ugly mess here but
 DEPG0150BNS810::Bounds::Window w = display.bounds.window;
 DEPG0150BNS810::ColorList c = display.colors;
 		
-//Nice & clean here
+// Nice & clean here
 display.drawRect( w.left(), w.top(), w.width(), w.height(), c.BLACK );
 ```
 

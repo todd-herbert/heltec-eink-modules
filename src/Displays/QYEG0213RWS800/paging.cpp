@@ -23,10 +23,10 @@ void QYEG0213RWS800::setWindow(uint8_t left, uint8_t top, uint8_t width, uint8_t
 	switch (rotation) {
 		case 0:
 			winrot_left = window_left;
-			winrot_left = winrot_left - (winrot_left % 8);	//Expand box on left to fit contents
+			winrot_left = winrot_left - (winrot_left % 8);	// Expand box on left to fit contents
 
 			winrot_right = winrot_left + 7;
-			while(winrot_right < window_right) winrot_right += 8;	//Iterate until box includes the byte where our far-left bit lives
+			while(winrot_right < window_right) winrot_right += 8;	// Iterate until box includes the byte where our far-left bit lives
 
 			winrot_top = window_top;
 			winrot_bottom = window_bottom;
@@ -34,10 +34,10 @@ void QYEG0213RWS800::setWindow(uint8_t left, uint8_t top, uint8_t width, uint8_t
 
 		case 1:
 			winrot_left = (drawing_width - 1) - window_bottom;
-			winrot_left = winrot_left - (winrot_left % 8);	//Expand box on left to fit contents
+			winrot_left = winrot_left - (winrot_left % 8);	// Expand box on left to fit contents
 
 			winrot_right = winrot_left + 7;
-			while(winrot_right < (drawing_width - 1) - window_top) winrot_right += 8;	//Iterate until box includes the byte where our far-left bit lives
+			while(winrot_right < (drawing_width - 1) - window_top) winrot_right += 8;	// Iterate until box includes the byte where our far-left bit lives
 
 			winrot_top = window_left;
 			winrot_bottom = window_right;
@@ -45,10 +45,10 @@ void QYEG0213RWS800::setWindow(uint8_t left, uint8_t top, uint8_t width, uint8_t
 
 		case 2:	
 			winrot_left = (drawing_width - 1) - window_right;
-			winrot_left = winrot_left - (winrot_left % 8);	//Expand box on left to fit contents
+			winrot_left = winrot_left - (winrot_left % 8);	// Expand box on left to fit contents
 
 			winrot_right = winrot_left + 7;
-			while(winrot_right < (drawing_width - 1) - window_left) winrot_right += 8;	//Iterate until box includes the byte where our far-left bit lives
+			while(winrot_right < (drawing_width - 1) - window_left) winrot_right += 8;	// Iterate until box includes the byte where our far-left bit lives
 
 			winrot_bottom = (drawing_height - 1) - window_top;
 			winrot_top = (drawing_height - 1) - window_bottom;
@@ -58,10 +58,10 @@ void QYEG0213RWS800::setWindow(uint8_t left, uint8_t top, uint8_t width, uint8_t
 		
 		case 3:
 			winrot_left = window_top;
-			winrot_left = winrot_left - (winrot_left % 8);	//Expand box on left to fit contents
+			winrot_left = winrot_left - (winrot_left % 8);	// Expand box on left to fit contents
 
 			winrot_right = winrot_left + 7;
-			while(winrot_right < window_bottom) winrot_right += 8;	//Iterate until box includes the byte where our far-left bit lives
+			while(winrot_right < window_bottom) winrot_right += 8;	// Iterate until box includes the byte where our far-left bit lives
 
 			winrot_top = (drawing_height - 1) - window_right;
 			winrot_bottom = (drawing_height - 1) - window_left;
@@ -78,7 +78,7 @@ bool QYEG0213RWS800::calculating() {
 
 	// Beginning of first loop
 	// Lay a bunch of ground work, before we get any real image data in
-	// ==================================
+	// ------------------------------------------------------------------
 	if (page_cursor == 0) {
 
 		// Limit window to panel 
@@ -105,7 +105,7 @@ bool QYEG0213RWS800::calculating() {
 	}
 
 	// End of each loop
-	// ===============
+	// -----------------
 	else {
 		// Check if the last page contained any part of the window
 		if (!(winrot_bottom < page_top || winrot_top > page_bottom))
@@ -119,7 +119,7 @@ bool QYEG0213RWS800::calculating() {
 	}
 
 	// Check whether loop should continue
-	// =============
+	// ----------------------------------
 	if (page_top > winrot_bottom) {
 		page_cursor = 0; // Reset for next time
 		freePageMemory();
