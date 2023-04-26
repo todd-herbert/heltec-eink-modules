@@ -3,8 +3,6 @@
 
 # Heltec E-Ink Modules
 
-## Notice: Breaking Changes are Imminent
-
 Third-party Arduino Library for **Heltec E-Ink Module** displays.
 Supports run-time graphics and text generation using Adafruit-GFX (via [ZinggJM/GFX_Root](https://github.com/ZinggJM/GFX_Root))
 
