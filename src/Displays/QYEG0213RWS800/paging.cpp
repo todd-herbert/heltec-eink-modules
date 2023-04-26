@@ -93,9 +93,9 @@ bool QYEG0213RWS800::calculating() {
 			if (window_bottom >= panel_height - 1)		window_bottom = panel_height - 1;
 		}
 
-		grabPageMemory();							// Dynamically grab the page memory. TODO: Compile-time option for static memory?
+		grabPageMemory();				// Dynamically grab the page memory. TODO: Compile-time option for static memory?
 		clearPage(default_color);
-		reset();										// If panel is asleep, Wake to receive SPI image data.
+		reset();						// If panel is asleep, Wake to receive SPI image data.
 
 		page_top = winrot_top;											// Minimum (topmost) y-value for this paging operation
 		page_bottom = (winrot_top + page_profile.height) - 1;

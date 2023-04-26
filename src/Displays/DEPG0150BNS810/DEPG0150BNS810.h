@@ -46,8 +46,6 @@ class DEPG0150BNS810 : public GFX {
         static struct FlipList{enum Flip{NONE = 0, HORIZONTAL=1, VERTICAL=2}; } flip;
         static struct ColorList{enum Colors{BLACK = 0, WHITE = 1}; } colors;
         static struct FastmodeList{enum Fastmode{OFF = 0, ON = 1, FINALIZE = 2}; } fastmode;
-        //static struct RegionList {enum Region{FULLSCREEN = 0, WINDOWED = 1}; } region;
-        //static struct QualityList{enum Quality{DETAILED = 0, FAST = 1}; } quality;    //TODO: implement UNPAGED = 2
         static struct RotationList {enum Rotations{PINS_ABOVE = 0, PINS_LEFT=1, PINS_BELOW = 2, PINS_RIGHT = 3};} orientation;  //NB: member is "orientation", as GFX::rotation already exists //TODO:rename
   
         struct PageProfile {
@@ -153,7 +151,10 @@ class DEPG0150BNS810 : public GFX {
                     //Reference dimensions for windows
                     class Window {
                         public:
-                           //TODO: add a precalculation for early value calculation 
+                            //TODO: calculate window boundaries early to facilitate user layout calculation
+                            //  --- problematic interplay with setRotation() method
+
+                            //TODO: Bounds.Window subclass with info about "Requested Bounds" vs "Actual Bounds"
 
                             uint8_t top();
                             uint8_t right();
