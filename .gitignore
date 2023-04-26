@@ -6,4 +6,5 @@ test
 platformio.ini
 src/main.cpp
 src/Debug*
-excluded/*
+excluded
+*.bak

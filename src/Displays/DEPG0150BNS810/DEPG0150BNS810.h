@@ -3,8 +3,8 @@
 #include "GFX_Root/GFX.h"
 
 ///Heltec 1.54" V2
-///Declaration: Heltec_154_V2(  d/c pin  , cs pin , busy pin )
-class Heltec_154_V2 : public GFX {
+///Declaration: DEPG0150BNS810(  d/c pin  , cs pin , busy pin )
+class DEPG0150BNS810 : public GFX {
 
     //Consts
     //===================
@@ -13,11 +13,11 @@ class Heltec_154_V2 : public GFX {
         const SPISettings spi_settings = SPISettings(200000, MSBFIRST, SPI_MODE0);
         static const int16_t panel_width = 200;
         static const int16_t panel_height = 200;
-        static const int16_t drawing_width = 200; 
+        static const int16_t drawing_width = 200;   // Redundant for this display, handles odd resolutions. 
         static const int16_t drawing_height = 200;
 
         //From Heltec, contains all the tricky electronicy setting stuff to allow partial refreshes.
-        const unsigned char waveform_partial[159] = {
+        const unsigned char lut_partial[159] = {
             0x0,0x40,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,
             0x80,0x80,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,
             0x40,0x40,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,
@@ -45,9 +45,8 @@ class Heltec_154_V2 : public GFX {
     public:
         static struct FlipList{enum Flip{NONE = 0, HORIZONTAL=1, VERTICAL=2}; } flip;
         static struct ColorList{enum Colors{BLACK = 0, WHITE = 1}; } colors;
-        static struct RegionList {enum Region{FULLSCREEN = 0, WINDOWED = 1}; } region;
-        static struct QualityList{enum Quality{DETAILED = 0, FAST = 1}; } quality;    //TODO: implement UNPAGED = 2
-        static struct RotationList {enum Rotations{PINS_ABOVE = 0, PINS_LEFT=1, PINS_BELOW = 2, PINS_RIGHT = 3};} orientation;  //NB: member is "orientation", as GFX::rotation already exists
+        static struct FastmodeList{enum Fastmode{OFF = 0, ON = 1, FINALIZE = 2}; } fastmode;
+        static struct RotationList {enum Rotations{PINS_ABOVE = 0, PINS_LEFT=1, PINS_BELOW = 2, PINS_RIGHT = 3};} orientation;  //NB: member is "orientation", as GFX::rotation already exists //TODO:rename
   
         struct PageProfile {
             uint16_t height;
@@ -70,7 +69,7 @@ class Heltec_154_V2 : public GFX {
     public:
         //Constructor
         //Have to initialize because of GFX class
-        Heltec_154_V2( uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy) : GFX(panel_width, panel_height),
+        DEPG0150BNS810( uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy) : GFX(panel_width, panel_height),
                                                                                 pin_dc(pin_dc), 
                                                                                 pin_cs(pin_cs), 
                                                                                 pin_busy(pin_busy)
@@ -88,21 +87,14 @@ class Heltec_154_V2 : public GFX {
 
         //Paging and Hardware methods
         void begin() {begin(pageSize.MEDIUM);}
-        void begin(PageProfile page_size, void (*wake_callback)(void) = NULL, void (*sleep_callback)(void) = NULL);
-        bool calculating(RegionList::Region update_region, uint8_t left, uint8_t top, uint8_t width, uint8_t height);
-        bool calculating(RegionList::Region update_region = region.FULLSCREEN);
-        void update(QualityList::Quality update_quality = quality.DETAILED,  bool blocking = true);
-        void detail();
+        void begin(PageProfile page_size);
+        void fullscreen();
+        void setWindow(uint8_t left, uint8_t top, uint8_t width, uint8_t height);
+        void setFastmode(FastmodeList::Fastmode mode);
+        bool calculating();
+        void update() { update(false); }
         bool busy() {return digitalRead(pin_busy);}
         void clear();
-
-        //Added drawing tool methods
-        int16_t height(void) const {return rotation % 2 ? drawing_width : drawing_height;}
-        int16_t width(void) const {return rotation % 2 ? drawing_height : drawing_width;}
-        int16_t right(void) const {return width() - 1;}
-        int16_t bottom(void) const {return height() - 1;}
-        int16_t centerX(void) const {return (width() / 2) - 1;}
-        int16_t centerY(void) const {return (height() / 2) - 1;}
 
     private:    //Hardware methods
         void grabPageMemory();
@@ -110,22 +102,11 @@ class Heltec_154_V2 : public GFX {
 
         void sendCommand(uint8_t command);
         void sendData(uint8_t data);
-        void wake();
+        void reset();
         void wait();
-        void setModeFull();
-        void setModePartial();
+        void update(bool override_checks);
         void clearPage(uint16_t bgcolor);
         void writePage();
-
-    private:   //Screen-mode specific methods
-        bool calculating_Fullscreen();
-        bool calculating_Windowed();
-
-        void drawPixel_Fullscreen(int16_t x, int16_t y, uint16_t color);
-        void drawPixel_Windowed(int16_t x, int16_t y, uint16_t color);
-
-        void writePage_Fullscreen();
-        void writePage_Windowed();
 
     private:    //Deleted methods
         using GFX::drawGrayscaleBitmap;
@@ -136,6 +117,7 @@ class Heltec_154_V2 : public GFX {
 
     //==================================
     //  Messy, here is current structure:
+    //      setFlip
     //      setCursorTopLeft
     //      getTextWidth
     //      getTextHeight
@@ -169,15 +151,18 @@ class Heltec_154_V2 : public GFX {
                     //Reference dimensions for windows
                     class Window {
                         public:
-                           //TODO: add a precalculation for early value calculation 
+                            //TODO: calculate window boundaries early to facilitate user layout calculation
+                            //  --- problematic interplay with setRotation() method
+
+                            //TODO: Bounds.Window subclass with info about "Requested Bounds" vs "Actual Bounds"
 
                             uint8_t top();
                             uint8_t right();
                             uint8_t bottom();
                             uint8_t left();
 
-                            uint8_t width() {return right() - left();}
-                            uint8_t height() {return bottom() - top();}
+                            uint8_t width() {return right() - left() + 1;}
+                            uint8_t height() {return bottom() - top() + 1;}
 
                             uint8_t centerX() {return right() - (width() / 2);}
                             uint8_t centerY() {return bottom() - (height() / 2);}
@@ -201,12 +186,12 @@ class Heltec_154_V2 : public GFX {
                     class Full {
                         public:
                             uint8_t left() {return 0;}
-                            uint8_t right() {return ((*rotation % 2) ? drawing_height : drawing_width) - 1;}   //Width if portrait, height if landscape
+                            uint8_t right() {return width() - 1;}   
                             uint8_t top() {return 0;}
-                            uint8_t bottom() {return ((*rotation % 2) ? drawing_width : drawing_height) - 1;}  //Height if portrait, width if landscape
+                            uint8_t bottom() {return height() - 1;}
 
-                            uint8_t width() {return right();}
-                            uint8_t height() {return bottom();}
+                            uint8_t width() {return ((*rotation % 2) ? drawing_height : drawing_width);} //Width if portrait, height if landscape
+                            uint8_t height() {return ((*rotation % 2) ? drawing_width : drawing_height);}
 
                             uint8_t centerX() {return (right() / 2);}
                             uint8_t centerY() {return (bottom() / 2);}
@@ -231,11 +216,9 @@ class Heltec_154_V2 : public GFX {
     private:
         uint8_t pin_dc, pin_cs, pin_busy;
 
-        void (*wake_callback)(void);
-        void (*sleep_callback)(void);
-
         uint16_t default_color = colors.WHITE;
         FlipList::Flip imgflip = FlipList::NONE;
+        FastmodeList::Fastmode mode = FastmodeList::OFF;
 
         //Paging
         PageProfile page_profile;
@@ -247,7 +230,8 @@ class Heltec_154_V2 : public GFX {
         uint8_t page_top, page_bottom;  //Counters
 
         //Mode settings
-        RegionList::Region update_region;
+        enum Region{FULLSCREEN = 0, WINDOWED = 1} region=FULLSCREEN;
         uint8_t window_left, window_top, window_right, window_bottom;
         uint8_t winrot_left, winrot_top, winrot_right, winrot_bottom;   //Window boundaries in reference frame of rotation(0)
+        bool first_pass = true;
 };

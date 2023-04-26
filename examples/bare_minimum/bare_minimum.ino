@@ -1,27 +1,35 @@
-//DEMO: A bare minimum example - one big ol' spot
-//================================================
-
 #include "heltec-eink-modules.h"
 
-//Pick your panel:	(uncomment one)
+// Define your pins:
+// ------------------
 
-	//Heltec_154_V2	display(/* DC PIN */  8, /* CS PIN */  10, /* BUSY PIN */ 7);
+// ( DO NOT connect pins directly to display )
+// See https://github.com/todd-herbert/heltec-eink-modules#wiring
 
-	//Heltec_213Red_V2 display(/* DC PIN */  8, /* CS PIN */  10, /* BUSY PIN */ 7);
+    #define PIN_BUSY    7
+    #define PIN_CS      10
+    #define PIN_DC      8
 
-	//Heltec_290_V2 display(/* DC PIN */  8, /* CS PIN */  10, /* BUSY PIN */ 7);
+
+// Pick your panel:	(uncomment one)
+// ---------------------------------
+
+	// DEPG0150BNS810 display( PIN_DC, PIN_CS, PIN_BUSY );		// 1.54" V2 - BW
+	// QYEG0213RWS800 display( PIN_DC, PIN_CS, PIN_BUSY );		// 2.13" V2 - BWR
+    // DEPG0290BNS75A display( PIN_DC, PIN_CS, PIN_BUSY );		// 2.9"  V2 - BW
+
+
+// DEMO: A bare minimum example - one big ol' spot 
+// ------------------------------------------------
 
 void setup() {
-	//Get everything ready
+
 	display.begin();
-	
-	//All drawing commands go inside this WHILE
+
 	while ( display.calculating() ) {
-		//For example:
 		display.fillCircle(50, 100, 20, display.colors.BLACK);
 	}
 
-	//The display will only begin to change once update() is called
 	display.update();
 }
 

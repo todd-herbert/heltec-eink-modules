@@ -1,53 +1,99 @@
-#include "Heltec_290_V2_BLUETAB.h"
+#include "DEPG0290BNS75A.h"
 
 ///Draw a single pixel. 
 ///This method is overriden from GFX_Root, and all other drawing methods pass through here
-void Heltec_290_V2_BLUETAB::drawPixel(int16_t x, int16_t y, uint16_t color) {
-	if (update_region == region.FULLSCREEN)
-		return drawPixel_Fullscreen(x, y, color);
-	else //if windowed
-		return drawPixel_Windowed(x, y, color);
+
+void DEPG0290BNS75A::drawPixel(int16_t x, int16_t y, uint16_t color) {
+	//Rotate the pixel
+	int16_t x1, y1;
+	switch(rotation) {
+		case 0:			//No rotation
+			x1=x;
+			y1=y;
+			break;
+		case 1:			//90deg clockwise
+			x1 = (panel_width - 1) - y;
+			y1 = x;
+			break;
+		case 2:			//180deg
+			x1 = (panel_width - 1) - x;
+			y1 = (panel_height - 1) - y;
+			break;
+		case 3:			//270deg clockwise
+			x1 = y;
+			y1 = (panel_height - 1) - x;
+			break;
+	}
+
+	x = x1;
+	y = y1;
+
+	//Handle flip
+	if (imgflip & FlipList::HORIZONTAL) {
+		if (rotation % 2)	//If landscape
+			y = (drawing_height - 1) - y;
+		else					//If portrait
+			x = (drawing_width - 1) - x;
+	}
+	if (imgflip & FlipList::VERTICAL) {
+		if (rotation % 2)	//If landscape
+			x = (drawing_width - 1) - x;
+		else					//If portrait
+			y = (drawing_height - 1) - y;
+	}
+
+	// Check if pixel falls in our page
+	// Casts suppress build warnings	
+	if((uint16_t)x >= winrot_left && (uint16_t)y >= page_top && (uint16_t)y <= page_bottom && (uint16_t)x <= winrot_right) {
+
+		//Calculate a memory location for our pixel
+		//A whole lot of emperically derived "inverting" went on here
+		//The y values of the pixels in each page are inverted, but not the pages themselves
+		//The bit order of the x pixels is inverted, but not the order of the pixels themselves
+		//To top it off, one final inversion is needed in writePage(), but all the nonsense seems to balance out eventually
+		//(This is probably all my fault)
+
+		uint16_t memory_location;
+		
+		memory_location = (y - page_top) * ((winrot_right - winrot_left + 1) / 8);
+		memory_location += ((x - winrot_left) / 8);		
+		uint8_t bit_location = x % 8;	//Find the location of the bit in which the value will be stored
+		bit_location = (7 - bit_location);	//For some reason, the screen wants the bit order flipped. MSB vs LSB?
+
+		//Insert the correct color values into the appropriate location
+		uint8_t bitmask = ~(1 << bit_location);
+		page_black[memory_location] &= bitmask;
+		page_black[memory_location] |= (color & colors.WHITE) << bit_location;
+	}
 }
 
 ///Set the image flip
 ///Proceed with caution - Window locations do not flip, but content drawn into them does
-void Heltec_290_V2_BLUETAB::setFlip(FlipList::Flip flip) {
+void DEPG0290BNS75A::setFlip(FlipList::Flip flip) {
 	this->imgflip = flip;
 }
 
-
 ///Set the color of the blank canvas, before any drawing is done
 ///Note: Function is efficient, but only takes effect at the start of a calculation. At any other time, use fillScreen()
-void Heltec_290_V2_BLUETAB::setDefaultColor(uint16_t bgcolor) {
+void DEPG0290BNS75A::setDefaultColor(uint16_t bgcolor) {
 	default_color = bgcolor;
 }
 
-
-
-///Clear the data arrays in between pages
-void Heltec_290_V2_BLUETAB::clearPage(uint16_t bgcolor) {
-	for (uint16_t i = 0; i < page_bytecount; i++) {
-		uint8_t black_byte = (bgcolor & colors.WHITE) * 255;	//We're filling in bulk here; bits are either all on or all off
-		page_black[i] = black_byte;
-	}
-}
-
-
 ///Set the text cursor according to the desired upper left corner
-void Heltec_290_V2_BLUETAB::setCursorTopLeft(const char* text, uint16_t x, uint16_t y) {
+void DEPG0290BNS75A::setCursorTopLeft(const char* text, uint16_t x, uint16_t y) {
 	int16_t offset_x(0), offset_y(0);
 	getTextBounds(text, 0, 0, &offset_x, &offset_y, NULL, NULL);
 	setCursor(x - offset_x, y - offset_y);
 }
 
-uint16_t Heltec_290_V2_BLUETAB::getTextWidth(const char* text) {
+uint16_t DEPG0290BNS75A::getTextWidth(const char* text) {
 	int16_t x(0),y(0);
 	uint16_t w(0);
 	getTextBounds(text, 0, 0, &x, &y, &w, NULL);	//Need to keep x and y as they appear to be used internally by getTextBounds()
 	return w;
 }
 
-uint16_t Heltec_290_V2_BLUETAB::getTextHeight(const char* text) {
+uint16_t DEPG0290BNS75A::getTextHeight(const char* text) {
 	int16_t x(0),y(0);
 	uint16_t h(0);
 	getTextBounds(text, 0, 0, &x, &y, NULL, &h);
@@ -59,58 +105,58 @@ uint16_t Heltec_290_V2_BLUETAB::getTextHeight(const char* text) {
 //Helper methods to find window bounds
 //======================================
 
-uint16_t Heltec_290_V2_BLUETAB::Bounds::Window::top() {
+uint16_t DEPG0290BNS75A::Bounds::Window::top() {
 	switch (*m_rotation) {
 		case RotationList::PINS_ABOVE:
 			return *edges[T];
 		case RotationList::PINS_LEFT:
-			return (drawing_width) - *edges[R];
+			return (drawing_width - 1) - *edges[R];
 		case RotationList::PINS_BELOW:
-			return (drawing_height) - *edges[B];
+			return (drawing_height - 1) - *edges[B];
 		case RotationList::PINS_RIGHT:
 			return *edges[L];
 	}
 	return 0;	//Supress error
 }
 
-uint16_t Heltec_290_V2_BLUETAB::Bounds::Window::right() {
+uint16_t DEPG0290BNS75A::Bounds::Window::right() {
 	switch (*m_rotation) {
 		case RotationList::PINS_ABOVE:
 			return *edges[R];
 		case RotationList::PINS_LEFT:
-			return *edges[B];
+			return *edges[B] - 1;
 		case RotationList::PINS_BELOW:
-			return (drawing_width) - *edges[L];
+			return (drawing_width - 1) - *edges[L];
 		case RotationList::PINS_RIGHT:
-			return (drawing_height) - *edges[T];
+			return (drawing_height - 1) - *edges[T];
 	}
 	return 0;	//Supress error
 }
 
-uint16_t Heltec_290_V2_BLUETAB::Bounds::Window::bottom() {
+uint16_t DEPG0290BNS75A::Bounds::Window::bottom() {
 	switch (*m_rotation) {
 		case RotationList::PINS_ABOVE:
 			return *edges[B];
 		case RotationList::PINS_LEFT:
-			return (drawing_width) - *edges[L];
+			return (drawing_width - 1) - *edges[L];
 		case RotationList::PINS_BELOW:
-			return (drawing_height) - *edges[T];
+			return (drawing_height - 1) - *edges[T];
 		case RotationList::PINS_RIGHT:
 			return *edges[R];
 	}
 	return 0;	//Supress error
 }
 
-uint16_t Heltec_290_V2_BLUETAB::Bounds::Window::left() {
+uint16_t DEPG0290BNS75A::Bounds::Window::left() {
 	switch (*m_rotation) {
 		case RotationList::PINS_ABOVE:
 			return *edges[L];
 		case RotationList::PINS_LEFT:
 			return *edges[T];
 		case RotationList::PINS_BELOW:
-			return (drawing_width) - *edges[R];
+			return (drawing_width - 1) - *edges[R];
 		case RotationList::PINS_RIGHT:
-			return (drawing_height) - *edges[B];
+			return (drawing_height - 1) - *edges[B];
 	}
 	return 0;	//Supress error
 }
@@ -166,7 +212,7 @@ inline uint8_t *pgm_read_bitmap_ptr(const GFXfont *gfxFont) {
 #endif //__AVR__
 }
 
-size_t Heltec_290_V2_BLUETAB::write(uint8_t c) 
+size_t DEPG0290BNS75A::write(uint8_t c) 
 {
   if (!gfxFont) { // 'Classic' built-in font
 
@@ -213,7 +259,7 @@ size_t Heltec_290_V2_BLUETAB::write(uint8_t c)
   return 1;
 }
 
-void Heltec_290_V2_BLUETAB::charBounds(unsigned char c, int16_t *x, int16_t *y, int16_t *minx, int16_t *miny, int16_t *maxx, int16_t *maxy) 
+void DEPG0290BNS75A::charBounds(unsigned char c, int16_t *x, int16_t *y, int16_t *minx, int16_t *miny, int16_t *maxx, int16_t *maxy) 
 {
 
   if (gfxFont) {
