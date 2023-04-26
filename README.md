@@ -5,11 +5,6 @@
 
 ## Notice: Breaking Changes are Imminent
 
-Version 2 is under active development, and will shortly be released. In preparation for the support of additional displays, a number of small, but *breaking* changes will be made. A prospective list can be found [on the dev branch](https://github.com/todd-herbert/heltec-eink-modules/blob/dev/TRANSITIONING.md).
-
-___
-<br />
-
 Third-party Arduino Library for **Heltec E-Ink Module** displays.
 Supports run-time graphics and text generation using Adafruit-GFX (via [ZinggJM/GFX_Root](https://github.com/ZinggJM/GFX_Root))
 
