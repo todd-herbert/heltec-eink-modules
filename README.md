@@ -31,7 +31,7 @@ Most importantly, it is the what allows the *Arduino Uno* to work with these dis
 
 This list is likely to grow with time.
 
-Heltec seem to release multiple, incompatible versions of the same display, which can appear superficially similar. In this library, displays are identified by the *model of the panel*. Unfortunately, the displays are not marked with this information. See (TODO: link ID)
+Heltec seem to release multiple, incompatible versions of the same display, which can appear superficially similar. In this library, displays are identified by the *model of the panel*. Unfortunately, the displays are not marked with this information. See [identification](#identifying-your-display)
 
 Despite my best efforts I have been unable to source any of the older models, so if you have purchased your display in the last few years, it would seem likely that you have a V2 display.
 
@@ -41,16 +41,16 @@ Despite my best efforts I have been unable to source any of the older models, so
 |	QYEG0213RWS800	|	2.13 Inch E-ink Display V2	|	Black, White, Red	|	No			|
 |	DEPG0290BNS75A	|	2.9  Inch E-ink Display V2	|	Black, White		|	No			|
 
-
 ## Identifying your display
 It can be a challenge determining exactly which display you have. This key is not definitive, but lists identifying details I have noticed so far.
-TODO: change image links
 
 |	Model Name  		|	Rear Label					|	Colors				|	Screen Protector	|	Flex Connector Label	|Front|Rear|
 |-----------------------|-------------------------------|-----------------------|-----------------------|---------------------------|:---:|:---:|
 |	**DEPG0150BNS810**	|	1.54 Inch E-ink Display V2	|	Black, White		|	Red Tab				|	FPC-8101				|	![Front](docs/Identification/DEPG0150BNS810-Front.jpg) | ![Rear](docs/Identification/DEPG0150BNS810-Rear.jpg)
 |	**QYEG0213RWS800**	|	2.13 Inch E-ink Display V2	|	Black, White, Red	|	Red Tab				|	FPC-7528				|	![Front](docs/Identification/QYEG0213RWS800-Front.png) | ![Rear](docs/Identification/QYEG0213RWS800-Rear.png)
 |	**DEPG0290BNS75A**	|	2.9  Inch E-ink Display V2	|	Black, White		|	Red Tab				|	FPC-750					|	![Front](docs/Identification/DEPG0290BNS75A-Front.jpg) | ![Rear](docs/Identification/DEPG0290BNS75A-Rear.jpg)
+
+**Note**: DEPG0290BNS75A has a close relative, DEPG0290BNS800. I don't believe that I have yet encountered this panel. It is not currently supported, and based on Heltec's description, the two may be easily confused. Watch this space.
 
 ## Wiring
 
@@ -199,13 +199,12 @@ display.begin(display.pageSize.LARGE); 	//1000kb of SRAM, 50% of total (Arduino 
 
 If `begin()` is called with no parameters, `.pageSize.MEDIUM` is selected.
 
-With `begin()`, it is also possible to set two callback functions, wake and sleep. This brings us to..
 
 ### Power Management ###
 
 Many E-Ink displays are able to enter a "deep sleep" power-saving mode. With the *Heltec Modules*, this is technically possible, however the reset pin on the controller IC has not been broken out, meaning that there is no easy way to wake the display without cycling power.
 
-An alternative powersaving technique is to physically remove power from your display. An example is shown here, using a PNP transistor:
+An alternative power-saving technique is to physically remove power from your display. An example is shown here, using a PNP transistor:
 
 ![voltage-divider example](docs/pnp_example.png)
 
@@ -260,15 +259,14 @@ Be aware that, due to hardware limitations of the displays, windows may only be 
 
 It is possible to place a window so that it will have precisely the requested dimensions, however this is not strictly required as the library will automatically expand the window until it both satisfies the hardware limitations, and is large enough to encompass the requested region.
 
-This automatic expansion can lead to a border around your graphics. One way to work around this issue is to use the dimensions calculated in `.bounds.window.*` (see [drawing](#drawing)). 
+This automatic expansion can lead to a border around your graphics. One way to work around this issue is to use the dimensions calculated in `.bounds.window.*` (see [drawing](#drawing-commands)). 
 
 ```c++
 display.drawRect(	display.bounds.window.left(),
-					display.bounds.window.top(), 
-					display.bounds.window.width(),
-					display.bounds.window.height(), 
-					display.colors.BLACK
-				);
+			display.bounds.window.top(), 
+			display.bounds.window.width(),
+			display.bounds.window.height(), 
+			display.colors.BLACK );
 ```
 
 *(That's a lot of typing for a value that you use so often..  - [yes, yes it is](#code-readability))*
@@ -305,27 +303,29 @@ while (display.calculating()) {
 
 // Also no need for update() here
 ```
-Images drawn in ```fastmode.FINALIZE``` should be preserved when moving window, or returning to ```fastmode.OFF```. Images drawn in ```fastmode.ON``` will not be preserved. When ```fastmode.FINALIZE``` has run, the display will automatically return to ```fastmode.OFF```.
+Images drawn in ```fastmode.FINALIZE``` are preserved when moving window, or returning to ```fastmode.OFF```. <br />
+Images drawn in ```fastmode.ON``` will not be preserved. 
+
+When ```fastmode.FINALIZE``` has run, the display will automatically return to ```fastmode.OFF```.
 
 ### Code Readability ###
 
-If you are at all like me, you might find that all these long calls make your code "wordy":
+If you are like me, you might feel that all these long calls make your code "wordy":
 
 ```c++
 display.drawRect(	display.bounds.window.left(),
-					display.bounds.window.top(), 
-					display.bounds.window.width(),
-					display.bounds.window.height(), 
-					display.colors.BLACK
-				);
+			display.bounds.window.top(), 
+			display.bounds.window.width(),
+			display.bounds.window.height(), 
+			display.colors.BLACK );
 ```
 
-As an alternative, declaring "shortcuts" at the start of the code can really cut down on a lot of the bloat:
+As an alternative, declaring reusable "shortcuts" at the start of the code can really cut down on a lot of the bloat:
 
 ```c++
 //Ugly mess here but
-Heltec_154_V2::Bounds::Window w = display.bounds.window;
-Heltec_154_V2::ColorList c = display.colors;
+DEPG0150BNS810::Bounds::Window w = display.bounds.window;
+DEPG0150BNS810::ColorList c = display.colors;
 		
 //Nice & clean here
 display.drawRect( w.left(), w.top(), w.width(), w.height(), c.BLACK );
