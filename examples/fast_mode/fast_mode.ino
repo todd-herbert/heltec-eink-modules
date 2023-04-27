@@ -57,11 +57,12 @@ void setup() {
 	display.setTextSize(2);
 	display.clear();
 
-	// A nice little label, not in fast-mode
+	// A nice little label, not yet in fast-mode
 	// --------------------
 	while(display.calculating()) {
-		display.setCursor(5, f.bottom() - 15);
-		display.print("ON");
+		display.setCursor(0, f.bottom() - 30);
+		display.println("fastmode");
+		display.print(".ON");
 	}
 	display.update();
 
@@ -111,8 +112,8 @@ void setup() {
 	display.setFastmode( display.fastmode.FINALIZE );
 
 	while(display.calculating()) {
-		display.setCursor(5, f.bottom() - 15);
-		display.print("FINALIZE");
+		display.setCursor(0, f.bottom() - 15);
+		display.print(".FINALIZE");
 	}
 
 	// Pause here, and redraw in detail
@@ -120,8 +121,8 @@ void setup() {
 	delay(4000);
 
 	while(display.calculating()) {
-		display.setCursor(5, f.bottom() - 15);
-		display.print("OFF");
+		display.setCursor(0, f.bottom() - 15);
+		display.print(".OFF");
 	}
 
 	display.fullscreen();	// Unconvential use of fullscreen() / setWindow(). Tell display we want the WHOLE SCREEN refreshed.
