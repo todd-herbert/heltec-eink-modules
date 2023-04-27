@@ -19,7 +19,7 @@ void QYEG0213RWS800::setWindow(uint8_t left, uint8_t top, uint8_t width, uint8_t
 	this->window_bottom = bottom;
 
 	// Calculate rotated window locations
-		// These "winrot" values are the *absolute* locations of the window borders, i.e. a rectangle as described when rotation = 0
+	// These "winrot" values are the *absolute* locations of the window borders, i.e. a rectangle as described when rotation = 0
 	switch (rotation) {
 		case 0:
 			winrot_left = window_left;

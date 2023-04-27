@@ -68,7 +68,6 @@ void DEPG0290BNS75A::setWindow(uint16_t left, uint16_t top, uint16_t width, uint
 				winrot_bottom = (drawing_height - 1) - window_left;
 				break;
 		} 	// -- Finish calculating window rotation
-
 }
 
 /// Used with a WHILE loop, to break the graphics into small parts, and draw them one at a time
