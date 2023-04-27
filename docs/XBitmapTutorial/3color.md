@@ -18,13 +18,13 @@ You can go ahead and open your source image in GIMP.
 
 When selecting an image, it pays to remember the limations of E-INK displays. Pixels are either ON or OFF, there is no inbetween.  
 
-In this tutorial, I am using a *Heltec 2.13" Red V2 Display*, which has a size of 122px x 250px and 3 Colors: White, Black, and Red. From this point I will talk about these colors, but the process is the same if your display is yellow, or any other color.
+In this tutorial, I am using a *Heltec 2.13" Red V2 Display* (QYEG0213RWS800), which has a size of 122px x 250px and 3 Colors: White, Black, and Red. From this point I will talk about these colors, but the process is the same if your display is yellow, or any other color.
 
 In this tutorial I will be using [this image](https://pixabay.com/photos/macaw-parrot-bird-fly-wings-209128/) from pixabay.
 
 ![tutorial image source](https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/3C_source.png?raw=true)
 ## Resize Image
-Your image can be either fullscreen on cover just a small part; the process is the same.
+Your image can be either fullscreen, or cover just a small part; the process is the same.
 
 Purely for design purposes, I am cropping the most interesting part of my tutorial image with *Image* -> *Crop to Selection*
 
@@ -100,7 +100,7 @@ This means that we need to make up two separate XBitmaps for the remaining color
 
 * Open *Windows* -> *Dockable Dialogs* -> *Colormap*
 
-* Press `D` on your computer's keyboard to reset the foreground/background colors. If you are using a different background color, you will make to set this manually (on the screen left)
+* Press `D` on your computer's keyboard to reset the foreground/background colors. If you are using a background color other than white, you will need to set this manually (on the screen left)
 
 * Right click on the red square in the dialog, and click "*Select this Color*"
 

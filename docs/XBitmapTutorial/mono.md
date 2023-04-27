@@ -18,10 +18,10 @@ In this tutorial I will be using [this image](https://commons.wikimedia.org/wiki
 
 ![tutorial image source](https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/source.png?raw=true)
 ## Resize Image
-Your image can be either fullscreen on cover just a small part; the process is the same.
+Your image can be either fullscreen or cover just a small part; the process is the same.
 Keeping the dimensions of your display in mind, it is now time to resize your image.
 
-In this tutorial, I am using a Heltec 2.13" Red V2 Display, which has a size of 122px x 250px. 
+In this tutorial, I am using a Heltec 2.13" Red V2 Display (QYEG0213RWS800), which has a size of 122px x 250px. 
 
 Use the *Image* -> *Scale Image* dialog in GIMP to achieve an appropriate size.
 ![scale](https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/scale.png?raw=true)
