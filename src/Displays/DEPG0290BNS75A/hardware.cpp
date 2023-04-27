@@ -241,3 +241,10 @@ void DEPG0290BNS75A::update(bool override_checks) {
 		wait();
 	}
 }
+
+/// Set the panel to an ultra low power state. Only way to exit is to cycle power to VCC.
+void DEPG0290BNS75A::deepSleep(uint16_t pause) {
+	sendCommand(0x10);
+	sendData(0x01);
+	delay(pause);
+}

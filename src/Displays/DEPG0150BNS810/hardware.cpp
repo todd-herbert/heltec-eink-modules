@@ -252,3 +252,10 @@ void DEPG0150BNS810::update(bool override_checks) {
 		reset();	// Reset with ANALOG ON (if fastmode.OFF), preserves image when transitioning to fastmode
 	}
 }
+
+/// Set the panel to an ultra low power state. Only way to exit is to cycle power to VCC.
+void DEPG0150BNS810::deepSleep(uint16_t pause) {
+	sendCommand(0x10);
+	sendData(0x01);
+	delay(pause);
+}

@@ -211,3 +211,10 @@ void QYEG0213RWS800::update() {
 
 	wait();	// Block while the command runs
 }
+
+/// Set the panel to an ultra low power state. Only way to exit is to cycle power to VCC.
+void QYEG0213RWS800::deepSleep(uint16_t pause) {
+	sendCommand(0x10);
+	sendData(0x01);
+	delay(pause);
+}
