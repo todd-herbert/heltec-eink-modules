@@ -8,7 +8,7 @@
 |-----------------------|-------------------------------|---------------------------|-------------------------------|
 |	DEPG0154BNS800F35	|	1.54 Inch E-ink Display V2	|	FPC-7525				|	Red							|
 
-### Status: Incomplete
+### Status: In testing
 A stable build will be included in the next release.
 
 <br />
