@@ -217,7 +217,7 @@ void wake() {
 } 
 
 void sleep() {
-	delay(1000);				// Wait until the panel is truly finished drawing
+	delay(3000);				// Some panels need a really long time to settle before power off
 	digitalWrite(2, HIGH);		// PNP transistor, block current flow
 }
 
@@ -237,7 +237,7 @@ void setup() {
 
 A voltage divider is not a suitable level shifter in this case; too much current leaks through the signal lines, keeping the display on. 
 
-Do not sleep the display during [fast mode](#fast-mode-partial-refresh); images will not draw correctly.
+Do not sleep the display during [fast mode](#fast-mode-partial-refresh); images will not draw correctly. If you have issues maintaning image through a sleep cycle, try adding longer delay before power off.
 
 ### Setting a Window ###
 
@@ -253,6 +253,7 @@ while( display.calculating() )
 }
 display.update();
 ```
+If needed, make sure to call ```.setRotation()``` before ```.setWindow()```, as the library needs this information to properly place the window.
 
 Be aware that, due to hardware limitations of the displays, windows may only be drawn with a width which is a multiple of 8. *(Note: this limitation does not rotate with the `.setRotation()` command)*.
 
