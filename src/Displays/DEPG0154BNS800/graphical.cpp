@@ -1,9 +1,9 @@
-#include "DEPG0154BNS800F35.h"
+#include "DEPG0154BNS800.h"
 
 /// Draw a single pixel. 
 /// This method is overriden from GFX_Root, and all other drawing methods pass through here
 
-void DEPG0154BNS800F35::drawPixel(int16_t x, int16_t y, uint16_t color) {
+void DEPG0154BNS800::drawPixel(int16_t x, int16_t y, uint16_t color) {
 	// Rotate the pixel
 	int16_t x1, y1;
 	switch(rotation) {
@@ -67,31 +67,31 @@ void DEPG0154BNS800F35::drawPixel(int16_t x, int16_t y, uint16_t color) {
 
 /// Set the image flip
 /// Proceed with caution - Window locations do not flip, but content drawn into them does
-void DEPG0154BNS800F35::setFlip(FlipList::Flip flip) {
+void DEPG0154BNS800::setFlip(FlipList::Flip flip) {
 	this->imgflip = flip;
 }
 
 /// Set the color of the blank canvas, before any drawing is done
 /// Note: Function is efficient, but only takes effect at the start of a calculation. At any other time, use fillScreen()
-void DEPG0154BNS800F35::setDefaultColor(uint16_t bgcolor) {
+void DEPG0154BNS800::setDefaultColor(uint16_t bgcolor) {
 	default_color = bgcolor;
 }
 
 /// Set the text cursor according to the desired upper left corner
-void DEPG0154BNS800F35::setCursorTopLeft(const char* text, uint16_t x, uint16_t y) {
+void DEPG0154BNS800::setCursorTopLeft(const char* text, uint16_t x, uint16_t y) {
 	int16_t offset_x(0), offset_y(0);
 	getTextBounds(text, 0, 0, &offset_x, &offset_y, NULL, NULL);
 	setCursor(x - offset_x, y - offset_y);
 }
 
-uint16_t DEPG0154BNS800F35::getTextWidth(const char* text) {
+uint16_t DEPG0154BNS800::getTextWidth(const char* text) {
 	int16_t x(0),y(0);
 	uint16_t w(0);
 	getTextBounds(text, 0, 0, &x, &y, &w, NULL);	// Need to keep x and y as they appear to be used internally by getTextBounds()
 	return w;
 }
 
-uint16_t DEPG0154BNS800F35::getTextHeight(const char* text) {
+uint16_t DEPG0154BNS800::getTextHeight(const char* text) {
 	int16_t x(0),y(0);
 	uint16_t h(0);
 	getTextBounds(text, 0, 0, &x, &y, NULL, &h);
@@ -103,7 +103,7 @@ uint16_t DEPG0154BNS800F35::getTextHeight(const char* text) {
 // Helper methods to find window bounds
 // ======================================
 
-uint8_t DEPG0154BNS800F35::Bounds::Window::top() {
+uint8_t DEPG0154BNS800::Bounds::Window::top() {
 	switch (*m_rotation) {
 		case RotationList::PINS_ABOVE:
 			return *edges[T];
@@ -117,7 +117,7 @@ uint8_t DEPG0154BNS800F35::Bounds::Window::top() {
 	return 0;	// Supress error
 }
 
-uint8_t DEPG0154BNS800F35::Bounds::Window::right() {
+uint8_t DEPG0154BNS800::Bounds::Window::right() {
 	switch (*m_rotation) {
 		case RotationList::PINS_ABOVE:
 			return *edges[R];
@@ -131,7 +131,7 @@ uint8_t DEPG0154BNS800F35::Bounds::Window::right() {
 	return 0;	// Supress error
 }
 
-uint8_t DEPG0154BNS800F35::Bounds::Window::bottom() {
+uint8_t DEPG0154BNS800::Bounds::Window::bottom() {
 	switch (*m_rotation) {
 		case RotationList::PINS_ABOVE:
 			return *edges[B];
@@ -145,7 +145,7 @@ uint8_t DEPG0154BNS800F35::Bounds::Window::bottom() {
 	return 0;	// Supress error
 }
 
-uint8_t DEPG0154BNS800F35::Bounds::Window::left() {
+uint8_t DEPG0154BNS800::Bounds::Window::left() {
 	switch (*m_rotation) {
 		case RotationList::PINS_ABOVE:
 			return *edges[L];
@@ -210,7 +210,7 @@ inline uint8_t *pgm_read_bitmap_ptr(const GFXfont *gfxFont) {
 #endif // __AVR__
 }
 
-size_t DEPG0154BNS800F35::write(uint8_t c) 
+size_t DEPG0154BNS800::write(uint8_t c) 
 {
   if (!gfxFont) { // 'Classic' built-in font
 
@@ -257,7 +257,7 @@ size_t DEPG0154BNS800F35::write(uint8_t c)
   return 1;
 }
 
-void DEPG0154BNS800F35::charBounds(unsigned char c, int16_t *x, int16_t *y, int16_t *minx, int16_t *miny, int16_t *maxx, int16_t *maxy) 
+void DEPG0154BNS800::charBounds(unsigned char c, int16_t *x, int16_t *y, int16_t *minx, int16_t *miny, int16_t *maxx, int16_t *maxy) 
 {
 
   if (gfxFont) {

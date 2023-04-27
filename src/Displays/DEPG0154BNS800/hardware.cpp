@@ -1,7 +1,7 @@
-#include "DEPG0154BNS800F35.h"
+#include "DEPG0154BNS800.h"
 
 /// Begin the E-Ink library
-void DEPG0154BNS800F35::begin(const PageProfile profile) {
+void DEPG0154BNS800::begin(const PageProfile profile) {
 	// Store the page profile
 	this->page_profile = profile;
 
@@ -28,7 +28,7 @@ void DEPG0154BNS800F35::begin(const PageProfile profile) {
 }
 
 /// Clear the screen in one step
-void DEPG0154BNS800F35::clear() {
+void DEPG0154BNS800::clear() {
 	reset();
 
 	int16_t x, y;
@@ -86,17 +86,17 @@ void DEPG0154BNS800F35::clear() {
 
 // Allocate and Deallocate dynamic memory for graphics operations
 
-void DEPG0154BNS800F35::grabPageMemory() {
+void DEPG0154BNS800::grabPageMemory() {
     page_black = new uint8_t[page_bytecount];
 }
 
-void DEPG0154BNS800F35::freePageMemory() {
+void DEPG0154BNS800::freePageMemory() {
 	delete page_black;
 }
 
 // Interface directly with display
 
-void DEPG0154BNS800F35::sendCommand(uint8_t command) {
+void DEPG0154BNS800::sendCommand(uint8_t command) {
 	SPI.beginTransaction(spi_settings);
 	digitalWrite(pin_dc, LOW);	// Data-Command pin LOW, tell PanelHardware this SPI transfer is a command
 	digitalWrite(pin_cs, LOW);
@@ -107,7 +107,7 @@ void DEPG0154BNS800F35::sendCommand(uint8_t command) {
 	SPI.endTransaction();
 }
 
-void DEPG0154BNS800F35::sendData(uint8_t data) {
+void DEPG0154BNS800::sendData(uint8_t data) {
 	SPI.beginTransaction(spi_settings);
 	digitalWrite(pin_dc, HIGH);	// Data-Command pin HIGH, tell PanelHardware this SPI transfer is data
 	digitalWrite(pin_cs, LOW);
@@ -119,7 +119,7 @@ void DEPG0154BNS800F35::sendData(uint8_t data) {
 }
 
 /// Reset the panel
-void DEPG0154BNS800F35::reset() {
+void DEPG0154BNS800::reset() {
 	if (mode == fastmode.OFF) {
 		sendCommand(0x12); // Software Reset
 		wait();
@@ -127,7 +127,7 @@ void DEPG0154BNS800F35::reset() {
 }
 
 /// Wait until the PanelHardware is idle. Important as any commands made while Panel Hardware is busy will be discarded.
-void DEPG0154BNS800F35::wait() {
+void DEPG0154BNS800::wait() {
 	while(digitalRead(pin_busy) == HIGH)	{	// Low = idle	
 		delay(1);
 	}
@@ -135,7 +135,7 @@ void DEPG0154BNS800F35::wait() {
 
 
 /// Specify the technique used to draw the image onto the screen
-void DEPG0154BNS800F35::setFastmode(FastmodeList::Fastmode mode) {
+void DEPG0154BNS800::setFastmode(FastmodeList::Fastmode mode) {
 
 	// Moving to partial refresh (fastmode)
 	if (mode == fastmode.ON && this->mode != fastmode.ON) {
@@ -190,7 +190,7 @@ void DEPG0154BNS800F35::setFastmode(FastmodeList::Fastmode mode) {
 }
 
 /// Write one page to the panel memory
-void DEPG0154BNS800F35::writePage() {
+void DEPG0154BNS800::writePage() {
 	// Calculate rotate x start and stop values (y is already done via paging)
 	int16_t sx, sy, ex, ey;
 
@@ -237,7 +237,7 @@ void DEPG0154BNS800F35::writePage() {
 }
 
 /// Draw the image in Panel's memory to the screen
-void DEPG0154BNS800F35::update(bool override_checks) {
+void DEPG0154BNS800::update(bool override_checks) {
 	if (mode == fastmode.OFF || override_checks) {
 		// Specify the update operation to run
 		sendCommand(0x22);
@@ -254,7 +254,7 @@ void DEPG0154BNS800F35::update(bool override_checks) {
 }
 
 /// Set the panel to an ultra low power state. Only way to exit is to cycle power to VCC.
-void DEPG0154BNS800F35::deepSleep(uint16_t pause) {
+void DEPG0154BNS800::deepSleep(uint16_t pause) {
 	sendCommand(0x10);
 	sendData(0x01);
 	delay(pause);

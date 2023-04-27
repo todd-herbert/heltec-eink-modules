@@ -3,8 +3,8 @@
 #include "GFX_Root/GFX.h"
 
 /// Heltec 1.54" V2
-/// Declaration: DEPG0154BNS800F35(  d/c pin  , cs pin , busy pin )
-class DEPG0154BNS800F35 : public GFX {
+/// Declaration: DEPG0154BNS800(  d/c pin  , cs pin , busy pin )
+class DEPG0154BNS800 : public GFX {
 
     // Consts
     // ===================
@@ -69,7 +69,7 @@ class DEPG0154BNS800F35 : public GFX {
     public:
         // Constructor
         // Have to initialize because of GFX class
-        DEPG0154BNS800F35( uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy) : GFX(panel_width, panel_height),
+        DEPG0154BNS800( uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy) : GFX(panel_width, panel_height),
                                                                                 pin_dc(pin_dc), 
                                                                                 pin_cs(pin_cs), 
                                                                                 pin_busy(pin_busy)

@@ -1,8 +1,8 @@
-#include "DEPG0154BNS800F35.h"
+#include "DEPG0154BNS800.h"
 
 /// Draw using the whole screen area
 /// Call before calculating()
-void DEPG0154BNS800F35::fullscreen() {
+void DEPG0154BNS800::fullscreen() {
 		uint8_t left = 0;
 		uint8_t top = 0;
 		uint8_t width = rotation%2?drawing_height:drawing_width;
@@ -12,7 +12,7 @@ void DEPG0154BNS800F35::fullscreen() {
 
 /// Draw on only part of the screen, leaving the rest unchanged
 /// Call before calculating
-void DEPG0154BNS800F35::setWindow(uint8_t left, uint8_t top, uint8_t width, uint8_t height) {
+void DEPG0154BNS800::setWindow(uint8_t left, uint8_t top, uint8_t width, uint8_t height) {
 	uint8_t right = left + (width - 1);
 	uint8_t bottom = top + (height - 1);
 	this->window_left = left;
@@ -71,7 +71,7 @@ void DEPG0154BNS800F35::setWindow(uint8_t left, uint8_t top, uint8_t width, uint
 }
 
 /// Used with a WHILE loop, to break the graphics into small parts, and draw them one at a time
-bool DEPG0154BNS800F35::calculating() {
+bool DEPG0154BNS800::calculating() {
 	// Pass the processing over to the mode-specific calculating method
 
 	// NOTE: this loop runs BEFORE every new page.
@@ -157,7 +157,7 @@ bool DEPG0154BNS800F35::calculating() {
 }
 
 /// Clear the data arrays in between pages
-void DEPG0154BNS800F35::clearPage(uint16_t bgcolor) {
+void DEPG0154BNS800::clearPage(uint16_t bgcolor) {
 		for (uint16_t i = 0; i < page_bytecount; i++) {
 			uint8_t black_byte = (bgcolor & colors.WHITE) * 255;	// We're filling in bulk here; bits are either all on or all off
 			page_black[i] = black_byte;
