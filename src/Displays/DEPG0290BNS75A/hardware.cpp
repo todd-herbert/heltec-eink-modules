@@ -239,8 +239,5 @@ void DEPG0290BNS75A::update(bool override_checks) {
 
 		// Block while the command runs
 		wait();
-		SPI.end();
-		
-		// User will have to unset digital pins before sleeping display
 	}
 }

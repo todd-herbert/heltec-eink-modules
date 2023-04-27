@@ -210,5 +210,4 @@ void QYEG0213RWS800::update() {
 	sendCommand(0x20);
 
 	wait();	// Block while the command runs
-	SPI.end();
 }

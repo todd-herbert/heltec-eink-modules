@@ -81,7 +81,6 @@ void DEPG0150BNS810::clear() {
 	sendData(0xF7);
 	sendCommand(0x20);
 	wait();
-	SPI.end();
 }
 
 
@@ -121,7 +120,7 @@ void DEPG0150BNS810::sendData(uint8_t data) {
 
 /// Reset the panel
 void DEPG0150BNS810::reset() {
-	if (mode == fastmode.OFF) { 
+	if (mode == fastmode.OFF) {
 		sendCommand(0x12); // Software Reset
 		wait();
 	}
@@ -250,7 +249,6 @@ void DEPG0150BNS810::update(bool override_checks) {
 
 		// Block while the command runs
 		wait();
-		SPI.end();
 		reset();	// Reset with ANALOG ON (if fastmode.OFF), preserves image when transitioning to fastmode
 	}
 }
