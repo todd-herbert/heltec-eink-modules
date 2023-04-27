@@ -13,6 +13,7 @@ This is made possible with *"paging".*
 [Wiring](#wiring) <br />
 [Using the library](#using-the-library) <br />
 [Configuration](#configuration-options) <br />
+[Installation](#installation) <br />
 [Acknowledgements](#acknowledgements)  <br />
 
 
@@ -204,24 +205,20 @@ If `begin()` is called with no parameters, `.pageSize.MEDIUM` is selected.
 
 Many E-Ink displays are able to enter a "deep sleep" power-saving mode. With the *Heltec Modules*, this is technically possible, however the reset pin on the controller IC has not been broken out, meaning that there is no easy way to wake the display without cycling power.
 
-An alternative power-saving technique is to physically remove power from your display. An example is shown here, using a PNP transistor:
+An alternative power-saving technique is to physically remove power from your display. An example is shown here, using a PNP transistor and a FET based level-shifter
 
 ![voltage-divider example](docs/pnp_example.png)
 
 
 ```c++
 void wake() {
-	// PNP transistor, allow current to flow
-	digitalWrite(2, LOW);
+	digitalWrite(2, LOW);	// PNP transistor, allow current to flow
+	delay(1000);			// Give the panel plenty of time to power up
 } 
 
 void sleep() {
-	// PNP transistor, block current flow
-	digitalWrite(2, HIGH);
-
-	// See note 
-	digitalWrite(PIN_CS, LOW);
-	digitalWrite(PIN_DC, LOW);
+	delay(1000);				// Wait until the panel is truly finished drawing
+	digitalWrite(2, HIGH);		// PNP transistor, block current flow
 }
 
 void setup() {
@@ -238,7 +235,9 @@ void setup() {
 }
 ```
 
-Notice that the sleep function also sets the CS and DC pins LOW. If these signals remain HIGH, the panel will happily power itself up, even with VCC floating. Similar behaviour is expected if the panel is powered through an NPN transistor; with current flowing to ground through digital LOW pins.
+A voltage divider is not a suitable level shifter in this case; too much current leaks through the signal lines, keeping the display on. 
+
+Do not sleep the display during [fast mode](#fast-mode-partial-refresh); images will not draw correctly.
 
 ### Setting a Window ###
 
@@ -279,7 +278,7 @@ These values are updated to reflect the true dimensions of the window, rather th
 
 E-Ink displays generally take several seconds to refresh. Some displays have a secondary mode, where the image updates much faster. This is known officially as a *"Partial Refresh"*. For the sake of user-friendliness, this library instead uses the descriptive term *"Fast Mode*".
 
-The trade-off is that images drawn in fast mode are of a lower quality. The process may also be particularly difficult on the hardware.
+The trade-off is that images drawn in fast mode are of a lower quality. The process may also be particularly difficult on the hardware. **You should make sure to exit fast mode when not in use.**
 
 Not all displays support fast mode. Some displays may have a physical limitation, however with others, it seems that the technical settings have not yet been calculated and released.
 
@@ -339,7 +338,7 @@ display.drawRect( w.left(), w.top(), w.width(), w.height(), c.BLACK );
 
 **Platform.io:** Available through the built-in library registiry, or alternatively, can be installed by extracting the Zip file to the lib folder of your project.
 
-# Acknowledgements
+## Acknowledgements
 
 This library is inspired by [GxEPD2](https://github.com/ZinggJM/GxEPD2), a similar project for Goodisplay and Waveshare displays.
 
