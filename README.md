@@ -203,9 +203,9 @@ If `begin()` is called with no parameters, `.pageSize.MEDIUM` is selected.
 
 ### Power Management ###
 
-Many E-Ink displays are able to enter a "deep sleep" power-saving mode. With the *Heltec Modules*, this is technically possible, however the reset pin on the controller IC has not been broken out, meaning that there is no easy way to wake the display without cycling power.
+Many E-Ink displays are able to enter a "deep sleep" power-saving mode. With the *Heltec Modules*, this is technically possible, however the reset pin on the controller IC has not been broken out, meaning that there is no way to wake the display without cycling power.
 
-An alternative power-saving technique is to physically remove power from your display. An example is shown here, using a PNP transistor and a FET based level-shifter
+A messy breadboard example is shown here, using a PNP transistor and a FET based level-shifter
 
 ![voltage-divider example](docs/pnp_example.png)
 
@@ -213,11 +213,11 @@ An alternative power-saving technique is to physically remove power from your di
 ```c++
 void wake() {
 	digitalWrite(2, LOW);	// PNP transistor, allow current to flow
-	delay(1000);			// Give the panel plenty of time to power up
+	delay(500);			// Give the panel plenty of time to power up
 } 
 
 void sleep() {
-	delay(3000);				// Some panels need a really long time to settle before power off
+	display.deepSleep();		// Important for final image quality
 	digitalWrite(2, HIGH);		// PNP transistor, block current flow
 }
 
@@ -235,7 +235,7 @@ void setup() {
 }
 ```
 
-A voltage divider is not a suitable level shifter in this case; too much current leaks through the signal lines, keeping the display on. 
+A simple voltage divider is not the ideal level shifter in this case; too much current leaks through the signal lines, keeping the display on. You may need to write HIGH / LOW to the signal pins in order to work around this. 
 
 Do not sleep the display during [fast mode](#fast-mode-partial-refresh); images will not draw correctly. If you have issues maintaning image through a sleep cycle, try adding longer delay before power off.
 
