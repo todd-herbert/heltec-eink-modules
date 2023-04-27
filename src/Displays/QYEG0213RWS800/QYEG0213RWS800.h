@@ -68,6 +68,7 @@ class QYEG0213RWS800 : public GFX {
 		bool busy() {return digitalRead(pin_busy);}
 		void clear();
 		void wait();
+		void deepSleep(uint16_t pause = 500);
 
 	private:    // Hardware methods
 		void grabPageMemory();
