@@ -1,6 +1,7 @@
 // Which panel are you using?  (uncomment one)
 // --------------------------------------------
-	// #define   USING_DEPG0150BNS810		// 1.54" V2 - BW
+	// #define		USING_DEPG0150BNS810		// 1.54" V2 - BW
+	// #define		USING_DEPG0154BNS800		// 1.54" V2 - BW
 
 
 // Where is your panel connected?
@@ -12,7 +13,9 @@
 
 // (Example automatically picks the correct class)
 #if     defined USING_DEPG0150BNS810
-	#define     PANEL_CLASS     DEPG0150BNS810  
+	#define     PANEL_CLASS     DEPG0150BNS810
+#elif   defined USING_DEPG0154BNS800
+	#define     PANEL_CLASS     DEPG0154BNS800
 #endif
 
 
@@ -70,7 +73,7 @@ void setup() {
 	// Play loading animation, and countdown in corner
 	// ------------------------------------------------
 	display.setTextColor(c.WHITE);
-	display.setWindow( f.left(), f.top(), f.width(), f.height() - 50 );	// Don't overwrite the bottom 50px
+	display.setWindow( f.left(), f.top(), f.width(), f.height() - 30 );	// Don't overwrite the bottom 30px
 	display.setFastmode( display.fastmode.ON );
 
 	for (uint8_t demo = 0; demo <= 9; demo++) { // 10 times in total

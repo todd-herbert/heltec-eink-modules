@@ -1,8 +1,10 @@
 // Which panel are you using?  (uncomment one)
 // --------------------------------------------
-	// #define   USING_DEPG0150BNS810		// 1.54" V2 - BW
-	// #define   USING_QYEG0213RWS800		// 2.13" V2 - BWR
-	// #define   USING_DEPG0290BNS75A		// 2.9"  V2 - BW
+	// #define	USING_DEPG0150BNS810		// 1.54" V2 - BW
+	// #define	USING_DEPG0154BNS800		// 1.54" V2 - BW
+	// #define	USING_QYEG0213RWS800		// 2.13" V2 - BWR
+	// #define	USING_DEPG0290BNS75A		// 2.9"  V2 - BW
+
 
 
 // Where is your panel connected?
@@ -14,11 +16,17 @@
 
 // (Example automatically picks the correct class)
 #if     defined USING_DEPG0150BNS810
-	#define     PANEL_CLASS     DEPG0150BNS810    
+	#define		PANEL_CLASS     DEPG0150BNS810
+	#define		SAMPLE_TEXT		"Fancy fonty text."
+#elif   defined USING_DEPG0154BNS800
+	#define		PANEL_CLASS     DEPG0154BNS800  
+	#define		SAMPLE_TEXT		"Fancy font."
 #elif   defined USING_QYEG0213RWS800
-	#define     PANEL_CLASS     QYEG0213RWS800    
+	#define		PANEL_CLASS     QYEG0213RWS800
+	#define		SAMPLE_TEXT		"Fancy fonty text."    
 #elif   defined USING_DEPG0290BNS75A
-	#define     PANEL_CLASS     DEPG0290BNS75A    
+	#define		PANEL_CLASS     DEPG0290BNS75A
+	#define		SAMPLE_TEXT		"Fancy fonty text."
 #endif
 
 // DEMO: Using fonts
@@ -42,7 +50,7 @@ void setup() {
 	while( display.calculating() ) {
 
 		display.setCursor(10, 50);            // Set the (word-processor-like) cursor to the abritrary position of x=30, y=50          
-		display.print("Fancy fonty text.");
+		display.print(SAMPLE_TEXT);
 
 	}	// Note: setCursor needs to run inside of the calculating() loop, as it moves along with each letter typed.
 		// This means we need to shunt it back to the start again when we recalculate the next section of the screen

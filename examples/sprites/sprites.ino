@@ -1,8 +1,10 @@
 // Which panel are you using?  (uncomment one)
 // --------------------------------------------
-	// #define   USING_DEPG0150BNS810		// 1.54" V2 - BW
-	// #define   USING_QYEG0213RWS800		// 2.13" V2 - BWR
-	// #define   USING_DEPG0290BNS75A		// 2.9"  V2 - BW
+	// #define	USING_DEPG0150BNS810		// 1.54" V2 - BW
+	// #define	USING_DEPG0154BNS800		// 1.54" V2 - BW
+	// #define	USING_QYEG0213RWS800		// 2.13" V2 - BWR
+	// #define	USING_DEPG0290BNS75A		// 2.9"  V2 - BW
+
 
 
 // Where is your panel connected?
@@ -14,12 +16,15 @@
 
 // (Example automatically picks the correct class)
 #if     defined USING_DEPG0150BNS810
-	#define     PANEL_CLASS     DEPG0150BNS810    
+	#define		PANEL_CLASS     DEPG0150BNS810
+#elif   defined USING_DEPG0154BNS800
+	#define		PANEL_CLASS     DEPG0154BNS800  
 #elif   defined USING_QYEG0213RWS800
-	#define     PANEL_CLASS     QYEG0213RWS800    
+	#define		PANEL_CLASS     QYEG0213RWS800 
 #elif   defined USING_DEPG0290BNS75A
-	#define     PANEL_CLASS     DEPG0290BNS75A    
+	#define		PANEL_CLASS     DEPG0290BNS75A
 #endif
+
 
 
 // DEMO: Sprites
