@@ -39,6 +39,7 @@ Despite my best efforts I have been unable to source any of the older models, so
 |	Model Name  	|	Sold As						|	Colors				|	Fastmode	|
 |-------------------|-------------------------------|-----------------------|---------------|
 |	DEPG0150BNS810	|	1.54 Inch E-ink Display V2	|	Black, White		|	Yes			|
+|	DEPG0154BNS800	|	1.54 Inch E-ink Display V2	|	Black, White		|	Yes			|
 |	QYEG0213RWS800	|	2.13 Inch E-ink Display V2	|	Black, White, Red	|	No			|
 |	DEPG0290BNS75A	|	2.9  Inch E-ink Display V2	|	Black, White		|	No			|
 
@@ -48,6 +49,7 @@ It can be a challenge determining exactly which display you have. This key is no
 |	Model Name  		|	Rear Label					|	Colors				|	Screen Protector	|	Flex Connector Label	|Front|Rear|
 |-----------------------|-------------------------------|-----------------------|-----------------------|---------------------------|:---:|:---:|
 |	**DEPG0150BNS810**	|	1.54 Inch E-ink Display V2	|	Black, White		|	Red Tab				|	FPC-8101				|	![Front](docs/Identification/DEPG0150BNS810-Front.jpg) | ![Rear](docs/Identification/DEPG0150BNS810-Rear.jpg)
+|	**DEPG0154BNS800**	|	1.54 Inch E-ink Display V2	|	Black, White		|	Red Tab				|	FPC-7525				|	![Front](docs/Identification/DEPG0154BNS800-Front.jpg) | ![Rear](docs/Identification/DEPG0154BNS800-Rear.jpg)
 |	**QYEG0213RWS800**	|	2.13 Inch E-ink Display V2	|	Black, White, Red	|	Red Tab				|	FPC-7528				|	![Front](docs/Identification/QYEG0213RWS800-Front.png) | ![Rear](docs/Identification/QYEG0213RWS800-Rear.png)
 |	**DEPG0290BNS75A**	|	2.9  Inch E-ink Display V2	|	Black, White		|	Red Tab				|	FPC-750					|	![Front](docs/Identification/DEPG0290BNS75A-Front.jpg) | ![Rear](docs/Identification/DEPG0290BNS75A-Rear.jpg)
 
