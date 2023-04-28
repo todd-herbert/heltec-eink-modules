@@ -203,11 +203,11 @@ If `begin()` is called with no parameters, `.pageSize.MEDIUM` is selected.
 
 ### Power Management ###
 
-Many E-Ink displays are able to enter a "deep sleep" power-saving mode. With the *Heltec Modules*, this is technically possible, however the reset pin on the controller IC has not been broken out, meaning that there is no way to wake the display without cycling power.
+Many E-Ink displays are able to enter a "deep sleep" power-saving mode. With the *Heltec Modules*, this is technically possible, however the reset pin on the controller IC has not been broken out, meaning that in order to wake the display, the power must be cycled.
 
-A messy breadboard example is shown here, using a PNP transistor and a FET based level-shifter
+One possible way to accomplish this is shown here, using a PNP transistor and a FET based level-shifter.
 
-![voltage-divider example](docs/pnp_example.png)
+![voltage-divider example](docs/hardware_sleep_example.png)
 
 
 ```c++
@@ -235,9 +235,11 @@ void setup() {
 }
 ```
 
-A simple voltage divider is not the ideal level shifter in this case; too much current leaks through the signal lines, keeping the display on. You may need to write HIGH / LOW to the signal pins in order to work around this. 
+A simple voltage divider is not the ideal level shifter in this case; too much current leaks through the signal lines, keeping the display on. A workaround is to write HIGH / LOW to the signal pins on sleep and wake.
 
 Do not sleep the display during [fast mode](#fast-mode-partial-refresh); images will not draw correctly. If you have issues maintaning image through a sleep cycle, try adding longer delay before power off.
+
+If you do decide to implement this hardware sleep, it is advised to call ```.deepSleep()``` in your sleep() method. This ensures that the display is in the correct state for power-off, and seems to reduce image artifacts.
 
 ### Setting a Window ###
 
