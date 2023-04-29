@@ -10,8 +10,8 @@
 
 \* Closest match; no official information available.
 
-### Status: In testing
-A stable build will be included in the next release.
+### Status: Incomplete
+While some functionality is available, the code is not yet suitable for deployment.
 
 <br />
 
