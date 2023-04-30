@@ -207,7 +207,7 @@ If `begin()` is called with no parameters, `.pageSize.MEDIUM` is selected.
 
 Many E-Ink displays are able to enter a "deep sleep" power-saving mode. In this state, the module is no longer listening to any commands we issue. Traditionally, a hardware reset pin is provided, however, with the *Heltec Modules*, this is not the case.
 
-One work-around is to manually cycle power to the display ("turn it on and off again"). This does require aditional circuitry.
+One work-around is to manually cycle power to the display ("turn it off and on again"). This does require aditional circuitry.
 
 A suitable method of controlling the power is shown here, using a PNP transistor and a FET based level-shifter:
 
