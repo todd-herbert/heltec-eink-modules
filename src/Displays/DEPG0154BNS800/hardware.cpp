@@ -241,7 +241,7 @@ void DEPG0154BNS800::update(bool override_checks) {
 	if (mode == fastmode.OFF || override_checks) {
 		// Specify the update operation to run
 		sendCommand(0x22);
-		if (mode == fastmode.OFF) 	sendData(0xF4);
+		if (mode == fastmode.OFF) 	sendData(0xF7);
 		else 						sendData(0xCF);
 
 		// Execute the update
@@ -249,7 +249,7 @@ void DEPG0154BNS800::update(bool override_checks) {
 
 		// Block while the command runs
 		wait();
-		reset();	// Reset with ANALOG ON (if fastmode.OFF), preserves image when transitioning to fastmode
+		// reset();	// Reset with ANALOG ON (if fastmode.OFF), preserves image when transitioning to fastmode
 	}
 }
 
