@@ -48,10 +48,10 @@ It can be a challenge determining exactly which display you have. This key is no
 
 |	Model Name  		|	Rear Label					|	Colors				|	Screen Protector	|	Flex Connector Label	|Front|Rear|
 |-----------------------|-------------------------------|-----------------------|-----------------------|---------------------------|:---:|:---:|
-|	**DEPG0150BNS810**	|	1.54 Inch E-ink Display V2	|	Black, White		|	Red Tab				|	FPC-8101				|	![Front](docs/Identification/DEPG0150BNS810-Front.jpg) | ![Rear](docs/Identification/DEPG0150BNS810-Rear.jpg)
-|	**DEPG0154BNS800**	|	1.54 Inch E-ink Display V2	|	Black, White		|	Red Tab				|	FPC-7525				|	![Front](docs/Identification/DEPG0154BNS800-Front.jpg) | ![Rear](docs/Identification/DEPG0154BNS800-Rear.jpg)
-|	**QYEG0213RWS800**	|	2.13 Inch E-ink Display V2	|	Black, White, Red	|	Red Tab				|	FPC-7528				|	![Front](docs/Identification/QYEG0213RWS800-Front.png) | ![Rear](docs/Identification/QYEG0213RWS800-Rear.png)
-|	**DEPG0290BNS75A**	|	2.9  Inch E-ink Display V2	|	Black, White		|	Red Tab				|	FPC-750					|	![Front](docs/Identification/DEPG0290BNS75A-Front.jpg) | ![Rear](docs/Identification/DEPG0290BNS75A-Rear.jpg)
+|	**DEPG0150BNS810**	|	1.54 Inch E-ink Display V2	|	Black, White		|	Red Tab				|	FPC-8101				|	![Front](Identification/DEPG0150BNS810-Front.jpg) | ![Rear](Identification/DEPG0150BNS810-Rear.jpg)
+|	**DEPG0154BNS800**	|	1.54 Inch E-ink Display V2	|	Black, White		|	Red Tab				|	FPC-7525				|	![Front](Identification/DEPG0154BNS800-Front.jpg) | ![Rear](Identification/DEPG0154BNS800-Rear.jpg)
+|	**QYEG0213RWS800**	|	2.13 Inch E-ink Display V2	|	Black, White, Red	|	Red Tab				|	FPC-7528				|	![Front](Identification/QYEG0213RWS800-Front.png) | ![Rear](Identification/QYEG0213RWS800-Rear.png)
+|	**DEPG0290BNS75A**	|	2.9  Inch E-ink Display V2	|	Black, White		|	Red Tab				|	FPC-750					|	![Front](Identification/DEPG0290BNS75A-Front.jpg) | ![Rear](Identification/DEPG0290BNS75A-Rear.jpg)
 
 **Note**: DEPG0290BNS75A has a close relative, DEPG0290BNS800. I don't believe that I have yet encountered this panel. It is not currently supported, and based on Heltec's description, the two may be easily confused. Watch this space.
 
@@ -61,7 +61,7 @@ It can be a challenge determining exactly which display you have. This key is no
 
 All warnings aside, connection isn't all that hard. Just be sure to implement some sort of level-shifter. I can can confirm that a simple voltage divider is perfectly adequate, for example: 
 
-![voltage-divider example](docs/wiring_example.png)
+![voltage-divider example](wiring_example.png)
 
 ### Display Pins:
 
@@ -167,7 +167,7 @@ This library *should* work pretty much the same, with a few small exceptions:
 
 As decided by the Adafruit library, the ancient *"XBitmap"* is the format of choice for pre-rendered graphics. Luckily, GIMP maintains good support for it.
 
-If you need a hint on how to use it, I have thrown together a [tutorial on preparing XBitmap images](docs/XBitmapTutorial/README.md).
+If you need a hint on how to use it, I have thrown together a [tutorial on preparing XBitmap images](XBitmapTutorial/README.md).
 
 
 
@@ -205,27 +205,27 @@ If `begin()` is called with no parameters, `.pageSize.MEDIUM` is selected.
 
 ### Power Management ###
 
-Many E-Ink displays are able to enter a "deep sleep" power-saving mode. With the *Heltec Modules*, this is technically possible, however the reset pin on the controller IC has not been broken out, meaning that in order to wake the display, the power must be cycled.
+Many E-Ink displays are able to enter a "deep sleep" power-saving mode. In this state, the module is no longer listening to any commands we issue. Traditionally, a hardware reset pin is provided, however, with the *Heltec Modules*, this is not the case.
 
-One possible way to accomplish this is shown here, using a PNP transistor and a FET based level-shifter.
+One work-around is to manually cycle power to the display ("turn it on and off again"). This does require aditional circuitry.
 
-![voltage-divider example](docs/hardware_sleep_example.png)
+A suitable method of controlling the power is shown here, using a PNP transistor and a FET based level-shifter:
+
+![voltage-divider example](hardware_reset_example.png)
 
 
 ```c++
-void wake() {
-	digitalWrite(2, LOW);	// PNP transistor, allow current to flow
-	delay(500);			// Give the panel plenty of time to power up
-} 
-
-void sleep() {
-	display.deepSleep();		// Important for final image quality
+void reset() {
 	digitalWrite(2, HIGH);		// PNP transistor, block current flow
+	delay(500);					// Wait for everything to power off
+	digitalWrite(2, LOW);		// PNP transistor, allow current flow
+	delay(500);					// Wait for everything to power back up
 }
 
 void setup() {
+	// Set the pins for the reset
 	pinMode(2, OUTPUT);
-	wake();
+	digitalWrite(2, LOW);	// PNP transistor, allow current flow
 
 	display.begin();
 	while (display.calculating()) {
@@ -233,15 +233,40 @@ void setup() {
 	}
 	display.update();
 
-	sleep();
+	// Sleep, wait 8 seconds, and reset (wake up)
+	display.deepSleep();	// Display ignores all commands now, until reset
+	delay(8000);
+	reset();
+
 }
 ```
 
-A simple voltage divider is not the ideal level shifter in this case; too much current leaks through the signal lines, keeping the display on. A workaround is to write HIGH / LOW to the signal pins on sleep and wake.
 
-Do not sleep the display during [fast mode](#fast-mode-partial-refresh); images will not draw correctly. If you have issues maintaning image through a sleep cycle, try adding longer delay before power off.
 
-If you do decide to implement this hardware sleep, it is advised to call ```.deepSleep()``` in your sleep() method. This ensures that the display is in the correct state for power-off, and seems to reduce image artifacts.
+Note the use of ```.deepSleep()``` . This is the method which puts the display into power-saving. In this state, the current draw is very low, but the working memory is preserved. This is important, if you wish to wake the display and continue drawing from where you left off.
+
+#### Do
+
+* **Feel free to avoid this whole section** <br />
+If you don't ```deepSleep()```, you won't need a reset circuit.
+
+* **Write your own ```reset()``` function** <br />
+	It is not provided, as it must suit your individual circuit.
+
+#### Don't
+* **```deepSleep()``` during fast-mode** <br />
+	When you reset, your screen's contents won't be preserved
+
+* **Use a [voltage dividing level shifter](#wiring)** <br />
+	Enough current can pass through the signal lines to prevent the display from powering down. If this issue occurs, you can try ```digitalWrite()``` the pins in your ```reset()``` function.
+
+* **Sleep by leaving display power disconnected** <br />
+	*( Unless you really want to )* <br />
+	The drawback is that the working memory will be lost. This is not an issue if, after power-on, you intend to ```clear()```, or redraw the entire screen.<br />
+	If, instead, you go straight to *fastmode*, or ```setWindow()```, the display will show static. <br />
+	Even if do decide to sleep in this way, it is still a good idea to call ```.deepSleep()``` first. In some displays, it seems necessary to ensure that the image remains crisp.
+	
+<br />
 
 ### Setting a Window ###
 
