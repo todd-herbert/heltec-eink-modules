@@ -1,7 +1,8 @@
 // Which panel are you using?  (uncomment one)
 // --------------------------------------------
 	// #define	USING_DEPG0150BNS810		// 1.54" V2 - BW
-	#define	USING_DEPG0154BNS800		// 1.54" V2 - BW
+	// #define	USING_DEPG0154BNS800		// 1.54" V2 - BW
+	// #define	USING_GDEP015OC1			// 1.54" V2 - BW
 	// #define	USING_QYEG0213RWS800		// 2.13" V2 - BWR
 	// #define	USING_DEPG0290BNS75A		// 2.9"  V2 - BW
 
@@ -19,6 +20,9 @@
 #elif   defined USING_DEPG0154BNS800
 	#define     PANEL_CLASS     DEPG0154BNS800    
 	#define     CHESS_H    "chess_152x152.h"
+#elif	defined	USING_GDEP015OC1
+	#define		PANEL_CLASS		GDEP015OC1
+	#define     CHESS_H    "chess_200x200.h"	
 #elif   defined USING_QYEG0213RWS800
 	#define     PANEL_CLASS     QYEG0213RWS800    
 	#define     CHESS_H    "chess_250x122.h"

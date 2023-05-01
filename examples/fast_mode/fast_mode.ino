@@ -2,6 +2,7 @@
 // --------------------------------------------
 	// #define		USING_DEPG0150BNS810		// 1.54" V2 - BW
 	// #define		USING_DEPG0154BNS800		// 1.54" V2 - BW
+	// #define		USING_GDEP015OC1			// 1.54" V2 - BW
 
 
 // Where is your panel connected?
@@ -16,6 +17,8 @@
 	#define     PANEL_CLASS     DEPG0150BNS810
 #elif   defined USING_DEPG0154BNS800
 	#define     PANEL_CLASS     DEPG0154BNS800
+#elif   defined USING_GDEP015OC1
+	#define     PANEL_CLASS     GDEP015OC1
 #endif
 
 

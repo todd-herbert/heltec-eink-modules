@@ -16,6 +16,7 @@
 
 	// DEPG0150BNS810 display( PIN_DC, PIN_CS, PIN_BUSY );		// 1.54" V2 - BW
 	// DEPG0154BNS800 display( PIN_DC, PIN_CS, PIN_BUSY);		// 1.54" V2 - BW
+	// GDEP015OC1 display( PIN_DC, PIN_CS, PIN_BUSY);			// 1.54" V2 - BW
 	// QYEG0213RWS800 display( PIN_DC, PIN_CS, PIN_BUSY );		// 2.13" V2 - BWR
 	// DEPG0290BNS75A display( PIN_DC, PIN_CS, PIN_BUSY );		// 2.9"  V2 - BW
 
