@@ -169,14 +169,19 @@ void GDEP015OC1::wait() {
 
 /// Specify the technique used to draw the image onto the screen
 void GDEP015OC1::setFastmode(FastmodeList::Fastmode mode) {
+		// If we're coming from .OFF, do a proper soft reset to unload the old settings
+		if (this->mode == fastmode.OFF) {
+			sendCommand(0x12);
+			wait();
+		}
+
+		// Store the mode
 		this->mode = mode;
 
 		// Now peform a modifed reset()
 		// -----------------------------
-		sendCommand(0x12);
-		wait();
 
-				// "Driver Output Control"
+		// "Driver Output Control"
 		sendCommand(0x01);	
 		sendData(panel_height - 1);	// (Height - 1) bit 0
 		sendData(0);	// (Height - 1) bit 1
