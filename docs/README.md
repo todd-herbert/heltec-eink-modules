@@ -251,7 +251,7 @@ void setup() {
 
 Note the use of ```.deepSleep()``` . This is the method which puts the display into power-saving. In this state, the current draw is very low, but the working memory is preserved. This is important, if you wish to wake the display and continue drawing from where you left off.
 
-#### Do
+#### Do:
 
 * **Feel free to avoid this whole section** <br />
 If you don't ```deepSleep()```, you won't need a reset circuit.
@@ -259,14 +259,14 @@ If you don't ```deepSleep()```, you won't need a reset circuit.
 * **Write your own ```reset()``` function** <br />
 	It is not provided, as it must suit your individual circuit.
 
-#### Don't
-* **```deepSleep()``` during fast-mode** <br />
+#### Don't:
+* **Don't ```deepSleep()``` during fast-mode** <br />
 	When you reset, your screen's contents won't be preserved
 
-* **Use a [voltage dividing level shifter](#wiring)** <br />
+* **Don't use a [voltage dividing level shifter](#wiring)** <br />
 	Enough current can pass through the signal lines to prevent the display from powering down. If this issue occurs, you can try ```digitalWrite()``` the pins in your ```reset()``` function.
 
-* **Sleep by leaving display power disconnected** <br />
+* **Don't sleep by leaving display power disconnected** <br />
 	*( Unless you really want to )* <br />
 	The drawback is that the working memory will be lost. This is not an issue if, after power-on, you intend to ```clear()```, or redraw the entire screen.<br />
 	If, instead, you go straight to *fastmode*, or ```setWindow()```, the display will show static. <br />
