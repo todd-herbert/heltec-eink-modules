@@ -45,6 +45,9 @@ void GDEP015OC1::drawPixel(int16_t x, int16_t y, uint16_t color) {
 	if(x >= winrot_left && y >= page_top && y <= page_bottom && x <= winrot_right) {
 
 		// Calculate a memory location for our pixel
+
+		// TODO: remove this outdated comment from all displays, in dev branch
+
 		// A whole lot of emperically derived "inverting" went on here
 		// The y values of the pixels in each page are inverted, but not the pages themselves
 		// The bit order of the x pixels is inverted, but not the order of the pixels themselves

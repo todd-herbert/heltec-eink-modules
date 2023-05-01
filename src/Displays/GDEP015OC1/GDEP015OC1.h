@@ -16,7 +16,7 @@ class GDEP015OC1 : public GFX {
         static const int16_t drawing_width = 200;   // Redundant for this display, handles odd resolutions. 
         static const int16_t drawing_height = 200;
 
-        // From Heltec, contains all the tricky electronicy setting stuff to allow partial refreshes.
+        // From Heltec. Tricky electronic setting stuff, about how to make the screen change color.
         const unsigned char lut_full[30] = {
             0x50, 0xAA, 0x55, 0xAA, 0x11, 0x00,
             0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -88,7 +88,7 @@ class GDEP015OC1 : public GFX {
         bool busy() {return digitalRead(pin_busy);}
         void clear();
         void wait();
-        void deepSleep(uint16_t pause = 500);
+        void deepSleep(uint16_t pause = 50);
 
     private:    // Hardware methods
         void grabPageMemory();

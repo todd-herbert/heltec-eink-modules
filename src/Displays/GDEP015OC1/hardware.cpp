@@ -124,44 +124,37 @@ void GDEP015OC1::reset() {
 	if(this->mode == fastmode.OFF) {
 		sendCommand(0x12);
 		wait();
-		// Debugging - imported from heltec driver
 
-		// SendCommand(DRIVER_OUTPUT_CONTROL);
-		sendCommand(0x01);
-
-		// SendData((EPD_HEIGHT - 1) & 0xFF);
-		sendData(199);	// (Height - 1) bit 0
-
-		// SendData(((EPD_HEIGHT - 1) >> 8) & 0xFF);
+		// "Driver Output Control"
+		sendCommand(0x01);	
+		sendData(panel_height - 1);	// (Height - 1) bit 0
 		sendData(0);	// (Height - 1) bit 1
+		sendData(0x00);	// Gate scanning settings
 
-		// SendData(0x00);                     // GD = 0; SM = 0; TB = 0;
-		sendData(0x00);	// TBD once datasheet identified
-
-		// SendCommand(BOOSTER_SOFT_START_CONTROL);
+		// "Booster Soft Start Control"
 		sendCommand(0x0C);
 		sendData(0xD7);
 		sendData(0xD6);
 		sendData(0x9D);
 
-		// SendCommand(WRITE_VCOM_REGISTER);
+		// "Write VCOM Register"
 		sendCommand(0x2C);
-		sendData(0xA8);                     // "VCOM 7C"
+		sendData(0xA8);
 
-		// SendCommand(SET_DUMMY_LINE_PERIOD);
+		// "Set dummy line period"
 		sendCommand(0x3A);
-		sendData(0x1A);                     // "4 dummy lines per gate"
+		sendData(0x1A);	// "4 dummy lines per gate"
 
-		// sendCommand(SET_GATE_TIME);
+		// "Set gate time"
 		sendCommand(0x3B);
-		sendData(0x08);                     // "2us per line"
+		sendData(0x08);	// "2us per line"
 
-		if (mode == fastmode.OFF) {		// Full Update
-			sendCommand(0x32);
-			for(uint8_t i=0;i < sizeof(lut_full); i++) 
-				sendData(lut_full[i]); 
-			wait();
-		}	
+		// Load the Look Up Table (LUT) for full update
+		sendCommand(0x32);
+		for(uint8_t i=0;i < sizeof(lut_full); i++) 
+			sendData(lut_full[i]); 
+
+		wait();
 	}
 
 }
@@ -178,59 +171,54 @@ void GDEP015OC1::wait() {
 void GDEP015OC1::setFastmode(FastmodeList::Fastmode mode) {
 		this->mode = mode;
 
-		//Now peform a modifed reset()
-
+		// Now peform a modifed reset()
+		// -----------------------------
 		sendCommand(0x12);
 		wait();
-		// Debugging - imported from heltec driver
 
-		// SendCommand(DRIVER_OUTPUT_CONTROL);
-		sendCommand(0x01);
-
-		// SendData((EPD_HEIGHT - 1) & 0xFF);
-		sendData(199);	// (Height - 1) bit 0
-
-		// SendData(((EPD_HEIGHT - 1) >> 8) & 0xFF);
+				// "Driver Output Control"
+		sendCommand(0x01);	
+		sendData(panel_height - 1);	// (Height - 1) bit 0
 		sendData(0);	// (Height - 1) bit 1
+		sendData(0x00);	// Gate scanning settings
 
-		// SendData(0x00);                     // GD = 0; SM = 0; TB = 0;
-		sendData(0x00);	// TBD once datasheet identified
-
-		// SendCommand(BOOSTER_SOFT_START_CONTROL);
+		// "Booster Soft Start Control"
 		sendCommand(0x0C);
 		sendData(0xD7);
 		sendData(0xD6);
 		sendData(0x9D);
 
-		// SendCommand(WRITE_VCOM_REGISTER);
+		// "Write VCOM Register"
 		sendCommand(0x2C);
-		sendData(0xA8);                     // "VCOM 7C"
+		sendData(0xA8);
 
-		// SendCommand(SET_DUMMY_LINE_PERIOD);
+		// "Set dummy line period"
 		sendCommand(0x3A);
-		sendData(0x1A);                     // "4 dummy lines per gate"
+		sendData(0x1A);	// "4 dummy lines per gate"
 
-		// sendCommand(SET_GATE_TIME);
+		// "Set gate time"
 		sendCommand(0x3B);
-		sendData(0x08);                     // "2us per line"
+		sendData(0x08);	// "2us per line"
 
-
+		// Load the LUT for partial update
 		sendCommand(0x32);
 		for(uint8_t i=0;i < sizeof(lut_partial); i++) 
-			sendData(lut_partial[i]); 
+			sendData(lut_partial[i]);
+
 		wait();
 
-			sendCommand(0x37);  	// "Write Register for Display Option"
-			sendData(0x00);  		// Heltec comment: "Local flash function is enabled, pingpong mode is enabled"
-			sendData(0x00);  
-			sendData(0x00);  
-			sendData(0x00); 
-			sendData(0x00);  	
-			sendData(0x40);  
-			sendData(0x00);  
-			sendData(0x00);   
-			sendData(0x00);  
-			sendData(0x00);
+		// "Write register for display option"
+		sendCommand(0x37);
+		sendData(0x00);
+		sendData(0x00);  
+		sendData(0x00);  
+		sendData(0x00); 
+		sendData(0x00);  	
+		sendData(0x40);	// RAM "Ping Pong" enabled
+		sendData(0x00);  
+		sendData(0x00);   
+		sendData(0x00);  
+		sendData(0x00);
 
 }
 
@@ -298,7 +286,6 @@ void GDEP015OC1::update(bool override_checks) {
 
 		// Block while the command runs
 		wait();
-		reset();
 	}
 }
 
