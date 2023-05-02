@@ -24,7 +24,6 @@ void DEPG0150BNS810::begin(const PageProfile profile) {
 	setDefaultColor(colors.WHITE);
 	setTextColor(colors.BLACK);
 	fullscreen();
-	setFastmode(fastmode.OFF);
 }
 
 /// Clear the screen in one step
@@ -184,6 +183,11 @@ void DEPG0150BNS810::setFastmode(FastmodeList::Fastmode mode) {
 	// If incorrectly entered fastmode, recurse
 	else if (mode == fastmode.FINALIZE && this->mode == fastmode.OFF)
 		setFastmode(fastmode.ON);
+	
+	// If explicitly leaving fastmode.
+	//This shouldn't really be called in normal usage, but just in case: if moving out of fastmode ex
+	else if (mode == fastmode.OFF)
+		reset();
 
 	// Store the mode
 	this->mode = mode;

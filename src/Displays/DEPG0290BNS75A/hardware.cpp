@@ -24,7 +24,6 @@ void DEPG0290BNS75A::begin(const PageProfile profile) {
 	setDefaultColor(colors.WHITE);
 	setTextColor(colors.BLACK);
 	fullscreen();
-	// setFastmode(fastmode.OFF); 	// Unimplemented
 }
 
 /// Clear the screen in one step

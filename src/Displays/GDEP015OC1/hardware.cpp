@@ -24,7 +24,6 @@ void GDEP015OC1::begin(const PageProfile profile) {
 	setDefaultColor(colors.WHITE);
 	setTextColor(colors.BLACK);
 	fullscreen();
-	setFastmode(fastmode.OFF);
 }
 
 /// Clear the screen in one step
@@ -169,6 +168,13 @@ void GDEP015OC1::wait() {
 
 /// Specify the technique used to draw the image onto the screen
 void GDEP015OC1::setFastmode(FastmodeList::Fastmode mode) {
+		// If moving out of fastmode
+		if(mode == fastmode.OFF) {
+			reset();
+			this->mode = fastmode.OFF;
+			return;
+		}
+
 		// If we're coming from .OFF, do a proper soft reset to unload the old settings
 		if (this->mode == fastmode.OFF) {
 			sendCommand(0x12);
