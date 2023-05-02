@@ -1,31 +1,34 @@
 // Which panel are you using?  (uncomment one)
 // --------------------------------------------
-	// #define	USING_DEPG0150BNS810		// 1.54" V2 - BW
-	// #define	USING_DEPG0154BNS800		// 1.54" V2 - BW
-	// #define	USING_GDEP015OC1			// 1.54" V2 - BW
-	// #define	USING_QYEG0213RWS800		// 2.13" V2 - BWR
-	// #define	USING_DEPG0290BNS75A		// 2.9"  V2 - BW
+    // #define	USING_DEPG0150BNS810		// 1.54" V2 - BW - Reb Tab
+    // #define	USING_DEPG0154BNS800		// 1.54" V2 - BW - Red Tab
+    // #define	USING_GDEP015OC1			// 1.54" V2 - BW - Blue Tab
+    // #define	USING_QYEG0213RWS800		// 2.13" V2 - BWR - Red Tab
+    // #define	USING_DEPG0290BNS75A		// 2.9" V2 - BW - Red Tab
+    // #define	USING_HTE029A1              // 2.9" V2 - BW - Blue Tab
 
 
 
 // Where is your panel connected?
 // --------------------------------
-	#define DC_PIN 8
-	#define CS_PIN 10
-	#define BUSY_PIN 7
+    #define DC_PIN 8
+    #define CS_PIN 10
+    #define BUSY_PIN 7
 
 
 // (Example automatically picks the correct class)
 #if     defined USING_DEPG0150BNS810
-	#define		PANEL_CLASS     DEPG0150BNS810
+    #define		PANEL_CLASS     DEPG0150BNS810
 #elif   defined USING_DEPG0154BNS800
-	#define		PANEL_CLASS     DEPG0154BNS800
+    #define		PANEL_CLASS     DEPG0154BNS800  
 #elif   defined USING_GDEP015OC1
-	#define     PANEL_CLASS     GDEP015OC1  
+    #define     PANEL_CLASS     GDEP015OC1	
 #elif   defined USING_QYEG0213RWS800
-	#define		PANEL_CLASS     QYEG0213RWS800 
+    #define		PANEL_CLASS     QYEG0213RWS800 
 #elif   defined USING_DEPG0290BNS75A
-	#define		PANEL_CLASS     DEPG0290BNS75A
+    #define		PANEL_CLASS     DEPG0290BNS75A
+#elif   defined USING_HTE029A1
+    #define		PANEL_CLASS     HTE029A1    
 #endif
 
 
@@ -49,57 +52,62 @@ PANEL_CLASS::ColorList c = display.colors;				// Quick access to different color
 
 
 void setup() {
-	display.begin();
-	display.setRotation(3); // Alternatively, display.orientation.PINS_RIGHT
-	
+    display.begin();
+    display.clear();
+    display.setRotation(3); // Alternatively, display.orientation.PINS_RIGHT
+    
 
-	// Pick colors that will work on your panel
-	// =============================================
-	static uint16_t BGCOLOR;
-	static uint16_t ACCENT1;
-	static uint16_t ACCENT2;
+    // Pick colors that will work on your panel
+    // =============================================
+    static uint16_t BGCOLOR;
+    static uint16_t ACCENT1;
+    static uint16_t ACCENT2;
 
-	#if     defined USING_DEPG0150BNS810
-		BGCOLOR = c.BLACK;
-		ACCENT1 = c.WHITE;
-		ACCENT2 = c.WHITE;
-	#elif	defined USING_DEPG0154BNS800
-		BGCOLOR = c.BLACK;
-		ACCENT1 = c.WHITE;
-		ACCENT2 = c.WHITE;
-	#elif   defined USING_GDEP015OC1
-		BGCOLOR = c.BLACK;
-		ACCENT1 = c.WHITE;
-		ACCENT2 = c.WHITE;
-	#elif   defined USING_QYEG0213RWS800
-		BGCOLOR = c.RED;
-		ACCENT1 = c.WHITE;
-		ACCENT2 = c.BLACK;  
-	#elif   defined USING_DEPG0290BNS75A
-		BGCOLOR = c.BLACK;
-		ACCENT1 = c.WHITE;
-		ACCENT2 = c.WHITE;    
-	#endif
-	// ============================================
+    #if     defined USING_DEPG0150BNS810
+        BGCOLOR = c.BLACK;
+        ACCENT1 = c.WHITE;
+        ACCENT2 = c.WHITE;
+    #elif	defined USING_DEPG0154BNS800
+        BGCOLOR = c.BLACK;
+        ACCENT1 = c.WHITE;
+        ACCENT2 = c.WHITE;
+    #elif   defined USING_GDEP015OC1
+        BGCOLOR = c.BLACK;
+        ACCENT1 = c.WHITE;
+        ACCENT2 = c.WHITE;
+    #elif   defined USING_QYEG0213RWS800
+        BGCOLOR = c.RED;
+        ACCENT1 = c.WHITE;
+        ACCENT2 = c.BLACK;  
+    #elif   defined USING_DEPG0290BNS75A
+        BGCOLOR = c.BLACK;
+        ACCENT1 = c.WHITE;
+        ACCENT2 = c.WHITE;
+    #elif   defined USING_HTE029A1
+        BGCOLOR = c.BLACK;
+        ACCENT1 = c.WHITE;
+        ACCENT2 = c.WHITE;    
+    #endif
+    // ============================================
 
-	display.setDefaultColor(BGCOLOR);
+    display.setDefaultColor(BGCOLOR);
 
-	while( display.calculating() ) {
-	
-			display.drawRoundRect(120, 20, 80, 60, 10, ACCENT1); // Hollow
-			display.fillRoundRect(130, 30, 85, 65, 10, ACCENT1); // Filled
+    while( display.calculating() ) {
+    
+            display.drawRoundRect(120, 20, 80, 60, 10, ACCENT1); // Hollow
+            display.fillRoundRect(130, 30, 85, 65, 10, ACCENT1); // Filled
 
-			display.fillRect(160, 50, 30, 30, BGCOLOR); // Drawing with our background color can help "erase" things
+            display.fillRect(160, 50, 30, 30, BGCOLOR); // Drawing with our background color can help "erase" things
 
-			display.fillCircle(40, -10, 25, ACCENT2);   // Drawing out of bounds is allowed
-			display.drawLine(40, -10, 300, 500, ACCENT1); // <-- !!! But don't go crazy as every pixel gets processed, even if most of them are offscreen
+            display.fillCircle(40, -10, 25, ACCENT2);   // Drawing out of bounds is allowed
+            display.drawLine(40, -10, 300, 500, ACCENT1); // <-- !!! But don't go crazy as every pixel gets processed, even if most of them are offscreen
 
-			display.fillTriangle(0,0, 30, b.bottom(), 60, b.bottom(), ACCENT2);  // Handy functions like bottom() make drawing easier
-			display.fillCircle(b.centerX(), b.centerY(), 21, BGCOLOR);  // (draw an outline for next circle)
-			display.fillCircle(b.centerX(), b.centerY(), 20, ACCENT2);  // Right in the center
-	}
+            display.fillTriangle(0,0, 30, b.bottom(), 60, b.bottom(), ACCENT2);  // Handy functions like bottom() make drawing easier
+            display.fillCircle(b.centerX(), b.centerY(), 21, BGCOLOR);  // (draw an outline for next circle)
+            display.fillCircle(b.centerX(), b.centerY(), 20, ACCENT2);  // Right in the center
+    }
 
-	display.update();   // The display will only begin to change once update() is called
+    display.update();   // The display will only begin to change once update() is called
 }
 
 void loop() {}

@@ -1,35 +1,38 @@
 // Which panel are you using?  (uncomment one)
 // --------------------------------------------
-	// #define		USING_DEPG0150BNS810		// 1.54" V2 - BW
-	// #define		USING_DEPG0154BNS800		// 1.54" V2 - BW
-	// #define		USING_GDEP015OC1			// 1.54" V2 - BW
+    // #define		USING_DEPG0150BNS810		// 1.54" V2 - BW - Red Tab
+    // #define		USING_DEPG0154BNS800		// 1.54" V2 - BW - Red Tab
+    // #define		USING_GDEP015OC1			// 1.54" V2 - BW - Blue Tab
+    // #define      USING_HTE029A1              // 2.9" V2 - BW - Blue Tab
 
 
 // Where is your panel connected?
 // --------------------------------
-	#define DC_PIN 8
-	#define CS_PIN 10
-	#define BUSY_PIN 7
+    #define DC_PIN 8
+    #define CS_PIN 10
+    #define BUSY_PIN 7
 
 
 // (Example automatically picks the correct class)
 #if     defined USING_DEPG0150BNS810
-	#define     PANEL_CLASS     DEPG0150BNS810
+    #define     PANEL_CLASS     DEPG0150BNS810
 #elif   defined USING_DEPG0154BNS800
-	#define     PANEL_CLASS     DEPG0154BNS800
+    #define     PANEL_CLASS     DEPG0154BNS800
 #elif   defined USING_GDEP015OC1
-	#define     PANEL_CLASS     GDEP015OC1
+    #define     PANEL_CLASS     GDEP015OC1
+#elif   defined USING_HTE029A1
+    #define     PANEL_CLASS     HTE029A1
 #endif
 
 
 // DEMO: Fast Mode
 // ------------------
-		// Some panels have the ability to perform a "fast update",
-		// The technical term for this feature is "partial refresh".
+        // Some panels have the ability to perform a "fast update",
+        // The technical term for this feature is "partial refresh".
 
-		// If your panel supports it, you can select is as a parameter when calling update()
-		// This feature SHOULD be present in most panels, however is rarely implemented by Heltec
-		// Hopefully future updates will bring wider support
+        // If your panel supports it, you can select is as a parameter when calling update()
+        // This feature SHOULD be present in most panels, however is rarely implemented by Heltec
+        // Hopefully future updates will bring wider support
 
 #include "heltec-eink-modules.h"
 
@@ -58,81 +61,81 @@ const uint16_t SPOTS_L = f.centerX() - (SPOTS_W / 2);
 const uint16_t SPOTS_R = f.centerX() + (SPOTS_W / 2);
 
 void setup() {
-	display.begin();
-	display.setDefaultColor(c.WHITE);
-	display.setTextSize(2);
-	display.clear();
+    display.begin();
+    display.setDefaultColor(c.WHITE);
+    display.setTextSize(2);
+    display.clear();
 
-	// A nice little label, not yet in fast-mode
-	// --------------------
-	while(display.calculating()) {
-		display.setCursor(0, f.bottom() - 30);
-		display.println("fastmode");
-		display.print(".ON");
-	}
-	display.update();
+    // A nice little label, not yet in fast-mode
+    // --------------------
+    while(display.calculating()) {
+        display.setCursor(0, f.bottom() - 30);
+        display.println("fastmode");
+        display.print(".ON");
+    }
+    display.update();
 
 
-	// Play loading animation, and countdown in corner
-	// ------------------------------------------------
-	display.setTextColor(c.WHITE);
-	display.setWindow( f.left(), f.top(), f.width(), f.height() - 30 );	// Don't overwrite the bottom 30px
-	display.setFastmode( display.fastmode.ON );
+    // Play loading animation, and countdown in corner
+    // ------------------------------------------------
+    display.setTextColor(c.WHITE);
+    display.setWindow( f.left(), f.top(), f.width(), f.height() - 50 );	// Don't overwrite the bottom 30px
+    display.setFastmode( display.fastmode.ON );
 
-	for (uint8_t demo = 0; demo <= 9; demo++) { // 10 times in total
+    for (uint8_t demo = 0; demo <= 9; demo++) { // 10 times in total
 
-		// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-		// To exit fast-mode, you must set to fastmode.FINALIZE
+        // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+        // To exit fast-mode, you must set to fastmode.FINALIZE
 
-		if (demo == 9)
-			display.setFastmode( display.fastmode.FINALIZE );
+        if (demo == 9)
+            display.setFastmode( display.fastmode.FINALIZE );
 
-		// This takes slightly longer than fastmode.ON, but preserves the image when reconfiguring.
-		// Display automatically returns to fastmode.OFF after finalize is complete
-		// Should also be called when changing window dimensions
-		// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+        // This takes slightly longer than fastmode.ON, but preserves the image when reconfiguring.
+        // Display automatically returns to fastmode.OFF after finalize is complete
+        // Should also be called when changing window dimensions
+        // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
 
-		// Drawing operations
-		// --------------------
-		while (display.calculating()) {
-			// Draw a new loading icon from hourglasses[]
-			display.drawXBitmap(  ICON_L, ICON_T, hourglasses[demo % 3], hourglass_1_width, hourglass_1_height, c.BLACK);
+        // Drawing operations
+        // --------------------
+        while (display.calculating()) {
+            // Draw a new loading icon from hourglasses[]
+            display.drawXBitmap(  ICON_L, ICON_T, hourglasses[demo % 3], hourglass_1_width, hourglass_1_height, c.BLACK);
 
-			// Draw a square in the corner with a digit
-			display.fillRect(0, 0, 30, 30, c.BLACK);
-			display.setCursor(10, 10);
-			display.print(demo);
-		}
-		// update() is called automatically during fast-mode
-	}
+            // Draw a square in the corner with a digit
+            display.fillRect(0, 0, 30, 30, c.BLACK);
+            display.setCursor(10, 10);
+            display.print(demo);
+        }
+        // update() is called automatically during fast-mode
+    }
 
-	// Change the label text
-	// ----------------------
-	display.setTextColor(c.BLACK);
-	display.setWindow ( f.left(), f.bottom() - 15, f.width(), 15 );	// Only write to the bottom 15px
+    // Change the label text
+    // ----------------------
+    display.setTextColor(c.BLACK);
+    display.setWindow ( f.left(), f.bottom() - 15, f.width(), 15 );	// Only write to the bottom 15px
 
-	// Straight to FINALIZE
-	// If there was more drawing to do, we might use fastmode.ON, but this is the final operation.
-	// Do not stay in fast-mode longer than required; it may damage the display.
+    // Straight to FINALIZE
+    // If there was more drawing to do, we might use fastmode.ON, but this is the final operation.
+    // Do not stay in fast-mode longer than required; it may damage the display.
 
-	display.setFastmode( display.fastmode.FINALIZE );
+    display.setFastmode( display.fastmode.FINALIZE );
 
-	while(display.calculating()) {
-		display.setCursor(0, f.bottom() - 15);
-		display.print(".FINALIZE");
-	}
+    while(display.calculating()) {
+        display.setCursor(0, f.bottom() - 15);
+        display.print(".FINALIZE");
+    }
 
-	// Pause here, and redraw in detail
-	// --------------------------------
-	delay(4000);
+    // Pause here, and redraw in detail
+    // --------------------------------
+    delay(4000);
 
-	while(display.calculating()) {
-		display.setCursor(0, f.bottom() - 15);
-		display.print(".OFF");
-	}
+    while(display.calculating()) {
+        display.setCursor(0, f.bottom() - 15);
+        display.print(".OFF");
+    }
 
-	display.fullscreen();	// Unconvential use of fullscreen() / setWindow(). Tell display we want the WHOLE SCREEN refreshed.
-	display.update();
+    display.fullscreen();	// Unconvential use of fullscreen() / setWindow(). Tell display we want the WHOLE SCREEN refreshed.
+    display.update();
 }
 
 void loop() {}

@@ -36,30 +36,32 @@ Heltec seem to release multiple, incompatible versions of the same display, whic
 
 Despite my best efforts I have been unable to source any of the older models, so if you have purchased your display in the last few years, it would seem likely that you have a V2 display.
 
-|	Model Name  	|	Sold As						|	Colors				|	Fastmode	|	Resolution (px)
-|-------------------|-------------------------------|-----------------------|---------------|--------------------------------
-|	DEPG0150BNS810	|	1.54 Inch E-ink Display V2	|	Black, White		|	Yes			|	200 x 200
-|	DEPG0154BNS800	|	1.54 Inch E-ink Display V2	|	Black, White		|	Yes			|	152 x 152
-|	GDEP015OC1 \*	|	1.54 Inch E-ink Display V2	|	Black, White		|	Yes			|	200 x 200
-|	QYEG0213RWS800	|	2.13 Inch E-ink Display V2	|	Black, White, Red	|	No			|	250 x 122
-|	DEPG0290BNS75A	|	2.9  Inch E-ink Display V2	|	Black, White		|	No			|	296 x 128
+|	Model Name  	        |	Sold As						|	Colors				|	Fastmode	    |	Resolution (px)
+|---------------------------|-------------------------------|-----------------------|-------------------|--------------------------------
+|	DEPG0150BNS810	        |	1.54 Inch E-ink Display V2	|	Black, White		|	Yes			    |	200 x 200
+|	DEPG0154BNS800	        |	1.54 Inch E-ink Display V2	|	Black, White		|	Yes			    |	152 x 152
+|	GDEP015OC1  <sup>1</sup>|	1.54 Inch E-ink Display V2	|	Black, White		|	Yes			    |	200 x 200
+|	QYEG0213RWS800	        |	2.13 Inch E-ink Display V2	|	Black, White, Red	|	No			    |	250 x 122
+|	DEPG0290BNS75A	        |	2.9 Inch E-ink Display V2	|	Black, White		|	No <sup>2</sup>	|	296 x 128
+|   HTE029A1                |   2.9 Inch E-ink Display V2   |   Black, White        |   Yes             |   296 x 128
 
-\* Closest match. No official information available
+<sup>1</sup> Closest match. No official information available. <br />
+<sup>2</sup> Heltec claim fastmode is supported, however the code they provide appears incorrect. The panel is not pre-programmed with the neccesary settings. Relevant settings do not appear to be available online. Further investigation required.
 
 ## Identifying your display
 It can be a challenge determining exactly which display you have. This key is not definitive, but lists identifying details I have noticed so far.
 
-|	Model Name  		|	Rear Label									|	Colors				|	Screen Protector	|	Flex Connector Label	|	Front	|	Rear
-|-----------------------|-----------------------------------------------|-----------------------|-----------------------|---------------------------|:---:|:---:
-|	**DEPG0150BNS810**	|	1.54&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2		|	Black, White		|	Red Tab				|	FPC-8101				|	![Front](Identification/DEPG0150BNS810-Front.jpg)	|	![Rear](Identification/DEPG0150BNS810-Rear.jpg)
-|	**DEPG0154BNS800**	|	1.54&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2		|	Black, White		|	Red Tab				|	FPC-7525				|	![Front](Identification/DEPG0154BNS800-Front.jpg)	|	![Rear](Identification/DEPG0154BNS800-Rear.jpg)
-|	**GDEP015OC1 \***	|	1.54&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2		|	Black, White		|	Blue Tab			|	HINK-E0154A05-A2		|	![Front](Identification/GDEP015OC1-Front.jpg)		|	![Rear](Identification/GDEP015OC1-Rear.jpg)
-|	**QYEG0213RWS800**	|	2.13&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2		|	Black, White, Red	|	Red Tab				|	FPC-7528				|	![Front](Identification/QYEG0213RWS800-Front.jpg)	|	![Rear](Identification/QYEG0213RWS800-Rear.jpg)
-|	**DEPG0290BNS75A**	|	2.9&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2		|	Black, White		|	Red Tab				|	FPC-750					|	![Front](Identification/DEPG0290BNS75A-Front.jpg)	|	![Rear](Identification/DEPG0290BNS75A-Rear.jpg)
+|	Model Name  		                |	Rear Label									                |	Colors				|	Screen Protector	|Flex Connector Label   |	Front	|	Rear
+|---------------------------------------|---------------------------------------------------------------|-----------------------|-----------------------|-----------------------|:-------------------------------------------------:|:---:
+|	**DEPG0150BNS810**                  |	1.54&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2		|	Black, White		|	Red Tab				|	FPC-8101            |	![Front](Identification/DEPG0150BNS810-Front.jpg)	|	![Rear](Identification/DEPG0150BNS810-Rear.jpg)
+|	**DEPG0154BNS800**                  |	1.54&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2		|	Black, White		|	Red Tab             |   FPC-7525            |	![Front](Identification/DEPG0154BNS800-Front.jpg)	|	![Rear](Identification/DEPG0154BNS800-Rear.jpg)
+|	**GDEP015OC1**&nbsp;<sup>1</sup>    |	1.54&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2		|	Black, White		|	Blue Tab			|	HINK-E0154A05-A2    |	![Front](Identification/GDEP015OC1-Front.jpg)		|	![Rear](Identification/GDEP015OC1-Rear.jpg)
+|	**QYEG0213RWS800**	                |	2.13&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2		|	Black, White, Red	|	Red Tab				|	FPC-7528			|	![Front](Identification/QYEG0213RWS800-Front.jpg)	|	![Rear](Identification/QYEG0213RWS800-Rear.jpg)
+|	**DEPG0290BNS75A**&nbsp;<sup>2</sup>|	2.9&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2		|	Black, White		    |	Red Tab				|	FPC-750				|	![Front](Identification/DEPG0290BNS75A-Front.jpg)	|	![Rear](Identification/DEPG0290BNS75A-Rear.jpg)
+|	**HTE029A1**	                    |	2.9&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2		|	Black, White		    |	Blue Tab			|	SYX-1553			|	![Front](Identification/HTE029A1-Front.jpg)         |	![Rear](Identification/HTE029A1-Rear.jpg)
 
-\* Closest match. No official information available
-
-**Note**: DEPG0290BNS75A has a close relative, DEPG0290BNS800. I don't believe that I have yet encountered this panel. It is not currently supported, and based on Heltec's description, the two may be easily confused. Watch this space.
+<sup>1</sup> Closest match. No official information available<br>
+<sup>2</sup> DEPG0290BNS75A has a close relative, DEPG0290BNS800. I don't believe that I have yet encountered this panel. It is not currently supported, and based on Heltec's description, the two may be easily confused. Watch this space.
 
 ## Wiring
 
@@ -74,26 +76,26 @@ All warnings aside, connection isn't all that hard. Just be sure to implement so
 * **VCC**: 3.3V Power In
 * **GND**: Ground
 * **D/C**: Data / Command
-	* Tells display whether incoming serial data is a command, or is image data.
-		* Can connect to any available digital pin on Arduino
-		* 3.3V Logic Input, needs level shifter
+    * Tells display whether incoming serial data is a command, or is image data.
+        * Can connect to any available digital pin on Arduino
+        * 3.3V Logic Input, needs level shifter
 
 * **SDI**: Serial Data Input
-	* SPI *MOSI* pin
-	* On Arduino UNO, *must connect to pin 11*
-	* 3.3V Logic Input, needs level shifter
+    * SPI *MOSI* pin
+    * On Arduino UNO, *must connect to pin 11*
+    * 3.3V Logic Input, needs level shifter
 * **CS**: Chip Select
-	* SPI *SS* Pin
-	* Can connect to any available digital pin on Arduino, however *pin 10* is traditional. 
-	* 3.3V Logic Input, needs level shifter
+    * SPI *SS* Pin
+    * Can connect to any available digital pin on Arduino, however *pin 10* is traditional. 
+    * 3.3V Logic Input, needs level shifter
 * **CLK**: Clock
-	* SPI *SCK* pin
-	* On Arduino UNO, *must connect to pin 13*
-	* 3.3V Logic Input, needs level shifter
+    * SPI *SCK* pin
+    * On Arduino UNO, *must connect to pin 13*
+    * 3.3V Logic Input, needs level shifter
 * **BUSY**
-	* Pin is LOW when screen is ready to accept commands
-	* Can connect to any available digital pin on Arduino
-	* 3.3V Logic Output, **level shifter not required** as 3.3V is a valid level for a HIGH signal on Arduino UNO
+    * Pin is LOW when screen is ready to accept commands
+    * Can connect to any available digital pin on Arduino
+    * 3.3V Logic Output, **level shifter not required** as 3.3V is a valid level for a HIGH signal on Arduino UNO
 
 Make sure to specify the location of your *D/C, CS* and *BUSY* pins in the constructor.
 
@@ -109,19 +111,19 @@ Make sure to specify the location of your *D/C, CS* and *BUSY* pins in the const
 DEPG0150BNS810 display(/* DC PIN */  8, /* CS PIN */  10, /* BUSY PIN */ 7);
 
 void setup() {
-	// Get everything ready
-	display.begin();
-	
-	// All drawing commands go intside this WHILE
-	while ( display.calculating() ) {
-		// ================================
-		// Graphics commands here
-		// For example:
-		display.fillCircle(50, 100, 20, display.colors.RED);
-		// ================================
-	}
-		// Draw this new image to the display
-		display.update();
+    // Get everything ready
+    display.begin();
+    
+    // All drawing commands go intside this WHILE
+    while ( display.calculating() ) {
+        // ================================
+        // Graphics commands here
+        // For example:
+        display.fillCircle(50, 100, 20, display.colors.RED);
+        // ================================
+    }
+        // Draw this new image to the display
+        display.update();
 }
 
 void loop() {}
@@ -132,7 +134,7 @@ To summarise:
 * Set your hardware pins in the constructor
 * Call ```.begin()```
 * All drawing commands go inside the ```while ( .calculating () )``` loop. <br />
-	This loop repeats the commands for each little slice (page) of the screen, as many times as needed
+    This loop repeats the commands for each little slice (page) of the screen, as many times as needed
 * Call ```.update()``` to show this new image data on the screen
 
 That's it! Everything else (should) be taken care of automatically.
@@ -144,32 +146,32 @@ In the interest of laziness, I'm going to direct you to [the official adafruit-g
 This library *should* work pretty much the same, with a few small exceptions:
 
 * The display will only support a limited set of colors:
-	* ```.colors.BLACK```
-	* ```.colors.WHITE```
-	* ```.colors.RED```  (3-Color displays only*)
+    * ```.colors.BLACK```
+    * ```.colors.WHITE```
+    * ```.colors.RED```  (3-Color displays only*)
 
 * The adafruit ```.fillScreen()``` method will work just fine, however it is more efficient to use ```.setDefaultColor()```, before the paging while loop.
 
 * A few new handy methods have been added to help with layout:
-	* `.bounds.full.`	---   *Dimensions for the whole screen* <br />
-			 							* `.left()` <br />
-							* `.right()` <br />
-							* `.top()` <br />
-							* `.bottom()` <br />
-							* `.centerX()` <br />
-							* `.centerY()` <br />
-							<br />
-	* `bounds.window.`	---   *Dimensions for the current window ([see here](#setting-a-window))* <br />
-				 						* `.left()` <br />
-							* `.right()` <br />
-							* `.top()` <br />
-							* `.bottom()` <br />
-							* `.centerX()` <br />
-							* `.centerY()` <br />
-							<br />
-	* `.setCursorTopLeft()`  --- *sets text-cursor position by upper-left corner value*
-	* `.getTextWidth()` 
-	* `.getTextHeight()` 
+    * `.bounds.full.`	---   *Dimensions for the whole screen* <br />
+                                         * `.left()` <br />
+                            * `.right()` <br />
+                            * `.top()` <br />
+                            * `.bottom()` <br />
+                            * `.centerX()` <br />
+                            * `.centerY()` <br />
+                            <br />
+    * `bounds.window.`	---   *Dimensions for the current window ([see here](#setting-a-window))* <br />
+                                         * `.left()` <br />
+                            * `.right()` <br />
+                            * `.top()` <br />
+                            * `.bottom()` <br />
+                            * `.centerX()` <br />
+                            * `.centerY()` <br />
+                            <br />
+    * `.setCursorTopLeft()`  --- *sets text-cursor position by upper-left corner value*
+    * `.getTextWidth()` 
+    * `.getTextHeight()` 
 
 As decided by the Adafruit library, the ancient *"XBitmap"* is the format of choice for pre-rendered graphics. Luckily, GIMP maintains good support for it.
 
@@ -222,27 +224,27 @@ A suitable method of controlling the power is shown here, using a PNP transistor
 
 ```c++
 void reset() {
-	digitalWrite(2, HIGH);		// PNP transistor, block current flow
-	delay(500);					// Wait for everything to power off
-	digitalWrite(2, LOW);		// PNP transistor, allow current flow
-	delay(500);					// Wait for everything to power back up
+    digitalWrite(2, HIGH);		// PNP transistor, block current flow
+    delay(500);					// Wait for everything to power off
+    digitalWrite(2, LOW);		// PNP transistor, allow current flow
+    delay(500);					// Wait for everything to power back up
 }
 
 void setup() {
-	// Set the pins for the reset
-	pinMode(2, OUTPUT);
-	digitalWrite(2, LOW);	// PNP transistor, allow current flow
+    // Set the pins for the reset
+    pinMode(2, OUTPUT);
+    digitalWrite(2, LOW);	// PNP transistor, allow current flow
 
-	display.begin();
-	while (display.calculating()) {
-		display.print("hello world");
-	}
-	display.update();
+    display.begin();
+    while (display.calculating()) {
+        display.print("hello world");
+    }
+    display.update();
 
-	// Sleep, wait 8 seconds, and reset (wake up)
-	display.deepSleep();	// Display ignores all commands now, until reset
-	delay(8000);
-	reset();
+    // Sleep, wait 8 seconds, and reset (wake up)
+    display.deepSleep();	// Display ignores all commands now, until reset
+    delay(8000);
+    reset();
 
 }
 ```
@@ -257,21 +259,21 @@ Note the use of ```.deepSleep()``` . This is the method which puts the display i
 If you don't ```deepSleep()```, you won't need a reset circuit.
 
 * **Write your own ```reset()``` function** <br />
-	It is not provided, as it must suit your individual circuit.
+    It is not provided, as it must suit your individual circuit.
 
 #### Don't:
 * **Don't ```deepSleep()``` during fast-mode** <br />
-	When you reset, your screen's contents won't be preserved
+    When you reset, your screen's contents won't be preserved
 
 * **Don't use a [voltage dividing level shifter](#wiring)** <br />
-	Enough current can pass through the signal lines to prevent the display from powering down. If this issue occurs, you can try ```digitalWrite()``` the pins in your ```reset()``` function.
+    Enough current can pass through the signal lines to prevent the display from powering down. If this issue occurs, you can try ```digitalWrite()``` the pins in your ```reset()``` function.
 
 * **Don't sleep by leaving display power disconnected** <br />
-	*( Unless you really want to )* <br />
-	The drawback is that the working memory will be lost. This is not an issue if, after power-on, you intend to ```clear()```, or redraw the entire screen.<br />
-	If, instead, you go straight to *fastmode*, or ```setWindow()```, the display will show static. <br />
-	Even if do decide to sleep in this way, it is still a good idea to call ```.deepSleep()``` first. In some displays, it seems necessary to ensure that the image remains crisp.
-	
+    *( Unless you really want to )* <br />
+    The drawback is that the working memory will be lost. This is not an issue if, after power-on, you intend to ```clear()```, or redraw the entire screen.<br />
+    If, instead, you go straight to *fastmode*, or ```setWindow()```, the display will show static. <br />
+    Even if do decide to sleep in this way, it is still a good idea to call ```.deepSleep()``` first. In some displays, it seems necessary to ensure that the image remains crisp.
+    
 <br />
 
 ### Setting a Window ###
@@ -283,8 +285,8 @@ display.setWindow( LEFT, TOP, WIDTH, HEIGHT );
 
 while( display.calculating() )
 {
-	// Graphics commands go here e.g
-	// display.drawRect(0, 0, 100, 100, display.colors.BLACK);
+    // Graphics commands go here e.g
+    // display.drawRect(0, 0, 100, 100, display.colors.BLACK);
 }
 display.update();
 ```
@@ -298,10 +300,10 @@ This automatic expansion can lead to a border around your graphics. One way to w
 
 ```c++
 display.drawRect(	display.bounds.window.left(),
-			display.bounds.window.top(), 
-			display.bounds.window.width(),
-			display.bounds.window.height(), 
-			display.colors.BLACK );
+            display.bounds.window.top(), 
+            display.bounds.window.width(),
+            display.bounds.window.height(), 
+            display.colors.BLACK );
 ```
 
 *(That's a lot of typing for a value that you use so often..  - [yes, yes it is](#code-readability))*
@@ -323,7 +325,7 @@ To enter fast mode:
 display.setFastmode( display.fastmode.ON );
 
 while (display.calculating()) {
-	// Graphics stuff here
+    // Graphics stuff here
 }
 
 // update() is called automatically in fast mode
@@ -333,7 +335,7 @@ Note that this state is somewhat tempermental. If you wish to call ```setWindow(
 display.setFastmode( display.fastmode.FINALIZE );
 
 while (display.calculating()) {
-	// Graphics stuff here
+    // Graphics stuff here
 }
 
 // Also no need for update() here
@@ -349,10 +351,10 @@ If you are like me, you might feel that all these long calls make your code "wor
 
 ```c++
 display.drawRect(	display.bounds.window.left(),
-			display.bounds.window.top(), 
-			display.bounds.window.width(),
-			display.bounds.window.height(), 
-			display.colors.BLACK );
+            display.bounds.window.top(), 
+            display.bounds.window.width(),
+            display.bounds.window.height(), 
+            display.colors.BLACK );
 ```
 
 As an alternative, declaring reusable "shortcuts" at the start of the code can really cut down on a lot of the bloat:
@@ -361,7 +363,7 @@ As an alternative, declaring reusable "shortcuts" at the start of the code can r
 // Ugly mess here but
 DEPG0150BNS810::Bounds::Window w = display.bounds.window;
 DEPG0150BNS810::ColorList c = display.colors;
-		
+        
 // Nice & clean here
 display.drawRect( w.left(), w.top(), w.width(), w.height(), c.BLACK );
 ```
