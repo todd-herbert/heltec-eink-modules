@@ -1,5 +1,4 @@
-﻿
-# Preparing Mono XBitmaps for E-INK
+﻿# Preparing Mono XBitmaps for E-INK
 1. [Install GIMP](#install-gimp)
 2. [Resize Image](#resize-image)
 3. [Indexed Color](#change-to-indexed-color-mode)

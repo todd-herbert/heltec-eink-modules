@@ -2,83 +2,83 @@
 
 /// Begin the E-Ink library
 void QYEG0213RWS800::begin(const PageProfile profile) {
-	// Store the page profile
-	this->page_profile = profile;
+    // Store the page profile
+    this->page_profile = profile;
 
-	// Set the digital pins that supplement the SPI interface
-	pinMode(pin_cs, OUTPUT);	// Incase we weren't give the standard pin 10 as SS
-	pinMode(pin_dc, OUTPUT);
-	pinMode(pin_busy, INPUT); 	// NOTE: do not use internal pullups, as we're reading a 3.3v output with our ~5v arduino
-	
-	// Prepare SPI
-	SPI.begin();
+    // Set the digital pins that supplement the SPI interface
+    pinMode(pin_cs, OUTPUT);	// Incase we weren't give the standard pin 10 as SS
+    pinMode(pin_dc, OUTPUT);
+    pinMode(pin_busy, INPUT); 	// NOTE: do not use internal pullups, as we're reading a 3.3v output with our ~5v arduino
+    
+    // Prepare SPI
+    SPI.begin();
 
-	// Calculate size for pagefile.
-	// NB: this is a class member and gets reused
-	page_bytecount = panel_width * page_profile.height / 8;		
+    // Calculate size for pagefile.
+    // NB: this is a class member and gets reused
+    page_bytecount = panel_width * page_profile.height / 8;		
 
-	// Set height in the library
-	_width = WIDTH = panel_width;
-	_height = HEIGHT = panel_height;
+    // Set height in the library
+    _width = WIDTH = panel_width;
+    _height = HEIGHT = panel_height;
 
-	// Set an initial configuration for drawing
-	setDefaultColor(colors.WHITE);
-	setTextColor(colors.BLACK);
-	fullscreen();
+    // Set an initial configuration for drawing
+    setDefaultColor(colors.WHITE);
+    setTextColor(colors.BLACK);
+    fullscreen();
 }
 
 /// Clear the screen in one step
 void QYEG0213RWS800::clear() {
-	reset();
-	wait();
+    reset();
+    wait();
 
-	// Tell panel hardware that we want to clear the whole screen
-	fullscreen();
-	
-	int16_t sx, sy, ex, ey;
-	sx = (bounds.full.left() / 8) + 1;		// I don't understand why this is +1, but it seems necessary, and the official Heltec driver also does this.
-	ex = ((bounds.full.right()) / 8) + 1;
-	sy = bounds.full.top();
-	ey = bounds.full.bottom();
+    // Tell panel hardware that we want to clear the whole screen
+    fullscreen();
+    
+    int16_t sx, sy, ex, ey;
+    sx = (bounds.full.left() / 8) + 1;		// I don't understand why this is +1, but it seems necessary, and the official Heltec driver also does this.
+    ex = ((bounds.full.right()) / 8) + 1;
+    sy = bounds.full.top();
+    ey = bounds.full.bottom();
 
-	// Data entry mode - Right to Left, Top to Bottom
-	sendCommand(0x11);
-  	sendData(0x03);
+    // Data entry mode - Right to Left, Top to Bottom
+    sendCommand(0x11);
+      sendData(0x03);
 
-	// Inform the panel hardware of our chosen memory location
-	sendCommand(0x44);	// Memory X start - end
-	sendData(sx);
-	sendData(ex);
-	sendCommand(0x45);	// Memory Y start - end
-	sendData(sy);
-	sendData(0);		// NB: Controller accepts Y values > 256, but this panel is small, so second byte is always 0
-	sendData(ey);
-	sendData(0);										
-	sendCommand(0x4E);	// Memory cursor X
-	sendData(sx);
-	sendCommand(0x4F);	// Memory cursor y
-	sendData(sy);
-	sendData(0);	
+    // Inform the panel hardware of our chosen memory location
+    sendCommand(0x44);	// Memory X start - end
+    sendData(sx);
+    sendData(ex);
+    sendCommand(0x45);	// Memory Y start - end
+    sendData(sy);
+    sendData(0);		// NB: Controller accepts Y values > 256, but this panel is small, so second byte is always 0
+    sendData(ey);
+    sendData(0);										
+    sendCommand(0x4E);	// Memory cursor X
+    sendData(sx);
+    sendCommand(0x4F);	// Memory cursor y
+    sendData(sy);
+    sendData(0);	
 
-	uint16_t x, y;
-	uint8_t black_byte = (default_color & colors.WHITE) * 255;			// We're filling in bulk here; bits are either all on or all off
-	uint8_t red_byte = ((default_color & colors.RED) >> 1) * 255;
+    uint16_t x, y;
+    uint8_t black_byte = (default_color & colors.WHITE) * 255;			// We're filling in bulk here; bits are either all on or all off
+    uint8_t red_byte = ((default_color & colors.RED) >> 1) * 255;
 
-	sendCommand(0x24);   // Write RAM for black(0)/white (1)
-	for(y = 0; y < panel_width; y++) {
-		for(x = 0; x < panel_height; x++) {
-			sendData(black_byte);
-		}
-  	}
-	
+    sendCommand(0x24);   // Write RAM for black(0)/white (1)
+    for(y = 0; y < panel_width; y++) {
+        for(x = 0; x < panel_height; x++) {
+            sendData(black_byte);
+        }
+      }
+    
     sendCommand(0x26);   // Write RAM for red(1)/white (0)
-	for(y = 0; y < panel_width; y++) {
-		for(x=0; x < panel_height; x++) {
-			sendData(red_byte);
-		}
-  	}
-	update();
-	wait();
+    for(y = 0; y < panel_width; y++) {
+        for(x=0; x < panel_height; x++) {
+            sendData(red_byte);
+        }
+      }
+    update();
+    wait();
 }
 
 
@@ -86,135 +86,135 @@ void QYEG0213RWS800::clear() {
 // Allocate and Deallocate dynamic memory for graphics operations
 void QYEG0213RWS800::grabPageMemory() {
     page_black = new uint8_t[page_bytecount];
-	page_red = new uint8_t[page_bytecount];
+    page_red = new uint8_t[page_bytecount];
 }
 
 void QYEG0213RWS800::freePageMemory() {
-	delete page_black;
-	delete page_red;
+    delete page_black;
+    delete page_red;
 }
 
 // Interface directly with display
 // -----------------------------------
 
 void QYEG0213RWS800::sendCommand(uint8_t command) {
-	SPI.beginTransaction(spi_settings);
-	digitalWrite(pin_dc, LOW);	// Data-Command pin LOW, tell PanelHardware this SPI transfer is a command
-	digitalWrite(pin_cs, LOW);
+    SPI.beginTransaction(spi_settings);
+    digitalWrite(pin_dc, LOW);	// Data-Command pin LOW, tell PanelHardware this SPI transfer is a command
+    digitalWrite(pin_cs, LOW);
 
-	SPI.transfer(command);
+    SPI.transfer(command);
 
-	digitalWrite(pin_cs, HIGH);
-	SPI.endTransaction();
+    digitalWrite(pin_cs, HIGH);
+    SPI.endTransaction();
 }
 
 void QYEG0213RWS800::sendData(uint8_t data) {
-	SPI.beginTransaction(spi_settings);
-	digitalWrite(pin_dc, HIGH);	// Data-Command pin HIGH, tell PanelHardware this SPI transfer is data
-	digitalWrite(pin_cs, LOW);
+    SPI.beginTransaction(spi_settings);
+    digitalWrite(pin_dc, HIGH);	// Data-Command pin HIGH, tell PanelHardware this SPI transfer is data
+    digitalWrite(pin_cs, LOW);
 
-	SPI.transfer(data);
+    SPI.transfer(data);
 
-	digitalWrite(pin_cs, HIGH);
-	SPI.endTransaction();
+    digitalWrite(pin_cs, HIGH);
+    SPI.endTransaction();
 }
 
 /// Wake the PanelHardware from sleep mode, so it can be changed
 void QYEG0213RWS800::reset() {
-	// A lot of this is over my head.
-	// Info from the display datasheets, and the official Heltec Driver
+    // A lot of this is over my head.
+    // Info from the display datasheets, and the official Heltec Driver
 
-	wait();
+    wait();
 
-	// Technical settings. Released by Heltec.
-	// -------------------------------------------------------
+    // Technical settings. Released by Heltec.
+    // -------------------------------------------------------
 
-	sendCommand(0x12); // Software Reset
-	wait();
+    sendCommand(0x12); // Software Reset
+    wait();
 
-	sendCommand(0x74); // "Analog Block Control"
-	sendData(0x54);
-	sendCommand(0x7E); // "Digital Block Control"
-	sendData(0x3B);
+    sendCommand(0x74); // "Analog Block Control"
+    sendData(0x54);
+    sendCommand(0x7E); // "Digital Block Control"
+    sendData(0x3B);
 
-	sendCommand(0x01); // "Driver output control" 
-	sendData(0xF9);
-	sendData(0x00);
-	sendData(0x00);
+    sendCommand(0x01); // "Driver output control" 
+    sendData(0xF9);
+    sendData(0x00);
+    sendData(0x00);
 
-	sendCommand(0x3C); // "Border Waveform"
-	sendData(0x01);	
+    sendCommand(0x3C); // "Border Waveform"
+    sendData(0x01);	
 
-  	sendCommand(0x18);	// "Use internal temperature sensor"
-	sendData(0x80);	
+      sendCommand(0x18);	// "Use internal temperature sensor"
+    sendData(0x80);	
 
-	wait();
+    wait();
 }
 
 /// Reset the Panel Hardware
 void QYEG0213RWS800::wait() {
-	while(digitalRead(pin_busy) == HIGH)	{	// Low = idle	
-		delay(1);
-	}
+    while(digitalRead(pin_busy) == HIGH)	{	// Low = idle	
+        delay(1);
+    }
 }
 
 void QYEG0213RWS800::writePage() {
-	// Calculate the memory location (in the Display Controller IC), for this particular display segment (page) we are about to transmit. 
+    // Calculate the memory location (in the Display Controller IC), for this particular display segment (page) we are about to transmit. 
 
-	int16_t sx, sy, ex, ey;
+    int16_t sx, sy, ex, ey;
 
-	sx = (winrot_left / 8) + 1;		// I don't understand why this is +1, but it seems necessary, and the official Heltec driver also does this.
-	ex = ((winrot_right) / 8) + 1;
-	sy = page_top;
-	ey = page_bottom;
+    sx = (winrot_left / 8) + 1;		// I don't understand why this is +1, but it seems necessary, and the official Heltec driver also does this.
+    ex = ((winrot_right) / 8) + 1;
+    sy = page_top;
+    ey = page_bottom;
 
-	// Data entry mode - Right to Left, Top to Bottom
-	sendCommand(0x11);
-  	sendData(0x03);
+    // Data entry mode - Right to Left, Top to Bottom
+    sendCommand(0x11);
+      sendData(0x03);
 
-	// Inform the panel hardware of our chosen memory location
-	sendCommand(0x44);	// Memory X start - end
-	sendData(sx);
-	sendData(ex);
-	sendCommand(0x45);	// Memory Y start - end
-	sendData(sy);
-	sendData(0);		// NB: Controller accepts Y values > 256, but this panel is small, so second byte is always 0
-	sendData(ey);
-	sendData(0);										
-	sendCommand(0x4E);	// Memory cursor X
-	sendData(sx);
-	sendCommand(0x4F);	// Memory cursor y
-	sendData(sy);
-	sendData(0);										
+    // Inform the panel hardware of our chosen memory location
+    sendCommand(0x44);	// Memory X start - end
+    sendData(sx);
+    sendData(ex);
+    sendCommand(0x45);	// Memory Y start - end
+    sendData(sy);
+    sendData(0);		// NB: Controller accepts Y values > 256, but this panel is small, so second byte is always 0
+    sendData(ey);
+    sendData(0);										
+    sendCommand(0x4E);	// Memory cursor X
+    sendData(sx);
+    sendCommand(0x4F);	// Memory cursor y
+    sendData(sy);
+    sendData(0);										
 
-	// Now we can send over our image data
-	sendCommand(0x24);   // Write memory for black(0)/white (1)
-	for (uint16_t i = 0; i < pagefile_length; i++) {
-		sendData(page_black[i]);
-	}
+    // Now we can send over our image data
+    sendCommand(0x24);   // Write memory for black(0)/white (1)
+    for (uint16_t i = 0; i < pagefile_length; i++) {
+        sendData(page_black[i]);
+    }
 
     sendCommand(0x26);   // Write memory for red(1)/white (0)
-	for (uint16_t i = 0; i < pagefile_length; i++) {
-		sendData(page_red[i]);
-	}
+    for (uint16_t i = 0; i < pagefile_length; i++) {
+        sendData(page_red[i]);
+    }
 
-	wait();
-	// Nothing happens now until update() is called
+    wait();
+    // Nothing happens now until update() is called
 }
 
 
 /// Draw the image in PanelHardware's memory to the screen
 void QYEG0213RWS800::update() {
-	sendCommand(0x22);
-	sendData(0xF7);
-	sendCommand(0x20);
+    sendCommand(0x22);
+    sendData(0xF7);
+    sendCommand(0x20);
 
-	wait();	// Block while the command runs
+    wait();	// Block while the command runs
 }
 
 /// Set the panel to an ultra low power state. Only way to exit is to cycle power to VCC.
 void QYEG0213RWS800::deepSleep(uint16_t pause) {
-	sendCommand(0x10);
-	sendData(0x01);
-	delay(pause);
+    sendCommand(0x10);
+    sendData(0x01);
+    delay(pause);
 }

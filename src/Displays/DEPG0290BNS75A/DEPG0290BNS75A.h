@@ -19,7 +19,7 @@ class DEPG0290BNS75A : public GFX {
         // LUT for partial refresh - unimplemented
         // const unsigned char lut_partil[70] = {}; // LUT for this display should *allegedly* be 70 bytes
         const unsigned char *lut_partial = nullptr;  // Placeholder
-        	
+            
 
 
 

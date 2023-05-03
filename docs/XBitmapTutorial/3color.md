@@ -1,5 +1,4 @@
-﻿
-# Preparing 3-Color XBitmaps for E-INK
+﻿# Preparing 3-Color XBitmaps for E-INK
 1. [Install GIMP](#install-gimp)
 2. [Resize Image](#resize-image)
 3. [Define Color Palette](#define-a-color-palette)

@@ -116,14 +116,11 @@ void setup() {
     
     // All drawing commands go intside this WHILE
     while ( display.calculating() ) {
-        // ================================
-        // Graphics commands here
-        // For example:
         display.fillCircle(50, 100, 20, display.colors.RED);
-        // ================================
     }
-        // Draw this new image to the display
-        display.update();
+    
+    // Draw this new image to the display
+    display.update();
 }
 
 void loop() {}
@@ -272,7 +269,7 @@ If you don't ```deepSleep()```, you won't need a reset circuit.
     *( Unless you really want to )* <br />
     The drawback is that the working memory will be lost. This is not an issue if, after power-on, you intend to ```clear()```, or redraw the entire screen.<br />
     If, instead, you go straight to *fastmode*, or ```setWindow()```, the display will show static. <br />
-    Even if do decide to sleep in this way, it is still a good idea to call ```.deepSleep()``` first. In some displays, it seems necessary to ensure that the image remains crisp.
+    If you do decide to sleep in this way, it is still a good idea to call ```.deepSleep()``` first. In some displays, it seems necessary to ensure that the image remains crisp.
     
 <br />
 
@@ -299,11 +296,11 @@ It is possible to place a window so that it will have precisely the requested di
 This automatic expansion can lead to a border around your graphics. One way to work around this issue is to use the dimensions calculated in `.bounds.window.*` (see [drawing](#drawing-commands)). 
 
 ```c++
-display.drawRect(	display.bounds.window.left(),
-            display.bounds.window.top(), 
-            display.bounds.window.width(),
-            display.bounds.window.height(), 
-            display.colors.BLACK );
+display.drawRect( display.bounds.window.left(),
+                  display.bounds.window.top(), 
+                  display.bounds.window.width(),
+                  display.bounds.window.height(), 
+                  display.colors.BLACK );
 ```
 
 *(That's a lot of typing for a value that you use so often..  - [yes, yes it is](#code-readability))*
@@ -350,11 +347,11 @@ When ```fastmode.FINALIZE``` has run, the display will automatically return to `
 If you are like me, you might feel that all these long calls make your code "wordy":
 
 ```c++
-display.drawRect(	display.bounds.window.left(),
-            display.bounds.window.top(), 
-            display.bounds.window.width(),
-            display.bounds.window.height(), 
-            display.colors.BLACK );
+display.drawRect( display.bounds.window.left(),
+                  display.bounds.window.top(), 
+                  display.bounds.window.width(),
+                  display.bounds.window.height(), 
+                  display.colors.BLACK );
 ```
 
 As an alternative, declaring reusable "shortcuts" at the start of the code can really cut down on a lot of the bloat:
