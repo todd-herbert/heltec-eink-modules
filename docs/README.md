@@ -43,6 +43,7 @@ Despite my best efforts I have been unable to source any of the older models, so
 |	GDEP015OC1  <sup>1</sup>|	1.54 Inch E-ink Display V2	|	Black, White		|	Yes			    |	200 x 200
 |	QYEG0213RWS800	        |	2.13 Inch E-ink Display V2	|	Black, White, Red	|	No			    |	250 x 122
 |	DEPG0290BNS75A	        |	2.9 Inch E-ink Display V2	|	Black, White		|	No <sup>2</sup>	|	296 x 128
+|   DEPG0290BNS800          |   2.9 Inch E-ink Display V2   |   Black, White        |   Yes             |   296 x 128
 |   HTE029A1                |   2.9 Inch E-ink Display V2   |   Black, White        |   Yes             |   296 x 128
 
 <sup>1</sup> Closest match. No official information available. <br />
@@ -57,11 +58,11 @@ It can be a challenge determining exactly which display you have. This key is no
 |	**DEPG0154BNS800**                  |	1.54&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2		|	Black, White		|	Red Tab             |   FPC-7525            |	![Front](Identification/DEPG0154BNS800-Front.jpg)	|	![Rear](Identification/DEPG0154BNS800-Rear.jpg)
 |	**GDEP015OC1**&nbsp;<sup>1</sup>    |	1.54&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2		|	Black, White		|	Blue Tab			|	HINK-E0154A05-A2    |	![Front](Identification/GDEP015OC1-Front.jpg)		|	![Rear](Identification/GDEP015OC1-Rear.jpg)
 |	**QYEG0213RWS800**	                |	2.13&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2		|	Black, White, Red	|	Red Tab				|	FPC-7528			|	![Front](Identification/QYEG0213RWS800-Front.jpg)	|	![Rear](Identification/QYEG0213RWS800-Rear.jpg)
-|	**DEPG0290BNS75A**&nbsp;<sup>2</sup>|	2.9&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2		|	Black, White		    |	Red Tab				|	FPC-750				|	![Front](Identification/DEPG0290BNS75A-Front.jpg)	|	![Rear](Identification/DEPG0290BNS75A-Rear.jpg)
-|	**HTE029A1**	                    |	2.9&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2		|	Black, White		    |	Blue Tab			|	SYX-1553			|	![Front](Identification/HTE029A1-Front.jpg)         |	![Rear](Identification/HTE029A1-Rear.jpg)
+|	**DEPG0290BNS75A**&nbsp;            |	2.9&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2		    |	Black, White		|	Red Tab				|	FPC-750				|	![Front](Identification/DEPG0290BNS75A-Front.jpg)	|	![Rear](Identification/DEPG0290BNS75A-Rear.jpg)
+|	**DEPG0290BNS800**                  |	2.9&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2		    |	Black, White		|	Red Tab				|	FPC-7519 rev.b		|	![Front](Identification/DEPG0290BNS800-Front.jpg)	|	![Rear](Identification/DEPG0290BNS800-Rear.jpg)
+|	**HTE029A1**	                    |	2.9&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2		    |	Black, White		|	Blue Tab			|	SYX-1553			|	![Front](Identification/HTE029A1-Front.jpg)         |	![Rear](Identification/HTE029A1-Rear.jpg)
 
 <sup>1</sup> Closest match. No official information available<br>
-<sup>2</sup> DEPG0290BNS75A has a close relative, DEPG0290BNS800. I don't believe that I have yet encountered this panel. It is not currently supported, and based on Heltec's description, the two may be easily confused. Watch this space.
 
 ## Wiring
 
