@@ -94,15 +94,15 @@ void QYEG0213RWS800::setCursorTopLeft(const char* text, uint16_t x, uint16_t y) 
 
 uint16_t QYEG0213RWS800::getTextWidth(const char* text) {
     int16_t x(0),y(0);
-    uint16_t w(0);
-    getTextBounds(text, 0, 0, &x, &y, &w, NULL);	// Need to keep x and y as they appear to be used internally by getTextBounds()
+    uint16_t w(0), h(0);
+    getTextBounds(text, 0, 0, &x, &y, &w, &h);	// Need to keep x and y as they appear to be used internally by getTextBounds()
     return w;
 }
 
 uint16_t QYEG0213RWS800::getTextHeight(const char* text) {
     int16_t x(0),y(0);
-    uint16_t h(0);
-    getTextBounds(text, 0, 0, &x, &y, NULL, &h);
+    uint16_t w(0), h(0);
+    getTextBounds(text, 0, 0, &x, &y, &w, &h);	// Need to keep x and y as they appear to be used internally by getTextBounds()
     return h;
 }
 
