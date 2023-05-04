@@ -1,9 +1,10 @@
 // Which panel are you using?  (uncomment one)
 // --------------------------------------------
-    // #define		USING_DEPG0150BNS810		// 1.54" V2 - BW - Red Tab
-    // #define		USING_DEPG0154BNS800		// 1.54" V2 - BW - Red Tab
-    // #define		USING_GDEP015OC1			// 1.54" V2 - BW - Blue Tab
-    // #define      USING_HTE029A1              // 2.9" V2 - BW - Blue Tab
+    // #define	USING_DEPG0150BNS810		// 1.54" V2 - BW - Red Tab
+    // #define	USING_DEPG0154BNS800		// 1.54" V2 - BW - Red Tab
+    // #define	USING_GDEP015OC1			// 1.54" V2 - BW - Blue Tab
+    // #define  USING_DEPG0290BNS800        // 2.9" V2 - BW - Red Tab
+    // #define  USING_HTE029A1              // 2.9" V2 - BW - Blue Tab
 
 
 // Where is your panel connected?
@@ -20,6 +21,8 @@
     #define     PANEL_CLASS     DEPG0154BNS800
 #elif   defined USING_GDEP015OC1
     #define     PANEL_CLASS     GDEP015OC1
+#elif   defined USING_DEPG0290BNS800
+    #define     PANEL_CLASS     DEPG0290BNS800   
 #elif   defined USING_HTE029A1
     #define     PANEL_CLASS     HTE029A1
 #endif
@@ -112,7 +115,7 @@ void setup() {
     // Change the label text
     // ----------------------
     display.setTextColor(c.BLACK);
-    display.setWindow ( f.left(), f.bottom() - 15, f.width(), 15 );	// Only write to the bottom 15px
+    display.setWindow ( f.left(), f.bottom() - 30, f.width(), 30 );	// Only write to the bottom 30px
 
     // Straight to FINALIZE
     // If there was more drawing to do, we might use fastmode.ON, but this is the final operation.
@@ -121,7 +124,8 @@ void setup() {
     display.setFastmode( display.fastmode.FINALIZE );
 
     while(display.calculating()) {
-        display.setCursor(0, f.bottom() - 15);
+        display.setCursor(0, f.bottom() - 30);
+        display.println("fastmode");
         display.print(".FINALIZE");
     }
 
@@ -130,7 +134,8 @@ void setup() {
     delay(4000);
 
     while(display.calculating()) {
-        display.setCursor(0, f.bottom() - 15);
+        display.setCursor(0, f.bottom() - 30);
+        display.println("fastmode");
         display.print(".OFF");
     }
 

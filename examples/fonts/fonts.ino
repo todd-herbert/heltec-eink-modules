@@ -5,6 +5,7 @@
     // #define	USING_GDEP015OC1			// 1.54" V2 - BW - Blue Tab
     // #define	USING_QYEG0213RWS800		// 2.13" V2 - BWR - Red Tab
     // #define	USING_DEPG0290BNS75A		// 2.9" V2 - BW - Red Tab
+    // #define  USING_DEPG0290BNS800        // 2.9" V2 - BW - Red Tab
     // #define	USING_HTE029A1              // 2.9" V2 - BW - Blue Tab
 
 
@@ -16,13 +17,13 @@
     #define BUSY_PIN 7
 
 
-// (Example automatically picks the correct class)
+// (Example automatically picks the correct class and sample text)
 #if     defined USING_DEPG0150BNS810
     #define		PANEL_CLASS     DEPG0150BNS810
     #define		SAMPLE_TEXT		"Fancy fonty text."
 #elif   defined USING_DEPG0154BNS800
     #define		PANEL_CLASS     DEPG0154BNS800  
-    #define		SAMPLE_TEXT		"Fancy font."
+    #define		SAMPLE_TEXT		"Fancy font."   // Display too small
 #elif   defined USING_GDEP015OC1
     #define     PANEL_CLASS     GDEP015OC1
     #define		SAMPLE_TEXT		"Fancy fonty text."  
@@ -32,6 +33,9 @@
 #elif   defined USING_DEPG0290BNS75A
     #define		PANEL_CLASS     DEPG0290BNS75A
     #define		SAMPLE_TEXT		"Fancy fonty text."
+#elif   defined USING_DEPG0290BNS800
+    #define     PANEL_CLASS     DEPG0290BNS800
+    #define		SAMPLE_TEXT		"Fancy fonty text."   
 #elif   defined USING_HTE029A1
     #define		PANEL_CLASS     HTE029A1
     #define		SAMPLE_TEXT		"Fancy fonty text."

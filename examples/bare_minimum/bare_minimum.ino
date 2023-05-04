@@ -19,6 +19,7 @@
     // GDEP015OC1 display( PIN_DC, PIN_CS, PIN_BUSY);			// 1.54" V2 - BW - Blue Tab
     // QYEG0213RWS800 display( PIN_DC, PIN_CS, PIN_BUSY );		// 2.13" V2 - BWR - Red Tab
     // DEPG0290BNS75A display( PIN_DC, PIN_CS, PIN_BUSY );		// 2.9"  V2 - BW - Red Tab
+    // DEPG0290BNS800 display( PIN_DC, PIN_CS, PIN_BUSY );		// 2.9"  V2 - BW - Red Tab
     // HTE029A1 display( PIN_DC, PIN_CS, PIN_BUSY );			// 2.9"  V2 - BW - Blue Tab
 
 

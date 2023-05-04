@@ -1,11 +1,12 @@
 // Which panel are you using?  (uncomment one)
 // --------------------------------------------
-    // #define		USING_DEPG0150BNS810		// 1.54" V2 - BW - Red Tab
-    // #define		USING_DEPG0154BNS800		// 1.54" V2 - BW - Red Tab
-    // #define		USING_GDEP015OC1			// 1.54" V2 - BW - Blue Tab
-    // #define		USING_QYEG0213RWS800		// 2.13" V2 - BWR - Red Tab
-    // #define		USING_DEPG0290BNS75A		// 2.9"  V2 - BW - Red Tab
-    // #define      USING_HTE029A1              // 2.9" V2 - BW - Blue Tab
+    // #define	USING_DEPG0150BNS810		// 1.54" V2 - BW - Red Tab
+    // #define	USING_DEPG0154BNS800		// 1.54" V2 - BW - Red Tab
+    // #define	USING_GDEP015OC1			// 1.54" V2 - BW - Blue Tab
+    // #define	USING_QYEG0213RWS800		// 2.13" V2 - BWR - Red Tab
+    // #define  USING_DEPG0290BNS75A		// 2.9" V2 - BW - Red Tab
+    // #define  USING_DEPG0290BNS800        // 2.9" V2 - BW - Red Tab
+    // #define  USING_HTE029A1              // 2.9" V2 - BW - Blue Tab
 
 
 // Where is your panel connected?
@@ -31,6 +32,9 @@
     #define     PENCILS_H    "pencils_250x122.h"
 #elif   defined USING_DEPG0290BNS75A
     #define     PANEL_CLASS     DEPG0290BNS75A    
+    #define     PENCILS_H    "pencils_296x128.h"
+#elif   defined USING_DEPG0290BNS800
+    #define     PANEL_CLASS     DEPG0290BNS800   
     #define     PENCILS_H    "pencils_296x128.h"
 #elif   defined USING_HTE029A1
     #define     PANEL_CLASS     HTE029A1    
