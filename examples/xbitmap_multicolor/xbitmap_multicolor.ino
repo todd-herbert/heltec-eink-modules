@@ -1,21 +1,21 @@
 // Which panel are you using?  (uncomment one)
 // (Only supported panels with 3-color are shown)
 // -------------------------------------------
-	#define   USING_QYEG0213RWS800		// 2.13" V2 - BWR
+    #define   USING_QYEG0213RWS800      // 2.13" V2 - BWR
 
 
 // Where is your panel connected?
 // ------------------------------
-	#define DC_PIN 8
-	#define CS_PIN 10
-	#define BUSY_PIN 7
+    #define DC_PIN 8
+    #define CS_PIN 10
+    #define BUSY_PIN 7
 
 
 // (Example automatically picks the correct class and sample image)
 #if defined   USING_QYEG0213RWS800
-	#define     PANEL_CLASS       QYEG0213RWS800    
-	#define     APPLES_BLACK_H    "apples_black_250x122.h"
-	#define     APPLES_RED_H      "apples_red_250x122.h"
+    #define     PANEL_CLASS       QYEG0213RWS800    
+    #define     APPLES_BLACK_H    "apples_black_250x122.h"
+    #define     APPLES_RED_H      "apples_red_250x122.h"
 #endif
 
 
@@ -41,16 +41,16 @@
 PANEL_CLASS display(DC_PIN, CS_PIN, BUSY_PIN);
 
 void setup() {
-	display.begin();
-	display.setRotation(display.orientation.PINS_LEFT);   // Don't forget to set the orientation, so your image fits how you intended
+    display.begin();
+    display.setRotation(display.orientation.PINS_LEFT);   // Don't forget to set the orientation, so your image fits how you intended
 
-	while( display.calculating() ) {
-		// Draw each image to its destination color
-		display.drawXBitmap(0, 0, apples_black_bits, apples_black_width, apples_black_height, display.colors.BLACK);
-		display.drawXBitmap(0, 0, apples_red_bits, apples_red_width, apples_red_height, display.colors.RED);
-	}
+    while( display.calculating() ) {
+        // Draw each image to its destination color
+        display.drawXBitmap(0, 0, apples_black_bits, apples_black_width, apples_black_height, display.colors.BLACK);
+        display.drawXBitmap(0, 0, apples_red_bits, apples_red_width, apples_red_height, display.colors.RED);
+    }
 
-	display.update();   // The display will only begin to change once update() is called.
+    display.update();   // The display will only begin to change once update() is called.
 }
 
 void loop() {}

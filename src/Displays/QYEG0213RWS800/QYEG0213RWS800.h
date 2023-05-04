@@ -27,11 +27,11 @@ class QYEG0213RWS800 : public GFX {
             uint16_t count;
         };
         struct PageProfileList {
-            const PageProfile   TINY       {.height = 2, .count = 125};		// 64kb of SRAM, 4% of total (Arduino UNO)
-            const PageProfile   SMALL      {.height = 5, .count = 50};		// 160kb of SRAM, 8% of total (Arduino UNO)
-            const PageProfile   MEDIUM     {.height = 10, .count = 25};		// 320kb of SRAM, 16% of total (Arduino UNO)
-            const PageProfile   LARGE      {.height = 25, .count = 10};		// 400kb of SRAM, 20% of total (Arduino UNO)
-            const PageProfile   EXTREME    {.height = 50, .count = 5};		// 800kb of SRAM, 40% of total (Arduino UNO)
+            const PageProfile   TINY       {.height = 2, .count = 125};     // 64kb of SRAM, 4% of total (Arduino UNO)
+            const PageProfile   SMALL      {.height = 5, .count = 50};      // 160kb of SRAM, 8% of total (Arduino UNO)
+            const PageProfile   MEDIUM     {.height = 10, .count = 25};     // 320kb of SRAM, 16% of total (Arduino UNO)
+            const PageProfile   LARGE      {.height = 25, .count = 10};     // 400kb of SRAM, 20% of total (Arduino UNO)
+            const PageProfile   EXTREME    {.height = 50, .count = 5};      // 800kb of SRAM, 40% of total (Arduino UNO)
             // Feel free to add any other profiles you wish.
         } pageSize;
   

@@ -6,15 +6,15 @@ void DEPG0150BNS810::begin(const PageProfile profile) {
     this->page_profile = profile;
 
     // Set the digital pins that supplement the SPI interface
-    pinMode(pin_cs, OUTPUT);		// Incase we weren't give the standard pin 10 as SS
+    pinMode(pin_cs, OUTPUT);        // Incase we weren't give the standard pin 10 as SS
     pinMode(pin_dc, OUTPUT);
-    pinMode(pin_busy, INPUT); 	// NOTE: do not use internal pullups, as we're reading a 3.3v output with our ~5v arduino
+    pinMode(pin_busy, INPUT);   // NOTE: do not use internal pullups, as we're reading a 3.3v output with our ~5v arduino
     
     // Prepare SPI
-    SPI.begin();	
+    SPI.begin();    
 
-    page_bytecount = panel_width * page_profile.height / 8;		// nb: this is a class member and gets reused
-    // page_black = new uint8_t[page_bytecount];	// now called in calculating method for relevant modes
+    page_bytecount = panel_width * page_profile.height / 8;     // nb: this is a class member and gets reused
+    // page_black = new uint8_t[page_bytecount];    // now called in calculating method for relevant modes
     
     // Set height in the library
     _width = WIDTH = panel_width;
@@ -31,12 +31,12 @@ void DEPG0150BNS810::clear() {
     reset();
 
     int16_t x, y;
-    uint8_t blank_byte = (default_color & colors.WHITE) * 255;	// We're filling in bulk here; bits are either all on or all off
+    uint8_t blank_byte = (default_color & colors.WHITE) * 255;  // We're filling in bulk here; bits are either all on or all off
 
     // Calculate memory values for the slice
     // Note, x values are divided by 8 as horizontal lines are rows of 8bit bytes
-    const uint8_t start_x = 0;	// Note the offset
-    const uint8_t end_x = (panel_width / 8) - 1;		// This is taken from the official heltec driver
+    const uint8_t start_x = 0;  // Note the offset
+    const uint8_t end_x = (panel_width / 8) - 1;        // This is taken from the official heltec driver
 
     // y locations are two bytes
     const uint8_t start_y = 0;
@@ -47,19 +47,19 @@ void DEPG0150BNS810::clear() {
       sendData(0x03);
 
     // Inform the panel hardware of our chosen memory location
-    sendCommand(0x44);	// Memory X start - end
+    sendCommand(0x44);  // Memory X start - end
     sendData(start_x);
     sendData(end_x);
-    sendCommand(0x45);	// Memory Y start - end
+    sendCommand(0x45);  // Memory Y start - end
     sendData(start_y);
-    sendData(0);										// Bit 8 - not required, max y is 250
+    sendData(0);                                        // Bit 8 - not required, max y is 250
     sendData(end_y);
-    sendData(0);										// Bit 8 - not required, max y is 250
-    sendCommand(0x4E);	// Memory cursor X
+    sendData(0);                                        // Bit 8 - not required, max y is 250
+    sendCommand(0x4E);  // Memory cursor X
     sendData(start_x);
-    sendCommand(0x4F);	// Memory cursor y
+    sendCommand(0x4F);  // Memory cursor y
     sendData(start_y);
-    sendData(0);										// Bit 8 - not required, max y is 250
+    sendData(0);                                        // Bit 8 - not required, max y is 250
 
     sendCommand(0x24);   // Fill "BLACK" memory with default_color
     for(y = 0; y < panel_width / 8; y++) {
@@ -97,7 +97,7 @@ void DEPG0150BNS810::freePageMemory() {
 
 void DEPG0150BNS810::sendCommand(uint8_t command) {
     SPI.beginTransaction(spi_settings);
-    digitalWrite(pin_dc, LOW);	// Data-Command pin LOW, tell PanelHardware this SPI transfer is a command
+    digitalWrite(pin_dc, LOW);  // Data-Command pin LOW, tell PanelHardware this SPI transfer is a command
     digitalWrite(pin_cs, LOW);
 
     SPI.transfer(command);
@@ -108,7 +108,7 @@ void DEPG0150BNS810::sendCommand(uint8_t command) {
 
 void DEPG0150BNS810::sendData(uint8_t data) {
     SPI.beginTransaction(spi_settings);
-    digitalWrite(pin_dc, HIGH);	// Data-Command pin HIGH, tell PanelHardware this SPI transfer is data
+    digitalWrite(pin_dc, HIGH); // Data-Command pin HIGH, tell PanelHardware this SPI transfer is data
     digitalWrite(pin_cs, LOW);
 
     SPI.transfer(data);
@@ -127,7 +127,7 @@ void DEPG0150BNS810::reset() {
 
 /// Wait until the PanelHardware is idle. Important as any commands made while Panel Hardware is busy will be discarded.
 void DEPG0150BNS810::wait() {
-    while(digitalRead(pin_busy) == HIGH)	{	// Low = idle	
+    while(digitalRead(pin_busy) == HIGH)    {   // Low = idle   
         delay(1);
     }
 }
@@ -143,12 +143,12 @@ void DEPG0150BNS810::setFastmode(FastmodeList::Fastmode mode) {
         // Technical settings on display, to allow partial refresh (fastmode). Released by Heltec.
         // -----------------------------------------------
         unsigned char count;
-        sendCommand(0x32);		// "LUT"
+        sendCommand(0x32);      // "LUT"
         for(count=0;count<153;count++) 
             sendData(lut_partial[count]); 
         wait();
 
-        sendCommand(0x3F);		// "Option for LUT end"
+        sendCommand(0x3F);      // "Option for LUT end"
         sendData(lut_partial[153]);
 
         sendCommand(0x03);      // "Gate voltage"  
@@ -159,15 +159,15 @@ void DEPG0150BNS810::setFastmode(FastmodeList::Fastmode mode) {
         sendData(lut_partial[156]);
         sendData(lut_partial[157]);
 
-        sendCommand(0x2C);		// allegedly: vcom   
+        sendCommand(0x2C);      // allegedly: vcom   
         sendData(lut_partial[158]);
                                     
-        sendCommand(0x37);  	// "Write Register for Display Option"
-        sendData(0x00);  		// Heltec comment: "Local flash function is enabled, pingpong mode is enabled"
+        sendCommand(0x37);      // "Write Register for Display Option"
+        sendData(0x00);         // Heltec comment: "Local flash function is enabled, pingpong mode is enabled"
         sendData(0x00);  
         sendData(0x00);  
         sendData(0x00); 
-        sendData(0x00);  	
+        sendData(0x00);     
         sendData(0x40);  
         sendData(0x00);  
         sendData(0x00);   
@@ -208,19 +208,19 @@ void DEPG0150BNS810::writePage() {
       sendData(0x03);
 
     // Inform the panel hardware of our chosen memory location
-    sendCommand(0x44);	// Memory X start - end
+    sendCommand(0x44);  // Memory X start - end
     sendData(sx);
     sendData(ex);
-    sendCommand(0x45);	// Memory Y start - end
+    sendCommand(0x45);  // Memory Y start - end
     sendData(sy);
-    sendData(0);										// Bit 8 - not required, max y is 250
+    sendData(0);        // Bit 8 - not required, max y is 250
     sendData(ey);
-    sendData(0);										// Bit 8 - not required, max y is 250
-    sendCommand(0x4E);	// Memory cursor X
+    sendData(0);        // Bit 8 - not required, max y is 250
+    sendCommand(0x4E);  // Memory cursor X
     sendData(sx);
-    sendCommand(0x4F);	// Memory cursor y
+    sendCommand(0x4F);  // Memory cursor y
     sendData(sy);
-    sendData(0);										// Bit 8 - not required, max y is 250
+    sendData(0);        // Bit 8 - not required, max y is 250
 
     // Now we can send over our image data
     sendCommand(0x24);   // Write "BLACK" memory
@@ -245,8 +245,8 @@ void DEPG0150BNS810::update(bool override_checks) {
     if (mode == fastmode.OFF || override_checks) {
         // Specify the update operation to run
         sendCommand(0x22);
-        if (mode == fastmode.OFF) 	sendData(0xF7);
-        else 						sendData(0xCF);
+        if (mode == fastmode.OFF)   sendData(0xF7);
+        else                        sendData(0xCF);
 
         // Execute the update
         sendCommand(0x20);

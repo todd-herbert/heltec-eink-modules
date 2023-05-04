@@ -7,19 +7,19 @@ void DEPG0290BNS75A::drawPixel(int16_t x, int16_t y, uint16_t color) {
     // Rotate the pixel
     int16_t x1, y1;
     switch(rotation) {
-        case 0:			// No rotation
+        case 0:         // No rotation
             x1=x;
             y1=y;
             break;
-        case 1:			// 90deg clockwise
+        case 1:         // 90deg clockwise
             x1 = (panel_width - 1) - y;
             y1 = x;
             break;
-        case 2:			// 180deg
+        case 2:         // 180deg
             x1 = (panel_width - 1) - x;
             y1 = (panel_height - 1) - y;
             break;
-        case 3:			// 270deg clockwise
+        case 3:         // 270deg clockwise
             x1 = y;
             y1 = (panel_height - 1) - x;
             break;
@@ -30,20 +30,20 @@ void DEPG0290BNS75A::drawPixel(int16_t x, int16_t y, uint16_t color) {
 
     // Handle flip
     if (imgflip & FlipList::HORIZONTAL) {
-        if (rotation % 2)	// If landscape
+        if (rotation % 2)   // If landscape
             y = (drawing_height - 1) - y;
-        else					// If portrait
+        else                    // If portrait
             x = (drawing_width - 1) - x;
     }
     if (imgflip & FlipList::VERTICAL) {
-        if (rotation % 2)	// If landscape
+        if (rotation % 2)   // If landscape
             x = (drawing_width - 1) - x;
-        else					// If portrait
+        else                    // If portrait
             y = (drawing_height - 1) - y;
     }
 
     // Check if pixel falls in our page
-    // Casts suppress build warnings	
+    // Casts suppress build warnings    
     if((uint16_t)x >= winrot_left && (uint16_t)y >= page_top && (uint16_t)y <= page_bottom && (uint16_t)x <= winrot_right) {
 
         // Calculate a memory location for our pixel
@@ -56,9 +56,9 @@ void DEPG0290BNS75A::drawPixel(int16_t x, int16_t y, uint16_t color) {
         uint16_t memory_location;
         
         memory_location = (y - page_top) * ((winrot_right - winrot_left + 1) / 8);
-        memory_location += ((x - winrot_left) / 8);		
-        uint8_t bit_location = x % 8;	// Find the location of the bit in which the value will be stored
-        bit_location = (7 - bit_location);	// For some reason, the screen wants the bit order flipped. MSB vs LSB?
+        memory_location += ((x - winrot_left) / 8);     
+        uint8_t bit_location = x % 8;   // Find the location of the bit in which the value will be stored
+        bit_location = (7 - bit_location);  // For some reason, the screen wants the bit order flipped. MSB vs LSB?
 
         // Insert the correct color values into the appropriate location
         uint8_t bitmask = ~(1 << bit_location);
@@ -89,14 +89,14 @@ void DEPG0290BNS75A::setCursorTopLeft(const char* text, uint16_t x, uint16_t y) 
 uint16_t DEPG0290BNS75A::getTextWidth(const char* text) {
     int16_t x(0),y(0);
     uint16_t w(0), h(0);
-    getTextBounds(text, 0, 0, &x, &y, &w, &h);	// Need to keep x and y as they appear to be used internally by getTextBounds()
+    getTextBounds(text, 0, 0, &x, &y, &w, &h);  // Need to keep x and y as they appear to be used internally by getTextBounds()
     return w;
 }
 
 uint16_t DEPG0290BNS75A::getTextHeight(const char* text) {
     int16_t x(0),y(0);
     uint16_t w(0), h(0);
-    getTextBounds(text, 0, 0, &x, &y, &w, &h);	// Need to keep x and y as they appear to be used internally by getTextBounds()
+    getTextBounds(text, 0, 0, &x, &y, &w, &h);  // Need to keep x and y as they appear to be used internally by getTextBounds()
     return h;
 }
 
@@ -116,7 +116,7 @@ uint16_t DEPG0290BNS75A::Bounds::Window::top() {
         case RotationList::PINS_RIGHT:
             return *edges[L];
     }
-    return 0;	// Supress error
+    return 0;   // Supress error
 }
 
 uint16_t DEPG0290BNS75A::Bounds::Window::right() {
@@ -130,7 +130,7 @@ uint16_t DEPG0290BNS75A::Bounds::Window::right() {
         case RotationList::PINS_RIGHT:
             return (drawing_height - 1) - *edges[T];
     }
-    return 0;	// Supress error
+    return 0;   // Supress error
 }
 
 uint16_t DEPG0290BNS75A::Bounds::Window::bottom() {
@@ -144,7 +144,7 @@ uint16_t DEPG0290BNS75A::Bounds::Window::bottom() {
         case RotationList::PINS_RIGHT:
             return *edges[R];
     }
-    return 0;	// Supress error
+    return 0;   // Supress error
 }
 
 uint16_t DEPG0290BNS75A::Bounds::Window::left() {
@@ -158,7 +158,7 @@ uint16_t DEPG0290BNS75A::Bounds::Window::left() {
         case RotationList::PINS_RIGHT:
             return (drawing_height - 1) - *edges[B];
     }
-    return 0;	// Supress error
+    return 0;   // Supress error
 }
 
 

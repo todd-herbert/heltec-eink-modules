@@ -153,7 +153,7 @@ class DEPG0290BNS800 : public GFX {
                         public:
                             // TODO: calculate window boundaries early to facilitate user layout calculation
                             //  --- problematic interplay with setRotation() method
-
+                            
                             // TODO: Bounds.Window subclass with info about "Requested Bounds" vs "Actual Bounds"
 
                             uint16_t top();

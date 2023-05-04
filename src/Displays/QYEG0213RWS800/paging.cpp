@@ -23,10 +23,10 @@ void QYEG0213RWS800::setWindow(uint8_t left, uint8_t top, uint8_t width, uint8_t
     switch (rotation) {
         case 0:
             winrot_left = window_left;
-            winrot_left = winrot_left - (winrot_left % 8);	// Expand box on left to fit contents
+            winrot_left = winrot_left - (winrot_left % 8);  // Expand box on left to fit contents
 
             winrot_right = winrot_left + 7;
-            while(winrot_right < window_right) winrot_right += 8;	// Iterate until box includes the byte where our far-left bit lives
+            while(winrot_right < window_right) winrot_right += 8;   // Iterate until box includes the byte where our far-left bit lives
 
             winrot_top = window_top;
             winrot_bottom = window_bottom;
@@ -34,21 +34,21 @@ void QYEG0213RWS800::setWindow(uint8_t left, uint8_t top, uint8_t width, uint8_t
 
         case 1:
             winrot_left = (drawing_width - 1) - window_bottom;
-            winrot_left = winrot_left - (winrot_left % 8);	// Expand box on left to fit contents
+            winrot_left = winrot_left - (winrot_left % 8);  // Expand box on left to fit contents
 
             winrot_right = winrot_left + 7;
-            while(winrot_right < (drawing_width - 1) - window_top) winrot_right += 8;	// Iterate until box includes the byte where our far-left bit lives
+            while(winrot_right < (drawing_width - 1) - window_top) winrot_right += 8;   // Iterate until box includes the byte where our far-left bit lives
 
             winrot_top = window_left;
             winrot_bottom = window_right;
             break;
 
-        case 2:	
+        case 2: 
             winrot_left = (drawing_width - 1) - window_right;
-            winrot_left = winrot_left - (winrot_left % 8);	// Expand box on left to fit contents
+            winrot_left = winrot_left - (winrot_left % 8);  // Expand box on left to fit contents
 
             winrot_right = winrot_left + 7;
-            while(winrot_right < (drawing_width - 1) - window_left) winrot_right += 8;	// Iterate until box includes the byte where our far-left bit lives
+            while(winrot_right < (drawing_width - 1) - window_left) winrot_right += 8;  // Iterate until box includes the byte where our far-left bit lives
 
             winrot_bottom = (drawing_height - 1) - window_top;
             winrot_top = (drawing_height - 1) - window_bottom;
@@ -58,15 +58,15 @@ void QYEG0213RWS800::setWindow(uint8_t left, uint8_t top, uint8_t width, uint8_t
         
         case 3:
             winrot_left = window_top;
-            winrot_left = winrot_left - (winrot_left % 8);	// Expand box on left to fit contents
+            winrot_left = winrot_left - (winrot_left % 8);  // Expand box on left to fit contents
 
             winrot_right = winrot_left + 7;
-            while(winrot_right < window_bottom) winrot_right += 8;	// Iterate until box includes the byte where our far-left bit lives
+            while(winrot_right < window_bottom) winrot_right += 8;  // Iterate until box includes the byte where our far-left bit lives
 
             winrot_top = (drawing_height - 1) - window_right;
             winrot_bottom = (drawing_height - 1) - window_left;
             break;
-    }	// -- Finish calculating window rotation
+    }   // -- Finish calculating window rotation
 }
 
 /// Used with a WHILE loop, to render the screen image in several small pieces, rather than all at once. Workaround for low-memory devices.
@@ -82,22 +82,22 @@ bool QYEG0213RWS800::calculating() {
     if (page_cursor == 0) {
 
         // Limit window to panel 
-        if (window_left < 0) 					window_left = 0;
-        if (window_top < 0)						window_top = 0;
-        if (rotation % 2) {	// Landscape
-            if (window_right >= panel_height - 1)		window_right = panel_height - 1;
-            if (window_bottom >= panel_width - 1)		window_bottom = panel_width - 1;
+        if (window_left < 0)                    window_left = 0;
+        if (window_top < 0)                     window_top = 0;
+        if (rotation % 2) { // Landscape
+            if (window_right >= panel_height - 1)       window_right = panel_height - 1;
+            if (window_bottom >= panel_width - 1)       window_bottom = panel_width - 1;
         }
-        else {	// Portrait
-            if (window_right >= panel_width - 1)		window_right = panel_width - 1;
-            if (window_bottom >= panel_height - 1)		window_bottom = panel_height - 1;
+        else {  // Portrait
+            if (window_right >= panel_width - 1)        window_right = panel_width - 1;
+            if (window_bottom >= panel_height - 1)      window_bottom = panel_height - 1;
         }
 
-        grabPageMemory();				// Dynamically grab the page memory. TODO: Compile-time option for static memory?
+        grabPageMemory();               // Dynamically grab the page memory. TODO: Compile-time option for static memory?
         clearPage(default_color);
-        reset();						// If panel is asleep, Wake to receive SPI image data.
+        reset();                        // If panel is asleep, Wake to receive SPI image data.
 
-        page_top = winrot_top;											// Minimum (topmost) y-value for this paging operation
+        page_top = winrot_top;                                          // Minimum (topmost) y-value for this paging operation
         page_bottom = (winrot_top + page_profile.height) - 1;
 
         // This value is used sending image to the display, to know how much data to read out of the page file
@@ -109,7 +109,7 @@ bool QYEG0213RWS800::calculating() {
     else {
         // Check if the last page contained any part of the window
         if (!(winrot_bottom < page_top || winrot_top > page_bottom))
-            writePage();	// Send off the old page
+            writePage();    // Send off the old page
 
         // Calculate memory locations for the new page
         page_top += page_profile.height;
@@ -127,7 +127,7 @@ bool QYEG0213RWS800::calculating() {
     }
     else {
         page_cursor++;
-        return true;	// Keep looping
+        return true;    // Keep looping
     }
 }
 

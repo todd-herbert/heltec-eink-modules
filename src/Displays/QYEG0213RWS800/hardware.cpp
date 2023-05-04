@@ -6,16 +6,16 @@ void QYEG0213RWS800::begin(const PageProfile profile) {
     this->page_profile = profile;
 
     // Set the digital pins that supplement the SPI interface
-    pinMode(pin_cs, OUTPUT);	// Incase we weren't give the standard pin 10 as SS
+    pinMode(pin_cs, OUTPUT);    // Incase we weren't give the standard pin 10 as SS
     pinMode(pin_dc, OUTPUT);
-    pinMode(pin_busy, INPUT); 	// NOTE: do not use internal pullups, as we're reading a 3.3v output with our ~5v arduino
+    pinMode(pin_busy, INPUT);   // NOTE: do not use internal pullups, as we're reading a 3.3v output with our ~5v arduino
     
     // Prepare SPI
     SPI.begin();
 
     // Calculate size for pagefile.
     // NB: this is a class member and gets reused
-    page_bytecount = panel_width * page_profile.height / 8;		
+    page_bytecount = panel_width * page_profile.height / 8;     
 
     // Set height in the library
     _width = WIDTH = panel_width;
@@ -36,7 +36,7 @@ void QYEG0213RWS800::clear() {
     fullscreen();
     
     int16_t sx, sy, ex, ey;
-    sx = (bounds.full.left() / 8) + 1;		// I don't understand why this is +1, but it seems necessary, and the official Heltec driver also does this.
+    sx = (bounds.full.left() / 8) + 1;      // I don't understand why this is +1, but it seems necessary, and the official Heltec driver also does this.
     ex = ((bounds.full.right()) / 8) + 1;
     sy = bounds.full.top();
     ey = bounds.full.bottom();
@@ -46,22 +46,22 @@ void QYEG0213RWS800::clear() {
       sendData(0x03);
 
     // Inform the panel hardware of our chosen memory location
-    sendCommand(0x44);	// Memory X start - end
+    sendCommand(0x44);  // Memory X start - end
     sendData(sx);
     sendData(ex);
-    sendCommand(0x45);	// Memory Y start - end
+    sendCommand(0x45);  // Memory Y start - end
     sendData(sy);
-    sendData(0);		// NB: Controller accepts Y values > 256, but this panel is small, so second byte is always 0
+    sendData(0);        // NB: Controller accepts Y values > 256, but this panel is small, so second byte is always 0
     sendData(ey);
-    sendData(0);										
-    sendCommand(0x4E);	// Memory cursor X
+    sendData(0);                                        
+    sendCommand(0x4E);  // Memory cursor X
     sendData(sx);
-    sendCommand(0x4F);	// Memory cursor y
+    sendCommand(0x4F);  // Memory cursor y
     sendData(sy);
-    sendData(0);	
+    sendData(0);    
 
     uint16_t x, y;
-    uint8_t black_byte = (default_color & colors.WHITE) * 255;			// We're filling in bulk here; bits are either all on or all off
+    uint8_t black_byte = (default_color & colors.WHITE) * 255;          // We're filling in bulk here; bits are either all on or all off
     uint8_t red_byte = ((default_color & colors.RED) >> 1) * 255;
 
     sendCommand(0x24);   // Write RAM for black(0)/white (1)
@@ -99,7 +99,7 @@ void QYEG0213RWS800::freePageMemory() {
 
 void QYEG0213RWS800::sendCommand(uint8_t command) {
     SPI.beginTransaction(spi_settings);
-    digitalWrite(pin_dc, LOW);	// Data-Command pin LOW, tell PanelHardware this SPI transfer is a command
+    digitalWrite(pin_dc, LOW);  // Data-Command pin LOW, tell PanelHardware this SPI transfer is a command
     digitalWrite(pin_cs, LOW);
 
     SPI.transfer(command);
@@ -110,7 +110,7 @@ void QYEG0213RWS800::sendCommand(uint8_t command) {
 
 void QYEG0213RWS800::sendData(uint8_t data) {
     SPI.beginTransaction(spi_settings);
-    digitalWrite(pin_dc, HIGH);	// Data-Command pin HIGH, tell PanelHardware this SPI transfer is data
+    digitalWrite(pin_dc, HIGH); // Data-Command pin HIGH, tell PanelHardware this SPI transfer is data
     digitalWrite(pin_cs, LOW);
 
     SPI.transfer(data);
@@ -143,17 +143,17 @@ void QYEG0213RWS800::reset() {
     sendData(0x00);
 
     sendCommand(0x3C); // "Border Waveform"
-    sendData(0x01);	
+    sendData(0x01); 
 
-      sendCommand(0x18);	// "Use internal temperature sensor"
-    sendData(0x80);	
+      sendCommand(0x18);    // "Use internal temperature sensor"
+    sendData(0x80); 
 
     wait();
 }
 
 /// Reset the Panel Hardware
 void QYEG0213RWS800::wait() {
-    while(digitalRead(pin_busy) == HIGH)	{	// Low = idle	
+    while(digitalRead(pin_busy) == HIGH)    {   // Low = idle   
         delay(1);
     }
 }
@@ -163,7 +163,7 @@ void QYEG0213RWS800::writePage() {
 
     int16_t sx, sy, ex, ey;
 
-    sx = (winrot_left / 8) + 1;		// I don't understand why this is +1, but it seems necessary, and the official Heltec driver also does this.
+    sx = (winrot_left / 8) + 1;     // I don't understand why this is +1, but it seems necessary, and the official Heltec driver also does this.
     ex = ((winrot_right) / 8) + 1;
     sy = page_top;
     ey = page_bottom;
@@ -173,19 +173,19 @@ void QYEG0213RWS800::writePage() {
       sendData(0x03);
 
     // Inform the panel hardware of our chosen memory location
-    sendCommand(0x44);	// Memory X start - end
+    sendCommand(0x44);  // Memory X start - end
     sendData(sx);
     sendData(ex);
-    sendCommand(0x45);	// Memory Y start - end
+    sendCommand(0x45);  // Memory Y start - end
     sendData(sy);
-    sendData(0);		// NB: Controller accepts Y values > 256, but this panel is small, so second byte is always 0
+    sendData(0);        // NB: Controller accepts Y values > 256, but this panel is small, so second byte is always 0
     sendData(ey);
-    sendData(0);										
-    sendCommand(0x4E);	// Memory cursor X
+    sendData(0);                                        
+    sendCommand(0x4E);  // Memory cursor X
     sendData(sx);
-    sendCommand(0x4F);	// Memory cursor y
+    sendCommand(0x4F);  // Memory cursor y
     sendData(sy);
-    sendData(0);										
+    sendData(0);                                        
 
     // Now we can send over our image data
     sendCommand(0x24);   // Write memory for black(0)/white (1)
@@ -209,7 +209,7 @@ void QYEG0213RWS800::update() {
     sendData(0xF7);
     sendCommand(0x20);
 
-    wait();	// Block while the command runs
+    wait(); // Block while the command runs
 }
 
 /// Set the panel to an ultra low power state. Only way to exit is to cycle power to VCC.

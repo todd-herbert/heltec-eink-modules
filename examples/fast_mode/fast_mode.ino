@@ -1,8 +1,8 @@
 // Which panel are you using?  (uncomment one)
 // --------------------------------------------
-    // #define	USING_DEPG0150BNS810		// 1.54" V2 - BW - Red Tab
-    // #define	USING_DEPG0154BNS800		// 1.54" V2 - BW - Red Tab
-    // #define	USING_GDEP015OC1			// 1.54" V2 - BW - Blue Tab
+    // #define  USING_DEPG0150BNS810        // 1.54" V2 - BW - Red Tab
+    // #define  USING_DEPG0154BNS800        // 1.54" V2 - BW - Red Tab
+    // #define  USING_GDEP015OC1            // 1.54" V2 - BW - Blue Tab
     // #define  USING_DEPG0290BNS800        // 2.9" V2 - BW - Red Tab
     // #define  USING_HTE029A1              // 2.9" V2 - BW - Blue Tab
 
@@ -46,7 +46,7 @@
 #include "hourglass_3.h"
 const unsigned char* hourglasses[] = {hourglass_1_bits, hourglass_2_bits, hourglass_3_bits};
 
-PANEL_CLASS display(DC_PIN, CS_PIN, BUSY_PIN);	// PANEL_CLASS is a shortcut for your display; Line 13
+PANEL_CLASS display(DC_PIN, CS_PIN, BUSY_PIN);  // PANEL_CLASS is a shortcut for your display; Line 13
 
 // Shortcuts to save typing
 // https://github.com/todd-herbert/heltec-eink-modules#code-readability
@@ -82,7 +82,7 @@ void setup() {
     // Play loading animation, and countdown in corner
     // ------------------------------------------------
     display.setTextColor(c.WHITE);
-    display.setWindow( f.left(), f.top(), f.width(), f.height() - 50 );	// Don't overwrite the bottom 30px
+    display.setWindow( f.left(), f.top(), f.width(), f.height() - 50 ); // Don't overwrite the bottom 30px
     display.setFastmode( display.fastmode.ON );
 
     for (uint8_t demo = 0; demo <= 9; demo++) { // 10 times in total
@@ -115,7 +115,7 @@ void setup() {
     // Change the label text
     // ----------------------
     display.setTextColor(c.BLACK);
-    display.setWindow ( f.left(), f.bottom() - 30, f.width(), 30 );	// Only write to the bottom 30px
+    display.setWindow ( f.left(), f.bottom() - 30, f.width(), 30 ); // Only write to the bottom 30px
 
     // Straight to FINALIZE
     // If there was more drawing to do, we might use fastmode.ON, but this is the final operation.
@@ -139,7 +139,7 @@ void setup() {
         display.print(".OFF");
     }
 
-    display.fullscreen();	// Unconvential use of fullscreen() / setWindow(). Tell display we want the WHOLE SCREEN refreshed.
+    display.fullscreen();   // Unconvential use of fullscreen() / setWindow(). Tell display we want the WHOLE SCREEN refreshed.
     display.update();
 }
 

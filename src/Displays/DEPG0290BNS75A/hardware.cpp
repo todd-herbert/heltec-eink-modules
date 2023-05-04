@@ -6,15 +6,15 @@ void DEPG0290BNS75A::begin(const PageProfile profile) {
     this->page_profile = profile;
 
     // Set the digital pins that supplement the SPI interface
-    pinMode(pin_cs, OUTPUT);		// Incase we weren't give the standard pin 10 as SS
+    pinMode(pin_cs, OUTPUT);        // Incase we weren't give the standard pin 10 as SS
     pinMode(pin_dc, OUTPUT);
-    pinMode(pin_busy, INPUT); 	// NOTE: do not use internal pullups, as we're reading a 3.3v output with our ~5v arduino
+    pinMode(pin_busy, INPUT);   // NOTE: do not use internal pullups, as we're reading a 3.3v output with our ~5v arduino
     
     // Prepare SPI
-    SPI.begin();	
+    SPI.begin();    
 
-    page_bytecount = panel_width * page_profile.height / 8;		// nb: this is a class member and gets reused
-    // page_black = new uint8_t[page_bytecount];	// now called in calculating method for relevant modes
+    page_bytecount = panel_width * page_profile.height / 8;     // nb: this is a class member and gets reused
+    // page_black = new uint8_t[page_bytecount];    // now called in calculating method for relevant modes
     
     // Set height in the library
     _width = WIDTH = panel_width;
@@ -31,12 +31,12 @@ void DEPG0290BNS75A::clear() {
     reset();
 
     int16_t x, y;
-    uint8_t blank_byte = (default_color & colors.WHITE) * 255;	// We're filling in bulk here; bits are either all on or all off
+    uint8_t blank_byte = (default_color & colors.WHITE) * 255;  // We're filling in bulk here; bits are either all on or all off
 
     // Calculate memory values for the slice
     // Note, x values are divided by 8 as horizontal lines are rows of 8bit bytes
-    const uint16_t start_x = 0;	// Note the offset
-    const uint16_t end_x = (panel_width / 8) - 1;		// This is taken from the official heltec driver
+    const uint16_t start_x = 0; // Note the offset
+    const uint16_t end_x = (panel_width / 8) - 1;       // This is taken from the official heltec driver
 
     // y locations are two bytes
     uint16_t start_y = 0;
@@ -52,7 +52,7 @@ void DEPG0290BNS75A::clear() {
 
     if(end_y >= 256) {
         end_y2 = end_y / 256;
-        end_y = end_y % 256;	
+        end_y = end_y % 256;    
     }
 
     // Data entry mode - Left to Right, Top to Bottom
@@ -60,19 +60,19 @@ void DEPG0290BNS75A::clear() {
       sendData(0x03);
 
     // Inform the panel hardware of our chosen memory location
-    sendCommand(0x44);	// Memory X start - end
+    sendCommand(0x44);  // Memory X start - end
     sendData(start_x);
     sendData(end_x);
-    sendCommand(0x45);	// Memory Y start - end
+    sendCommand(0x45);  // Memory Y start - end
     sendData(start_y);
     sendData(start_y2);
     sendData(end_y);
     sendData(end_y2);
-    sendCommand(0x4E);	// Memory cursor X
+    sendCommand(0x4E);  // Memory cursor X
     sendData(start_x);
-    sendCommand(0x4F);	// Memory cursor y
+    sendCommand(0x4F);  // Memory cursor y
     sendData(start_y);
-    sendData(start_y2);										// Bit 8 - not required, max y is 250
+    sendData(start_y2);                                     // Bit 8 - not required, max y is 250
 
     sendCommand(0x24);   // Fill "BLACK" memory with default_color
     for(y = 0; y < panel_width / 8; y++) {
@@ -110,7 +110,7 @@ void DEPG0290BNS75A::freePageMemory() {
 
 void DEPG0290BNS75A::sendCommand(uint8_t command) {
     SPI.beginTransaction(spi_settings);
-    digitalWrite(pin_dc, LOW);	// Data-Command pin LOW, tell PanelHardware this SPI transfer is a command
+    digitalWrite(pin_dc, LOW);  // Data-Command pin LOW, tell PanelHardware this SPI transfer is a command
     digitalWrite(pin_cs, LOW);
 
     SPI.transfer(command);
@@ -121,7 +121,7 @@ void DEPG0290BNS75A::sendCommand(uint8_t command) {
 
 void DEPG0290BNS75A::sendData(uint8_t data) {
     SPI.beginTransaction(spi_settings);
-    digitalWrite(pin_dc, HIGH);	// Data-Command pin HIGH, tell PanelHardware this SPI transfer is data
+    digitalWrite(pin_dc, HIGH); // Data-Command pin HIGH, tell PanelHardware this SPI transfer is data
     digitalWrite(pin_cs, LOW);
 
     SPI.transfer(data);
@@ -151,7 +151,7 @@ void DEPG0290BNS75A::reset() {
     sendData(0x00);
 
     sendCommand(0x3C); // "Border Waveform"
-    sendData(0x01);	
+    sendData(0x01); 
 
     sendCommand(0x18); // use the internal temperature sensor
     sendData(0x80);
@@ -162,7 +162,7 @@ void DEPG0290BNS75A::reset() {
 
 /// Wait until the PanelHardware is idle. Important as any commands made while Panel Hardware is busy will be discarded.
 void DEPG0290BNS75A::wait() {
-    while(digitalRead(pin_busy) == HIGH)	{	// Low = idle	
+    while(digitalRead(pin_busy) == HIGH)    {   // Low = idle   
         delay(1);
     }
 }
@@ -185,27 +185,27 @@ void DEPG0290BNS75A::writePage() {
 
     if(ey>=256) {
         ey2=ey/256;
-        ey=ey%256;		
-    }	
+        ey=ey%256;      
+    }   
 
     // Data entry mode - Left to Right, Top to Bottom
     sendCommand(0x11);
       sendData(0x03);
 
     // Inform the panel hardware of our chosen memory location
-    sendCommand(0x44);	// Memory X start - end
+    sendCommand(0x44);  // Memory X start - end
     sendData(sx);
     sendData(ex);
-    sendCommand(0x45);	// Memory Y start - end
+    sendCommand(0x45);  // Memory Y start - end
     sendData(sy);
-    sendData(sy2);										// Bit 8 - not required, max y is 250
+    sendData(sy2);                                      // Bit 8 - not required, max y is 250
     sendData(ey);
-    sendData(ey2);										// Bit 8 - not required, max y is 250
-    sendCommand(0x4E);	// Memory cursor X
+    sendData(ey2);                                      // Bit 8 - not required, max y is 250
+    sendCommand(0x4E);  // Memory cursor X
     sendData(sx);
-    sendCommand(0x4F);	// Memory cursor y
+    sendCommand(0x4F);  // Memory cursor y
     sendData(sy);
-    sendData(sy2);										// Bit 8 - not required, max y is 250
+    sendData(sy2);                                      // Bit 8 - not required, max y is 250
 
     // Now we can send over our image data
     sendCommand(0x24);   // Write "BLACK" memory
@@ -230,8 +230,8 @@ void DEPG0290BNS75A::update(bool override_checks) {
     if (mode == fastmode.OFF || override_checks) {
         // Specify the update operation to run
         sendCommand(0x22);
-        if (mode == fastmode.OFF) 	sendData(0xF7);
-        else 						sendData(0xC4);
+        if (mode == fastmode.OFF)   sendData(0xF7);
+        else                        sendData(0xC4);
 
         // Execute the update
         sendCommand(0x20);

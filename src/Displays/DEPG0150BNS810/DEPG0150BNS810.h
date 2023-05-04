@@ -37,7 +37,7 @@ class DEPG0150BNS810 : public GFX {
             0x0,0x0,0x0,0x0,0x0,0x0,0x0,
             0x22,0x22,0x22,0x22,0x22,0x22,0x0,0x0,0x0,
             0x02,0x17,0x41,0xB0,0x32,0x28,
-        };	
+        };  
 
 
     // Consts for user config
@@ -191,7 +191,7 @@ class DEPG0150BNS810 : public GFX {
                             uint8_t top() {return 0;}
                             uint8_t bottom() {return height() - 1;}
 
-                            uint8_t width() {return ((*rotation % 2) ? drawing_height : drawing_width);} // Width if portrait, height if landscape
+                            uint8_t width() {return ((*rotation % 2) ? drawing_height : drawing_width);}    // Width if portrait, height if landscape
                             uint8_t height() {return ((*rotation % 2) ? drawing_width : drawing_height);}
 
                             uint8_t centerX() {return (right() / 2);}

@@ -6,19 +6,19 @@ void QYEG0213RWS800::drawPixel(int16_t x, int16_t y, uint16_t color) {
   // Rotate the pixel
   int16_t x1, y1;
   switch(rotation) {
-    case 0:			// No rotation
+    case 0:         // No rotation
       x1=x;
       y1=y;
       break;
-    case 1:			// 90deg clockwise
+    case 1:         // 90deg clockwise
       x1 = (drawing_width - 1) - y;
       y1 = x;
       break;
-    case 2:			// 180deg
+    case 2:         // 180deg
       x1 = (drawing_width - 1) - x;
       y1 = (drawing_height - 1) - y;
       break;
-    case 3:			// 270deg clockwise
+    case 3:         // 270deg clockwise
       x1 = y;
       y1 = (drawing_height - 1) - x;
       break;
@@ -28,15 +28,15 @@ void QYEG0213RWS800::drawPixel(int16_t x, int16_t y, uint16_t color) {
 
   // Handle flip
   if (imgflip & FlipList::HORIZONTAL) {
-    if (rotation % 2)	// If landscape
+    if (rotation % 2)   // If landscape
       y = (drawing_height - 1) - y;
-    else					// If portrait
+    else                    // If portrait
       x = (drawing_width - 1) - x;
   }
   if (imgflip & FlipList::VERTICAL) {
-    if (rotation % 2)	// If landscape
+    if (rotation % 2)   // If landscape
       x = (drawing_width - 1) - x;
-    else					// If portrait
+    else                    // If portrait
       y = (drawing_height - 1) - y;
   }
 
@@ -46,9 +46,9 @@ void QYEG0213RWS800::drawPixel(int16_t x, int16_t y, uint16_t color) {
     // Calculate a memory location (byte) for our pixel
     uint16_t memory_location;
     memory_location = (y - page_top) * ((winrot_right - winrot_left + 1) / 8);
-    memory_location += ((x - winrot_left) / 8);		
-    uint8_t bit_location = x % 8;	// Find the location of the bit in which the value will be stored
-    bit_location = (7 - bit_location);	// For some reason, the screen wants the bit order flipped. MSB vs LSB?
+    memory_location += ((x - winrot_left) / 8);     
+    uint8_t bit_location = x % 8;   // Find the location of the bit in which the value will be stored
+    bit_location = (7 - bit_location);  // For some reason, the screen wants the bit order flipped. MSB vs LSB?
 
     // Insert the correct color values into the appropriate location (bit)
     uint8_t bitmask = ~(1 << bit_location);
@@ -77,7 +77,7 @@ void QYEG0213RWS800::setDefaultColor(uint16_t bgcolor) {
 /// Clear the data arrays in between pages
 void QYEG0213RWS800::clearPage(uint16_t bgcolor) {
     for (uint16_t i = 0; i < page_bytecount; i++) {
-        uint8_t black_byte = (bgcolor & colors.WHITE) * 255;	// We're filling in bulk here; bits are either all on or all off
+        uint8_t black_byte = (bgcolor & colors.WHITE) * 255;    // We're filling in bulk here; bits are either all on or all off
         uint8_t red_byte = ((bgcolor & colors.RED) >> 1) * 255;
         page_black[i] = black_byte;
         page_red[i] = red_byte;
@@ -95,14 +95,14 @@ void QYEG0213RWS800::setCursorTopLeft(const char* text, uint16_t x, uint16_t y) 
 uint16_t QYEG0213RWS800::getTextWidth(const char* text) {
     int16_t x(0),y(0);
     uint16_t w(0), h(0);
-    getTextBounds(text, 0, 0, &x, &y, &w, &h);	// Need to keep x and y as they appear to be used internally by getTextBounds()
+    getTextBounds(text, 0, 0, &x, &y, &w, &h);  // Need to keep x and y as they appear to be used internally by getTextBounds()
     return w;
 }
 
 uint16_t QYEG0213RWS800::getTextHeight(const char* text) {
     int16_t x(0),y(0);
     uint16_t w(0), h(0);
-    getTextBounds(text, 0, 0, &x, &y, &w, &h);	// Need to keep x and y as they appear to be used internally by getTextBounds()
+    getTextBounds(text, 0, 0, &x, &y, &w, &h);  // Need to keep x and y as they appear to be used internally by getTextBounds()
     return h;
 }
 
@@ -123,7 +123,7 @@ uint8_t QYEG0213RWS800::Bounds::Window::top() {
         case RotationList::PINS_RIGHT:
             return min( *edges[L], drawing_width - 1);
     }
-    return 0;	// Supress error
+    return 0;   // Supress error
 }
 
 uint8_t QYEG0213RWS800::Bounds::Window::right() {
@@ -137,7 +137,7 @@ uint8_t QYEG0213RWS800::Bounds::Window::right() {
         case RotationList::PINS_RIGHT:
             return (drawing_height - 1) - *edges[T];
     }
-    return 0;	// Supress error
+    return 0;   // Supress error
 }
 
 uint8_t QYEG0213RWS800::Bounds::Window::bottom() {
@@ -151,7 +151,7 @@ uint8_t QYEG0213RWS800::Bounds::Window::bottom() {
         case RotationList::PINS_RIGHT:
             return min( *edges[R], drawing_width - 1);
     }
-    return 0;	// Supress error
+    return 0;   // Supress error
 }
 
 uint8_t QYEG0213RWS800::Bounds::Window::left() {
@@ -165,7 +165,7 @@ uint8_t QYEG0213RWS800::Bounds::Window::left() {
         case RotationList::PINS_RIGHT:
             return (panel_height - 1) - *edges[B];
     }
-    return 0;	// Supress error
+    return 0;   // Supress error
 }
 
 
