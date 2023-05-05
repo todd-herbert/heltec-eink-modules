@@ -55,7 +55,6 @@ PANEL_CLASS::ColorList c = display.colors;              // Quick access to diffe
 
 void setup() {
     display.begin();
-    display.clear();
     display.setRotation(3); // Alternatively, display.orientation.PINS_RIGHT
     
 
@@ -109,7 +108,7 @@ void setup() {
             display.drawLine(40, -10, 300, 500, ACCENT1); // <-- !!! But don't go crazy as every pixel gets processed, even if most of them are offscreen
 
             display.fillTriangle(0,0, 30, b.bottom(), 60, b.bottom(), ACCENT2);  // Handy functions like bottom() make drawing easier
-            display.fillCircle(b.centerX(), b.centerY(), 21, BGCOLOR);  // (draw an outline for next circle)
+            display.fillCircle(b.centerX(), b.centerY(), 20 + 1, BGCOLOR);  // (draw an outline for next circle)
             display.fillCircle(b.centerX(), b.centerY(), 20, ACCENT2);  // Right in the center
     }
 
