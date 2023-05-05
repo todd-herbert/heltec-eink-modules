@@ -197,7 +197,7 @@ Pass the Arduino digital pin numbers where the *D/C*, *CS*, and *BUSY* pins from
 It is possible to set the page size in the constructor. The optional ```page_height``` argument sets the number of rows. The default value is 20, meaning the display is calculated 20 rows at a time. Higher values use more RAM.
 
 ```c++
-DEPG0150BNS810 display(dc, cs, busy, pagefile_height); 
+DEPG0150BNS810 display(dc, cs, busy, page_height); 
 ```
 
 
