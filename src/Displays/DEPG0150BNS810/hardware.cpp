@@ -1,10 +1,7 @@
 #include "DEPG0150BNS810.h"
 
 /// Begin the E-Ink library
-void DEPG0150BNS810::begin(const PageProfile profile) {
-    // Store the page profile
-    this->page_profile = profile;
-
+void DEPG0150BNS810::begin() {
     // Set the digital pins that supplement the SPI interface
     pinMode(pin_cs, OUTPUT);        // Incase we weren't give the standard pin 10 as SS
     pinMode(pin_dc, OUTPUT);
@@ -13,8 +10,9 @@ void DEPG0150BNS810::begin(const PageProfile profile) {
     // Prepare SPI
     SPI.begin();    
 
-    page_bytecount = panel_width * page_profile.height / 8;     // nb: this is a class member and gets reused
-    // page_black = new uint8_t[page_bytecount];    // now called in calculating method for relevant modes
+    // Calculate pagefile size
+    pagefile_height = constrain(pagefile_height, 1, 50);
+    page_bytecount = panel_width * pagefile_height / 8;     // nb: this is a class member and gets reused
     
     // Set height in the library
     _width = WIDTH = panel_width;

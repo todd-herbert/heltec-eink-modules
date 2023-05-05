@@ -10,8 +10,9 @@ void GDEP015OC1::begin() {
     // Prepare SPI
     SPI.begin();    
 
+    // Calculate pagefile size
+    pagefile_height = constrain(pagefile_height, 1, 50);
     page_bytecount = panel_width * pagefile_height / 8;     // nb: this is a class member and gets reused
-    // page_black = new uint8_t[page_bytecount];    // now called in calculating method for relevant modes
     
     // Set height in the library
     _width = WIDTH = panel_width;

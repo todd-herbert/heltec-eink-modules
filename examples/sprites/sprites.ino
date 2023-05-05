@@ -46,7 +46,6 @@
 PANEL_CLASS display(DC_PIN, CS_PIN, BUSY_PIN);
 
 void setup() {
-    display.begin();
     display.setRotation(display.orientation.PINS_LEFT);
 
     // Useful drawing aides

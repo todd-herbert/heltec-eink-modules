@@ -47,38 +47,26 @@ class DEPG0150BNS810 : public GFX {
         static struct ColorList{enum Colors{BLACK = 0, WHITE = 1}; } colors;
         static struct FastmodeList{enum Fastmode{OFF = 0, ON = 1, FINALIZE = 2}; } fastmode;
         static struct RotationList {enum Rotations{PINS_ABOVE = 0, PINS_LEFT=1, PINS_BELOW = 2, PINS_RIGHT = 3};} orientation;  // NB: member is "orientation", as GFX::rotation already exists // TODO:rename
-  
-        struct PageProfile {
-            uint16_t height;
-            uint16_t count;
-        };
-
-        struct PageProfileList {
-            const PageProfile   TINY      {.height = 4, .count = 50};      // 100kb of SRAM, 5% of total (Arduino UNO)
-            const PageProfile   SMALL     {.height = 10, .count = 20};     // 250kb of SRAM, 12.5% of total (Arduino UNO)
-            const PageProfile   MEDIUM    {.height = 20, .count = 10};     // 500kb of SRAM, 25% of total (Arduino UNO)
-            const PageProfile   LARGE     {.height = 40, .count = 5};      // 1000kb of SRAM, 50% of total (Arduino UNO)
-            // Feel free to add any other profiles you wish. The only requirement is that ".height" * count = panel height (200px)
-        } pageSize;
-  
-
-
 
     // Methods
     // =============================================================================
     public:
         // Constructor
         // Have to initialize because of GFX class
-        DEPG0150BNS810( uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy) : GFX(panel_width, panel_height),
-                                                                                pin_dc(pin_dc), 
-                                                                                pin_cs(pin_cs), 
-                                                                                pin_busy(pin_busy)
-                                                                        { // Pass references to nested classes
-                                                                            this->bounds = Bounds(  &winrot_top, 
-                                                                                                    &winrot_right, 
-                                                                                                    &winrot_bottom, 
-                                                                                                    &winrot_left, 
-                                                                                                    &rotation); }
+        DEPG0150BNS810( uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint8_t page_height=20) : GFX(panel_width, panel_height),
+                                                                                                pin_dc(pin_dc), 
+                                                                                                pin_cs(pin_cs), 
+                                                                                                pin_busy(pin_busy),
+                                                                                                pagefile_height(page_height)
+
+                                                                                            { // Pass references to nested classes
+                                                                                                this->bounds = Bounds(  &winrot_top, 
+                                                                                                                        &winrot_right, 
+                                                                                                                        &winrot_bottom, 
+                                                                                                                        &winrot_left, 
+                                                                                                                        &rotation); 
+                                                                                                    begin();
+                                                                                            }
         // Graphics overloads and config methods                                                                
         void drawPixel(int16_t x, int16_t y, uint16_t color);
         void setDefaultColor(uint16_t bgcolor);
@@ -86,8 +74,6 @@ class DEPG0150BNS810 : public GFX {
         void charBounds(unsigned char c, int16_t *x, int16_t *y, int16_t *minx, int16_t *miny, int16_t *maxx, int16_t *maxy);
 
         // Paging and Hardware methods
-        void begin() {begin(pageSize.MEDIUM);}
-        void begin(PageProfile page_size);
         void fullscreen();
         void setWindow(uint8_t left, uint8_t top, uint8_t width, uint8_t height);
         void setFastmode(FastmodeList::Fastmode mode);
@@ -99,6 +85,7 @@ class DEPG0150BNS810 : public GFX {
         void deepSleep(uint16_t pause = 500);
 
     private:    // Hardware methods
+        void begin();
         void grabPageMemory();
         void freePageMemory();
 
@@ -222,7 +209,7 @@ class DEPG0150BNS810 : public GFX {
         FastmodeList::Fastmode mode = FastmodeList::OFF;
 
         // Paging
-        PageProfile page_profile;
+        uint8_t pagefile_height;
         uint16_t page_bytecount;
         uint8_t *page_black;
         uint16_t pagefile_length = 0;   // Used for windowed memory ops

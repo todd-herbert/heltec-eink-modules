@@ -41,7 +41,6 @@
 PANEL_CLASS display(DC_PIN, CS_PIN, BUSY_PIN);
 
 void setup() {
-    display.begin();
     display.setRotation(display.orientation.PINS_LEFT);   // Don't forget to set the orientation, so your image fits how you intended
 
     while( display.calculating() ) {

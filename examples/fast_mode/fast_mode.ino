@@ -64,7 +64,6 @@ const uint16_t SPOTS_L = f.centerX() - (SPOTS_W / 2);
 const uint16_t SPOTS_R = f.centerX() + (SPOTS_W / 2);
 
 void setup() {
-    display.begin();
     display.setDefaultColor(c.WHITE);
     display.setTextSize(2);
     display.clear();

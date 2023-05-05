@@ -10,7 +10,9 @@ void HTE029A1::begin() {
     // Prepare SPI
     SPI.begin();    
 
-    page_bytecount = panel_width * pagefile_height / 8;     // nb: this is a class member and gets reused
+    // Calculate pagefile size
+    pagefile_height = constrain(pagefile_height, 1, 50);
+    page_bytecount = panel_width * pagefile_height / 8;
     
     // Set height in the library
     _width = WIDTH = panel_width;

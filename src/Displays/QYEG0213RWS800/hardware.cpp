@@ -1,10 +1,8 @@
 #include "QYEG0213RWS800.h"
 
 /// Begin the E-Ink library
-void QYEG0213RWS800::begin(const PageProfile profile) {
-    // Store the page profile
-    this->page_profile = profile;
-
+void QYEG0213RWS800::begin() {
+    
     // Set the digital pins that supplement the SPI interface
     pinMode(pin_cs, OUTPUT);    // Incase we weren't give the standard pin 10 as SS
     pinMode(pin_dc, OUTPUT);
@@ -13,9 +11,9 @@ void QYEG0213RWS800::begin(const PageProfile profile) {
     // Prepare SPI
     SPI.begin();
 
-    // Calculate size for pagefile.
-    // NB: this is a class member and gets reused
-    page_bytecount = panel_width * page_profile.height / 8;     
+    // Calculate pagefile size
+    pagefile_height = constrain(pagefile_height, 1, 50);
+    page_bytecount = panel_width * pagefile_height / 8;     
 
     // Set height in the library
     _width = WIDTH = panel_width;

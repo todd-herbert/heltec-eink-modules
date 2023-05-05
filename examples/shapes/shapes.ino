@@ -54,9 +54,7 @@ PANEL_CLASS::ColorList c = display.colors;              // Quick access to diffe
 
 
 void setup() {
-    display.begin();
     display.setRotation(3); // Alternatively, display.orientation.PINS_RIGHT
-    
 
     // Picks colors that will work on your panel
     // =============================================

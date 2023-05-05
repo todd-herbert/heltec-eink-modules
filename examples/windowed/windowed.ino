@@ -51,8 +51,6 @@ PANEL_CLASS::Bounds::Window w = display.bounds.window;
 PANEL_CLASS::ColorList c = display.colors;
 
 void setup() {
-    display.begin();
-
     // Lay down a background first
     // -----------------------------
     display.setRotation(display.orientation.PINS_ABOVE);

@@ -98,7 +98,7 @@ bool QYEG0213RWS800::calculating() {
         reset();                        // If panel is asleep, Wake to receive SPI image data.
 
         page_top = winrot_top;                                          // Minimum (topmost) y-value for this paging operation
-        page_bottom = (winrot_top + page_profile.height) - 1;
+        page_bottom = (winrot_top + pagefile_height) - 1;
 
         // This value is used sending image to the display, to know how much data to read out of the page file
         pagefile_length = (page_bottom - page_top + 1) * ((winrot_right - winrot_left + 1) / 8);
@@ -112,8 +112,8 @@ bool QYEG0213RWS800::calculating() {
             writePage();    // Send off the old page
 
         // Calculate memory locations for the new page
-        page_top += page_profile.height;
-        page_bottom = min(page_top + page_profile.height - 1, winrot_bottom);
+        page_top += pagefile_height;
+        page_bottom = min(page_top + pagefile_height - 1, winrot_bottom);
         pagefile_length = (page_bottom - page_top + 1) * ((winrot_right - winrot_left+1) / 8);
         clearPage(default_color);
     }

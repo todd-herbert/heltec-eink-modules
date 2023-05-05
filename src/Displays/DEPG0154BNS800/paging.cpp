@@ -101,7 +101,7 @@ bool DEPG0154BNS800::calculating() {
         reset();
 
         page_top = winrot_top;  // We're now translating the window in drawPixel()
-        page_bottom = (winrot_top + page_profile.height) - 1;
+        page_bottom = (winrot_top + pagefile_height) - 1;
         pagefile_length = (page_bottom - page_top + 1) * ((winrot_right - winrot_left + 1) / 8);
     }
 
@@ -113,8 +113,8 @@ bool DEPG0154BNS800::calculating() {
             writePage();    // Send off the old page
 
         // Calculate memory locations for the new page
-        page_top += page_profile.height;
-        page_bottom = min(page_top + page_profile.height - 1, winrot_bottom);
+        page_top += pagefile_height;
+        page_bottom = min(page_top + pagefile_height - 1, winrot_bottom);
         pagefile_length = (page_bottom - page_top + 1) * ((winrot_right - winrot_left+1) / 8);
         clearPage(default_color);
     }

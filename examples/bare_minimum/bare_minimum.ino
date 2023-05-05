@@ -28,8 +28,6 @@
 
 void setup() {
 
-    display.begin();
-
     while ( display.calculating() ) {
         // 50px from left, 100px from top, draw a black circle with 20px radius
         display.fillCircle(50, 100, 20, display.colors.BLACK);

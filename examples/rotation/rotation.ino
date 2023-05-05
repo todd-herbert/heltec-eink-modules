@@ -47,7 +47,6 @@
 PANEL_CLASS display(DC_PIN, CS_PIN, BUSY_PIN);
 
 void setup() {
-    display.begin();
     display.setTextSize(1);
 
     while( display.calculating() ) {

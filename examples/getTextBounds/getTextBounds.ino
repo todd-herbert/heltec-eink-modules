@@ -54,8 +54,6 @@
 PANEL_CLASS display(DC_PIN, CS_PIN, BUSY_PIN);
 
 void setup() {
-    display.begin();
-
     display.setRotation(display.orientation.PINS_LEFT);  // Landscape
 
     display.setFont( &FreeSerifBoldItalic9pt7b );   // Pass (the address of) the font to the library

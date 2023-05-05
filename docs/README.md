@@ -112,9 +112,7 @@ Make sure to specify the location of your *D/C, CS* and *BUSY* pins in the const
 DEPG0150BNS810 display(/* DC PIN */  8, /* CS PIN */  10, /* BUSY PIN */ 7);
 
 void setup() {
-    // Get everything ready
-    display.begin();
-    
+
     // All drawing commands go intside this WHILE
     while ( display.calculating() ) {
         display.fillCircle(50, 100, 20, display.colors.RED);
@@ -130,7 +128,6 @@ void loop() {}
 To summarise: 
 
 * Set your hardware pins in the constructor
-* Call ```.begin()```
 * All drawing commands go inside the ```while ( .calculating () )``` loop. <br />
     This loop repeats the commands for each little slice (page) of the screen, as many times as needed
 * Call ```.update()``` to show this new image data on the screen
@@ -197,16 +194,11 @@ Pass the Arduino digital pin numbers where the *D/C*, *CS*, and *BUSY* pins from
 
 ### Page Size
 
-It is possible to change the *speed vs. memory* tradeoff while calling `.begin()`.
+It is possible to set the page size in the constructor. The optional ```page_height``` argument sets the number of rows. The default value is 20, meaning the display is calculated 20 rows at a time. Higher values use more RAM.
 
 ```c++
-display.begin(display.pageSize.TINY);   // 100kb of SRAM, 5% of total (Arduino UNO)
-display.begin(display.pageSize.SMALL);  // 250kb of SRAM, 12.5% of total (Arduino UNO)
-display.begin(display.pageSize.MEDIUM); // 500kb of SRAM, 25% of total (Arduino UNO)
-display.begin(display.pageSize.LARGE);  // 1000kb of SRAM, 50% of total (Arduino UNO)
+DEPG0150BNS810 display(dc, cs, busy, pagefile_height); 
 ```
-
-If `begin()` is called with no parameters, `.pageSize.MEDIUM` is selected.
 
 
 ### Power Management ###
@@ -233,7 +225,6 @@ void setup() {
     pinMode(2, OUTPUT);
     digitalWrite(2, LOW);   // PNP transistor, allow current flow
 
-    display.begin();
     while (display.calculating()) {
         display.print("hello world");
     }

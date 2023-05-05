@@ -41,16 +41,20 @@ class QYEG0213RWS800 : public GFX {
     public:
         // Constructor
         // Have to initialize because of GFX class
-        QYEG0213RWS800( uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy) : GFX(panel_width, panel_height),
-                                                                                pin_dc(pin_dc), 
-                                                                                pin_cs(pin_cs), 
-                                                                                pin_busy(pin_busy)
-                                                                        { // Pass references to nested classes
-                                                                            this->bounds = Bounds(  &winrot_top, 
-                                                                                                    &winrot_right, 
-                                                                                                    &winrot_bottom, 
-                                                                                                    &winrot_left, 
-                                                                                                    &rotation); }
+        QYEG0213RWS800( uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint8_t page_height=20) : GFX(panel_width, panel_height),
+                                                                                                    pin_dc(pin_dc), 
+                                                                                                    pin_cs(pin_cs), 
+                                                                                                    pin_busy(pin_busy),
+                                                                                                    pagefile_height(page_height)
+                                                                                                { 
+                                                                                                    // Pass references to nested classes
+                                                                                                    this->bounds = Bounds(  &winrot_top, 
+                                                                                                                            &winrot_right, 
+                                                                                                                            &winrot_bottom, 
+                                                                                                                            &winrot_left, 
+                                                                                                                            &rotation);
+                                                                                                    begin();
+                                                                                                }
                                                                                 
         // Graphics overloads and config methods                                                                
         void drawPixel(int16_t x, int16_t y, uint16_t color);
@@ -59,8 +63,6 @@ class QYEG0213RWS800 : public GFX {
         void charBounds(unsigned char c, int16_t *x, int16_t *y, int16_t *minx, int16_t *miny, int16_t *maxx, int16_t *maxy);
 
         // Paging and Hardware methods
-        void begin() {begin(pageSize.MEDIUM);}
-        void begin(PageProfile page_size);
         void fullscreen();
         void setWindow(uint8_t left, uint8_t top, uint8_t width, uint8_t height);
         bool calculating();
@@ -71,6 +73,7 @@ class QYEG0213RWS800 : public GFX {
         void deepSleep(uint16_t pause = 500);
 
     private:    // Hardware methods
+        void begin();
         void grabPageMemory();
         void freePageMemory();
 
@@ -192,7 +195,7 @@ class QYEG0213RWS800 : public GFX {
         FlipList::Flip imgflip = FlipList::NONE;
         
         // Paging
-        PageProfile page_profile;
+        uint8_t pagefile_height;
         uint16_t page_bytecount;
         uint8_t *page_black;
         uint8_t *page_red;
