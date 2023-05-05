@@ -47,22 +47,6 @@ class DEPG0154BNS800 : public GFX {
         static struct ColorList{enum Colors{BLACK = 0, WHITE = 1}; } colors;
         static struct FastmodeList{enum Fastmode{OFF = 0, ON = 1, FINALIZE = 2}; } fastmode;
         static struct RotationList {enum Rotations{PINS_ABOVE = 0, PINS_LEFT=1, PINS_BELOW = 2, PINS_RIGHT = 3};} orientation;  // NB: member is "orientation", as GFX::rotation already exists // TODO:rename
-  
-        struct PageProfile {
-            uint16_t height;
-            uint16_t count;
-        };
-
-        struct PageProfileList {
-            const PageProfile   TINY      {.height = 4, .count = 50};      // 100kb of SRAM, 5% of total (Arduino UNO)
-            const PageProfile   SMALL     {.height = 10, .count = 20};     // 250kb of SRAM, 12.5% of total (Arduino UNO)
-            const PageProfile   MEDIUM    {.height = 20, .count = 10};     // 500kb of SRAM, 25% of total (Arduino UNO)
-            const PageProfile   LARGE     {.height = 40, .count = 5};      // 1000kb of SRAM, 50% of total (Arduino UNO)
-            // Feel free to add any other profiles you wish. The only requirement is that ".height" * count = panel height (200px)
-        } pageSize;
-  
-
-
 
     // Methods
     // =============================================================================

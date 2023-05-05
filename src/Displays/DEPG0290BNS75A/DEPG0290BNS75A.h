@@ -29,24 +29,7 @@ class DEPG0290BNS75A : public GFX {
         static struct FlipList{enum Flip{NONE = 0, HORIZONTAL=1, VERTICAL=2}; } flip;
         static struct ColorList{enum Colors{BLACK = 0, WHITE = 1}; } colors;
         static struct FastmodeList{enum Fastmode{OFF = 0, ON = 1, FINALIZE = 2}; } fastmode;
-        static struct RotationList {enum Rotations{PINS_ABOVE = 0, PINS_LEFT=1, PINS_BELOW = 2, PINS_RIGHT = 3};} orientation;  // NB: member is "orientation", as GFX::rotation already exists
-  
-        struct PageProfile {
-            uint16_t height;
-            uint16_t count;
-        };
-
-        struct PageProfileList {
-            const PageProfile   TINY      {.height = 4, .count = 74};      // 64kb of SRAM, 4% of total (Arduino UNO)
-            const PageProfile   SMALL     {.height = 10, .count = 30};     // 160kb of SRAM, 8% of total (Arduino UNO)
-            const PageProfile   MEDIUM    {.height = 20, .count = 15};     // 320kb of SRAM, 16% of total (Arduino UNO)
-            const PageProfile   LARGE     {.height = 37, .count = 8};      // 592kb of SRAM, 29% of total (Arduino UNO)
-            const PageProfile   EXTREME   {.height = 74, .count = 4};      // 1184kb of SRAM, 58% of total (Arduino UNO)
-            // Feel free to add any other profiles you wish.
-        } pageSize;
-  
-
-
+        static struct RotationList {enum Rotations{PINS_ABOVE = 0, PINS_LEFT=1, PINS_BELOW = 2, PINS_RIGHT = 3};} orientation;  // NB: member is "orientation", as GFX::rotation already exists  
 
     // Methods
     // =============================================================================
