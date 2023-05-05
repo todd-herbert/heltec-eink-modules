@@ -1,10 +1,7 @@
 #include "GDEP015OC1.h"
 
 /// Begin the E-Ink library
-void GDEP015OC1::begin(const PageProfile profile) {
-    // Store the page profile
-    this->page_profile = profile;
-
+void GDEP015OC1::begin() {
     // Set the digital pins that supplement the SPI interface
     pinMode(pin_cs, OUTPUT);        // Incase we weren't give the standard pin 10 as SS
     pinMode(pin_dc, OUTPUT);
@@ -13,7 +10,7 @@ void GDEP015OC1::begin(const PageProfile profile) {
     // Prepare SPI
     SPI.begin();    
 
-    page_bytecount = panel_width * page_profile.height / 8;     // nb: this is a class member and gets reused
+    page_bytecount = panel_width * pagefile_height / 8;     // nb: this is a class member and gets reused
     // page_black = new uint8_t[page_bytecount];    // now called in calculating method for relevant modes
     
     // Set height in the library
@@ -78,7 +75,11 @@ void GDEP015OC1::clear() {
     
     // Trigger the display update
     sendCommand(0x22);
-    sendData(0xC7);
+    sendData(0xC4);
+    sendCommand(0x20);
+    wait();
+
+    // Update again - fighting the sticky after-images
     sendCommand(0x20);
     wait();
 }
@@ -289,11 +290,13 @@ void GDEP015OC1::update(bool override_checks) {
 
         // Specify the update operation to run
         sendCommand(0x22);
-        if (mode == fastmode.OFF)   sendData(0xC7);
+        if (mode == fastmode.OFF)   sendData(0xC4);
         else                        sendData(0xC7);
 
         // Execute the update
         sendCommand(0x20);
+
+        // Double update here would be good, but passable as-is, so leave in to the user
 
         // Block while the command runs
         wait();

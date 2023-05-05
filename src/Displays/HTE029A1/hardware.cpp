@@ -1,10 +1,7 @@
 #include "HTE029A1.h"
 
 /// Begin the E-Ink library
-void HTE029A1::begin(const PageProfile profile) {
-    // Store the page profile
-    this->page_profile = profile;
-
+void HTE029A1::begin() {
     // Set the digital pins that supplement the SPI interface
     pinMode(pin_cs, OUTPUT);        // Incase we weren't give the standard pin 10 as SS
     pinMode(pin_dc, OUTPUT);
@@ -13,7 +10,7 @@ void HTE029A1::begin(const PageProfile profile) {
     // Prepare SPI
     SPI.begin();    
 
-    page_bytecount = panel_width * page_profile.height / 8;     // nb: this is a class member and gets reused
+    page_bytecount = panel_width * pagefile_height / 8;     // nb: this is a class member and gets reused
     
     // Set height in the library
     _width = WIDTH = panel_width;
@@ -76,11 +73,9 @@ void HTE029A1::clear() {
     // This display is particularly "sticky", so we run through the refresh procedure twice
     // Clears off the problematic ghosting
     sendCommand(0x22);
-    sendData(0xC7);
+    sendData(0xC4);
     sendCommand(0x20);
     wait();
-    sendCommand(0x22);
-    sendData(0xC7);
     sendCommand(0x20);
     wait();
 }
@@ -296,14 +291,18 @@ void HTE029A1::update(bool override_checks) {
 
         // Specify the update operation to run
         sendCommand(0x22);
-        if (mode == fastmode.OFF)   sendData(0xC7);
+        if (mode == fastmode.OFF)   sendData(0xC4);
         else                        sendData(0xC7);
 
         // Execute the update
         sendCommand(0x20);
-
-        // Block while the command runs
         wait();
+
+        // Double update for this sticky display
+        if (mode == fastmode.OFF) {  
+            sendCommand(0x20);
+            wait();
+        }
     }
 }
 
