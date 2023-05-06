@@ -3,16 +3,21 @@
 /// Draw using the whole screen area
 /// Call before calculating()
 void DEPG0154BNS800::fullscreen() {
-        uint8_t left = 0;
-        uint8_t top = 0;
-        uint8_t width = rotation%2?drawing_height:drawing_width;
-        uint8_t height = rotation%2?drawing_width:drawing_height;
-        setWindow(left, top, width, height);
+    uint8_t left = 0;
+    uint8_t top = 0;
+    uint8_t width = rotation%2?drawing_height:drawing_width;
+    uint8_t height = rotation%2?drawing_width:drawing_height;
+    setWindow(left, top, width, height);
+
+    // Temporary lockout for setFlip - unlocked here
+    can_flip = true;
 }
 
 /// Draw on only part of the screen, leaving the rest unchanged
 /// Call before calculating
 void DEPG0154BNS800::setWindow(uint8_t left, uint8_t top, uint8_t width, uint8_t height) {
+    can_flip = false;   // Temporary lock-out
+    
     uint8_t right = left + (width - 1);
     uint8_t bottom = top + (height - 1);
     this->window_left = left;
@@ -83,6 +88,10 @@ bool DEPG0154BNS800::calculating() {
     // Beginning of first loop
     // -----------------------
     if (page_cursor == 0) {
+        // Prevent use of setFlip with setWindow
+        // This is a temporary lock-out. Support will be added in a future release
+        if(!can_flip)   
+            setFlip(flip.NONE);
 
         // Limit window to panel 
         if (window_left < 0)                    window_left = 0;

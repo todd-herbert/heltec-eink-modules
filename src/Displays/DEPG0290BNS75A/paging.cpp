@@ -3,16 +3,21 @@
 /// Draw using the whole screen area
 /// Call before calculating()
 void DEPG0290BNS75A::fullscreen() {
-        uint16_t left = 0;
-        uint16_t top = 0;
-        uint16_t width = rotation%2?drawing_height:drawing_width;
-        uint16_t height = rotation%2?drawing_width:drawing_height;
-        setWindow(left, top, width, height);
+    uint16_t left = 0;
+    uint16_t top = 0;
+    uint16_t width = rotation%2?drawing_height:drawing_width;
+    uint16_t height = rotation%2?drawing_width:drawing_height;
+    setWindow(left, top, width, height);
+
+    // Temporary lockout for setFlip - unlocked here
+    can_flip = true;
 }
 
 /// Draw on only part of the screen, leaving the rest unchanged
 /// Call before calculating
 void DEPG0290BNS75A::setWindow(uint16_t left, uint16_t top, uint16_t width, uint16_t height) {
+        can_flip = false;   // Temporary lock-out
+        
         uint16_t right = left + (width - 1);
         uint16_t bottom = top + (height - 1);
         this->window_left = left;
@@ -83,6 +88,10 @@ bool DEPG0290BNS75A::calculating() {
     // Beginning of first loop
     //--------------------------
     if (page_cursor == 0) {
+        // Prevent use of setFlip with setWindow
+        // This is a temporary lock-out. Support will be added in a future release
+        if(!can_flip)   
+            setFlip(flip.NONE);
 
         // Limit window to panel 
         if (window_left < 0)                    window_left = 0;

@@ -222,4 +222,8 @@ class HTE029A1 : public GFX {
         uint16_t window_left, window_top, window_right, window_bottom;
         uint16_t winrot_left, winrot_top, winrot_right, winrot_bottom;   // Window boundaries in reference frame of rotation(0)
         bool first_pass = true;
+
+        // Lock-out flip controls when using a window
+        // Temporary. Windowed support to come in future relase
+        bool can_flip = true;        
 };
