@@ -46,14 +46,6 @@ void DEPG0290BNS800::drawPixel(int16_t x, int16_t y, uint16_t color) {
 
         // Calculate a memory location for our pixel
 
-        // TODO: remove this outdated comment from all displays, in dev branch
-
-        // A whole lot of emperically derived "inverting" went on here
-        // The y values of the pixels in each page are inverted, but not the pages themselves
-        // The bit order of the x pixels is inverted, but not the order of the pixels themselves
-        // To top it off, one final inversion is needed in writePage(), but all the nonsense seems to balance out eventually
-        // (This is probably all my fault)
-
         uint16_t memory_location;
         
         memory_location = (y - page_top) * ((winrot_right - winrot_left + 1) / 8);

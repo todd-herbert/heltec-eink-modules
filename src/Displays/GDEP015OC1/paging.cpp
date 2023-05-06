@@ -105,7 +105,7 @@ bool GDEP015OC1::calculating() {
             if (window_bottom >= drawing_height - 1)    window_bottom = drawing_height - 1;
         }
 
-        grabPageMemory();       // This will grab slightly too much memory, but not a priority right now. TODO: fix eventually
+        grabPageMemory();
         clearPage(default_color);
         reset();
 

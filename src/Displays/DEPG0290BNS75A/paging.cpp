@@ -105,9 +105,9 @@ bool DEPG0290BNS75A::calculating() {
             if (window_bottom >= drawing_height - 1)    window_bottom = drawing_height - 1;
         }
 
-        grabPageMemory();       // This will grab slightly too much memory, but not a priority right now. TODO: fix eventually
+        grabPageMemory(); 
         clearPage(default_color);
-        reset();                    // If panel is asleep, Wake to receive SPI image data.
+        reset();
 
         page_top = winrot_top;  // We're now translating the window in drawPixel()
         page_bottom = (winrot_top + pagefile_height) - 1;
