@@ -90,8 +90,15 @@ class GDEP015OC1 : public GFX {
         void charBounds(unsigned char c, int16_t *x, int16_t *y, int16_t *minx, int16_t *miny, int16_t *maxx, int16_t *maxy);
 
     private:    // Deleted methods
+        using GFX::availableForWrite;
+        using GFX::clearWriteError;
         using GFX::drawGrayscaleBitmap;
         using GFX::drawRGBBitmap;
+        using GFX::flush;
+        using GFX::getWriteError;
+        using GFX::GFX;
+        using GFX::invertDisplay;
+        using GFX::write;
 
     // Supplementary Drawing Methods
     // ========================================================================================
