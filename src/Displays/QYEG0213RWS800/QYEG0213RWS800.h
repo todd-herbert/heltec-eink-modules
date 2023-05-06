@@ -54,19 +54,18 @@ class QYEG0213RWS800 : public GFX {
         void setWindow(uint8_t left, uint8_t top, uint8_t width, uint8_t height);
         bool calculating();
         void update();
-        bool busy() {return digitalRead(pin_busy);}
         void clear();
-        void wait();
         void deepSleep(uint16_t pause = 500);
 
     private:    // Hardware methods
         void begin();
         void grabPageMemory();
         void freePageMemory();
-
         void sendCommand(uint8_t command);
         void sendData(uint8_t data);
         void reset();
+        bool busy() {return digitalRead(pin_busy);}
+        void wait();
         void clearPage(uint16_t bgcolor);
         void writePage();
 

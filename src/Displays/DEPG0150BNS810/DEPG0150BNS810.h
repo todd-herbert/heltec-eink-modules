@@ -79,20 +79,19 @@ class DEPG0150BNS810 : public GFX {
         void setFastmode(FastmodeList::Fastmode mode);
         bool calculating();
         void update() { update(false); }
-        bool busy() {return digitalRead(pin_busy);}
         void clear();
-        void wait();
         void deepSleep(uint16_t pause = 500);
 
     private:    // Hardware methods
         void begin();
         void grabPageMemory();
         void freePageMemory();
-
         void sendCommand(uint8_t command);
         void sendData(uint8_t data);
         void reset();
         void update(bool override_checks);
+        bool busy() {return digitalRead(pin_busy);}
+        void wait();
         void clearPage(uint16_t bgcolor);
         void writePage();
 
