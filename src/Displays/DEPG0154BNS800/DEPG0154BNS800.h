@@ -70,8 +70,6 @@ class DEPG0154BNS800 : public GFX {
         // Graphics overloads and config methods                                                                
         void drawPixel(int16_t x, int16_t y, uint16_t color);
         void setDefaultColor(uint16_t bgcolor);
-        size_t write(uint8_t c);
-        void charBounds(unsigned char c, int16_t *x, int16_t *y, int16_t *minx, int16_t *miny, int16_t *maxx, int16_t *maxy);
 
         // Paging and Hardware methods
         void fullscreen();
@@ -94,6 +92,10 @@ class DEPG0154BNS800 : public GFX {
         void wait();
         void clearPage(uint16_t bgcolor);
         void writePage();
+
+        // Graphics overrides and config methods                                                                
+        size_t write(uint8_t c);
+        void charBounds(unsigned char c, int16_t *x, int16_t *y, int16_t *minx, int16_t *miny, int16_t *maxx, int16_t *maxy);
 
     private:    // Deleted methods
         using GFX::drawGrayscaleBitmap;
