@@ -1,12 +1,9 @@
-**Version 1.x users:** see [TRANSITIONING.MD](TRANSITIONING.md) for a list of breaking changes in Version 2
-<br />
-
 # Heltec E-Ink Modules
 
 Third-party Arduino Library for **Heltec E-Ink Module** displays.
 Supports run-time graphics and text generation using Adafruit-GFX (via [ZinggJM/GFX_Root](https://github.com/ZinggJM/GFX_Root))
 
-This is made possible with *"paging".*
+This is made possible with *"paging".* [Read the API here](/docs/API.md)
 
 [Huh? Paging?](#what-is-paging) <br />
 [Supported Displays](#supported-displays) <br />
