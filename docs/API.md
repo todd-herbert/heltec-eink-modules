@@ -27,7 +27,7 @@
   - [`drawRect()`](#drawrect)
   - [`drawRoundRect()`](#drawroundrect)
   - [`drawTriangle()`](#drawtriangle)
-  - [drawXbitmap](#drawxbitmap)
+  - [`drawXbitmap()`](#drawxbitmap)
   - [`fillCircle()`](#fillcircle)
   - [`fillRect()`](#fillrect)
   - [`fillRoundRect()`](#fillroundrect)
@@ -73,7 +73,6 @@
 
 ## Methods
 
-___
 ### `DEPG0150BNS810()`
 
 Create a display controller object, for model [DEPG0150BNS810](/docs/README.md#identifying-your-display).
@@ -928,7 +927,7 @@ display.drawTriangle(x0, y0, x1, y1, x2, y2, color)
 * [colors](#colors)
 
 ___
-### drawXbitmap
+### `drawXbitmap()`
 
 Draw PROGMEM-resident XBitMap Files (*.xbm), exported from GIMP. See [tutorial on preparing XBitmap images](XBitmapTutorial/README.md).
 
