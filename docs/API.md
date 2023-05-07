@@ -1,5 +1,71 @@
 # Heltec E-Ink Modules - API
 
+- [Include Library](#include-library)
+- [Methods](#methods)
+  - [`DEPG0150BNS810()`](#depg0150bns810)
+  - [`DEPG0154BNS800()`](#depg0154bns800)
+  - [`DEPG0290BNS75A()`](#depg0290bns75a)
+  - [`DEPG0290BNS800()`](#depg0290bns800)
+  - [`GDEP015OC1()`](#gdep015oc1)
+  - [`HTE029A1()`](#hte029a1)
+  - [`QYEG0213RWS800()`](#qyeg0213rws800)
+  - [`clear()`](#clear)
+  - [`setDefaultColor()`](#setdefaultcolor)
+  - [`setRotation()`](#setrotation)
+  - [`setWindow()`](#setwindow)
+  - [`fullscreen()`](#fullscreen)
+  - [`setFastmode()`](#setfastmode)
+  - [`setFlip()`](#setflip)
+  - [`calculating()`](#calculating)
+  - [`update()`](#update)
+  - [`deepSleep()`](#deepsleep)
+  - [`drawBitmap()`](#drawbitmap)
+  - [`drawCircle()`](#drawcircle)
+  - [`drawCircleHelper()`](#drawcirclehelper)
+  - [`drawLine()`](#drawline)
+  - [`drawPixel()`](#drawpixel)
+  - [`drawRect()`](#drawrect)
+  - [`drawRoundRect()`](#drawroundrect)
+  - [`drawTriangle()`](#drawtriangle)
+  - [drawXbitmap](#drawxbitmap)
+  - [`fillCircle()`](#fillcircle)
+  - [`fillRect()`](#fillrect)
+  - [`fillRoundRect()`](#fillroundrect)
+  - [`fillScreen()`](#fillscreen)
+  - [`fillTriangle()`](#filltriangle)
+  - [`getRotation()`](#getrotation)
+  - [`getTextBounds()`](#gettextbounds)
+  - [`getTextWidth()`](#gettextwidth)
+  - [`getTextHeight()`](#gettextheight)
+  - [`setTextColor()`](#settextcolor)
+  - [`setTextWrap()`](#settextwrap)
+  - [`setCursor()`](#setcursor)
+  - [`setCursorTopLeft()`](#setcursortopleft)
+  - [`getCursorX()`](#getcursorx)
+  - [`getCursorY()`](#getcursory)
+  - [`bounds.full.left()`](#boundsfullleft)
+  - [`bounds.full.top()`](#boundsfulltop)
+  - [`bounds.full.right()`](#boundsfullright)
+  - [`bounds.full.bottom()`](#boundsfullbottom)
+  - [`bounds.full.width()`](#boundsfullwidth)
+  - [`bounds.full.height()`](#boundsfullheight)
+  - [`bounds.full.centerX()`](#boundsfullcenterx)
+  - [`bounds.full.centerY()`](#boundsfullcentery)
+  - [`bounds.window.left()`](#boundswindowleft)
+  - [`bounds.window.top()`](#boundswindowtop)
+  - [`bounds.window.right()`](#boundswindowright)
+  - [`bounds.window.bottom()`](#boundswindowbottom)
+  - [`bounds.window.width()`](#boundswindowwidth)
+  - [`bounds.window.height()`](#boundswindowheight)
+  - [`bounds.window.centerX()`](#boundswindowcenterx)
+  - [`bounds.window.centerY()`](#boundswindowcentery)
+- [Constants](#constants)
+  - [`colors`](#colors)
+  - [`fastmode`](#fastmode)
+  - [`flip`](#flip)
+  - [`orientation`](#orientation)
+
+
 ## Include Library
 ```cpp
 #include <heltec-eink-module.h>
@@ -7,6 +73,7 @@
 
 ## Methods
 
+___
 ### `DEPG0150BNS810()`
 
 Create a display controller object, for model [DEPG0150BNS810](/docs/README.md#identifying-your-display).
@@ -33,6 +100,7 @@ DEPG0150BNS810(DC_PIN, CS_PIN, BUSY_PIN, page_height)
 DEPG0150BNS810 display(8, 10, 7);
 ```
 
+___
 ### `DEPG0154BNS800()`
 
 Create a display controller object, for model [DEPG0154BNS800](/docs/README.md#identifying-your-display).
@@ -58,6 +126,7 @@ DEPG0154BNS800(DC_PIN, CS_PIN, BUSY_PIN, page_height)
 DEPG0154BNS800 display(8, 10, 7);
 ```
 
+___
 ### `DEPG0290BNS75A()`
 
 Create a display controller object, for model [DEPG0290BNS75A](/docs/README.md#identifying-your-display).
@@ -84,6 +153,7 @@ DEPG0290BNS75A(DC_PIN, CS_PIN, BUSY_PIN, page_height)
 DEPG0290BNS75A display(8, 10, 7);
 ```
 
+___
 ### `DEPG0290BNS800()`
 
 Create a display controller object, for model [DEPG0290BNS800](/docs/README.md#identifying-your-display).
@@ -110,6 +180,7 @@ DEPG0290BNS800(DC_PIN, CS_PIN, BUSY_PIN, page_height)
 DEPG0290BNS800 display(8, 10, 7);
 ```
 
+___
 ### `GDEP015OC1()`
 
 Create a display controller object, for model [GDEP015OC1](/docs/README.md#identifying-your-display).
@@ -136,6 +207,7 @@ GDEP015OC1(DC_PIN, CS_PIN, BUSY_PIN, page_height)
 GDEP015OC1 display(8, 10, 7);
 ```
 
+___
 ### `HTE029A1()`
 
 Create a display controller object, for model [HTE029A1](/docs/README.md#identifying-your-display).
@@ -162,6 +234,7 @@ HTE029A1(DC_PIN, CS_PIN, BUSY_PIN, page_height)
 HTE029A1 display(8, 10, 7);
 ```
 
+___
 ### `QYEG0213RWS800()`
 Create a display controller object, for model [QYEG0213RWS800](/docs/README.md#identifying-your-display).
 
@@ -187,6 +260,7 @@ QYEG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN, page_height)
 QYEG0213RWS800 display(8, 10, 7);
 ```
 
+___
 ### `clear()`
 
 Clear the display, along with its internal memory. This is a standalone method, called outside of the `calculating()` loop. The display will be cleared to solid white, unless changed using `setDefaultColor()`.
@@ -223,6 +297,7 @@ void setup() {
 
 * [setDefaultColor()](#setdefaultcolor)
 
+___
 ### `setDefaultColor()`
 
 Sets the background color to be used for future display updates. All graphics operations are drawn on top of this background color. Also determines the color which is set during the standalone `clear()` method.
@@ -261,6 +336,7 @@ void setup() {
 
 * [colors](#colors)
 
+___
 ### `setRotation()`
 
 Rotate future drawing operations by a multiple of 90 degrees. Avoid calling between `setWindow()` and the start of the `calculating()` loop.
@@ -322,6 +398,7 @@ void loop() {}
 
 * [orientation](#orientation)
 
+___
 ### `setWindow()`
 Draw to only a particular part of the screen ("a window"), leaving the remainder unchanged. Call before the `calculating()` loop. 
 
@@ -376,6 +453,7 @@ void setup() {
 
 * [fullscreen()](#fullscreen)
 
+___
 ### `fullscreen()`
 
 Draw to the entire screen, rather than just a particular part. Undoes the `setWindow()` method. Call before the `calculating()` loop.
@@ -396,6 +474,7 @@ None.
 
 * [setWindow()](#setwindow)
 
+___
 ### `setFastmode()`
 
 Some displays have a secondary mode, where the image updates much faster. This is known officially as a *"Partial Refresh"*. For the sake of user-friendliness, this library instead uses the descriptive term *"Fast Mode*".
@@ -479,6 +558,7 @@ void loop() {}
 
 * [fastmode](#fastmode)
 
+___
 ### `setFlip()`
 
 Reverse the image, either horizontally, or vertically. **Currently not supported with `setWindow`()**
@@ -519,6 +599,7 @@ void setup() {
 ```
 
 
+___
 ### `calculating()`
 
 Used exclusively with a `while()` loop. Renders a slice of the image, and writes the result to the display's onboard memory. When using *fast-mode*, it also calls `update()` automatically.
@@ -561,6 +642,7 @@ void setup() {
 * [update](#update)
 
 
+___
 ### `update()`
 
 Display the calculated image on the E-ink screen. Called after the `calculating()` loop. Has no effect when called during fast-mode.
@@ -593,6 +675,7 @@ void setup() {
 }
 ```
 
+___
 ### `deepSleep()`
 
 Put the display into a low-power state. The display will not respond to any further commands until power has been fully removed. This can be done manually (unplugging your Arduino), or with external reset hardware.
@@ -612,6 +695,7 @@ None.
 * [README - Power Management](/docs/README.md#power-management)
 
 
+___
 ### `drawBitmap()`
 
 Draw a RAM-resident 1-bit image at the specified (x,y) position, using the specified foreground color (unset bits are transparent).
@@ -639,6 +723,7 @@ display.drawBitmap(x, y, bitmap, w, h, color, bg)
 * [colors](#colors)
 * [drawXbitmap()](#drawxbitmap)
 
+___
 ### `drawCircle()`
 
 Draw a circle outline
@@ -663,6 +748,7 @@ display.drawCircle( x, y, r, color)
 * [fillCircle()](#fillcircle)
 * [colors](#colors)
 
+___
 ### `drawCircleHelper()`
 
 Quarter-circle drawer, outline only
@@ -717,6 +803,7 @@ void loop() {}
 
 * [colors](#colors)
 
+___
 ### `drawLine()`
 
 Draw a line
@@ -740,6 +827,7 @@ display.drawLine(x0, y0, x1, y1, color)
 
 * [colors](#colors)
 
+___
 ### `drawPixel()`
 
 Draw a single pixel
@@ -760,6 +848,7 @@ display.drawPixel(x, y, color)
 
 * [colors](#colors)
 
+___
 ### `drawRect()`
 
  Draw a rectangle with no fill color
@@ -788,6 +877,7 @@ display.drawRect(x, y, w, h, color)
 * [fillRoundRect()](#fillroundrect)
 * [colors](#colors)
 
+___
 ### `drawRoundRect()`
 
 Draw a rounded rectangle with no fill color
@@ -809,6 +899,7 @@ display.drawRoundRect(x, y, w, h, r, color)
 * _r_: Radius of corner rounding
 * _color_: Color to draw with
 
+___
 ### `drawTriangle()`
 
 Draw a triangle with no fill color
@@ -836,6 +927,7 @@ display.drawTriangle(x0, y0, x1, y1, x2, y2, color)
 * [fillTriangle](#filltriangle)
 * [colors](#colors)
 
+___
 ### drawXbitmap
 
 Draw PROGMEM-resident XBitMap Files (*.xbm), exported from GIMP. See [tutorial on preparing XBitmap images](XBitmapTutorial/README.md).
@@ -868,6 +960,7 @@ void loop() {}
 * [drawBitmap()](#drawbitmap)
 * [colors](#colors)
 
+___
 ### `fillCircle()`
 
 Draw a circle with filled color
@@ -888,6 +981,7 @@ display.fillCircle(x, y, r, color)
 * _color_: Color to fill with
 
 
+___
 ### `fillRect()`
 
 Fill a rectangle completely with one color
@@ -914,6 +1008,7 @@ display.fillRect(x, y, w, h, color)
 * [fillRoundRect()](#fillroundrect)
 * [colors](#colors)
 
+___
 ### `fillRoundRect()`
 
 Draw a rounded rectangle with fill color
@@ -943,6 +1038,7 @@ display.fillRoundRect(x, y, w, h, r, color)
 * [colors](#colors)
 
 
+___
 ### `fillScreen()`
 
 Fill the screen completely with one color. **Inefficient, consider instead `setDefaultColor()`**
@@ -964,6 +1060,7 @@ display.fillScreen(color)
 * [setDefaultColor](#setdefaultcolor)
 * [colors](#colors)
 
+___
 ### `fillTriangle()`
 
 Draw a triangle with color-fill
@@ -991,6 +1088,7 @@ display.fillTriangle(x0, y0, x1, y1, x2, y2, color)
 * [drawTriangle()](#drawtriangle)
 * [colors](#colors)
 
+___
 ### `getRotation()`
 Get rotation setting for display
 
@@ -1015,6 +1113,7 @@ None.
 * [setRotation()](#setrotation)
 * [orientation](#orientation)
 
+___
 ### `getTextBounds()`
 
 Helper to determine size of a string with current font/size. Pass string and a cursor position, returns UL corner and W,H.
@@ -1046,6 +1145,7 @@ None. Variables passed by reference will be set.
 * [getTextWidth()](#gettextwidth)
 * [getTextHeight()](#gettextheight)
 
+___
 ### `getTextWidth()`
 
 Gets width of a string, given the current font settings. Wrapper for `getTextBounds()`
@@ -1068,6 +1168,7 @@ The width of the string.
 
 * [getTextWidth()](#gettextbounds)
 
+___
 ### `getTextHeight()`
 
 Gets height of a string, given the current font settings. Wrapper for `getTextBounds()`
@@ -1090,6 +1191,7 @@ The height of the string.
 
 * [getTextWidth()](#gettextbounds)
 
+___
 ### `setTextColor()`
 
 Set text font color, with or without a background
@@ -1112,6 +1214,7 @@ display.setTextColor(c, bg)
 
 * [colors](#colors)
 
+___
 ### `setTextWrap()`
 
 Set whether text that is too long for the screen width should automatically wrap around to the next line (else clip right).
@@ -1127,6 +1230,7 @@ display.setTextWrap(w)
 #### Parameters
 * _w_: `true` for wrapping, `false` for clipping.
 
+___
 ### `setCursor()`
 
 Set text cursor location. *Make sure to use inside the `calculating()` loop*.
@@ -1147,6 +1251,7 @@ display.setCursor(x, y)
 
 * [setCursorTopLeft()](#setcursortopleft)
 
+___
 ### `setCursorTopLeft()`
 
 Wraps `getTextBounds()` and `setCursor()`, for convenience. Set the text cursor according to the desired upper left corner
@@ -1167,6 +1272,7 @@ display.setCursorTopLeft(text, x, y)
 
 * [setCursor()](#setcursor)
 
+___
 ### `getCursorX()`
 
 Get current cursor position
@@ -1187,6 +1293,7 @@ None.
 
 X Coordinate in pixels
 
+___
 ### `getCursorY()`
 
 Get text cursor Y location
@@ -1207,6 +1314,7 @@ None.
 
 Y coordinate in pixels
 
+___
 ### `bounds.full.left()`
 
 Get the left edge of the display. This will always be zero, but is included for completeness.
@@ -1225,6 +1333,7 @@ None.
 
 Position of the left edge of the full display, in pixels.
 
+___
 ### `bounds.full.top()`
 
 Get the top edge of the display. This will always be zero, but is included for completeness.
@@ -1243,6 +1352,7 @@ None.
 
 Position of the top edge of the full display, in pixels.
 
+___
 ### `bounds.full.right()`
 
 Get the right edge of the display. Value will change to match the current rotation.
@@ -1261,6 +1371,7 @@ None.
 
 Position of the right edge of the full display, in pixels.
 
+___
 ### `bounds.full.bottom()`
 
 Get the bottom edge of the display. Value will change to match the current rotation.
@@ -1279,6 +1390,7 @@ None.
 
 Position bottom edge of the full display, in pixels.
 
+___
 ### `bounds.full.width()`
 
 Get the width of the display. A display with width 200 will have a left edge of 0, and a right edge of 199. Value will change to match the current rotation.
@@ -1297,6 +1409,7 @@ None.
 
 Width of the full display, in pixels.
 
+___
 ### `bounds.full.height()`
 
 Get the height of the display. A display with height 200 will have a top edge of 0, and a bottom edge of 199. Value will change to match the current rotation.
@@ -1315,6 +1428,7 @@ None.
 
 Height of the full display, in pixels.
 
+___
 ### `bounds.full.centerX()`
 
 Get the horizontal midpoint of the display. If the center is between two pixels, the leftmost is returned. Value will change to match the current rotation.
@@ -1333,6 +1447,7 @@ None.
 
 Horizontal center of the full display, in pixels.
 
+___
 ### `bounds.full.centerY()`
 
 Get the vertical midpoint of the display. If the center is between two pixels, the topmost is returned. Value will change to match the current rotation.
@@ -1353,6 +1468,7 @@ Vertical center of the full display, in pixels.
 
 -------------------------------------------------
 
+___
 ### `bounds.window.left()`
 
 Get the left edge of the current window, after it has been expanded to meet hardware requirements. Value will change to match the current rotation.
@@ -1371,6 +1487,7 @@ None.
 
 Position of the left edge of the current window, in pixels.
 
+___
 ### `bounds.window.top()`
 
 Get the top edge of the current window, after it has been expanded to meet hardware requirements. Value will change to match the current rotation.
@@ -1389,6 +1506,7 @@ None.
 
 Position of the top edge of the current window, in pixels.
 
+___
 ### `bounds.window.right()`
 
 Get the right edge of the current window, after it has been expanded to meet hardware requirements. Value will change to match the current rotation.
@@ -1407,6 +1525,7 @@ None.
 
 Position of the right edge of the current window, in pixels.
 
+___
 ### `bounds.window.bottom()`
 
 Get the bottom edge of the current window, after it has been expanded to meet hardware requirements. Value will change to match the current rotation.
@@ -1425,6 +1544,7 @@ None.
 
 Position bottom edge of the current window, in pixels.
 
+___
 ### `bounds.window.width()`
 
 Get the width of the current window. A window with a left edge of 0, and a right edge of 7, would have a width of 8. Value will change to match the current rotation.
@@ -1443,6 +1563,7 @@ None.
 
 Width of the current window, in pixels.
 
+___
 ### `bounds.window.height()`
 
 Get the height of the current window. A window with a top edge of 0, and a bottom edge of 7, would have a height of 8. Value will change to match the current rotation.
@@ -1461,6 +1582,7 @@ None.
 
 Height of the current window, in pixels.
 
+___
 ### `bounds.window.centerX()`
 
 Get the horizontal midpoint of the current window. If the center is between two pixels, the leftmost is returned. Value will change to match the current rotation.
@@ -1479,6 +1601,7 @@ None.
 
 Horizontal center of the current window, in pixels.
 
+___
 ### `bounds.window.centerY()`
 
 Get the vertical midpoint of the current window. If the center is between two pixels, the topmost is returned. Value will change to match the current rotation.
@@ -1500,6 +1623,7 @@ Vertical center of the current window, in pixels.
 
 This section describes the various constants (as *enumerations*), which are accepted as parameters by various methods throughout the library.
 
+___
 ### `colors`
 
 #### Values
@@ -1514,6 +1638,7 @@ This section describes the various constants (as *enumerations*), which are acce
 display.setDefaultColor( display.colors.BLACK )
 ```
 
+___
 ### `fastmode`
 
 Used to move the display in and out of fast-mode. Passed to `setFastmode()'
@@ -1530,6 +1655,7 @@ Used to move the display in and out of fast-mode. Passed to `setFastmode()'
 display.setFastmode( display.fastmode.ON )
 ```
 
+___
 ### `flip`
 
 Specify along which axis the screen should be flipped (mirrored)
@@ -1546,6 +1672,7 @@ Specify along which axis the screen should be flipped (mirrored)
 display.setFlip( display.flip.HORIZONTAL )
 ```
 
+___
 ### `orientation`
 
 A convenient shortcut for getting the correct display rotation. Describes the desired rotation in relation to the header pins on the module.
