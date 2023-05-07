@@ -366,6 +366,6 @@ display.drawRect( w.left(), w.top(), w.width(), w.height(), c.BLACK );
 
 This library is inspired by [GxEPD2](https://github.com/ZinggJM/GxEPD2), a similar project for Goodisplay and Waveshare displays.
 
-Information on how to correctly communicate with the display hardware was provided by on the [official Heltec library](https://github.com/HelTecAutomation/e-ink).
+Information on how to correctly communicate with the display hardware taken from the [official Heltec library](https://github.com/HelTecAutomation/e-ink).
 
 The drawing functions are provided by [GFX Root](https://github.com/ZinggJM/GFX_Root), which itself is a stripped down version of [Adafruit GFX](https://github.com/adafruit/Adafruit-GFX-Library).
