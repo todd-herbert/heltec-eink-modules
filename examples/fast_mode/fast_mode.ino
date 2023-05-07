@@ -81,7 +81,7 @@ void setup() {
     // Play loading animation, and countdown in corner
     // ------------------------------------------------
     display.setTextColor(c.WHITE);
-    display.setWindow( f.left(), f.top(), f.width(), f.height() - 50 ); // Don't overwrite the bottom 30px
+    display.setWindow( f.left(), f.top(), f.width(), f.height() - 30 ); // Don't overwrite the bottom 30px
     display.setFastmode( display.fastmode.ON );
 
     for (uint8_t demo = 0; demo <= 9; demo++) { // 10 times in total
