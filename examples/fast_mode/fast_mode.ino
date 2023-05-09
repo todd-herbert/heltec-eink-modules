@@ -33,9 +33,8 @@
         // Some panels have the ability to perform a "fast update",
         // The technical term for this feature is "partial refresh".
 
-        // If your panel supports it, you can select is as a parameter when calling update()
-        // This feature SHOULD be present in most panels, however is rarely implemented by Heltec
-        // Hopefully future updates will bring wider support
+        // If your panel supports fastmode, you can select it with setFastmode()
+        // For more information, see https://github.com/todd-herbert/heltec-eink-modules#fast-mode-partial-refresh
 
 #include "heltec-eink-modules.h"
 
