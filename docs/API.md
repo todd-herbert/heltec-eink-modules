@@ -27,7 +27,7 @@
   - [`drawRect()`](#drawrect)
   - [`drawRoundRect()`](#drawroundrect)
   - [`drawTriangle()`](#drawtriangle)
-  - [`drawXbitmap()`](#drawxbitmap)
+  - [`drawXBitmap()`](#drawxbitmap)
   - [`fillCircle()`](#fillcircle)
   - [`fillRect()`](#fillrect)
   - [`fillRoundRect()`](#fillroundrect)
@@ -927,13 +927,29 @@ display.drawTriangle(x0, y0, x1, y1, x2, y2, color)
 * [colors](#colors)
 
 ___
-### `drawXbitmap()`
+### `drawXBitmap()`
 
 Draw PROGMEM-resident XBitMap Files (*.xbm), exported from GIMP. See [tutorial on preparing XBitmap images](XBitmapTutorial/README.md).
 
 *This is an AdafruitGFX method*
 
 #### Syntax
+
+```cpp
+display.drawXBitmap( x, y, bitmap[], w, h, color)
+```
+
+#### Parameters
+
+* _x_: Top left corner x coordinate
+* _y_:   Top left corner y coordinate
+* _bitmap_: byte array with monochrome bitmap (PROGMEM only)
+* _w_: Width of bitmap in pixels
+* _h_: Height of bitmap in pixels
+* _color_: Color to draw pixels with
+
+#### Example
+
 ```cpp
 #include <heltec-eink-modules.h>
 #include "chess_200x200.h"
