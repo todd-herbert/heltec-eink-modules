@@ -52,7 +52,7 @@
 PANEL_CLASS display(DC_PIN, CS_PIN, BUSY_PIN);
 
 void setup() {
-    display.setRotation(display.orientation.PINS_LEFT); // Landscape, text fits better that way (Header PINS to RIGHT of the display)
+    display.setRotation(display.orientation.PINS_LEFT); // Landscape, text fits better that way (Header PINS to LEFT of the display)
 
     display.setFont( &FreeSerifBold12pt7b );   // Pass (the address of) the font to the library
     display.setTextColor(display.colors.BLACK);
