@@ -3,27 +3,51 @@
 /// Draw using the whole screen area
 /// Call before calculating()
 void DEPG0290BNS800::fullscreen() {
+    // BUG: Error calculating fullscreen with rotation = 1
+    // Rather than fix it right now, we'll just unset the rotation while we setWindow()
+    uint8_t rotation_old = this->rotation;
+    setRotation(0);
+
     uint16_t left = 0;
     uint16_t top = 0;
     uint16_t width = rotation%2?drawing_height:drawing_width;
     uint16_t height = rotation%2?drawing_width:drawing_height;
     setWindow(left, top, width, height);
 
-    // Temporary lockout for setFlip - unlocked here
-    can_flip = true;
+    setRotation(rotation_old);
 }
 
 /// Draw on only part of the screen, leaving the rest unchanged
 /// Call before calculating
 void DEPG0290BNS800::setWindow(uint16_t left, uint16_t top, uint16_t width, uint16_t height) {
-    can_flip = false;   // Temporary lock-out
-    
     uint16_t right = left + (width - 1);
     uint16_t bottom = top + (height - 1);
-    this->window_left = left;
-    this->window_top = top;
-    this->window_right = right;
-    this->window_bottom = bottom;
+    window_left = left;
+    window_top = top;
+    window_right = right;
+    window_bottom = bottom;
+    
+    // Apply flip
+    if (imgflip & FlipList::HORIZONTAL) {
+        if (rotation % 2) {   // If landscape
+            window_right = (drawing_height - 1) - left;
+            window_left = (drawing_height - 1) - right;    
+        }
+        else {                    // If portrait
+            window_right = (drawing_width - 1) - left;
+            window_left = (drawing_width - 1) - right;        
+        }
+    }
+    if (imgflip & FlipList::VERTICAL) {
+        if (rotation % 2) {   // If landscape
+            window_bottom = (drawing_width - 1) - top;
+            window_top = (drawing_width - 1) - bottom;   
+        }
+        else {                    // If portrait
+            window_bottom = (drawing_height - 1) - top;
+            window_top = (drawing_height - 1) - bottom;     
+        }
+    }
 
     // Calculate rotated window locations
     switch (rotation) {
@@ -88,10 +112,6 @@ bool DEPG0290BNS800::calculating() {
     // Beginning of first loop
     // -----------------------
     if (page_cursor == 0) {
-        // Prevent use of setFlip with setWindow
-        // This is a temporary lock-out. Support will be added in a future release
-        if(!can_flip)   
-            setFlip(flip.NONE);
 
         // Limit window to panel 
         if (window_left < 0)                    window_left = 0;

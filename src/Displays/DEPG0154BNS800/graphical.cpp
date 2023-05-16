@@ -103,60 +103,67 @@ uint16_t DEPG0154BNS800::getTextHeight(const char* text) {
 // Helper methods to find window bounds
 // ======================================
 
+
+// Code has changed, but for compatibility we still call it the same
 uint8_t DEPG0154BNS800::Bounds::Window::top() {
-    switch (*m_rotation) {
-        case RotationList::PINS_ABOVE:
-            return *edges[T];
-        case RotationList::PINS_LEFT:
-            return (drawing_width - 1) - *edges[R];
-        case RotationList::PINS_BELOW:
-            return (drawing_height - 1) - *edges[B];
-        case RotationList::PINS_RIGHT:
-            return *edges[L];
-    }
-    return 0;   // Supress error
+    return getWindowBounds(T);
 }
 
 uint8_t DEPG0154BNS800::Bounds::Window::right() {
-    switch (*m_rotation) {
-        case RotationList::PINS_ABOVE:
-            return *edges[R];
-        case RotationList::PINS_LEFT:
-            return *edges[B] - 1;
-        case RotationList::PINS_BELOW:
-            return (drawing_width - 1) - *edges[L];
-        case RotationList::PINS_RIGHT:
-            return (drawing_height - 1) - *edges[T];
-    }
-    return 0;   // Supress error
+    return getWindowBounds(R);
 }
 
 uint8_t DEPG0154BNS800::Bounds::Window::bottom() {
-    switch (*m_rotation) {
-        case RotationList::PINS_ABOVE:
-            return *edges[B];
-        case RotationList::PINS_LEFT:
-            return (drawing_width - 1) - *edges[L];
-        case RotationList::PINS_BELOW:
-            return (drawing_height - 1) - *edges[T];
-        case RotationList::PINS_RIGHT:
-            return *edges[R];
-    }
-    return 0;   // Supress error
+    return getWindowBounds(B);
 }
 
 uint8_t DEPG0154BNS800::Bounds::Window::left() {
-    switch (*m_rotation) {
-        case RotationList::PINS_ABOVE:
-            return *edges[L];
-        case RotationList::PINS_LEFT:
-            return *edges[T];
-        case RotationList::PINS_BELOW:
-            return (drawing_width - 1) - *edges[R];
-        case RotationList::PINS_RIGHT:
-            return (drawing_height - 1) - *edges[B];
+    return getWindowBounds(L);
+}
+
+uint8_t DEPG0154BNS800::Bounds::Window::getWindowBounds(DEPG0154BNS800::Bounds::Window::side request) {
+
+    // Boolean LUT (x:side, y:rotation): after considering rotation, does requested edge need to measure from opposite edge.
+    static const uint8_t rotswap_lut[4] = { B0000,
+                                            B0101,
+                                            B1111,
+                                            B1010 };
+
+    // Handle setFlip() - first part
+    // If flipping, we need to find the opposite edge, and right at the end, measure from the opposite side
+    if ( (request % 2) && (*m_imgflip & flip.HORIZONTAL) ) {  // If we're flipping horizontal, and this edge needs flipping
+        request = (Window::side)((request + 2) % 4);
     }
-    return 0;   // Supress error
+    if ( !(request % 2) && (*m_imgflip & flip.VERTICAL) ) {  // If vertical flip
+        request = (Window::side)((request + 2) % 4);      
+    } // -------------- End Flip Part 1 -----------
+
+    uint16_t rotated_request = (request + *m_rotation) % 4;    // Rotate the Window::side value
+    uint16_t result;    // Build in this varaible    
+
+    // Given our request side and rotation, do we need to measure from opposite edge
+    bool rotswap = rotswap_lut[*m_rotation] & (1 << request);
+
+    // Start by simply picking a rotated edge
+    result = *edges[rotated_request];
+
+    // If required by LUT, find display width or height, and subtract the edge distance
+    if (rotswap) {
+        uint16_t minuend = (rotated_request % 2) ? (drawing_width - 1) : (drawing_height - 1);
+        result = minuend - result;
+    }
+
+    // Handle setFlip() - 2nd part
+    if ( (request % 2) && (*m_imgflip & flip.HORIZONTAL) ) {  // If we're flipping horizontal, and this edge needs flipping
+        uint16_t minuend = (rotated_request % 2) ? (drawing_width - 1) : (drawing_height - 1);
+        result = minuend - result;
+    }
+    if ( !(request % 2) && (*m_imgflip & flip.VERTICAL) ) {  // If vertical flip
+        uint16_t minuend = (rotated_request % 2) ? (drawing_width - 1) : (drawing_height - 1);
+        result = minuend - result;    
+    } // ----------- end flip part 2 -------------
+
+    return result;
 }
 
 

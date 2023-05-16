@@ -39,7 +39,8 @@ class QYEG0213RWS800 : public GFX {
                                                                                                                             &winrot_right, 
                                                                                                                             &winrot_bottom, 
                                                                                                                             &winrot_left, 
-                                                                                                                            &rotation);
+                                                                                                                            &rotation,
+                                                                                                                            &imgflip);
                                                                                                     begin();
                                                                                                 }
                                                                                 
@@ -135,20 +136,23 @@ class QYEG0213RWS800 : public GFX {
                             uint8_t centerX() {return right() - (width() / 2);}
                             uint8_t centerY() {return bottom() - (height() / 2);}
 
-                            Window(uint8_t *top, uint8_t *right, uint8_t *bottom, uint8_t *left, uint8_t *arg_rotation) {
-                                                                                                                            edges[T] = top;
-                                                                                                                            edges[R] = right;
-                                                                                                                            edges[B] = bottom;
-                                                                                                                            edges[L] = left;
-                                                                                                                            m_rotation = arg_rotation;
-                                                                                                                        }  // Called in setup
+                            Window(uint8_t *top, uint8_t *right, uint8_t *bottom, uint8_t *left, uint8_t *arg_rotation, FlipList::Flip *arg_imgflip) {
+                                    edges[T] = top;
+                                    edges[R] = right;
+                                    edges[B] = bottom;
+                                    edges[L] = left;
+                                    m_rotation = arg_rotation;
+                                    m_imgflip = arg_imgflip;
+                                }  // Called in setup
                             Window() = delete;  // Please use a pointer instead 
                         private:
                             uint8_t *edges[4];   // t, r, b, l
                             uint8_t *m_rotation;    // NB: "rotation" is already used as member
+                            FlipList::Flip *m_imgflip;
                             enum side{T=0, R=1, B=2, L=3};
+                            uint8_t getWindowBounds(side request);
                         };
-                        Window window = Window(nullptr, nullptr, nullptr, nullptr, nullptr);    // Prevent user instantiating class without due care
+                        Window window = Window(nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);    // Prevent user instantiating class without due care
 
                     // Reference dimensions for fullscreen
                     class Full {
@@ -172,12 +176,12 @@ class QYEG0213RWS800 : public GFX {
                     Full full = Full(nullptr);  // Prevent untintentional instantiation
 
                     Bounds() = delete;  // Please use a pointer instead
-                    Bounds(uint8_t *top, uint8_t *right, uint8_t *bottom, uint8_t *left, uint8_t *arg_rotation) {
-                                                                                                                    window = Window(top, right, bottom, left, arg_rotation);
+                    Bounds(uint8_t *top, uint8_t *right, uint8_t *bottom, uint8_t *left, uint8_t *arg_rotation, FlipList::Flip *arg_flip) {
+                                                                                                                    window = Window(top, right, bottom, left, arg_rotation, arg_flip);
                                                                                                                     full = Full(arg_rotation);
                                                                                                                 }      
                     };
-        Bounds bounds = Bounds(nullptr, nullptr, nullptr, nullptr, nullptr);
+        Bounds bounds = Bounds(nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
 
     // Members
     // =========================================================================================
@@ -204,8 +208,4 @@ class QYEG0213RWS800 : public GFX {
         enum Region{FULLSCREEN = 0, WINDOWED = 1} region=FULLSCREEN;
         uint8_t window_left, window_top, window_right, window_bottom;
         uint8_t winrot_left, winrot_top, winrot_right, winrot_bottom;   // Window boundaries in reference frame of rotation(0)
-
-        // Lock-out flip controls when using a window
-        // Temporary. Windowed support to come in future relase
-        bool can_flip = true;
 };
