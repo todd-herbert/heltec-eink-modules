@@ -338,7 +338,7 @@ void setup() {
 ___
 ### `setRotation()`
 
-Rotate future drawing operations by a multiple of 90 degrees. Avoid calling between `setWindow()` and the start of the `calculating()` loop.
+Rotate future drawing operations by a multiple of 90 degrees. Avoid calling between `setWindow()` and the start of the `calculating()` loop. Because of a hardware limitation, window width (or height, if you are using a landscape rotation) is always a multiple of 8. If you are using a window, your window's width will be automatically rounded up to the nearest multiple. For your convenience, these new "rounded up" dimensions are available through the `.bounds.window` feature. In this way, you can draw your graphics to cover the slightly expanded window, and work around the limitation. Note that the window will never "round down"; your originally requested region will always fit within the window provided.
 
 #### Syntax
 
@@ -401,7 +401,7 @@ ___
 ### `setWindow()`
 Draw to only a particular part of the screen ("a window"), leaving the remainder unchanged. Call before the `calculating()` loop. 
 
-Window parameters are intepreted in the context of the current rotation. Avoid calling rotation between `setWindow()` and the start of the `calculating()` loop, or you will find that your window does not end up where you had intended! 
+Window parameters are intepreted in the context of the current rotation and flip. Avoid calling `setRotation()` , or `setFlip()` between `setWindow()` and the start of the `calculating()` loop, or you will find that your window does not end up where you had intended! 
 
 Because of a hardware limitation, window width (or height, if you are using a landscape rotation) is always a multiple of 8. Any value given will be automatically rounded up to the nearest multiple. For your convenience, these new "rounded up" dimensions are available through the `.bounds.window` feature. In this way, you can draw your graphics to cover the slightly expanded window, and work around the limitation. Note that the window will never "round down"; your originally requested region will always fit within the window provided.
 
@@ -451,6 +451,8 @@ void setup() {
 #### See also
 
 * [fullscreen()](#fullscreen)
+* [setRotation()](#setrotation)
+* [setFlip()](#setflip)
 
 ___
 ### `fullscreen()`
@@ -560,7 +562,7 @@ void loop() {}
 ___
 ### `setFlip()`
 
-Reverse the image, either horizontally, or vertically. **Currently not supported with `setWindow`()**
+Reverse the image, either horizontally, or vertically. Flip is applied relative to the current rotation. Because of a hardware limitation, window width (or height, if you are using a landscape rotation) is always a multiple of 8. Be aware that this may affect window dimensions when drawing flipped. If you are using a window, your window's width will be automatically rounded up to the nearest multiple. For your convenience, these new "rounded up" dimensions are available through the `.bounds.window` feature. In this way, you can draw your graphics to cover the slightly expanded window, and work around the limitation. Note that the window will never "round down"; your originally requested region will always fit within the window provided.
 
 #### Syntax
 
@@ -570,7 +572,7 @@ setFlip(axis)
 
 #### Parameters
 
-* _axis_: which way to flip the image 
+* _axis_: which way to flip the image. <br /> 
     Supported values:
     * `.flip.OFF`
     * `.flip.HORIZONTAL`
@@ -597,6 +599,9 @@ void setup() {
 }
 ```
 
+#### See also
+
+* [setRotation()](#setrotation)
 
 ___
 ### `calculating()`
