@@ -59,7 +59,7 @@ void setup() {
 
     while( display.calculating() ) {
         display.setCursor(0, 0);
-        for(int i = 0; i<30; i++)
+        for(int i = 0; i<10; i++)
         display.print(lorem);
     }
 
@@ -81,10 +81,13 @@ void setup() {
     display.setWindow(W_LEFT, W_TOP, W_WIDTH, W_HEIGHT);
     display.setTextSize(1);
 
+    uint16_t TEXT_X = w.centerX() - (display.getTextWidth(proclamation) / 2);   // Position the text after setWindow,
+    uint16_t TEXT_Y = w.centerY() - (display.getTextHeight(proclamation) / 2);  // so we can find the *true* center
+
     while (display.calculating())
     {
         display.drawRect(w.left(), w.top(), w.width(), w.height(), c.BLACK);  // Put a border around the very edge of the window
-        display.setCursorTopLeft(proclamation, w.left() + 10, w.top() + 10);
+        display.setCursorTopLeft(proclamation, TEXT_X, TEXT_Y);
         display.print(proclamation);
     }
 
