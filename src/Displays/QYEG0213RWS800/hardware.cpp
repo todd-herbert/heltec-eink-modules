@@ -34,10 +34,10 @@ void QYEG0213RWS800::clear() {
     fullscreen();
     
     int16_t sx, sy, ex, ey;
-    sx = (bounds.full.left() / 8) + 1;      // I don't understand why this is +1, but it seems necessary, and the official Heltec driver also does this.
-    ex = ((bounds.full.right()) / 8) + 1;
-    sy = bounds.full.top();
-    ey = bounds.full.bottom();
+    sx = 0 + 1;      // I don't understand why this is +1, but it seems necessary, and the official Heltec driver also does this.
+    ex = ((drawing_width - 1) / 8) + 1;
+    sy = 0;
+    ey = drawing_height;
 
     // Data entry mode - Right to Left, Top to Bottom
     sendCommand(0x11);
