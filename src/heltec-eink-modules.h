@@ -1,3 +1,6 @@
+#ifndef __HELTEC_EINK_MODULES_H__
+#define __HELTEC_EINK_MODULES_H__
+
 #include <Arduino.h>
 #include "GFX_Root/GFX.h"
 
@@ -8,3 +11,5 @@
 #include "Displays/DEPG0290BNS75A/DEPG0290BNS75A.h"     // Heltec 2.9" BW V2    - Red Tab
 #include "Displays/DEPG0290BNS800/DEPG0290BNS800.h"     // Heltec 2.9" BW V2    - Red Tab
 #include "Displays/HTE029A1/HTE029A1.h"                 // Heltec 2.9" BW V2    - Blue tab
+
+#endif
