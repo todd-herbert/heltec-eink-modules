@@ -68,7 +68,7 @@
 
 ## Include Library
 ```cpp
-#include <heltec-eink-module.h>
+#include <heltec-eink-modules.h>
 ```
 
 ## Methods
