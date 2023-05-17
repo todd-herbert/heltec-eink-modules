@@ -30,7 +30,7 @@
 // ---------------------------------------------------------
 
 #include "heltec-eink-modules.h"
-#include "display_tests.h"
+#include "tests.h"
 
 // Non-standard gcc feature - don't initialize the variable: we're using it to detect a cold boot
 __attribute__((section(".noinit"))) uint32_t state;
