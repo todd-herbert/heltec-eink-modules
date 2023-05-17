@@ -1,12 +1,15 @@
 # Heltec E-Ink Modules
 
-Third-party Arduino Library for **Heltec E-Ink Module** displays.
-Supports run-time graphics and text generation using Adafruit-GFX (via [ZinggJM/GFX_Root](https://github.com/ZinggJM/GFX_Root))
+Third-party Arduino Library for **Heltec E-Ink Module** displays.<br />
+Run-time graphics on Arduino UNO, using Adafruit-GFX (via [ZinggJM/GFX_Root](https://github.com/ZinggJM/GFX_Root)) 
 
-This is made possible with *"paging".* [Read the API here](/docs/API.md)
+This is made possible with *"paging".* 
+
+**[Read the API here](/docs/API.md)**
 
 [Huh? Paging?](#what-is-paging) <br />
 [Supported Displays](#supported-displays) <br />
+[Identifying Your Display](#identifying-your-display) <br />
 [Wiring](#wiring) <br />
 [Using the library](#using-the-library) <br />
 [Configuration](#configuration-options) <br />
@@ -27,27 +30,32 @@ Most importantly, it is the what allows the *Arduino Uno* to work with these dis
 
 ## Supported Displays
 
-This list is likely to grow with time.
+If your Heltec e-ink display is not listed, please let me know.
 
-Heltec seem to release multiple, incompatible versions of the same display, which can appear superficially similar. In this library, displays are identified by the *model of the panel*. Unfortunately, the displays are not marked with this information. See [identification](#identifying-your-display)
+Heltec seem to reuse the same marketing names for different non-interchangable displays. In this library, displays are identified by the *model of the panel*. Unfortunately, the displays are not marked with this information. See [identification](#identifying-your-display)
 
-Despite my best efforts I have been unable to source any of the older models, so if you have purchased your display in the last few years, it would seem likely that you have a V2 display.
 
-|   Model Name              |   Sold As                     |   Colors              |   Fastmode        |   Resolution (px)
-|---------------------------|-------------------------------|-----------------------|-------------------|--------------------------------
-|   DEPG0150BNS810          |   1.54 Inch E-ink Display V2  |   Black, White        |   Yes             |   200 x 200
-|   DEPG0154BNS800          |   1.54 Inch E-ink Display V2  |   Black, White        |   Yes             |   152 x 152
-|   GDEP015OC1  <sup>1</sup>|   1.54 Inch E-ink Display V2  |   Black, White        |   Yes             |   200 x 200
-|   QYEG0213RWS800          |   2.13 Inch E-ink Display V2  |   Black, White, Red   |   No              |   250 x 122
-|   DEPG0290BNS75A          |   2.9 Inch E-ink Display V2   |   Black, White        |   No <sup>2</sup> |   296 x 128
-|   DEPG0290BNS800          |   2.9 Inch E-ink Display V2   |   Black, White        |   Yes             |   296 x 128
-|   HTE029A1                |   2.9 Inch E-ink Display V2   |   Black, White        |   Yes             |   296 x 128
+|   Model Name              |   Sold As                                         |   Colors              |   Fastmode        |   Resolution (px)
+|---------------------------|---------------------------------------------------|-----------------------|-------------------|--------------------------------
+|   DEPG0150BNS810          |   1.54&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2  |   Black, White        |   Yes             |   200 x 200
+|   DEPG0154BNS800          |   1.54&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2  |   Black, White        |   Yes             |   152 x 152
+|   GDEP015OC1  <sup>1</sup>|   1.54&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2  |   Black, White        |   Yes             |   200 x 200
+|   QYEG0213RWS800          |   2.13&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2  |   Black, White, Red   |   No              |   250 x 122
+|   DEPG0290BNS75A          |   2.9&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2   |   Black, White        |   No <sup>2</sup> |   296 x 128
+|   DEPG0290BNS800          |   2.9&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2   |   Black, White        |   Yes             |   296 x 128
+|   HTE029A1                |   2.9&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2   |   Black, White        |   Yes             |   296 x 128
 
 <sup>1</sup> Closest match. No official information available. <br />
 <sup>2</sup> Heltec claim fastmode is supported, however the code they provide appears incorrect. The panel is not pre-programmed with the neccesary settings. Relevant settings do not appear to be available online. Further investigation required.
 
 ## Identifying your display
-It can be a challenge determining exactly which display you have. This key is not definitive, but lists identifying details I have noticed so far.
+### 1. Upload the `identify_display` example sketch to your Arduino. 
+With your display connected [through a level shifter](#wiring), press the reset button to test diffirent models.
+
+*or*
+
+### 2. Consult the table below.
+The identification data may be incorrect or incomplete. It is based on my own observation.
 
 |   Model Name                          |   Rear Label                                                  |   Colors              |   Screen Protector    |   Flex Connector Label            |   Front   |   Rear
 |---------------------------------------|---------------------------------------------------------------|-----------------------|-----------------------|-----------------------------------|:---:|:---:
@@ -65,7 +73,7 @@ It can be a challenge determining exactly which display you have. This key is no
 
 ### The display is 3.3V, do not connect it directly to an Arduino.
 
-All warnings aside, connection isn't all that hard. Just be sure to implement some sort of level-shifter. I can can confirm that a simple voltage divider is perfectly adequate, for example: 
+Be sure to implement some sort of level-shifter. I can can confirm that a simple voltage divider is perfectly adequate, for example: 
 
 ![voltage-divider example](wiring_example.png)
 
@@ -97,9 +105,6 @@ All warnings aside, connection isn't all that hard. Just be sure to implement so
 
 Make sure to specify the location of your *D/C, CS* and *BUSY* pins in the constructor.
 
-
-
-
 ## Using the library
 
 ```c++
@@ -112,7 +117,7 @@ void setup() {
 
     // All drawing commands go intside this WHILE
     while ( display.calculating() ) {
-        display.fillCircle(50, 100, 20, display.colors.RED);
+        display.fillCircle(50, 100, 20, display.colors.BLACK);
     }
     
     // Draw this new image to the display
@@ -133,9 +138,9 @@ That's it! Everything else (should) be taken care of automatically.
 
 ### Drawing Commands
 
-In the interest of laziness, I'm going to direct you to [the official adafruit-gfx tutorial](https://learn.adafruit.com/adafruit-gfx-graphics-library/graphics-primitives) for information on the drawing commands. 
+I'm going to direct you to [the official adafruit-gfx tutorial](https://learn.adafruit.com/adafruit-gfx-graphics-library/graphics-primitives) for information on the drawing commands. 
 
-This library *should* work pretty much the same, with a few small exceptions:
+This implementation has a few small differences, including:
 
 * The display will only support a limited set of colors:
     * ```.colors.BLACK```
@@ -165,10 +170,9 @@ This library *should* work pretty much the same, with a few small exceptions:
     * `.getTextWidth()` 
     * `.getTextHeight()` 
 
-As decided by the Adafruit library, the ancient *"XBitmap"* is the format of choice for pre-rendered graphics. Luckily, GIMP maintains good support for it.
+For a more complete description, **[read the API here.](/docs/API.md)**
 
-If you need a hint on how to use it, I have thrown together a [tutorial on preparing XBitmap images](XBitmapTutorial/README.md).
-
+As decided by the Adafruit library, the ancient *"XBitmap"* is the format of choice for pre-rendered graphics. Luckily, GIMP maintains good support for it. If you need a hint on how to use it, I have thrown together a [tutorial on preparing XBitmap images](XBitmapTutorial/README.md).
 
 
 ## Configuration Options
