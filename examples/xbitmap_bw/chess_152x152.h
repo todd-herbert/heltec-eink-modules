@@ -1,3 +1,8 @@
+// XBitmap Image used in example: "xbitmap_bw.ino"
+// Image description: "chessboard"
+
+// See https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/README.md
+
 #define chess_width 152
 #define chess_height 152
 PROGMEM const static unsigned char chess_bits[] = {
