@@ -49,12 +49,12 @@ Heltec seem to reuse the same marketing names for different non-interchangable d
 <sup>2</sup> Heltec claim fastmode is supported, however the code they provide appears incorrect. The panel is not pre-programmed with the neccesary settings. Relevant settings do not appear to be available online. Further investigation required.
 
 ## Identifying your display
-### 1. Upload the `identify_display` example sketch to your Arduino. 
+#### 1. Upload the `identify_display` example sketch to your Arduino. 
 With your display connected [through a level shifter](#wiring), press the reset button to test diffirent models.
 
 *or*
 
-### 2. Consult the table below.
+#### 2. Consult the table below.
 The identification data may be incorrect or incomplete. It is based on my own observation.
 
 |   Model Name                          |   Rear Label                                                  |   Colors              |   Screen Protector    |   Flex Connector Label            |   Front   |   Rear
