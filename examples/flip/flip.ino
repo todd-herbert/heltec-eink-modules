@@ -1,6 +1,6 @@
 // Which panel are you using?  (uncomment one)
 // --------------------------------------------
-    // #define  USING_DEPG0150BNS810        // 1.54" V2 - BW - Reb Tab
+    // #define  USING_DEPG0150BNS810        // 1.54" V2 - BW - Red Tab
     // #define  USING_DEPG0154BNS800        // 1.54" V2 - BW - Red Tab
     // #define  USING_GDEP015OC1            // 1.54" V2 - BW - Blue Tab
     // #define  USING_QYEG0213RWS800        // 2.13" V2 - BWR - Red Tab
