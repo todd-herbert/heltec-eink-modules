@@ -1,13 +1,14 @@
 ﻿# Preparing 3-Color XBitmaps for E-INK
-1. [Install GIMP](#install-gimp)
-2. [Resize Image](#resize-image)
-3. [Define Color Palette](#define-a-color-palette)
-4. [Indexed Color](#change-to-indexed-color-mode)
-5. [Isolate Colors](#isolating-colors)
-6. [Export](#export-as-xbitmap)
-7. [Repeat](#rinse-and-repeat)
-8. [Import & Modify](#importing-and-modifying)
-9. [Drawing the Xbitmaps](#drawing-the-xbitmaps)
+- [Install GIMP](#install-gimp)
+- [Open Image in GIMP](#open-image-in-gimp)
+- [Resize Image](#resize-image)
+- [Define a Color Palette](#define-a-color-palette)
+- [Change to "Indexed Color Mode"](#change-to-indexed-color-mode)
+- [Isolating Colors](#isolating-colors)
+- [Export as XBitmap](#export-as-xbitmap)
+- [Rinse and Repeat](#rinse-and-repeat)
+- [Importing and Modifying](#importing-and-modifying)
+- [Drawing the XBitmaps](#drawing-the-xbitmaps)
 ## Install GIMP
 GIMP (GNU Image Manipulation Program) is a free and powerful image editor that is capable of exporting XBitmap images.
 If you haven't already done so, head over to https://www.gimp.org/ and download it now.
@@ -15,7 +16,7 @@ If you haven't already done so, head over to https://www.gimp.org/ and download 
 ## Open Image in GIMP
 You can go ahead and open your source image in GIMP. 
 
-When selecting an image, it pays to remember the limations of E-INK displays. Pixels are either ON or OFF, there is no inbetween.  
+When selecting an image, it pays to remember the limitations of E-INK displays. Pixels are either ON or OFF, there is no in-between.  
 
 In this tutorial, I am using a *Heltec 2.13" Red V2 Display* (QYEG0213RWS800), which has a size of 122px x 250px and 3 Colors: White, Black, and Red. From this point I will talk about these colors, but the process is the same if your display is yellow, or any other color.
 
@@ -84,7 +85,7 @@ Floyd-Steinberg (normal) |  <img src="https://github.com/todd-herbert/heltec-ein
 Floyd-Steinberg (reduced color bleeding) | <img src="https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/DitheringExamples/FSReduced.jpg?raw=true" width="250">
 Positioned | <img src="https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/DitheringExamples/Positioned.jpg?raw=true" width="250">
 
-For the tutorial image, I think that the *"Floyd-Steinberd (reduced color bleeding)"* option will probably work best.
+For the tutorial image, I think that the *"Floyd-Steinberg (reduced color bleeding)"* option will probably work best.
 
 ## Isolating Colors
 Every pixel in our XBitmap is represented by a single `0` or `1`. When you draw an XBitmap, you load the file and also name a color. These `0`'s and `1`'s simply tell the library whether that color  we named belongs at each pixel or not.

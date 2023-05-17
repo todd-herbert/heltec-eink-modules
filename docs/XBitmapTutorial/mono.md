@@ -1,17 +1,18 @@
 ﻿# Preparing Mono XBitmaps for E-INK
-1. [Install GIMP](#install-gimp)
-2. [Resize Image](#resize-image)
-3. [Indexed Color](#change-to-indexed-color-mode)
-4. [Export](#export-as-xbitmap)
-5. [Import & Modify](#importing-and-modifying)
-6. [Drawing the Xbitmap](#drawing-the-xbitmap)
+- [Install GIMP](#install-gimp)
+- [Open Image in GIMP](#open-image-in-gimp)
+- [Resize Image](#resize-image)
+- [Change to "Indexed Color Mode"](#change-to-indexed-color-mode)
+- [Export as XBitmap](#export-as-xbitmap)
+- [Importing and Modifying](#importing-and-modifying)
+- [Drawing the XBitmap](#drawing-the-xbitmap)
 ## Install GIMP
 GIMP (GNU Image Manipulation Program) is a free and powerful image editor that is capable of exporting XBitmap images.
 If you haven't already done so, head over to https://www.gimp.org/ and download it now.
 
 ## Open Image in GIMP
 You can go ahead and open your source image in GIMP. 
-When selecting an image, it pays to remember the limations of E-INK displays. Pixels are either ON or OFF, there is no inbetween, no grayscale.
+When selecting an image, it pays to remember the limitations of E-INK displays. Pixels are either ON or OFF, there is no in-between, no grayscale.
 
 In this tutorial I will be using [this image](https://commons.wikimedia.org/wiki/File:Black_and_White_Chessboard.jpg) from Wikimedia Commons.
 
@@ -50,7 +51,7 @@ Floyd-Steinberg (normal) |  <img src="https://github.com/todd-herbert/heltec-ein
 Floyd-Steinberg (reduced color bleeding) | <img src="https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/DitheringExamples/FSReduced.jpg?raw=true" width="250">
 Positioned | <img src="https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/DitheringExamples/Positioned.jpg?raw=true" width="250">
 
-For this image, I think that the *"Floyd-Steinberd (reduced color bleeding)"* option probably looks best.
+For this image, I think that the *"Floyd-Steinberg (reduced color bleeding)"* option probably looks best.
 
 ## Export as XBitmap
 

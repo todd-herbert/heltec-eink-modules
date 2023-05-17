@@ -32,7 +32,7 @@ Most importantly, it is the what allows the *Arduino Uno* to work with these dis
 
 If your Heltec e-ink display is not listed, please let me know.
 
-Heltec seem to reuse the same marketing names for different non-interchangable displays. In this library, displays are identified by the *model of the panel*. Unfortunately, the displays are not marked with this information. See [identification](#identifying-your-display)
+Heltec seem to reuse the same marketing names for different non-interchangeable displays. In this library, displays are identified by the *model of the panel*. Unfortunately, the displays are not marked with this information. See [identification](#identifying-your-display)
 
 
 |   Model Name              |   Sold As                                         |   Colors              |   Fastmode        |   Resolution (px)
@@ -46,11 +46,11 @@ Heltec seem to reuse the same marketing names for different non-interchangable d
 |   HTE029A1                |   2.9&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2   |   Black, White        |   Yes             |   296 x 128
 
 <sup>1</sup> Closest match. No official information available. <br />
-<sup>2</sup> Heltec claim fastmode is supported, however the code they provide appears incorrect. The panel is not pre-programmed with the neccesary settings. Relevant settings do not appear to be available online. Further investigation required.
+<sup>2</sup> Heltec claim fastmode is supported, however the code they provide appears incorrect. The panel is not pre-programmed with the necessary settings. Relevant settings do not appear to be available online. Further investigation required.
 
 ## Identifying your display
 #### 1. Upload the `identify_display` example sketch to your Arduino. 
-With your display connected [through a level shifter](#wiring), press the reset button to test diffirent models.
+With your display connected [through a level shifter](#wiring), press the reset button to test different models.
 
 *or*
 
@@ -115,7 +115,7 @@ DEPG0150BNS810 display(/* DC PIN */  8, /* CS PIN */  10, /* BUSY PIN */ 7);
 
 void setup() {
 
-    // All drawing commands go intside this WHILE
+    // All drawing commands go inside this WHILE
     while ( display.calculating() ) {
         display.fillCircle(50, 100, 20, display.colors.BLACK);
     }
@@ -127,7 +127,7 @@ void setup() {
 void loop() {}
 ```
 
-To summarise: 
+To summarize: 
 
 * Set your hardware pins in the constructor
 * All drawing commands go inside the ```while ( .calculating () )``` loop. <br />
@@ -206,7 +206,7 @@ DEPG0150BNS810 display(dc, cs, busy, page_height);
 
 Many E-Ink displays are able to enter a "deep sleep" power-saving mode. In this state, the module is no longer listening to any commands we issue. Traditionally, a hardware reset pin is provided, however, with the *Heltec Modules*, this is not the case.
 
-One work-around is to manually cycle power to the display ("turn it off and on again"). This does require aditional circuitry.
+One work-around is to manually cycle power to the display ("turn it off and on again"). This does require additional circuitry.
 
 A suitable method of controlling the power is shown here, using a PNP transistor and a FET based level-shifter:
 
@@ -320,7 +320,7 @@ while (display.calculating()) {
 
 // update() is called automatically in fast mode
 ```
-Note that this state is somewhat tempermental. If you wish to call ```setWindow()```, or to return to ```fastmode.OFF```, you should use ```fastmode.FINALIZE```:
+Note that this state is somewhat temperamental. If you wish to call ```setWindow()```, or to return to ```fastmode.OFF```, you should use ```fastmode.FINALIZE```:
 ```c++
 display.setFastmode( display.fastmode.FINALIZE );
 
@@ -364,7 +364,7 @@ display.drawRect( w.left(), w.top(), w.width(), w.height(), c.BLACK );
 
 **Arduino:** Library can be installed to Arduino IDE with *Sketch* -> *Include Library* -> *Add .Zip Library..*, or through the built-in Library Manager.
 
-**Platform.io:** Available through the built-in library registiry, or alternatively, can be installed by extracting the Zip file to the lib folder of your project.
+**Platform.io:** Available through the built-in library registry, or alternatively, can be installed by extracting the Zip file to the lib folder of your project.
 
 ## Acknowledgements
 

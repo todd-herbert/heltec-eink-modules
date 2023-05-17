@@ -401,7 +401,7 @@ ___
 ### `setWindow()`
 Draw to only a particular part of the screen ("a window"), leaving the remainder unchanged. Call before the `calculating()` loop. 
 
-Window parameters are intepreted in the context of the current rotation and flip. Avoid calling `setRotation()` , or `setFlip()` between `setWindow()` and the start of the `calculating()` loop, or you will find that your window does not end up where you had intended! 
+Window parameters are interpreted in the context of the current rotation and flip. Avoid calling `setRotation()` , or `setFlip()` between `setWindow()` and the start of the `calculating()` loop, or you will find that your window does not end up where you had intended! 
 
 Because of a hardware limitation, window width (or height, if you are using a landscape rotation) is always a multiple of 8. Any value given will be automatically rounded up to the nearest multiple. For your convenience, these new "rounded up" dimensions are available through the `.bounds.window` feature. In this way, you can draw your graphics to cover the slightly expanded window, and work around the limitation. Note that the window will never "round down"; your originally requested region will always fit within the window provided.
 
@@ -484,7 +484,7 @@ The trade-off is that images drawn in fast mode are of a lower quality. The proc
 
 Not all displays support fast mode. Some displays may have a physical limitation, however with others, it seems that the technical settings have not yet been calculated and released.
 
-Note that this state is somewhat tempermental. If you wish to call `setWindow()`, or to return to `.fastmode.OFF`, you should first set `.fastmode.FINALIZE`
+Note that this state is somewhat temperamental. If you wish to call `setWindow()`, or to return to `.fastmode.OFF`, you should first set `.fastmode.FINALIZE`
 
 Calling `update()` during `.fastmode.ON` will have no effect; the display is updated automatically. Calling `update()` after `.fastmode.FINALIZE` is unnecessary; doing so will cause the whole screen to be redrawn with the slower, higher definition `.fastmode.OFF` method. This may be desirable.
 
@@ -770,7 +770,7 @@ display.drawCircleHelper(x, y, r, corner_mask, color)
 * _x_: Center-point x coordinate
 * _y_: Center-point y coordinate
 * _r_: Radius of circle
-* _corner\_mask_: Which corner(s) to draw. Select by setting the first four bits: Least Signifact Bit for top left, travelling clockwise as bit # increases.
+* _corner\_mask_: Which corner(s) to draw. Select by setting the first four bits: Least Significant Bit for top left, traveling clockwise as bit # increases.
 * _color_: Color to draw with 
 
 #### Example
