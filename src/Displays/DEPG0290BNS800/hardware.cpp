@@ -1,23 +1,34 @@
 #include "DEPG0290BNS800.h"
 
-/// Begin the E-Ink library
-void DEPG0290BNS800::begin() {
+// Have to initialize because of GFX class
+DEPG0290BNS800::DEPG0290BNS800( uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint8_t page_height) : GFX(panel_width, panel_height) {
+    // Store the config
+    this->pin_dc = pin_dc;
+    this->pin_cs = pin_cs;
+    this->pin_busy = pin_busy;
+    this->pagefile_height = page_height;
+
+    // Instantiate nested classes and pass references
+    this->bounds = Bounds(  &winrot_top, 
+                            &winrot_right, 
+                            &winrot_bottom, 
+                            &winrot_left, 
+                            &rotation,
+                            &imgflip    );
+
     // Set the digital pins that supplement the SPI interface
     pinMode(pin_cs, OUTPUT);        // Incase we weren't give the standard pin 10 as SS
     pinMode(pin_dc, OUTPUT);
     pinMode(pin_busy, INPUT);   // NOTE: do not use internal pullups, as we're reading a 3.3v output with our ~5v arduino
     
     // Prepare SPI
+    digitalWrite(pin_cs, HIGH); // Helpful if using more than one display
     SPI.begin();    
 
     // Calculate pagefile size
     pagefile_height = constrain(pagefile_height, 1, 50);
     page_bytecount = panel_width * pagefile_height / 8;     // nb: this is a class member and gets reused
     
-    // Set height in the library
-    _width = WIDTH = panel_width;
-    _height = HEIGHT = panel_height;
-
     // Set an initial configuration for drawing
     setDefaultColor(colors.WHITE);
     setTextColor(colors.BLACK);
