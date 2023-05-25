@@ -69,28 +69,32 @@ class QYEG0213RWS800 : public GFX {
 
     // Supplementary Drawing Methods
     // ========================================================================================
-
-    // ==================================
+    //
     //  Messy, here is current structure:
+    //      setFlip
     //      setCursorTopLeft
     //      getTextWidth
     //      getTextHeight
     // 
     //      Bounds ->
     //          Window->
-    //                  Left
-    //                  Right
     //                  Top
+    //                  Right
     //                  Bottom
+    //                  Left
     //                  Width
     //                  Height
+    //                  CenterX
+    //                  CenterY
     //          Full->
-    //                  Left
-    //                  Right
     //                  Top
+    //                  Right
     //                  Bottom
+    //                  Left
     //                  Width
     //                  Height
+    //                  CenterX
+    //                  CenterY
     // ==================================
 
     public:
@@ -99,15 +103,14 @@ class QYEG0213RWS800 : public GFX {
         uint16_t getTextWidth(const char* text);
         uint16_t getTextHeight(const char* text);
 
+        // Nested Subclasses to provide dimensioning info
         class Bounds { 
             public:
                     // Reference dimensions for windows
                     class Window {
                         public:
-                            // TODO: calculate window boundaries early to facilitate user layout calculation
-                            //  --- problematic interplay with setRotation() method
-
                             // TODO: Bounds.Window subclass with info about "Requested Bounds" vs "Actual Bounds"
+                            // TODO: calculate window boundaries early to facilitate user layout calculation
 
                             uint8_t top();
                             uint8_t right();
@@ -120,23 +123,24 @@ class QYEG0213RWS800 : public GFX {
                             uint8_t centerX() {return right() - (width() / 2);}
                             uint8_t centerY() {return bottom() - (height() / 2);}
 
+                            // Subclass constructor, receive references to display dimensions
                             Window(uint8_t *top, uint8_t *right, uint8_t *bottom, uint8_t *left, uint8_t *arg_rotation, FlipList::Flip *arg_imgflip) {
-                                    edges[T] = top;
-                                    edges[R] = right;
-                                    edges[B] = bottom;
-                                    edges[L] = left;
-                                    m_rotation = arg_rotation;
-                                    m_imgflip = arg_imgflip;
-                                }  // Called in setup
-                            Window() = delete;  // Please use a pointer instead 
+                                edges[T] = top;
+                                edges[R] = right;
+                                edges[B] = bottom;
+                                edges[L] = left;
+                                m_rotation = arg_rotation;
+                                m_imgflip = arg_imgflip;
+                            }
+                            Window() = delete;  // User shouldn't instantiate this class
                         private:
                             uint8_t *edges[4];   // t, r, b, l
-                            uint8_t *m_rotation;    // NB: "rotation" is already used as member
+                            uint8_t *m_rotation;    // note: "rotation" is already used as member
                             FlipList::Flip *m_imgflip;
                             enum side{T=0, R=1, B=2, L=3};
-                            uint8_t getWindowBounds(side request);
-                        };
-                        Window window = Window(nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);    // Prevent user instantiating class without due care
+                            uint8_t getWindowBounds(side request);  // backend function, does most of the work finding window dimensions
+                    };
+                    Window window = Window(nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);    // Have to pretend-instantiate, because we deleted default constructor
 
                     // Reference dimensions for fullscreen
                     class Full {
@@ -153,19 +157,21 @@ class QYEG0213RWS800 : public GFX {
                             uint8_t centerY() {return (bottom() / 2);}
 
                             Full(uint8_t *arg_rotation) : rotation(arg_rotation) {}
-                            Full() = delete;    // Please use a pointer instead
+                            Full() = delete;    // User shouldn't instantiate this class
                         private:
                             uint8_t *rotation;
                     };
-                    Full full = Full(nullptr);  // Prevent untintentional instantiation
+                    Full full = Full(nullptr);  // Have to pretend-instantiate, because we deleted default constructor
 
-                    Bounds() = delete;  // Please use a pointer instead
+                    // Subclass Constructor, receive the dimension references, to pass on to "window" and "full"
                     Bounds(uint8_t *top, uint8_t *right, uint8_t *bottom, uint8_t *left, uint8_t *arg_rotation, FlipList::Flip *arg_flip) {
-                                                                                                                    window = Window(top, right, bottom, left, arg_rotation, arg_flip);
-                                                                                                                    full = Full(arg_rotation);
-                                                                                                                }      
-                    };
-        Bounds bounds = Bounds(nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
+                        window = Window(top, right, bottom, left, arg_rotation, arg_flip);
+                        full = Full(arg_rotation);
+                    }      
+                    Bounds() = delete;  // User shouldn't instantiate this class
+        };
+
+        Bounds bounds = Bounds(nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);   // Have to pretend-instantiate, because we deleted default constructor
 
     // Members
     // =========================================================================================

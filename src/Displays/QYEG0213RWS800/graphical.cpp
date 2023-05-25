@@ -110,65 +110,8 @@ uint16_t QYEG0213RWS800::getTextHeight(const char* text) {
 
 // Helper methods to find window bounds
 // ======================================
-// note - min() resolves drawing_width / panel_width type conflicts
 
-// uint8_t QYEG0213RWS800::Bounds::Window::top() {
-//     switch (*m_rotation) {
-//         case RotationList::PINS_ABOVE:
-//             return *edges[T];
-//         case RotationList::PINS_LEFT:
-//             return (drawing_width - 1) - *edges[R];
-//         case RotationList::PINS_BELOW:
-//             return (drawing_height - 1) - *edges[B];
-//         case RotationList::PINS_RIGHT:
-//             return min( *edges[L], drawing_width - 1);
-//     }
-//     return 0;   // Supress error
-// }
-
-// uint8_t QYEG0213RWS800::Bounds::Window::right() {
-//     switch (*m_rotation) {
-//         case RotationList::PINS_ABOVE:
-//             return min( *edges[R], drawing_width - 1);
-//         case RotationList::PINS_LEFT:
-//             return *edges[B];
-//         case RotationList::PINS_BELOW:
-//             return min( (drawing_width - 1) - *edges[L], drawing_width - 1);
-//         case RotationList::PINS_RIGHT:
-//             return (drawing_height - 1) - *edges[T];
-//     }
-//     return 0;   // Supress error
-// }
-
-// uint8_t QYEG0213RWS800::Bounds::Window::bottom() {
-//     switch (*m_rotation) {
-//         case RotationList::PINS_ABOVE:
-//             return *edges[B];
-//         case RotationList::PINS_LEFT:
-//             return min( (drawing_width - 1) - *edges[L], drawing_width -1 );
-//         case RotationList::PINS_BELOW:
-//             return (drawing_height - 1) - *edges[T];
-//         case RotationList::PINS_RIGHT:
-//             return min( *edges[R], drawing_width - 1);
-//     }
-//     return 0;   // Supress error
-// }
-
-// uint8_t QYEG0213RWS800::Bounds::Window::left() {
-//     switch (*m_rotation) {
-//         case RotationList::PINS_ABOVE:
-//             return *edges[L];
-//         case RotationList::PINS_LEFT:
-//             return *edges[T];
-//         case RotationList::PINS_BELOW:
-//             return max((drawing_width - 1) - *edges[R], 0);
-//         case RotationList::PINS_RIGHT:
-//             return (panel_height - 1) - *edges[B];
-//     }
-//     return 0;   // Supress error
-// }
-
-// Code has changed, but for compatibility we still call it the same
+// Code has changed to use getWindowBounds() backend, but is still served through these public methods
 
 uint8_t QYEG0213RWS800::Bounds::Window::top() {
     return getWindowBounds(T);

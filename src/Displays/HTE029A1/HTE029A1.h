@@ -88,8 +88,7 @@ class HTE029A1 : public GFX {
 
     // Supplementary Drawing Methods
     // ========================================================================================
-
-    // ==================================
+    //
     //  Messy, here is current structure:
     //      setFlip
     //      setCursorTopLeft
@@ -98,19 +97,23 @@ class HTE029A1 : public GFX {
     // 
     //      Bounds ->
     //          Window->
-    //                  Left
-    //                  Right
     //                  Top
+    //                  Right
     //                  Bottom
+    //                  Left
     //                  Width
     //                  Height
+    //                  CenterX
+    //                  CenterY
     //          Full->
-    //                  Left
-    //                  Right
     //                  Top
+    //                  Right
     //                  Bottom
+    //                  Left
     //                  Width
     //                  Height
+    //                  CenterX
+    //                  CenterY
     // ==================================
 
     public:
@@ -120,15 +123,14 @@ class HTE029A1 : public GFX {
         uint16_t getTextWidth(const char* text);
         uint16_t getTextHeight(const char* text);
 
+        // Nested Subclasses to provide dimensioning info
         class Bounds { 
             public:
                     // Reference dimensions for windows
                     class Window {
                         public:
-                            // TODO: calculate window boundaries early to facilitate user layout calculation
-                            //  --- problematic interplay with setRotation() method
-
                             // TODO: Bounds.Window subclass with info about "Requested Bounds" vs "Actual Bounds"
+                            // TODO: calculate window boundaries early to facilitate user layout calculation
 
                             uint16_t top();
                             uint16_t right();
