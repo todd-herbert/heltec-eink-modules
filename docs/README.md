@@ -5,7 +5,7 @@ Run-time graphics on Arduino UNO, using Adafruit-GFX (via [ZinggJM/GFX_Root](htt
 
 This is made possible with *"paging".* 
 
-**[Quickstart]()** <br />
+**[Quickstart](/docs/Quickstart/Quickstart.md)** <br />
 **[API](/docs/API.md)** <br />
 
 [Huh? Paging?](#what-is-paging) <br />
