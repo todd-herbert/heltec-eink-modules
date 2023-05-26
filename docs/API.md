@@ -37,6 +37,7 @@
   - [`getTextBounds()`](#gettextbounds)
   - [`getTextWidth()`](#gettextwidth)
   - [`getTextHeight()`](#gettextheight)
+  - [`setFont()`](#setfont)
   - [`setTextColor()`](#settextcolor)
   - [`setTextWrap()`](#settextwrap)
   - [`setCursor()`](#setcursor)
@@ -1210,6 +1211,49 @@ The height of the string.
 #### See also
 
 * [getTextWidth()](#gettextbounds)
+
+___
+### `setFont()`
+
+Set the font to display when print()ing, either custom or default. Several fonts are included with this library, in the [Fonts folder](/src/Fonts/).
+
+*This is an AdafruitGFX method*
+
+#### Syntax
+
+```cpp
+display.setFont(f)
+```
+
+#### Parameters
+
+* _f_: (address of) The GFXfont object, if NULL use built in 6x8 font. Fonts can take up a bit of memory, so don't include too many!
+
+#### Example
+
+```cpp
+#include <heltec-eink-modules.h>
+#include "Fonts/FreeSerifBold12pt7b.h"
+
+DEPG0150BNS810 display(8, 10, 7);
+
+void setup() {
+    // Pass (the address of) the font to the library
+    display.setFont( &FreeSerifBold12pt7b );   
+
+    while( display.calculating() ) {
+
+        // Set the (word-processor-like) cursor to the abritrary position of x=10, y=50
+        display.setCursor(10, 50);                      
+        display.print("sample text");
+
+    }
+
+    display.update();
+}
+
+void loop() {}
+```
 
 ___
 ### `setTextColor()`

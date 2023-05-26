@@ -59,7 +59,7 @@ void setup() {
 
     while( display.calculating() ) {
 
-        display.setCursor(10, 50);            // Set the (word-processor-like) cursor to the abritrary position of x=30, y=50          
+        display.setCursor(10, 50);            // Set the (word-processor-like) cursor to the abritrary position of x=10, y=50          
         display.print(SAMPLE_TEXT);
 
     }   // Note: setCursor needs to run inside of the calculating() loop, as it moves along with each letter typed.
