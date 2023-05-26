@@ -27,7 +27,7 @@ Compare your display against the table in [README.md](/docs/README.md#identifyin
 
 ## 5. Configure the sketch for your display
 
-Specify pins to which pins you have connected your display. *If you have connected your display as shown above, these pins are already correct.*
+Specify which pins you are using. *If you have connected your display as shown above, these pins are already correct.*
 
 Uncomment the line (delete the `//`) for your display model.   
 

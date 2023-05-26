@@ -1215,7 +1215,7 @@ The height of the string.
 ___
 ### `setFont()`
 
-Set the font to display when print()ing, either custom or default. Several fonts are included with this library, in the [Fonts folder](/src/Fonts/).
+Set the font to display when print()ing, either custom or default. Several fonts are included with this library, in the [Fonts folder](/src/Fonts/). Fonts can take up a bit of memory, so don't include too many!
 
 *This is an AdafruitGFX method*
 
@@ -1227,7 +1227,7 @@ display.setFont(f)
 
 #### Parameters
 
-* _f_: (address of) The GFXfont object, if NULL use built in 6x8 font. Fonts can take up a bit of memory, so don't include too many!
+* _f_: (address of) The GFXfont object, if NULL use built in 6x8 font.
 
 #### Example
 
