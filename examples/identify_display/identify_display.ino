@@ -37,8 +37,6 @@ __attribute__((section(".noinit"))) uint32_t state;
 
 
 void setup() {
-    Serial.begin(9600);
-
     // If our unitialized memory hack reports an abnormal value, user probably unplugged the board
     if (state > 6) state = 0;
 

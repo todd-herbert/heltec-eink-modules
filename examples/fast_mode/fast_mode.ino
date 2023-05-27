@@ -57,18 +57,13 @@ PANEL_CLASS::ColorList c = display.colors;
 const uint16_t ICON_L = f.centerX() - (hourglass_1_width / 2);
 const uint16_t ICON_T = f.centerY() - (hourglass_1_height / 2) - 15;  // Slightly towards screen top
 
-const uint16_t SPOTS_W = 100;
-const uint16_t SPOTS_H = 20;
-const uint16_t SPOTS_L = f.centerX() - (SPOTS_W / 2);
-const uint16_t SPOTS_R = f.centerX() + (SPOTS_W / 2);
-
 void setup() {
     display.setDefaultColor(c.WHITE);
     display.setTextSize(2);
     display.clear();
 
     // A nice little label, not yet in fast-mode
-    // --------------------
+    // -----------------------------------------
     while(display.calculating()) {
         display.setCursor(0, f.bottom() - 30);
         display.println("fastmode");
