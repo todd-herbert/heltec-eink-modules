@@ -72,11 +72,15 @@ The identification data may be incorrect or incomplete. It is based on my own ob
 
 ## Wiring
 
-### The display is 3.3V, do not connect it directly to an Arduino.
+**Do not connect display directly to Arduino UNO!**
 
-Be sure to implement some sort of level-shifter. I can can confirm that a simple voltage divider is perfectly adequate, for example: 
+*Arduino UNO* uses 5V signals, *Heltec E-ink displays* use 3.3V signals. Without a level shifting circuit, you will damage the display.
 
-![voltage-divider example](wiring_example.png)
+### Example of connection, using a voltage dividing level-shifter:
+
+Schematic|Realization
+---|---
+![schematic of Arduino UNO, connected to display, through voltage dividing level shifter](/docs/Quickstart/schematic_voltage_divider.png) | ![graphic of Arduino UNO, connected to display, through voltage dividing level shifter](/docs/wiring_example.png)
 
 ### Display Pins:
 
