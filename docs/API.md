@@ -428,7 +428,7 @@ QYEG0213RWS800 display(8, 10, 7);
 void setup() {
     display.clear();    // Fill screen with white
 
-    display.setWindow(1, 1, 8, 3);                      // Set the window dimensions
+    display.setWindow(0, 1, 8, 3);                      // Set the window dimensions
     display.setDefaultColor(display.colors.BLACK);      // Use black as our background color
 
     while ( display.calculating() ) {
@@ -441,11 +441,11 @@ void setup() {
 
 /* The result:
 
-    0   1   2   3   4   5   6   7   8   9
+    0   1   2   3   4   5   6   7   8   
 0   
-1       #   #   #   #   #   #   #   #
-2       #   #   #   #   #   #   #   #
-3       #   #   #   #   #   #   #   #
+1   #   #   #   #   #   #   #   #
+2   #   #   #   #   #   #   #   #
+3   #   #   #   #   #   #   #   #
 4
 
 */
