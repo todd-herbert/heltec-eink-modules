@@ -8,3 +8,12 @@ src/main.cpp
 src/Debug*
 excluded
 *.bak
+
+# Example Resources which tend to sneak into commits (when placed in src for testing)
+hourglass*
+pencils*
+chess*
+apples*
+tests.h
+ball.h
+window_cartoon.h
