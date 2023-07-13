@@ -3,93 +3,100 @@
 /// Draw using the whole screen area
 /// Call before calculating()
 void DEPG0290BNS75A::fullscreen() {
+    // BUG: Error calculating fullscreen with rotation = 1
+    // Rather than fix it right now, we'll just unset the rotation while we setWindow()
+    uint8_t rotation_old = this->rotation;
+    setRotation(0);
+
     uint16_t left = 0;
     uint16_t top = 0;
     uint16_t width = rotation%2?drawing_height:drawing_width;
     uint16_t height = rotation%2?drawing_width:drawing_height;
     setWindow(left, top, width, height);
+
+    setRotation(rotation_old);
 }
 
 /// Draw on only part of the screen, leaving the rest unchanged
 /// Call before calculating
 void DEPG0290BNS75A::setWindow(uint16_t left, uint16_t top, uint16_t width, uint16_t height) {
-        uint16_t right = left + (width - 1);
-        uint16_t bottom = top + (height - 1);
-        window_left = left;
-        window_top = top;
-        window_right = right;
-        window_bottom = bottom;
+    uint16_t right = left + (width - 1);
+    uint16_t bottom = top + (height - 1);
+    window_left = left;
+    window_top = top;
+    window_right = right;
+    window_bottom = bottom;
+    
+    // Apply flip
+    if (imgflip & FlipList::HORIZONTAL) {
+        if (rotation % 2) {   // If landscape
+            window_right = (drawing_height - 1) - left;
+            window_left = (drawing_height - 1) - right;    
+        }
+        else {                    // If portrait
+            window_right = (drawing_width - 1) - left;
+            window_left = (drawing_width - 1) - right;        
+        }
+    }
+    if (imgflip & FlipList::VERTICAL) {
+        if (rotation % 2) {   // If landscape
+            window_bottom = (drawing_width - 1) - top;
+            window_top = (drawing_width - 1) - bottom;   
+        }
+        else {                    // If portrait
+            window_bottom = (drawing_height - 1) - top;
+            window_top = (drawing_height - 1) - bottom;     
+        }
+    }
+
+    // Calculate rotated window locations
+    switch (rotation) {
+        case 0:
+            winrot_left = window_left;
+            winrot_left = winrot_left - (winrot_left % 8);  // Expand box on left to fit contents
+
+            winrot_right = winrot_left + 7;
+            while(winrot_right < window_right) winrot_right += 8;   // Iterate until box includes the byte where our far-left bit lives
+
+            winrot_top = window_top;
+            winrot_bottom = window_bottom;
+            break;
+
+        case 1:
+            winrot_left = (drawing_width - 1) - window_bottom;
+            winrot_left = winrot_left - (winrot_left % 8);  // Expand box on left to fit contents
+
+            winrot_right = winrot_left + 7;
+            while(winrot_right < (drawing_width - 1) - window_top) winrot_right += 8;   // Iterate until box includes the byte where our far-left bit lives
+
+            winrot_top = window_left;
+            winrot_bottom = window_right + 1;
+            break;
+
+        case 2: 
+            winrot_left = (drawing_width - 1) - window_right;
+            winrot_left = winrot_left - (winrot_left % 8);  // Expand box on left to fit contents
+
+            winrot_right = winrot_left + 7;
+            while(winrot_right < (drawing_width - 1) - window_left) winrot_right += 8;  // Iterate until box includes the byte where our far-left bit lives
+
+            winrot_bottom = (drawing_height - 1) - window_top;
+            winrot_top = (drawing_height - 1) - window_bottom;
+
+            break;
+
         
-        // Apply flip
-        if (imgflip & FlipList::HORIZONTAL) {
-            if (rotation % 2) {   // If landscape
-                window_right = (drawing_height - 1) - left;
-                window_left = (drawing_height - 1) - right;    
-            }
-            else {                    // If portrait
-                window_right = (drawing_width - 1) - left;
-                window_left = (drawing_width - 1) - right;        
-            }
-        }
-        if (imgflip & FlipList::VERTICAL) {
-            if (rotation % 2) {   // If landscape
-                window_bottom = (drawing_width - 1) - top;
-                window_top = (drawing_width - 1) - bottom;   
-            }
-            else {                    // If portrait
-                window_bottom = (drawing_height - 1) - top;
-                window_top = (drawing_height - 1) - bottom;     
-            }
-        }
+        case 3:
+            winrot_left = window_top;
+            winrot_left = winrot_left - (winrot_left % 8);  // Expand box on left to fit contents
 
-        // Calculate rotated window locations
-        switch (rotation) {
-            case 0:
-                winrot_left = window_left;
-                winrot_left = winrot_left - (winrot_left % 8);  // Expand box on left to fit contents
+            winrot_right = winrot_left + 7;
+            while(winrot_right < window_bottom) winrot_right += 8;  // Iterate until box includes the byte where our far-left bit lives
 
-                winrot_right = winrot_left + 7;
-                while(winrot_right < window_right) winrot_right += 8;   // Iterate until box includes the byte where our far-left bit lives
-
-                winrot_top = window_top;
-                winrot_bottom = window_bottom;
-                break;
-
-            case 1:
-                winrot_left = (drawing_width - 1) - window_bottom;
-                winrot_left = winrot_left - (winrot_left % 8);  // Expand box on left to fit contents
-
-                winrot_right = winrot_left + 7;
-                while(winrot_right < (drawing_width - 1) - window_top) winrot_right += 8;   // Iterate until box includes the byte where our far-left bit lives
-
-                winrot_top = window_left;
-                winrot_bottom = window_right;
-                break;
-
-            case 2: 
-                winrot_left = (drawing_width - 1) - window_right;
-                winrot_left = winrot_left - (winrot_left % 8);  // Expand box on left to fit contents
-
-                winrot_right = winrot_left + 7;
-                while(winrot_right < (drawing_width - 1) - window_left) winrot_right += 8;  // Iterate until box includes the byte where our far-left bit lives
-
-                winrot_bottom = (drawing_height - 1) - window_top;
-                winrot_top = (drawing_height - 1) - window_bottom;
-
-                break;
-
-            
-            case 3:
-                winrot_left = window_top;
-                winrot_left = winrot_left - (winrot_left % 8);  // Expand box on left to fit contents
-
-                winrot_right = winrot_left + 7;
-                while(winrot_right < window_bottom) winrot_right += 8;  // Iterate until box includes the byte where our far-left bit lives
-
-                winrot_top = (drawing_height - 1) - window_right;
-                winrot_bottom = (drawing_height - 1) - window_left;
-                break;
-        }   // -- Finish calculating window rotation
+            winrot_top = (drawing_height - 1) - window_right;
+            winrot_bottom = (drawing_height - 1) - window_left;
+            break;
+    }   // -- Finish calculating window rotation
 }
 
 /// Used with a WHILE loop, to break the graphics into small parts, and draw them one at a time
@@ -103,7 +110,7 @@ bool DEPG0290BNS75A::calculating() {
     // No real reason for this over a do while, just personal preference
 
     // Beginning of first loop
-    //--------------------------
+    // -----------------------
     if (page_cursor == 0) {
 
         // Limit window to panel 
@@ -118,7 +125,7 @@ bool DEPG0290BNS75A::calculating() {
             if (window_bottom >= drawing_height - 1)    window_bottom = drawing_height - 1;
         }
 
-        grabPageMemory(); 
+        grabPageMemory();
         clearPage(default_color);
         reset();
 
@@ -128,7 +135,7 @@ bool DEPG0290BNS75A::calculating() {
     }
 
     // End of each loop
-    // -----------------
+    // ----------------
     else {
         // Check if the last page contained any part of the window
         if (!(winrot_bottom < page_top || winrot_top > page_bottom))
@@ -160,14 +167,15 @@ bool DEPG0290BNS75A::calculating() {
 
         // Fastmode (finalizing): auto update, double pass
         else {  // fastmode.FINALIZE
-            update(true);
             if (first_pass) {   // Two passes for this mode
+                update(true);
                 first_pass = false;
-                mode = fastmode.OFF;    // Return to default mode (OFF)
                 return true;    // Re-calculate the whole display again
             }
-            else {
+            else {  // After second pass
+                update(true);
                 first_pass = true;      // Reset for next time
+                setFastmode(fastmode.OFF);
                 return false;
             }
         }

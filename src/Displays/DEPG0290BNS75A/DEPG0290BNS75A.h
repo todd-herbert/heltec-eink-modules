@@ -9,26 +9,37 @@ class DEPG0290BNS75A : public GFX {
     // Consts
     // ===================
     private:
-        // These are correct for the Heltec 1.54" V2, but are still defined here for easy access
+        // These are correct for the Heltec 2.9" V2, but are still defined here for easy access
         const SPISettings spi_settings = SPISettings(200000, MSBFIRST, SPI_MODE0);
         static const int16_t panel_width = 128;
         static const int16_t panel_height = 296;
-        static const int16_t drawing_width = 128;       // Redundant for this display, handles odd resolutions. 
+        static const int16_t drawing_width = 128;   // Redundant for this display, handles odd resolutions. 
         static const int16_t drawing_height = 296;
 
-        // LUT for partial refresh - unimplemented
-        // const unsigned char lut_partil[70] = {}; // LUT for this display should *allegedly* be 70 bytes
-        const unsigned char *lut_partial = nullptr;  // Placeholder  
-
+        // Tricky electronic setting stuff, about how to make the screen change color.
+        // Composite of data from ZinggJM/GxEPD2
+        const unsigned char lut_partial[70] = {
+            0x00, 0x00, 0x40, 0x00, 0x00, 0x00, 0x00, //LUT0: BB:   VS 0 ~7
+            0x80, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, //LUT1: BW:   VS 0 ~7
+            0x40, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, //LUT2: WB:   VS 0 ~7
+            0x00, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, //LUT3: WW:   VS 0 ~7
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, //LUT4: VCOM: VS 0 ~7
+            0x0A, 0x00, 0x00, 0x00, 0x02, // TP0 A~D RP0
+            0x03, 0x00, 0x00, 0x00, 0x00, // TP1 A~D RP1
+            0x01, 0x00, 0x00, 0x00, 0x00, // TP2 A~D RP2
+            0x00, 0x00, 0x00, 0x00, 0x00, // TP3 A~D RP3
+            0x00, 0x00, 0x00, 0x00, 0x00, // TP4 A~D RP4
+            0x00, 0x00, 0x00, 0x00, 0x00, // TP5 A~D RP5
+            0x00, 0x00, 0x00, 0x00, 0x00, // TP6 A~D RP6
+        };
 
     // Consts for user config
-    // ==================
+    // ------------------------
     public:
         static struct FlipList{enum Flip{NONE = 0, HORIZONTAL=1, VERTICAL=2}; } flip;
         static struct ColorList{enum Colors{BLACK = 0, WHITE = 1}; } colors;
         static struct FastmodeList{enum Fastmode{OFF = 0, ON = 1, FINALIZE = 2}; } fastmode;
-        static struct RotationList {enum Rotations{PINS_ABOVE = 0, PINS_LEFT=1, PINS_BELOW = 2, PINS_RIGHT = 3};} orientation;  // member is "orientation", as GFX::rotation already exists  
-
+        static struct RotationList {enum Rotations{PINS_ABOVE = 0, PINS_LEFT=1, PINS_BELOW = 2, PINS_RIGHT = 3};} orientation;  // NB: member is "orientation", as GFX::rotation already exists
 
     // Methods
     // =============================================================================
@@ -43,7 +54,7 @@ class DEPG0290BNS75A : public GFX {
         // Paging and Hardware methods
         void fullscreen();
         void setWindow(uint16_t left, uint16_t top, uint16_t width, uint16_t height);
-        void setFastmode(FastmodeList::Fastmode mode) = delete; // Not Implemented for this display
+        void setFastmode(FastmodeList::Fastmode mode);
         bool calculating();
         void update() { update(false); }
         void clear();
@@ -56,11 +67,11 @@ class DEPG0290BNS75A : public GFX {
         void sendData(uint8_t data);
         void reset();
         bool busy() {return digitalRead(pin_busy);}
-        void wait();
+        void wait();        
         void update(bool override_checks);
         void clearPage(uint16_t bgcolor);
         void writePage();
-        
+
         // Graphics overrides and config methods                                                                
         size_t write(uint8_t c);
         void charBounds(unsigned char c, int16_t *x, int16_t *y, int16_t *minx, int16_t *miny, int16_t *maxx, int16_t *maxy);
@@ -75,7 +86,7 @@ class DEPG0290BNS75A : public GFX {
         using GFX::GFX;
         using GFX::invertDisplay;
         using GFX::write;
-        
+
     // Supplementary Drawing Methods
     // ========================================================================================
     //
@@ -187,7 +198,7 @@ class DEPG0290BNS75A : public GFX {
 
         uint16_t default_color = colors.WHITE;
         FlipList::Flip imgflip = FlipList::NONE;
-        FastmodeList::Fastmode mode = FastmodeList::OFF;  // Unimplemented, should be inaccessible
+        FastmodeList::Fastmode mode = FastmodeList::OFF;
 
         // Paging
         uint8_t pagefile_height;

@@ -24,13 +24,12 @@ void DEPG0290BNS75A::drawPixel(int16_t x, int16_t y, uint16_t color) {
             y1 = (panel_height - 1) - x;
             break;
     }
-
     x = x1;
     y = y1;
 
     // Handle flip
     if (imgflip & FlipList::HORIZONTAL) {
-        if (rotation % 2)   // If landscape 
+        if (rotation % 2)   // If landscape
             y = (drawing_height - 1) - y;
         else                    // If portrait
             x = (drawing_width - 1) - x;
@@ -43,21 +42,15 @@ void DEPG0290BNS75A::drawPixel(int16_t x, int16_t y, uint16_t color) {
     }
 
     // Check if pixel falls in our page
-    // Casts suppress build warnings    
-    if((uint16_t)x >= winrot_left && (uint16_t)y >= page_top && (uint16_t)y <= page_bottom && (uint16_t)x <= winrot_right) {
+    if((uint16_t) x >= winrot_left && (uint16_t) y >= page_top && (uint16_t) y <= page_bottom && (uint16_t) x <= winrot_right) {
 
         // Calculate a memory location for our pixel
-        // A whole lot of emperically derived "inverting" went on here
-        // The y values of the pixels in each page are inverted, but not the pages themselves
-        // The bit order of the x pixels is inverted, but not the order of the pixels themselves
-        // To top it off, one final inversion is needed in writePage(), but all the nonsense seems to balance out eventually
-        // (This is probably all my fault)
 
         uint16_t memory_location;
         
         memory_location = (y - page_top) * ((winrot_right - winrot_left + 1) / 8);
         memory_location += ((x - winrot_left) / 8);     
-        uint8_t bit_location = x % 8;   // Find the location of the bit in which the value will be stored
+        uint16_t bit_location = x % 8;  // Find the location of the bit in which the value will be stored
         bit_location = (7 - bit_location);  // For some reason, the screen wants the bit order flipped. MSB vs LSB?
 
         // Insert the correct color values into the appropriate location
@@ -100,10 +93,11 @@ uint16_t DEPG0290BNS75A::getTextHeight(const char* text) {
     return h;
 }
 
+
+
 // Helper methods to find window bounds
 // ======================================
 
-// Code has changed, but for compatibility we still call it the same
 uint16_t DEPG0290BNS75A::Bounds::Window::top() {
     return getWindowBounds(T);
 }
@@ -164,7 +158,6 @@ uint16_t DEPG0290BNS75A::Bounds::Window::getWindowBounds(DEPG0290BNS75A::Bounds:
 
     return result;
 }
-
 
 // Font overrides to use bounds.window.left() and bounds.window.right() instead of _width from GFX
 // ===============================================================================================
