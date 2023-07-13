@@ -168,13 +168,13 @@ bool DEPG0290BNS800::calculating() {
         // Fastmode (finalizing): auto update, double pass
         else {  // fastmode.FINALIZE
             if (first_pass) {   // Two passes for this mode
+                update(true);            
                 first_pass = false;
-                update(true);
                 return true;    // Re-calculate the whole display again
             }
             else {  // After second pass
+                update(true);            
                 first_pass = true;      // Reset for next time
-                update(true);
                 setFastmode(fastmode.OFF);
                 return false;
             }
