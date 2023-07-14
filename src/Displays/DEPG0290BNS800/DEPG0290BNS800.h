@@ -16,7 +16,7 @@ class DEPG0290BNS800 : public GFX {
         static const int16_t drawing_width = 128;   // Redundant for this display, handles odd resolutions. 
         static const int16_t drawing_height = 296;
 
-        // Tricky electronic setting stuff, about how to make the screen change color.
+        // Look Up Table for the "partial refresh" operation
         // Modified from Heltec source
         const unsigned char lut_partial[153] = {
             0x40, 0x0, 0x40, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,

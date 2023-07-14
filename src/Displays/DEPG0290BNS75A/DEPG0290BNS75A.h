@@ -16,7 +16,7 @@ class DEPG0290BNS75A : public GFX {
         static const int16_t drawing_width = 128;   // Redundant for this display, handles odd resolutions. 
         static const int16_t drawing_height = 296;
 
-        // Tricky electronic setting stuff, about how to make the screen change color.
+        // Look Up Table for the "partial refresh" operation
         // Composite of data from ZinggJM/GxEPD2
         const unsigned char lut_partial[70] = {
             0x00, 0x00, 0x40, 0x00, 0x00, 0x00, 0x00, //LUT0: BB:   VS 0 ~7

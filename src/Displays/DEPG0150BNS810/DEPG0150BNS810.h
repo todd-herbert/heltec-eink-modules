@@ -16,7 +16,7 @@ class DEPG0150BNS810 : public GFX {
         static const int16_t drawing_width = 200;   // Redundant for this display, handles odd resolutions. 
         static const int16_t drawing_height = 200;
 
-        // Contains all the tricky electronicy setting stuff to allow partial refreshes.
+        // Look Up Table for the "partial refresh" operation
         // Modified from original Heltec source
         const unsigned char lut_partial[159] = {
             0x40,0x0,0x40,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,
