@@ -1,7 +1,7 @@
-#include "HTE029A1.h"
+#include "GDE029A1.h"
 
 // Constructor
-HTE029A1::HTE029A1( uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint8_t page_height) : GFX(panel_width, panel_height) {
+GDE029A1::GDE029A1( uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint8_t page_height) : GFX(panel_width, panel_height) {
     // Store the config
     this->pin_dc = pin_dc;
     this->pin_cs = pin_cs;
@@ -36,7 +36,7 @@ HTE029A1::HTE029A1( uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint8_t pa
 }
 
 /// Clear the screen in one step
-void HTE029A1::clear() {
+void GDE029A1::clear() {
     reset();
 
     int16_t x, y;
@@ -96,17 +96,17 @@ void HTE029A1::clear() {
 
 // Allocate and Deallocate dynamic memory for graphics operations
 
-void HTE029A1::grabPageMemory() {
+void GDE029A1::grabPageMemory() {
     page_black = new uint8_t[page_bytecount];
 }
 
-void HTE029A1::freePageMemory() {
+void GDE029A1::freePageMemory() {
     delete page_black;
 }
 
 // Interface directly with display
 
-void HTE029A1::sendCommand(uint8_t command) {
+void GDE029A1::sendCommand(uint8_t command) {
     SPI.beginTransaction(spi_settings);
     digitalWrite(pin_dc, LOW);  // Data-Command pin LOW, tell PanelHardware this SPI transfer is a command
     digitalWrite(pin_cs, LOW);
@@ -117,7 +117,7 @@ void HTE029A1::sendCommand(uint8_t command) {
     SPI.endTransaction();
 }
 
-void HTE029A1::sendData(uint8_t data) {
+void GDE029A1::sendData(uint8_t data) {
     SPI.beginTransaction(spi_settings);
     digitalWrite(pin_dc, HIGH); // Data-Command pin HIGH, tell PanelHardware this SPI transfer is data
     digitalWrite(pin_cs, LOW);
@@ -129,7 +129,7 @@ void HTE029A1::sendData(uint8_t data) {
 }
 
 /// Reset the panel
-void HTE029A1::reset() {
+void GDE029A1::reset() {
     if(this->mode == fastmode.OFF) {
         sendCommand(0x12);
         wait();
@@ -169,7 +169,7 @@ void HTE029A1::reset() {
 }
 
 /// Wait until the PanelHardware is idle. Important as any commands made while Panel Hardware is busy will be discarded.
-void HTE029A1::wait() {
+void GDE029A1::wait() {
     while(digitalRead(pin_busy) == HIGH)    {   // Low = idle   
         delay(1);
     }
@@ -177,7 +177,7 @@ void HTE029A1::wait() {
 
 
 /// Specify the technique used to draw the image onto the screen
-void HTE029A1::setFastmode(FastmodeList::Fastmode mode) {
+void GDE029A1::setFastmode(FastmodeList::Fastmode mode) {
         // If moving out of fastmode
         if(mode == fastmode.OFF) {
             reset();
@@ -245,7 +245,7 @@ void HTE029A1::setFastmode(FastmodeList::Fastmode mode) {
 }
 
 /// Write one page to the panel memory
-void HTE029A1::writePage() {
+void GDE029A1::writePage() {
     // Calculate rotate x start and stop values (y is already done via paging)
     int16_t sx, sy, ex, ey;
 
@@ -299,7 +299,7 @@ void HTE029A1::writePage() {
 }
 
 /// Draw the image in Panel's memory to the screen
-void HTE029A1::update(bool override_checks) {
+void GDE029A1::update(bool override_checks) {
     if (mode == fastmode.OFF || override_checks) {
 
         // Specify the update operation to run
@@ -324,7 +324,7 @@ void HTE029A1::update(bool override_checks) {
 }
 
 /// Set the panel to an ultra low power state. Only way to exit is to cycle power to VCC.
-void HTE029A1::deepSleep(uint16_t pause) {
+void GDE029A1::deepSleep(uint16_t pause) {
     sendCommand(0x10);
     sendData(0x01);
     delay(pause);

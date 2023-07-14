@@ -1,8 +1,8 @@
-#include "HTE029A1.h"
+#include "GDE029A1.h"
 
 /// Draw using the whole screen area
 /// Call before calculating()
-void HTE029A1::fullscreen() {
+void GDE029A1::fullscreen() {
     uint16_t left = 0;
     uint16_t top = 0;
     uint16_t width = rotation%2?drawing_height:drawing_width;
@@ -12,7 +12,7 @@ void HTE029A1::fullscreen() {
 
 /// Draw on only part of the screen, leaving the rest unchanged
 /// Call before calculating
-void HTE029A1::setWindow(uint16_t left, uint16_t top, uint16_t width, uint16_t height) {
+void GDE029A1::setWindow(uint16_t left, uint16_t top, uint16_t width, uint16_t height) {
     uint16_t right = left + (width - 1);
     uint16_t bottom = top + (height - 1);
     window_left = left;
@@ -93,7 +93,7 @@ void HTE029A1::setWindow(uint16_t left, uint16_t top, uint16_t width, uint16_t h
 }
 
 /// Used with a WHILE loop, to break the graphics into small parts, and draw them one at a time
-bool HTE029A1::calculating() {
+bool GDE029A1::calculating() {
     // Pass the processing over to the mode-specific calculating method
 
     // NOTE: this loop runs BEFORE every new page.
@@ -180,7 +180,7 @@ bool HTE029A1::calculating() {
 }
 
 /// Clear the data arrays in between pages
-void HTE029A1::clearPage(uint16_t bgcolor) {
+void GDE029A1::clearPage(uint16_t bgcolor) {
         for (uint16_t i = 0; i < page_bytecount; i++) {
             uint8_t black_byte = (bgcolor & colors.WHITE) * 255;    // We're filling in bulk here; bits are either all on or all off
             page_black[i] = black_byte;

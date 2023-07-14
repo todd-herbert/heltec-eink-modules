@@ -53,7 +53,7 @@ void setup() {
             test_gdep015oc1(PIN_DC, PIN_CS, PIN_BUSY);
             break;
         case 1:
-            test_hte029a1(PIN_DC, PIN_CS, PIN_BUSY);
+            test_gde029a1(PIN_DC, PIN_CS, PIN_BUSY);
             break;
         case 2:
             test_qyeg0213rws800(PIN_DC, PIN_CS, PIN_BUSY);

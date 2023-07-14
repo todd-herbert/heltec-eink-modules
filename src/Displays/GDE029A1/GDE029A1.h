@@ -3,8 +3,8 @@
 #include "GFX_Root/GFX.h"
 
 /// Heltec 2.9" V2
-/// Declaration: HTE029A1(  d/c pin  , cs pin , busy pin )
-class HTE029A1 : public GFX {
+/// Declaration: GDE029A1(  d/c pin  , cs pin , busy pin )
+class GDE029A1 : public GFX {
 
     // Consts
     // ===================
@@ -46,7 +46,7 @@ class HTE029A1 : public GFX {
     // =============================================================================
     public:
         // Constructor
-        HTE029A1(uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint8_t page_height=20);
+        GDE029A1(uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint8_t page_height=20);
 
         // Graphics overloads and config methods                                                                
         void drawPixel(int16_t x, int16_t y, uint16_t color);

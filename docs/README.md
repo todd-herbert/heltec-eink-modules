@@ -44,7 +44,7 @@ Heltec seem to reuse the same marketing names for different non-interchangeable 
 |   QYEG0213RWS800          |   2.13&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2  |   Black, White, Red   |   No                                      |   250 x 122
 |   DEPG0290BNS75A          |   2.9&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2   |   Black, White        |   Yes                                     |   296 x 128
 |   DEPG0290BNS800          |   2.9&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2   |   Black, White        |   Yes                                     |   296 x 128
-|   HTE029A1                |   2.9&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2   |   Black, White        |   Yes                                     |   296 x 128
+|   GDE029A1                |   2.9&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2   |   Black, White        |   Yes                                     |   296 x 128
 
 <sup>1</sup> Closest match. No official information available. <br />
 
@@ -65,7 +65,7 @@ The identification data may be incorrect or incomplete. It is based on my own ob
 |   **QYEG0213RWS800**                  |   2.13&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2        |   Black, White, Red   |   Red Tab             |   FPC-7528&nbsp;/<br>FPC-7528B    |   ![Front](Identification/QYEG0213RWS800-Front.jpg)   |   ![Rear](Identification/QYEG0213RWS800-Rear.jpg)
 |   **DEPG0290BNS75A**&nbsp;            |   2.9&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2         |   Black, White        |   Red Tab             |   FPC-750                         |   ![Front](Identification/DEPG0290BNS75A-Front.jpg)   |   ![Rear](Identification/DEPG0290BNS75A-Rear.jpg)
 |   **DEPG0290BNS800**                  |   2.9&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2         |   Black, White        |   Red Tab             |   FPC-7519 rev.b                  |   ![Front](Identification/DEPG0290BNS800-Front.jpg)   |   ![Rear](Identification/DEPG0290BNS800-Rear.jpg)
-|   **HTE029A1**                        |   2.9&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2         |   Black, White        |   Blue Tab            |   SYX-1553                        |   ![Front](Identification/HTE029A1-Front.jpg)         |   ![Rear](Identification/HTE029A1-Rear.jpg)
+|   **GDE029A1**                        |   2.9&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2         |   Black, White        |   Blue Tab            |   SYX-1553                        |   ![Front](Identification/GDE029A1-Front.jpg)         |   ![Rear](Identification/GDE029A1-Rear.jpg)
 
 <sup>1</sup> Closest match. No official information available<br>
 

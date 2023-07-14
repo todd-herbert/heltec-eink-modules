@@ -7,7 +7,7 @@
   - [`DEPG0290BNS75A()`](#depg0290bns75a)
   - [`DEPG0290BNS800()`](#depg0290bns800)
   - [`GDEP015OC1()`](#gdep015oc1)
-  - [`HTE029A1()`](#hte029a1)
+  - [`GDE029A1()`](#gde029a1)
   - [`QYEG0213RWS800()`](#qyeg0213rws800)
   - [`clear()`](#clear)
   - [`setDefaultColor()`](#setdefaultcolor)
@@ -208,15 +208,15 @@ GDEP015OC1 display(8, 10, 7);
 ```
 
 ___
-### `HTE029A1()`
+### `GDE029A1()`
 
-Create a display controller object, for model [HTE029A1](/docs/README.md#identifying-your-display).
+Create a display controller object, for model [GDE029A1](/docs/README.md#identifying-your-display).
 
 #### Syntax
 
 ```cpp
-HTE029A1(DC_PIN, CS_PIN, BUSY_PIN)
-HTE029A1(DC_PIN, CS_PIN, BUSY_PIN, page_height)
+GDE029A1(DC_PIN, CS_PIN, BUSY_PIN)
+GDE029A1(DC_PIN, CS_PIN, BUSY_PIN, page_height)
 ```
 
 #### Parameters
@@ -231,7 +231,7 @@ HTE029A1(DC_PIN, CS_PIN, BUSY_PIN, page_height)
 ```cpp
 #include <heltec-eink-modules.h>
 
-HTE029A1 display(8, 10, 7);
+GDE029A1 display(8, 10, 7);
 ```
 
 ___

@@ -1,9 +1,9 @@
-#include "HTE029A1.h"
+#include "GDE029A1.h"
 
 /// Draw a single pixel. 
 /// This method is overriden from GFX_Root, and all other drawing methods pass through here
 
-void HTE029A1::drawPixel(int16_t x, int16_t y, uint16_t color) {
+void GDE029A1::drawPixel(int16_t x, int16_t y, uint16_t color) {
     // Rotate the pixel
     int16_t x1, y1;
     switch(rotation) {
@@ -62,31 +62,31 @@ void HTE029A1::drawPixel(int16_t x, int16_t y, uint16_t color) {
 
 /// Set the image flip
 /// Proceed with caution - Window locations do not flip, but content drawn into them does
-void HTE029A1::setFlip(FlipList::Flip flip) {
+void GDE029A1::setFlip(FlipList::Flip flip) {
     this->imgflip = flip;
 }
 
 /// Set the color of the blank canvas, before any drawing is done
 /// Note: Function is efficient, but only takes effect at the start of a calculation. At any other time, use fillScreen()
-void HTE029A1::setDefaultColor(uint16_t bgcolor) {
+void GDE029A1::setDefaultColor(uint16_t bgcolor) {
     default_color = bgcolor;
 }
 
 /// Set the text cursor according to the desired upper left corner
-void HTE029A1::setCursorTopLeft(const char* text, uint16_t x, uint16_t y) {
+void GDE029A1::setCursorTopLeft(const char* text, uint16_t x, uint16_t y) {
     int16_t offset_x(0), offset_y(0);
     getTextBounds(text, 0, 0, &offset_x, &offset_y, NULL, NULL);
     setCursor(x - offset_x, y - offset_y);
 }
 
-uint16_t HTE029A1::getTextWidth(const char* text) {
+uint16_t GDE029A1::getTextWidth(const char* text) {
     int16_t x(0),y(0);
     uint16_t w(0), h(0);
     getTextBounds(text, 0, 0, &x, &y, &w, &h);  // Need to keep x and y as they appear to be used internally by getTextBounds()
     return w;
 }
 
-uint16_t HTE029A1::getTextHeight(const char* text) {
+uint16_t GDE029A1::getTextHeight(const char* text) {
     int16_t x(0),y(0);
     uint16_t w(0), h(0);
     getTextBounds(text, 0, 0, &x, &y, &w, &h);  // Need to keep x and y as they appear to be used internally by getTextBounds()
@@ -98,23 +98,23 @@ uint16_t HTE029A1::getTextHeight(const char* text) {
 // Helper methods to find window bounds
 // ======================================
 
-uint16_t HTE029A1::Bounds::Window::top() {
+uint16_t GDE029A1::Bounds::Window::top() {
     return getWindowBounds(T);
 }
 
-uint16_t HTE029A1::Bounds::Window::right() {
+uint16_t GDE029A1::Bounds::Window::right() {
     return getWindowBounds(R);
 }
 
-uint16_t HTE029A1::Bounds::Window::bottom() {
+uint16_t GDE029A1::Bounds::Window::bottom() {
     return getWindowBounds(B);
 }
 
-uint16_t HTE029A1::Bounds::Window::left() {
+uint16_t GDE029A1::Bounds::Window::left() {
     return getWindowBounds(L);
 }
 
-uint16_t HTE029A1::Bounds::Window::getWindowBounds(HTE029A1::Bounds::Window::side request) {
+uint16_t GDE029A1::Bounds::Window::getWindowBounds(GDE029A1::Bounds::Window::side request) {
 
     // Boolean LUT (x:side, y:rotation): after considering rotation, does requested edge need to measure from opposite edge.
     static const uint8_t rotswap_lut[4] = { B0000,
@@ -209,7 +209,7 @@ inline uint8_t *pgm_read_bitmap_ptr(const GFXfont *gfxFont) {
 #endif // __AVR__
 }
 
-size_t HTE029A1::write(uint8_t c) 
+size_t GDE029A1::write(uint8_t c) 
 {
   if (!gfxFont) { // 'Classic' built-in font
 
@@ -256,7 +256,7 @@ size_t HTE029A1::write(uint8_t c)
   return 1;
 }
 
-void HTE029A1::charBounds(unsigned char c, int16_t *x, int16_t *y, int16_t *minx, int16_t *miny, int16_t *maxx, int16_t *maxy) 
+void GDE029A1::charBounds(unsigned char c, int16_t *x, int16_t *y, int16_t *minx, int16_t *miny, int16_t *maxx, int16_t *maxy) 
 {
 
   if (gfxFont) {
