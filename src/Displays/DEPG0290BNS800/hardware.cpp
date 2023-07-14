@@ -84,7 +84,7 @@ void DEPG0290BNS800::clear() {
     
     // Manually update the display
     sendCommand(0x22);
-    sendData(0xF4);
+    sendData(0xF7);
     sendCommand(0x20);
     wait();
 }

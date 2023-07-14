@@ -255,8 +255,12 @@ void DEPG0150BNS810::update(bool override_checks) {
     if (mode == fastmode.OFF || override_checks) {
         // Specify the update operation to run
         sendCommand(0x22);
-        if (mode == fastmode.OFF)   sendData(0xF7);
-        else                        sendData(0xCF);
+        if (mode == fastmode.OFF)       sendData(0xF7);
+        else if (mode == fastmode.ON)   sendData(0xCC);
+
+        // Or, if finalizing
+        else if (first_pass)            sendData(0xCC); // Update, but don't turn ANALOG off yet
+        else                            sendData(0xCF); // Turn off ANALOG this time, we're done
 
         // Execute the update
         sendCommand(0x20);

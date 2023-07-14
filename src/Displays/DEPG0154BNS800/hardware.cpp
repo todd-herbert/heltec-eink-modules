@@ -39,7 +39,7 @@ DEPG0154BNS800::DEPG0154BNS800(uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy,
 /// Clear the screen in one step
 void DEPG0154BNS800::clear() {
     reset();
-
+    
     int16_t x, y;
     uint8_t blank_byte = (default_color & colors.WHITE) * 255;  // We're filling in bulk here; bits are either all on or all off
 
@@ -255,15 +255,18 @@ void DEPG0154BNS800::update(bool override_checks) {
     if (mode == fastmode.OFF || override_checks) {
         // Specify the update operation to run
         sendCommand(0x22);
-        if (mode == fastmode.OFF)   sendData(0xF7);
-        else                        sendData(0xCF);
+        if (mode == fastmode.OFF)       sendData(0xF7);
+        else if (mode == fastmode.ON)   sendData(0xCC);
+
+        // Or, if finalizing
+        else if (first_pass)            sendData(0xCC); // Update, but don't turn ANALOG off yet
+        else                            sendData(0xCF); // Turn off ANALOG this time, we're done
 
         // Execute the update
         sendCommand(0x20);
 
         // Block while the command runs
         wait();
-        // reset(); // Reset with ANALOG ON (if fastmode.OFF), preserves image when transitioning to fastmode
     }
 }
 

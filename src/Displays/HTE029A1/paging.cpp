@@ -161,14 +161,14 @@ bool HTE029A1::calculating() {
         // Fastmode (finalizing): auto update, double pass
         else {  // fastmode.FINALIZE
             if (first_pass) {   // Two passes for this mode
-                update(true);
+                update(true);            
                 first_pass = false;
                 return true;    // Re-calculate the whole display again
             }
-            else {
+            else {  // After second pass
+                update(true);            
                 first_pass = true;      // Reset for next time
-                mode = fastmode.OFF;    // Return to default mode (OFF)
-                update(); // Called seperately, so we can set fastmode.OFF first
+                setFastmode(fastmode.OFF);
                 return false;
             }
         }

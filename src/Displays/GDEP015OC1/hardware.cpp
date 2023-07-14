@@ -87,7 +87,7 @@ void GDEP015OC1::clear() {
     
     // Trigger the display update
     sendCommand(0x22);
-    sendData(0xC4);
+    sendData(0xC7);
     sendCommand(0x20);
     wait();
 
@@ -297,18 +297,18 @@ void GDEP015OC1::writePage() {
 /// Draw the image in Panel's memory to the screen
 void GDEP015OC1::update(bool override_checks) {
     if (mode == fastmode.OFF || override_checks) {
-        // sendCommand(0x21);
-        // sendData(0x80);
 
         // Specify the update operation to run
         sendCommand(0x22);
-        if (mode == fastmode.OFF)   sendData(0xC4);
-        else                        sendData(0xC7);
+        if (mode == fastmode.OFF)       sendData(0xC7);
+        else if (mode == fastmode.ON)   sendData(0xC4);
+
+        // Or, if finalizing
+        else if (first_pass)            sendData(0xC4); // Update, but don't turn ANALOG off yet
+        else                            sendData(0xC7); // Turn off ANALOG this time, we're done
 
         // Execute the update
         sendCommand(0x20);
-
-        // Double update here would be good, but passable as-is, so leave in to the user
 
         // Block while the command runs
         wait();
