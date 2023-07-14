@@ -36,18 +36,17 @@ If your Heltec e-ink display is not listed, please let me know.
 Heltec seem to reuse the same marketing names for different non-interchangeable displays. In this library, displays are identified by the *model of the panel*. Unfortunately, the displays are not marked with this information. See [identification](#identifying-your-display)
 
 
-|   Model Name              |   Sold As                                         |   Colors              |   Fastmode        |   Resolution (px)
-|---------------------------|---------------------------------------------------|-----------------------|-------------------|--------------------------------
-|   DEPG0150BNS810          |   1.54&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2  |   Black, White        |   Yes             |   200 x 200
-|   DEPG0154BNS800          |   1.54&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2  |   Black, White        |   Yes             |   152 x 152
-|   GDEP015OC1  <sup>1</sup>|   1.54&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2  |   Black, White        |   Yes             |   200 x 200
-|   QYEG0213RWS800          |   2.13&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2  |   Black, White, Red   |   No              |   250 x 122
-|   DEPG0290BNS75A          |   2.9&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2   |   Black, White        |   No <sup>2</sup> |   296 x 128
-|   DEPG0290BNS800          |   2.9&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2   |   Black, White        |   Yes             |   296 x 128
-|   HTE029A1                |   2.9&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2   |   Black, White        |   Yes             |   296 x 128
+|   Model Name              |   Sold As                                         |   Colors              |   [Fastmode](#fast-mode-partial-refresh)  |   Resolution (px)
+|---------------------------|---------------------------------------------------|-----------------------|-------------------------------------------|-------------------
+|   DEPG0150BNS810          |   1.54&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2  |   Black, White        |   Yes                                     |   200 x 200
+|   DEPG0154BNS800          |   1.54&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2  |   Black, White        |   Yes                                     |   152 x 152
+|   GDEP015OC1  <sup>1</sup>|   1.54&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2  |   Black, White        |   Yes                                     |   200 x 200
+|   QYEG0213RWS800          |   2.13&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2  |   Black, White, Red   |   No                                      |   250 x 122
+|   DEPG0290BNS75A          |   2.9&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2   |   Black, White        |   Yes                                     |   296 x 128
+|   DEPG0290BNS800          |   2.9&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2   |   Black, White        |   Yes                                     |   296 x 128
+|   HTE029A1                |   2.9&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2   |   Black, White        |   Yes                                     |   296 x 128
 
 <sup>1</sup> Closest match. No official information available. <br />
-<sup>2</sup> Heltec claim fastmode is supported, however the code they provide appears incorrect. The panel is not pre-programmed with the necessary settings. Relevant settings do not appear to be available online. Further investigation required.
 
 ## Identifying your display
 #### 1. Upload the `identify_display` example sketch to your Arduino. 
@@ -373,8 +372,6 @@ display.drawRect( w.left(), w.top(), w.width(), w.height(), c.BLACK );
 
 ## Acknowledgements
 
-This library is inspired by [GxEPD2](https://github.com/ZinggJM/GxEPD2), a similar project for Goodisplay and Waveshare displays.
+Display information from both [official Heltec sources](https://github.com/HelTecAutomation/e-ink), and  [GxEPD2](https://github.com/ZinggJM/GxEPD2)
 
-Information on how to correctly communicate with the display hardware taken from the [official Heltec library](https://github.com/HelTecAutomation/e-ink).
-
-The drawing functions are provided by [GFX Root](https://github.com/ZinggJM/GFX_Root), which itself is a stripped down version of [Adafruit GFX](https://github.com/adafruit/Adafruit-GFX-Library).
+Drawing functions provided by [GFX Root](https://github.com/ZinggJM/GFX_Root), which itself is a stripped down version of [Adafruit GFX](https://github.com/adafruit/Adafruit-GFX-Library).
