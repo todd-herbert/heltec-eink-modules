@@ -38,16 +38,104 @@ Alternatively, your can declare your panel using the [label printed on the flex 
 
 If your Heltec E-ink display is not listed, please let me know.
 
+<!-- Large table of display identification info -->
 
-|   Model Name                          |   Rear Label                                                  |   Colors              |   Screen Protector    |   [Flex Connector Label](#3-declare-your-panel-instead-by-the-flex-connector-label)   |   Resolution (px) |   [Fastmode](#fast-mode-partial-refresh)  |   Front   |   Rear
-|---------------------------------------|---------------------------------------------------------------|-----------------------|-----------------------|---------------------------------------------------------------------------------------|-------------------|-------------------------------------------|:---:|:---:
-|   **DEPG0150BNS810**                  |   1.54&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2        |   Black, White        |   Red Tab             |   FPC-8101                                                                            |   200 x 200       |   Yes                                     |   ![Front](Identification/DEPG0150BNS810-Front.jpg)   |   ![Rear](Identification/DEPG0150BNS810-Rear.jpg)
-|   **DEPG0154BNS800**                  |   1.54&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2        |   Black, White        |   Red Tab             |   FPC-7525                                                                            |   152 x 152       |   Yes                                     |   ![Front](Identification/DEPG0154BNS800-Front.jpg)   |   ![Rear](Identification/DEPG0154BNS800-Rear.jpg)
-|   **GDEP015OC1**&nbsp;<sup>1</sup>    |   1.54&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2        |   Black, White        |   Blue Tab            |   HINK-E0154A05-A2                                                                    |   200 x 200       |   Yes                                     |   ![Front](Identification/GDEP015OC1-Front.jpg)       |   ![Rear](Identification/GDEP015OC1-Rear.jpg)
-|   **QYEG0213RWS800**                  |   2.13&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2        |   Black, White, Red   |   Red Tab             |   FPC-7528&nbsp;/<br>FPC-7528B                                                        |   250 x 122       |   No                                      |   ![Front](Identification/QYEG0213RWS800-Front.jpg)   |   ![Rear](Identification/QYEG0213RWS800-Rear.jpg)
-|   **DEPG0290BNS75A**&nbsp;            |   2.9&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2         |   Black, White        |   Red Tab             |   FPC-750                                                                             |   296 x 128       |   Yes                                     |   ![Front](Identification/DEPG0290BNS75A-Front.jpg)   |   ![Rear](Identification/DEPG0290BNS75A-Rear.jpg)
-|   **DEPG0290BNS800**                  |   2.9&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2         |   Black, White        |   Red Tab             |   FPC-7519 rev.b                                                                      |   296 x 128       |   Yes                                     |   ![Front](Identification/DEPG0290BNS800-Front.jpg)   |   ![Rear](Identification/DEPG0290BNS800-Rear.jpg)
-|   **GDE029A1**                        |   2.9&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2         |   Black, White        |   Blue Tab            |   SYX-1553                                                                            |   296 x 128       |   Yes                                     |   ![Front](Identification/GDE029A1-Front.jpg)         |   ![Rear](Identification/GDE029A1-Rear.jpg)
+<table>
+    <thead>
+        <tr>
+            <th>Model Name</th>
+            <th align="center">Front Image</th>
+            <th align="center">Rear Image</th>
+            <th>Rear Label</th>
+            <th>Colors</th>
+            <th>Screen Protector</th>
+            <th><a href="#3-declare-your-panel-instead-by-the-flex-connector-label">Flex Connector Label</a></th>
+            <th>Resolution (px)</th>
+            <th><a href="#fast-mode-partial-refresh">Fastmode</a></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>DEPG0150BNS810</strong></td>
+            <td align="center"><img alt="Front" src="Identification/DEPG0150BNS810-Front.jpg" /></td>
+            <td align="center"><img alt="Rear" src="Identification/DEPG0150BNS810-Rear.jpg" /></td>
+            <td>1.54&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2</td>
+            <td>Black, White</td>
+            <td>Red Tab</td>
+            <td>FPC-8101</td>
+            <td>200 x 200</td>
+            <td>Yes</td>
+        </tr>
+        <tr>
+            <td><strong>DEPG0154BNS800</strong></td>
+            <td align="center"><img alt="Front" src="Identification/DEPG0154BNS800-Front.jpg" /></td>
+            <td align="center"><img alt="Rear" src="Identification/DEPG0154BNS800-Rear.jpg" /></td>            
+            <td>1.54&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2</td>
+            <td>Black, White</td>
+            <td>Red Tab</td>
+            <td>FPC-7525</td>
+            <td>152 x 152</td>
+            <td>Yes</td>
+        </tr>
+        <tr>
+            <td><strong>GDEP015OC1</strong>&nbsp;<sup>1</sup></td>
+            <td align="center"><img alt="Front" src="Identification/GDEP015OC1-Front.jpg" /></td>
+            <td align="center"><img alt="Rear" src="Identification/GDEP015OC1-Rear.jpg" /></td>            
+            <td>1.54&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2</td>
+            <td>Black, White</td>
+            <td>Blue Tab</td>
+            <td>HINK-E0154A05-A2</td>
+            <td>200 x 200</td>
+            <td>Yes</td>
+        </tr>
+        <tr>
+            <td><strong>QYEG0213RWS800</strong></td>
+            <td align="center"><img alt="Front" src="Identification/QYEG0213RWS800-Front.jpg" /></td>
+            <td align="center"><img alt="Rear" src="Identification/QYEG0213RWS800-Rear.jpg" /></td>            
+            <td>2.13&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2</td>
+            <td>Black, White, Red</td>
+            <td>Red Tab</td>
+            <td>FPC-7528&nbsp;/<br>FPC-7528B</td>
+            <td>250 x 122</td>
+            <td>No</td>
+        </tr>
+        <tr>
+            <td><strong>DEPG0290BNS75A</strong>&nbsp;</td>
+            <td align="center"><img alt="Front" src="Identification/DEPG0290BNS75A-Front.jpg" /></td>
+            <td align="center"><img alt="Rear" src="Identification/DEPG0290BNS75A-Rear.jpg" /></td>            
+            <td>2.9&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2</td>
+            <td>Black, White</td>
+            <td>Red Tab</td>
+            <td>FPC-750</td>
+            <td>296 x 128</td>
+            <td>Yes</td>
+        </tr>
+        <tr>
+            <td><strong>DEPG0290BNS800</strong></td>
+            <td align="center"><img alt="Front" src="Identification/DEPG0290BNS800-Front.jpg" /></td>
+            <td align="center"><img alt="Rear" src="Identification/DEPG0290BNS800-Rear.jpg" /></td>            
+            <td>2.9&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2</td>
+            <td>Black, White</td>
+            <td>Red Tab</td>
+            <td>FPC-7519 rev.b</td>
+            <td>296 x 128</td>
+            <td>Yes</td>
+        </tr>
+        <tr>
+            <td><strong>GDE029A1</strong></td>
+            <td align="center"><img alt="Front" src="Identification/GDE029A1-Front.jpg" /></td>
+            <td align="center"><img alt="Rear" src="Identification/GDE029A1-Rear.jpg" /></td>
+            <td>2.9&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2</td>
+            <td>Black, White</td>
+            <td>Blue Tab</td>
+            <td>SYX-1553</td>
+            <td>296 x 128</td>
+            <td>Yes</td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- End of table: Display Identification -->
 
 <sup>1</sup> Closest match. No official information available. <br />
 
