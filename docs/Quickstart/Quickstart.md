@@ -21,9 +21,9 @@ Schematic|Realization
 
 ![screenshot of Arduino IDE, with menus open: file, examples, heltec-eink-modules, bare_minimum](example1.png)
 
-## 4. Identify your display's model
+## 4a. Identify your display's model
 
-Compare your display against the table in [README.md](/docs/README.md#identifying-your-display)
+Compare your display against the table in [README.md](/docs/README.md#supported-displays)
 
 ## 5. Configure the sketch for your display
 

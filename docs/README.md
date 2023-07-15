@@ -31,43 +31,60 @@ Most importantly, it is the what allows the *Arduino Uno* to work with these dis
 
 ## Supported Displays
 
-If your Heltec e-ink display is not listed, please let me know.
+Heltec seem to reuse the same marketing names for different non-interchangeable displays. In this library, displays are referred to by the *model of the panel*.
+You can determine the model by consulting the table below.
 
-Heltec seem to reuse the same marketing names for different non-interchangeable displays. In this library, displays are identified by the *model of the panel*. Unfortunately, the displays are not marked with this information. See [identification](#identifying-your-display)
+Alternatively, your can declare your panel using the [label printed on the flex connector](#3-declare-your-panel-instead-by-the-flex-connector-label).
+
+If your Heltec E-ink display is not listed, please let me know.
 
 
-|   Model Name              |   Sold As                                         |   Colors              |   [Fastmode](#fast-mode-partial-refresh)  |   Resolution (px)
-|---------------------------|---------------------------------------------------|-----------------------|-------------------------------------------|-------------------
-|   DEPG0150BNS810          |   1.54&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2  |   Black, White        |   Yes                                     |   200 x 200
-|   DEPG0154BNS800          |   1.54&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2  |   Black, White        |   Yes                                     |   152 x 152
-|   GDEP015OC1  <sup>1</sup>|   1.54&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2  |   Black, White        |   Yes                                     |   200 x 200
-|   QYEG0213RWS800          |   2.13&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2  |   Black, White, Red   |   No                                      |   250 x 122
-|   DEPG0290BNS75A          |   2.9&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2   |   Black, White        |   Yes                                     |   296 x 128
-|   DEPG0290BNS800          |   2.9&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2   |   Black, White        |   Yes                                     |   296 x 128
-|   GDE029A1                |   2.9&nbsp;Inch&nbsp;E-ink&nbsp;Display&nbsp;V2   |   Black, White        |   Yes                                     |   296 x 128
+|   Model Name                          |   Rear Label                                                  |   Colors              |   Screen Protector    |   [Flex Connector Label](#3-declare-your-panel-instead-by-the-flex-connector-label)   |   Resolution (px) |   [Fastmode](#fast-mode-partial-refresh)  |   Front   |   Rear
+|---------------------------------------|---------------------------------------------------------------|-----------------------|-----------------------|---------------------------------------------------------------------------------------|-------------------|-------------------------------------------|:---:|:---:
+|   **DEPG0150BNS810**                  |   1.54&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2        |   Black, White        |   Red Tab             |   FPC-8101                                                                            |   200 x 200       |   Yes                                     |   ![Front](Identification/DEPG0150BNS810-Front.jpg)   |   ![Rear](Identification/DEPG0150BNS810-Rear.jpg)
+|   **DEPG0154BNS800**                  |   1.54&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2        |   Black, White        |   Red Tab             |   FPC-7525                                                                            |   152 x 152       |   Yes                                     |   ![Front](Identification/DEPG0154BNS800-Front.jpg)   |   ![Rear](Identification/DEPG0154BNS800-Rear.jpg)
+|   **GDEP015OC1**&nbsp;<sup>1</sup>    |   1.54&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2        |   Black, White        |   Blue Tab            |   HINK-E0154A05-A2                                                                    |   200 x 200       |   Yes                                     |   ![Front](Identification/GDEP015OC1-Front.jpg)       |   ![Rear](Identification/GDEP015OC1-Rear.jpg)
+|   **QYEG0213RWS800**                  |   2.13&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2        |   Black, White, Red   |   Red Tab             |   FPC-7528&nbsp;/<br>FPC-7528B                                                        |   250 x 122       |   No                                      |   ![Front](Identification/QYEG0213RWS800-Front.jpg)   |   ![Rear](Identification/QYEG0213RWS800-Rear.jpg)
+|   **DEPG0290BNS75A**&nbsp;            |   2.9&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2         |   Black, White        |   Red Tab             |   FPC-750                                                                             |   296 x 128       |   Yes                                     |   ![Front](Identification/DEPG0290BNS75A-Front.jpg)   |   ![Rear](Identification/DEPG0290BNS75A-Rear.jpg)
+|   **DEPG0290BNS800**                  |   2.9&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2         |   Black, White        |   Red Tab             |   FPC-7519 rev.b                                                                      |   296 x 128       |   Yes                                     |   ![Front](Identification/DEPG0290BNS800-Front.jpg)   |   ![Rear](Identification/DEPG0290BNS800-Rear.jpg)
+|   **GDE029A1**                        |   2.9&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2         |   Black, White        |   Blue Tab            |   SYX-1553                                                                            |   296 x 128       |   Yes                                     |   ![Front](Identification/GDE029A1-Front.jpg)         |   ![Rear](Identification/GDE029A1-Rear.jpg)
 
 <sup>1</sup> Closest match. No official information available. <br />
 
 ## Identifying your display
-#### 1. Upload the `identify_display` example sketch to your Arduino. 
+
+### 1. Consult [the supported displays table](#supported-displays).
+The identification data may be incorrect or incomplete. It is based on my own observation.
+
+*or*
+
+### 2. Upload the `identify_display` example sketch to your Arduino. 
 With your display connected [through a level shifter](#wiring), press the reset button to test different models.
 
 *or*
 
-#### 2. Consult the table below.
-The identification data may be incorrect or incomplete. It is based on my own observation.
+### 3. Declare your panel instead by the *flex connector label*
 
-|   Model Name                          |   Rear Label                                                  |   Colors              |   Screen Protector    |   Flex Connector Label            |   Front   |   Rear
-|---------------------------------------|---------------------------------------------------------------|-----------------------|-----------------------|-----------------------------------|:---:|:---:
-|   **DEPG0150BNS810**                  |   1.54&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2        |   Black, White        |   Red Tab             |   FPC-8101                        |   ![Front](Identification/DEPG0150BNS810-Front.jpg)   |   ![Rear](Identification/DEPG0150BNS810-Rear.jpg)
-|   **DEPG0154BNS800**                  |   1.54&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2        |   Black, White        |   Red Tab             |   FPC-7525                        |   ![Front](Identification/DEPG0154BNS800-Front.jpg)   |   ![Rear](Identification/DEPG0154BNS800-Rear.jpg)
-|   **GDEP015OC1**&nbsp;<sup>1</sup>    |   1.54&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2        |   Black, White        |   Blue Tab            |   HINK-E0154A05-A2                |   ![Front](Identification/GDEP015OC1-Front.jpg)       |   ![Rear](Identification/GDEP015OC1-Rear.jpg)
-|   **QYEG0213RWS800**                  |   2.13&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2        |   Black, White, Red   |   Red Tab             |   FPC-7528&nbsp;/<br>FPC-7528B    |   ![Front](Identification/QYEG0213RWS800-Front.jpg)   |   ![Rear](Identification/QYEG0213RWS800-Rear.jpg)
-|   **DEPG0290BNS75A**&nbsp;            |   2.9&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2         |   Black, White        |   Red Tab             |   FPC-750                         |   ![Front](Identification/DEPG0290BNS75A-Front.jpg)   |   ![Rear](Identification/DEPG0290BNS75A-Rear.jpg)
-|   **DEPG0290BNS800**                  |   2.9&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2         |   Black, White        |   Red Tab             |   FPC-7519 rev.b                  |   ![Front](Identification/DEPG0290BNS800-Front.jpg)   |   ![Rear](Identification/DEPG0290BNS800-Rear.jpg)
-|   **GDE029A1**                        |   2.9&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2         |   Black, White        |   Blue Tab            |   SYX-1553                        |   ![Front](Identification/GDE029A1-Front.jpg)         |   ![Rear](Identification/GDE029A1-Rear.jpg)
+The E-ink modules have an orange "flex-connector", attatching the display to the PCB.
+There is some amount of text printed on the connector.
 
-<sup>1</sup> Closest match. No official information available<br>
+![E-ink module, end-on, displaying flex connector label position](flex_connector.jpg)
+
+The main label, printed on the connector, can be used to [identify the model](#supported-displays), 
+or can be used, as a class name, to declare your panel in your sketch.
+
+To use this label directly as a class name, you should remove all non-alphanumeric characters (no spaces, no dashes, no periods etc.) <br />
+For the panel shown above, this class name would be `FPC7525`
+
+```cpp
+// Declaration by model
+DEPG0154BNS800 display( PIN_DC, PIN_CS, PIN_BUSY );
+
+// Is equivalent to
+
+// Declaration by Flex Connector Label
+FPC7525 display( PIN_DC, PIN_CS, PIN_BUSY );
+```
 
 ## Wiring
 

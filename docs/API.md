@@ -76,7 +76,7 @@
 
 ### `DEPG0150BNS810()`
 
-Create a display controller object, for model [DEPG0150BNS810](/docs/README.md#identifying-your-display).
+Create a display controller object, for model [DEPG0150BNS810](/docs/README.md#supported-displays).
 
 #### Syntax
 
@@ -103,7 +103,7 @@ DEPG0150BNS810 display(8, 10, 7);
 ___
 ### `DEPG0154BNS800()`
 
-Create a display controller object, for model [DEPG0154BNS800](/docs/README.md#identifying-your-display).
+Create a display controller object, for model [DEPG0154BNS800](/docs/README.md#supported-displays).
 
 #### Syntax
 ```cpp
@@ -129,7 +129,7 @@ DEPG0154BNS800 display(8, 10, 7);
 ___
 ### `DEPG0290BNS75A()`
 
-Create a display controller object, for model [DEPG0290BNS75A](/docs/README.md#identifying-your-display).
+Create a display controller object, for model [DEPG0290BNS75A](/docs/README.md#supported-displays).
 
 #### Syntax
 
@@ -156,7 +156,7 @@ DEPG0290BNS75A display(8, 10, 7);
 ___
 ### `DEPG0290BNS800()`
 
-Create a display controller object, for model [DEPG0290BNS800](/docs/README.md#identifying-your-display).
+Create a display controller object, for model [DEPG0290BNS800](/docs/README.md#supported-displays).
 
 #### Syntax
 
@@ -183,7 +183,7 @@ DEPG0290BNS800 display(8, 10, 7);
 ___
 ### `GDEP015OC1()`
 
-Create a display controller object, for model [GDEP015OC1](/docs/README.md#identifying-your-display).
+Create a display controller object, for model [GDEP015OC1](/docs/README.md#supported-displays).
 
 #### Syntax
 
@@ -210,7 +210,7 @@ GDEP015OC1 display(8, 10, 7);
 ___
 ### `GDE029A1()`
 
-Create a display controller object, for model [GDE029A1](/docs/README.md#identifying-your-display).
+Create a display controller object, for model [GDE029A1](/docs/README.md#supported-displays).
 
 #### Syntax
 
@@ -236,7 +236,7 @@ GDE029A1 display(8, 10, 7);
 
 ___
 ### `QYEG0213RWS800()`
-Create a display controller object, for model [QYEG0213RWS800](/docs/README.md#identifying-your-display).
+Create a display controller object, for model [QYEG0213RWS800](/docs/README.md#supported-displays).
 
 #### Syntax
 
