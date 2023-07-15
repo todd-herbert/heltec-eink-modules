@@ -179,12 +179,12 @@ void test_depg0290bns800(uint8_t dc, uint8_t cs, uint8_t busy) {
     display.update();
 }
 
-void test_hte029a1(uint8_t dc, uint8_t cs, uint8_t busy) {
-    HTE029A1 display( dc, cs, busy );
+void test_gde029a1(uint8_t dc, uint8_t cs, uint8_t busy) {
+    GDE029A1 display( dc, cs, busy );
 
     display.setRotation(display.orientation.PINS_LEFT);
 
-    static const char MODEL[] = "HTE029A1";
+    static const char MODEL[] = "GDE029A1";
     display.setTextSize(2);
 
     uint16_t L, T, R, B, W, H;

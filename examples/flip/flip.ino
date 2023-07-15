@@ -1,5 +1,5 @@
-// Which panel are you using?  (uncomment one)
-// --------------------------------------------
+// Which panel are you using?   -   https://github.com/todd-herbert/heltec-eink-modules#identifying-your-display
+// ---------------------------
     // #define  USING_DEPG0150BNS810        // 1.54" V2 - BW - Red Tab
     // #define  USING_DEPG0154BNS800        // 1.54" V2 - BW - Red Tab
     // #define  USING_GDEP015OC1            // 1.54" V2 - BW - Blue Tab

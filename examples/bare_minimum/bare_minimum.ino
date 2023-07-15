@@ -11,8 +11,8 @@
     #define PIN_DC      8
 
 
-// Pick your panel: (uncomment one)
-// ---------------------------------
+// Pick your panel  -   https://github.com/todd-herbert/heltec-eink-modules#supported-displays
+// ---------------
 
     // DEPG0150BNS810 display( PIN_DC, PIN_CS, PIN_BUSY );      // 1.54" V2 - BW - Red Tab
     // DEPG0154BNS800 display( PIN_DC, PIN_CS, PIN_BUSY);       // 1.54" V2 - BW - Red Tab
