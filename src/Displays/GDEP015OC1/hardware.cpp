@@ -1,5 +1,10 @@
 #include "GDEP015OC1.h"
 
+// Out-of-line definition for LUT
+// Required for an in-class PROGMEM definition
+PROGMEM constexpr uint8_t GDEP015OC1::lut_full[];
+PROGMEM constexpr uint8_t GDEP015OC1::lut_partial[];
+
 // Constructor
 GDEP015OC1::GDEP015OC1( uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint8_t page_height) : GFX(panel_width, panel_height) {
     // Store the config
@@ -164,7 +169,7 @@ void GDEP015OC1::reset() {
         // Load the Look Up Table (LUT) for full update
         sendCommand(0x32);
         for(uint8_t i=0;i < sizeof(lut_full); i++) 
-            sendData(lut_full[i]); 
+            sendData(pgm_read_byte_near(lut_full + i)); 
 
         wait();
     }
@@ -227,7 +232,7 @@ void GDEP015OC1::setFastmode(FastmodeList::Fastmode mode) {
         // Load the LUT for partial update
         sendCommand(0x32);
         for(uint8_t i=0;i < sizeof(lut_partial); i++) 
-            sendData(lut_partial[i]);
+            sendData(pgm_read_byte_near(lut_partial + i));
 
         wait();
 

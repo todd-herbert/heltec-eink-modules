@@ -18,7 +18,7 @@ class DEPG0290BNS75A : public GFX {
 
         // Look Up Table for the "partial refresh" operation
         // Composite of data from ZinggJM/GxEPD2
-        const unsigned char lut_partial[70] = {
+        PROGMEM static constexpr uint8_t lut_partial[70] = {
             0x00, 0x00, 0x40, 0x00, 0x00, 0x00, 0x00, //LUT0: BB:   VS 0 ~7
             0x80, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, //LUT1: BW:   VS 0 ~7
             0x40, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, //LUT2: WB:   VS 0 ~7

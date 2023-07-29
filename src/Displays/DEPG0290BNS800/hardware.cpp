@@ -1,5 +1,9 @@
 #include "DEPG0290BNS800.h"
 
+// Out-of-line definition for LUT
+// Required for an in-class PROGMEM definition
+PROGMEM constexpr uint8_t DEPG0290BNS800::lut_partial[];
+
 // Have to initialize because of GFX class
 DEPG0290BNS800::DEPG0290BNS800( uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint8_t page_height) : GFX(panel_width, panel_height) {
     // Store the config
@@ -159,7 +163,7 @@ void DEPG0290BNS800::setFastmode(FastmodeList::Fastmode mode) {
         // Load the fastmode lut
         sendCommand(0x32);
         for(uint8_t i=0;i < sizeof(lut_partial); i++) 
-            sendData(lut_partial[i]);
+            sendData(pgm_read_byte_near(lut_partial+i));
 
         wait();
 

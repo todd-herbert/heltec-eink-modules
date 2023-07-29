@@ -1,5 +1,9 @@
 #include "DEPG0154BNS800.h"
 
+// Out-of-line definition for LUT
+// Required for an in-class PROGMEM definition
+PROGMEM constexpr uint8_t DEPG0154BNS800::lut_partial[];
+
 // Constructor
 DEPG0154BNS800::DEPG0154BNS800(uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint8_t page_height) : GFX(panel_width, panel_height) {
     
@@ -154,23 +158,23 @@ void DEPG0154BNS800::setFastmode(FastmodeList::Fastmode mode) {
         // -----------------------------------------------
         unsigned char count;
         sendCommand(0x32);      // "LUT"
-        for(count=0;count<153;count++) 
-            sendData(lut_partial[count]); 
+        for(count=0; count < sizeof(lut_partial); count++) 
+            sendData(pgm_read_byte_near(lut_partial + count)); 
         wait();
 
         sendCommand(0x3F);      // "Option for LUT end"
-        sendData(lut_partial[153]);
+        sendData(0x02);
 
         sendCommand(0x03);      // "Gate voltage"  
-        sendData(lut_partial[154]);
+        sendData(0x17);
 
         sendCommand(0x04);      // "Source voltage"   
-        sendData(lut_partial[155]); 
-        sendData(lut_partial[156]);
-        sendData(lut_partial[157]);
+        sendData(0x41); 
+        sendData(0xB0);
+        sendData(0x32);
 
         sendCommand(0x2C);      // allegedly: vcom   
-        sendData(lut_partial[158]);
+        sendData(0x28);
                                     
         sendCommand(0x37);      // "Write Register for Display Option"
         sendData(0x00);         // Heltec comment: "Local flash function is enabled, pingpong mode is enabled"
