@@ -104,7 +104,7 @@ void GDEP015OC1::grabPageMemory() {
 }
 
 void GDEP015OC1::freePageMemory() {
-    delete page_black;
+    delete[] page_black;
 }
 
 // Interface directly with display

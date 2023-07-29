@@ -101,7 +101,7 @@ void GDE029A1::grabPageMemory() {
 }
 
 void GDE029A1::freePageMemory() {
-    delete page_black;
+    delete[] page_black;
 }
 
 // Interface directly with display

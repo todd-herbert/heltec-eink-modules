@@ -98,8 +98,8 @@ void QYEG0213RWS800::grabPageMemory() {
 }
 
 void QYEG0213RWS800::freePageMemory() {
-    delete page_black;
-    delete page_red;
+    delete[] page_black;
+    delete[] page_red;
 }
 
 // Interface directly with display

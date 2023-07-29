@@ -100,7 +100,7 @@ void DEPG0150BNS810::grabPageMemory() {
 }
 
 void DEPG0150BNS810::freePageMemory() {
-    delete page_black;
+    delete[] page_black;
 }
 
 // Interface directly with display
