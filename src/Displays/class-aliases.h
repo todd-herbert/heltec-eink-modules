@@ -5,6 +5,10 @@
 // ------------------------
     #define HTE029A1 GDE029A1
 
+// Aliases - Shared Codebase
+// -------------------------
+    #define DEPG0213RWS800 QYEG0213RWS800
+
 // Aliases - Flex Connector
 // ------------------------
 

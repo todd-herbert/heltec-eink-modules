@@ -3,6 +3,7 @@
     // #define  USING_DEPG0150BNS810        // 1.54" V2 - BW - Red Tab
     // #define  USING_DEPG0154BNS800        // 1.54" V2 - BW - Red Tab
     // #define  USING_GDEP015OC1            // 1.54" V2 - BW - Blue Tab
+    // #define  USING_DEPG0213RWS800        // 2.13" V2 - BWR - Red Tab
     // #define  USING_QYEG0213RWS800        // 2.13" V2 - BWR - Red Tab
     // #define  USING_DEPG0290BNS75A        // 2.9" V2 - BW - Red Tab
     // #define  USING_DEPG0290BNS800        // 2.9" V2 - BW - Red Tab
@@ -27,6 +28,9 @@
 #elif   defined USING_GDEP015OC1
     #define     PANEL_CLASS     GDEP015OC1
     #define     PENCILS_H    "pencils_200x200.h"
+#elif   defined USING_DEPG0213RWS800
+    #define     PANEL_CLASS     QYEG0213RWS800    
+    #define     PENCILS_H    "pencils_250x122.h"    
 #elif   defined USING_QYEG0213RWS800
     #define     PANEL_CLASS     QYEG0213RWS800    
     #define     PENCILS_H    "pencils_250x122.h"

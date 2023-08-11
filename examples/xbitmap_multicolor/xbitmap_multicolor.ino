@@ -1,7 +1,8 @@
 // Which panel are you using?  (uncomment one)
 // (Only supported panels with 3-color are shown)
 // -------------------------------------------
-    #define   USING_QYEG0213RWS800      // 2.13" V2 - BWR
+    #define  USING_DEPG0213RWS800       // 2.13" V2 - BWR - Red Tab
+    // #define  USING_QYEG0213RWS800       // 2.13" V2 - BWR - Red Tab
 
 
 // Where is your panel connected?
@@ -12,7 +13,11 @@
 
 
 // (Example automatically picks the correct class and sample image)
-#if defined   USING_QYEG0213RWS800
+#if defined   USING_DEPG0213RWS800
+    #define     PANEL_CLASS       DEPG0213RWS800    
+    #define     APPLES_BLACK_H    "apples_black_250x122.h"
+    #define     APPLES_RED_H      "apples_red_250x122.h"
+#elif defined   USING_QYEG0213RWS800
     #define     PANEL_CLASS       QYEG0213RWS800    
     #define     APPLES_BLACK_H    "apples_black_250x122.h"
     #define     APPLES_RED_H      "apples_red_250x122.h"
