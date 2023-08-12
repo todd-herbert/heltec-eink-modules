@@ -93,17 +93,19 @@ void test_qyeg0213rws800(uint8_t dc, uint8_t cs, uint8_t busy) {
     QYEG0213RWS800 display( dc, cs, busy );
 
     display.setRotation(display.orientation.PINS_LEFT);
-
-    static const char MODEL[] = "QYEG0213RWS800";
     display.setTextSize(2);
 
-    uint16_t L, T, R, B, W, H;
+    static const char MODEL1[] = "QYEG0213RWS800";
+    static const char MODEL2[] = "DEPG0213RWS800";
+
+    uint16_t L, T, R, B, W, H, CX;
     L = display.bounds.full.left();
     T = display.bounds.full.top();
     R = display.bounds.full.right();
     B = display.bounds.full.bottom();
     W = display.bounds.full.width();
     H = display.bounds.full.height();
+    CX = display.bounds.full.centerX();
 
     while(display.calculating()) {
         // Border
@@ -111,10 +113,26 @@ void test_qyeg0213rws800(uint8_t dc, uint8_t cs, uint8_t busy) {
         // Cross           
         display.drawLine( L, T, R, B, display.colors.BLACK );  
         display.drawLine( L, B, R, T, display.colors.BLACK );
-        // Label
-        display.setCursor(  display.bounds.full.centerX() - (display.getTextWidth(MODEL) / 2), 
-                            H / 4 );
-        display.print(MODEL);
+
+        // Label: QYEG0213RWS800
+        display.setCursor(  CX - (display.getTextWidth(MODEL1) / 2), 
+                            H / 4 - (display.getTextHeight(MODEL1) / 2)
+                            );
+
+        display.print(MODEL1);
+
+        // Label: or
+        display.setCursor(  CX - (display.getTextWidth("or") / 2), 
+                            H / 2 - (display.getTextHeight("of") / 2)   
+                            );
+        display.print("or");
+
+        // Label: DEPG0213RWS800
+        display.setCursor(  CX - (display.getTextWidth(MODEL2) / 2), 
+                            (H - H / 4) - (display.getTextHeight(MODEL1) / 2)
+                            );
+        display.print(MODEL2);
+
     }
     display.update();
 }
