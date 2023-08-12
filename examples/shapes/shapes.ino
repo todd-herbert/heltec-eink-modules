@@ -77,6 +77,10 @@ void setup() {
         BGCOLOR = c.BLACK;
         ACCENT1 = c.WHITE;
         ACCENT2 = c.WHITE;
+    #elif   defined USING_DEPG0213RWS800
+        BGCOLOR = c.RED;
+        ACCENT1 = c.WHITE;
+        ACCENT2 = c.BLACK;          
     #elif   defined USING_QYEG0213RWS800
         BGCOLOR = c.RED;
         ACCENT1 = c.WHITE;
