@@ -107,7 +107,6 @@ void setup() {
     W_WIDTH = window_cartoon_width;
     W_HEIGHT = window_cartoon_height;
 
-    display.setRotation(display.orientation.PINS_RIGHT);
     display.setWindow(W_LEFT, W_TOP, W_WIDTH, W_HEIGHT);
 
     while (display.calculating())
