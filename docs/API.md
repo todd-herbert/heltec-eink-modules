@@ -8,6 +8,7 @@
   - [`DEPG0290BNS800()`](#depg0290bns800)
   - [`GDEP015OC1()`](#gdep015oc1)
   - [`GDE029A1()`](#gde029a1)
+  - [`DEPG0213RWS800()`](#depg0213rws800)
   - [`QYEG0213RWS800()`](#qyeg0213rws800)
   - [`clear()`](#clear)
   - [`setDefaultColor()`](#setdefaultcolor)
@@ -232,6 +233,32 @@ GDE029A1(DC_PIN, CS_PIN, BUSY_PIN, page_height)
 #include <heltec-eink-modules.h>
 
 GDE029A1 display(8, 10, 7);
+```
+
+___
+### `DEPG0213RWS800()`
+Create a display controller object, for model [DEPG0213RWS800](/docs/README.md#supported-displays).
+
+#### Syntax
+
+```cpp
+DEPG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN)
+DEPG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN, page_height)
+```
+
+#### Parameters
+
+* _DC_PIN_: pin which connects ([through a level shifter](/docs/README.md#wiring)) to "Display / Command" (D/C) pin on the display.
+* _CS_PIN_: pin which connects ([through a level shifter](/docs/README.md#wiring)) to "Chip Select" (CS) on the display.
+* _BUSY_PIN_: pin which connects to "BUSY" on the display.
+* _page\_height_ (optional): number of rows per page. Default value is 20, meaning the display is calculated 20 rows at a time. Higher values consume more RAM
+
+#### Example
+
+```cpp
+#include <heltec-eink-modules.h>
+
+DEPG0213RWS800 display(8, 10, 7);
 ```
 
 ___
