@@ -120,8 +120,8 @@ class QYEG0213RWS800 : public GFX {
                             uint8_t width() {return right() - left() + 1;}
                             uint8_t height() {return bottom() - top() + 1;}
 
-                            uint8_t centerX() {return right() - (width() / 2);}
-                            uint8_t centerY() {return bottom() - (height() / 2);}
+                            uint8_t centerX() {return right() - ((width() - 1) / 2);}
+                            uint8_t centerY() {return bottom() - ((height() - 1) / 2);}
 
                             // Subclass constructor, receive references to display dimensions
                             Window(uint8_t *top, uint8_t *right, uint8_t *bottom, uint8_t *left, uint8_t *arg_rotation, FlipList::Flip *arg_imgflip) {

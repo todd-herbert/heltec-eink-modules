@@ -142,8 +142,8 @@ class GDE029A1 : public GFX {
                             uint16_t width() {return right() - left() + 1;}
                             uint16_t height() {return bottom() - top() + 1;}
 
-                            uint16_t centerX() {return right() - (width() / 2);}
-                            uint16_t centerY() {return bottom() - (height() / 2);}
+                            uint16_t centerX() {return right() - ((width() - 1) / 2);}
+                            uint16_t centerY() {return bottom() - ((height() - 1) / 2);}
 
                             Window(uint16_t *top, uint16_t *right, uint16_t *bottom, uint16_t *left, uint8_t *arg_rotation, FlipList::Flip *arg_imgflip) {
                                     edges[T] = top;
