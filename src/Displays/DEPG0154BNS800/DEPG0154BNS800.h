@@ -102,6 +102,8 @@ class DEPG0154BNS800 : public GFX {
     //      setCursorTopLeft
     //      getTextWidth
     //      getTextHeight
+    //      getTextCenterX
+    //      getTextCenterY
     // 
     //      Bounds ->
     //          Window->
@@ -130,6 +132,8 @@ class DEPG0154BNS800 : public GFX {
         void setCursorTopLeft(const char* text, uint16_t x, uint16_t y);
         uint16_t getTextWidth(const char* text);
         uint16_t getTextHeight(const char* text);
+        uint16_t getTextCenterX(const char* text);
+        uint16_t getTextCenterY(const char* text);  
 
         // Nested Subclasses to provide dimensioning info
         class Bounds { 

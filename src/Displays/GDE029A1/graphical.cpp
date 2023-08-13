@@ -93,6 +93,30 @@ uint16_t GDE029A1::getTextHeight(const char* text) {
     return h;
 }
 
+// Get the required cursor X position to center text 
+uint16_t GDE029A1::getTextCenterX(const char* text) {
+    int16_t offset_x(0), offset_y(0);
+    uint16_t width(0), height(0);
+
+    // Get the text dimensions
+    getTextBounds(text, 0, 0, &offset_x, &offset_y, &width, &height);
+
+    uint16_t left = bounds.window.centerX() - offset_x;
+    return max(0, left - (width / 2) );
+}
+
+// Get the required cursor Y position to center text 
+uint16_t GDE029A1::getTextCenterY(const char* text) {
+    int16_t offset_x(0), offset_y(0);
+    uint16_t width(0), height(0);
+
+    // Get the text dimensions
+    getTextBounds(text, 0, 0, &offset_x, &offset_y, &width, &height);
+
+    uint16_t top = bounds.window.centerY() - offset_y;
+    return max(0, top - (height / 2) );
+}
+
 
 
 // Helper methods to find window bounds
