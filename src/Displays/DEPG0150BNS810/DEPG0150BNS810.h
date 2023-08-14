@@ -58,6 +58,7 @@ class DEPG0150BNS810 : public GFX {
         // Graphics overrides and config methods                                                                
         void drawPixel(int16_t x, int16_t y, uint16_t color);
         void setDefaultColor(uint16_t bgcolor);
+        void setRotation(uint8_t r);
 
 
         // Paging and Hardware methods

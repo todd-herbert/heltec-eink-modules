@@ -72,6 +72,18 @@ void DEPG0290BNS800::setDefaultColor(uint16_t bgcolor) {
     default_color = bgcolor;
 }
 
+/// Set the rotation for the display
+/// Accepts int range 0 to 3, or values of <display object>.orientation.*
+void DEPG0290BNS800::setRotation(uint8_t r) {
+    GFX::setRotation(r);    // Base class method
+
+    // Re-calculate window locations, for give accurate bounds info
+    setWindow(  bounds.window.left(), 
+                bounds.window.top(), 
+                bounds.window.width(), 
+                bounds.window.height() );
+}
+
 /// Set the text cursor according to the desired upper left corner
 void DEPG0290BNS800::setCursorTopLeft(const char* text, uint16_t x, uint16_t y) {
     int16_t offset_x(0), offset_y(0);

@@ -47,9 +47,10 @@ class GDEP015OC1 : public GFX {
         // Constructor
         GDEP015OC1( uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint8_t page_height=20);
 
-        // Graphics overloads and config methods                                                                
+        // Graphics overrides and config methods                                                                
         void drawPixel(int16_t x, int16_t y, uint16_t color);
         void setDefaultColor(uint16_t bgcolor);
+        void setRotation(uint8_t r);
 
         // Paging and Hardware methods
         void fullscreen();

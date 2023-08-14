@@ -72,6 +72,18 @@ void QYEG0213RWS800::setDefaultColor(uint16_t bgcolor) {
     default_color = bgcolor;
 }
 
+/// Set the rotation for the display
+/// Accepts int range 0 to 3, or values of <display object>.orientation.*
+void QYEG0213RWS800::setRotation(uint8_t r) {
+    GFX::setRotation(r);    // Base class method
+
+    // Re-calculate window locations, for give accurate bounds info
+    setWindow(  bounds.window.left(), 
+                bounds.window.top(), 
+                bounds.window.width(), 
+                bounds.window.height() );
+}
+
 
 
 /// Clear the data arrays in between pages
