@@ -47,9 +47,11 @@
     
 // DEMO: Placing text accurately with getTextBounds()
 // ---------------------------------------------------
-    // NOTE: THIS FUNCTION DOES NOT APPEAR TO WORK CORRECTLY WITH THE BUILT-IN FALLBACK FONT
-    // So be sure to use setFont()!
-    // This is an error in GFX_Root and not an error with the Heltec_213R_V2 library
+// NOTE:    Text printed with custom fonts sits nicely *on* the cursor line (this example)
+//          Text printed with the default font sits below the cursor line. 
+//          
+//          To place the default font upon the line, use an offset with setCursor().
+//          To place a custom font below the line, use either an offset, or setCursorTopLeft()
 
 #include "heltec-eink-modules.h"
 
@@ -67,10 +69,10 @@ void setup() {
     // -----------------------------------------------
 
 
-    int16_t text_top_edge; // These will receive information about how much space our text will take up 
-    int16_t text_left_edge;
-    uint16_t text_width;
-    uint16_t text_height;
+    int text_top_edge; // These will receive information about how much space our text will take up 
+    int text_left_edge;
+    unsigned int text_width;
+    unsigned int text_height;
     
     // This will tell us where the bounds of the text would be, if we setCursor(0,0) and then print(text)
     // Note that the variables are passed by reference
@@ -79,8 +81,8 @@ void setup() {
     // We can use this information in our loop to help place the string
     // We'll show off and align our text right
     // setCursor()'s Y value is the imaginary line that the characters sit on. In this case, slightly above the base of the screen
-    uint16_t cursor_demo_x = display.bounds.full.right() - text_width - 5;  // 5px safety margin
-    uint16_t cursor_demo_y = display.bounds.full.bottom() - 30;
+    unsigned int cursor_demo_x = display.bounds.full.right() - text_width - 5;  // 5px safety margin
+    unsigned int cursor_demo_y = display.bounds.full.bottom() - 30;
 
 
 
@@ -102,9 +104,11 @@ void setup() {
 
 void loop() { }
 
-// ===============================================================
+// =========================================================================
 // Note: other methods to help with text-placement include:
 //      setCursorTopLeft()  -   Put text by top / left
 //      getTextWidth()
 //      getTextHeight()
-// ===============================================================
+//      getTextCenterX()    -   Find where to put cursor for centered text
+//      getTextCenterY()
+// =========================================================================

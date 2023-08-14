@@ -50,15 +50,18 @@ const unsigned char* hourglasses[] = {hourglass_1_bits, hourglass_2_bits, hourgl
 
 PANEL_CLASS display(DC_PIN, CS_PIN, BUSY_PIN);  // PANEL_CLASS is a shortcut for your display; Line 13
 
+
 // Shortcuts to save typing
 // https://github.com/todd-herbert/heltec-eink-modules#code-readability
-// -------------------------
+
 PANEL_CLASS::Bounds::Full f = display.bounds.full;
 PANEL_CLASS::Bounds::Window w = display.bounds.window;
 PANEL_CLASS::ColorList c = display.colors;
 
-const uint16_t ICON_L = f.centerX() - (hourglass_1_width / 2);
-const uint16_t ICON_T = f.centerY() - (hourglass_1_height / 2) - 15;  // Slightly towards screen top
+
+int ICON_L = f.centerX() - (hourglass_1_width / 2);
+int ICON_T = f.centerY() - (hourglass_1_height / 2) - 15;  // Slightly towards screen top
+
 
 void setup() {
     display.setDefaultColor(c.WHITE);
@@ -81,7 +84,7 @@ void setup() {
     display.setWindow( f.left(), f.top(), f.width(), f.height() - 30 ); // Don't overwrite the bottom 30px
     display.setFastmode( display.fastmode.ON );
 
-    for (uint8_t demo = 0; demo <= 9; demo++) { // 10 times in total
+    for (int demo = 0; demo <= 9; demo++) { // 10 times in total
 
         // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
         // To exit fast-mode, you must set to fastmode.FINALIZE

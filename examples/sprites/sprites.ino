@@ -38,27 +38,40 @@ void setup() {
     display.setRotation(display.orientation.PINS_LEFT);
 
     // Useful drawing aides
-    static uint16_t TOP = 0;
-    static uint16_t BOTTOM = display.bounds.full.bottom();
-    static uint16_t LEFT = 0;
-    static uint16_t RIGHT = display.bounds.full.bottom();
-    static uint16_t CENTER_X = display.bounds.full.centerX();
-    static uint16_t CENTER_Y = display.bounds.full.centerY();
+    unsigned int CENTER_X   = display.bounds.full.centerX();
+    unsigned int CENTER_Y   = display.bounds.full.centerY();
 
-    static uint16_t ball_offset = 53;
+    unsigned int ball_offset = 53;
 
     while( display.calculating() ) {
         // First draw a ball in the background, top centre
-        display.drawXBitmap(CENTER_X - (ball_width / 2), CENTER_Y - (ball_width / 2) - ball_offset, ball_bits, ball_width, ball_height, display.colors.BLACK);
+        display.drawXBitmap(    CENTER_X - (ball_width / 2),                        // Left
+                                CENTER_Y - (ball_width / 2) - ball_offset,          // Top
+                                ball_bits,                                          // Image Data
+                                ball_width,                                         // Width
+                                ball_height,                                        // Height
+                                display.colors.BLACK );                             // Color
 
         // ball in the bottom left
         // Note that the XBitmap only specifies location of one color. This allows transparency
-        display.drawXBitmap(CENTER_X - (ball_width / 2) - ball_offset, CENTER_Y - (ball_width / 2), ball_bits, ball_width, ball_height, display.colors.BLACK);
+        display.drawXBitmap(    CENTER_X - (ball_width / 2) - ball_offset, 
+                                CENTER_Y - (ball_width / 2), 
+                                ball_bits, 
+                                ball_width, 
+                                ball_height, 
+                                display.colors.BLACK );
         
         // Another ball in the bottom right
         // To prevent a transparency effect, you will need either a second xbitmap, or to write a background of white pixels underneath 
-        display.fillCircle(CENTER_X + ball_offset, CENTER_Y, ball_width / 2, display.colors.WHITE);
-        display.drawXBitmap(CENTER_X - (ball_width / 2) + ball_offset, CENTER_Y - (ball_width / 2), ball_bits, ball_width, ball_height, display.colors.BLACK);
+        display.fillCircle(     CENTER_X + ball_offset, 
+                                CENTER_Y, ball_width / 2, 
+                                display.colors.WHITE );
+
+        display.drawXBitmap(    CENTER_X - (ball_width / 2) + ball_offset, 
+                                CENTER_Y - (ball_width / 2), ball_bits, 
+                                ball_width, 
+                                ball_height, 
+                                display.colors.BLACK );
     }
 
     display.update();   // The display will only begin to change once update() is called

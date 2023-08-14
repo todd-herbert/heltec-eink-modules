@@ -54,6 +54,7 @@ PANEL_CLASS::Bounds::Window w = display.bounds.window;
 PANEL_CLASS::ColorList c = display.colors;
 
 void setup() {
+
     // Lay down a background first
     // -----------------------------
     display.setRotation(display.orientation.PINS_ABOVE);
@@ -73,19 +74,19 @@ void setup() {
     // Draw to only a small "window" of the display, leaving the rest undisturbed
     // ----------------------------------------------------------------------------
 
-    const char* proclamation = "Behold the window";
+    const char proclamation[] = "Behold the window";
     display.setRotation(display.orientation.PINS_RIGHT);    // Set rotation before window dimensions
     
-    uint16_t W_LEFT = f.centerX() - (display.getTextWidth(proclamation) / 2) - 10;
-    uint16_t W_TOP = 16;
-    uint16_t W_WIDTH = display.getTextWidth(proclamation) + 20;
-    uint16_t W_HEIGHT = display.getTextHeight(proclamation) + 20;
+    unsigned int W_LEFT = f.centerX() - (display.getTextWidth(proclamation) / 2) - 10;
+    unsigned int W_TOP = 16;
+    unsigned int W_WIDTH = display.getTextWidth(proclamation) + 20;
+    unsigned int W_HEIGHT = display.getTextHeight(proclamation) + 20;
 
     display.setWindow(W_LEFT, W_TOP, W_WIDTH, W_HEIGHT);
     display.setTextSize(1);
 
-    uint16_t TEXT_X = display.getTextCenterX(proclamation);     // Position the text after setWindow,
-    uint16_t TEXT_Y = display.getTextCenterY(proclamation);     // so we can find the *true* center
+    unsigned int TEXT_X = display.getTextCenterX(proclamation);     // Position the text after setWindow,
+    unsigned int TEXT_Y = display.getTextCenterY(proclamation);     // so we can find the *true* center
 
     while (display.calculating())
     {

@@ -51,7 +51,7 @@ void setup() {
         display.setCursor(10, 10);
         display.print("Pins Below (2)");
 
-        display.setRotation(display.orientation.PINS_RIGHT);
+        display.setRotation(3); // display.orientation.PINS_RIGHT
         display.setCursor(10, 10);
         display.print("Pins on Right (3)");
         

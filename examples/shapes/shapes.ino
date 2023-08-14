@@ -61,9 +61,9 @@ void setup() {
 
     // Picks colors that will work on your panel
     // =============================================
-    static uint16_t BGCOLOR;
-    static uint16_t ACCENT1;
-    static uint16_t ACCENT2;
+    static unsigned int BGCOLOR;
+    static unsigned int ACCENT1;
+    static unsigned int ACCENT2;
 
     #if     defined USING_DEPG0150BNS810
         BGCOLOR = c.BLACK;
