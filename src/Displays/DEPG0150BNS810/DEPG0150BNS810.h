@@ -225,7 +225,6 @@ class DEPG0150BNS810 : public GFX {
         uint8_t page_top, page_bottom;  // Counters
 
         // Mode settings
-        enum Region{FULLSCREEN = 0, WINDOWED = 1} region=FULLSCREEN;
         uint8_t window_left, window_top, window_right, window_bottom;
         uint8_t winrot_left, winrot_top, winrot_right, winrot_bottom;   // Window boundaries in reference frame of rotation(0)
         bool first_pass = true;
