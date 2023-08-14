@@ -66,9 +66,17 @@ void DEPG0154BNS800::drawPixel(int16_t x, int16_t y, uint16_t color) {
 }
 
 /// Set the image flip
-/// Proceed with caution - Window locations do not flip, but content drawn into them does
 void DEPG0154BNS800::setFlip(FlipList::Flip flip) {
-    this->imgflip = flip;
+    
+    // Reverse the last flip operation applied
+    setWindow(window_left, window_top, window_right - window_left + 1, window_bottom - window_top + 1);
+
+    // Store the flip property, for later internal use by GFX methods
+    this->imgflip = (FlipList::Flip)(flip & (FlipList::HORIZONTAL | FlipList::VERTICAL));
+
+    // If flipping the whole screen, not within a window, recalculate bounds
+    if (flip == FlipList::HORIZONTAL || flip == FlipList::VERTICAL)
+        setWindow(window_left, window_top, window_right - window_left + 1, window_bottom - window_top + 1);
 }
 
 /// Set the color of the blank canvas, before any drawing is done

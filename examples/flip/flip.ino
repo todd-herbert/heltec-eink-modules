@@ -31,25 +31,27 @@ void setup() {
 
     // A bit of prep work: Draw the "dashed line" background
     // ------------------------------------------------------
-    static const int DASH_LENGTH = 10;
+    int DASH_LENGTH = 10;
     display.setRotation(display.orientation.PINS_LEFT);
 
     while( display.calculating() ) {
 
         // Step from left to right, drawing dashes
         for(unsigned int x = 0; x < display.bounds.full.width(); x += DASH_LENGTH * 2)
-            display.drawLine(   x,
-                                display.bounds.full.centerY(),
-                                x + (DASH_LENGTH -1),
-                                display.bounds.full.centerY(),
+
+            display.drawLine(   x,                                  // dash, left point
+                                display.bounds.full.centerY(),      // (midscreen y)
+                                x + (DASH_LENGTH -1),               // dash, right point
+                                display.bounds.full.centerY(),      // (midscreen y)
                                 display.colors.BLACK );
 
         // Step from top to bottom, drawing dashes
         for(unsigned int y = 0; y < display.bounds.full.height(); y += DASH_LENGTH * 2)
-            display.drawLine(   display.bounds.full.centerX(),
-                                y,
-                                display.bounds.full.centerX(),
-                                y + (DASH_LENGTH - 1),
+
+            display.drawLine(   display.bounds.full.centerX(),      // (midscreen x)
+                                y,                                  // dash, top point
+                                display.bounds.full.centerX(),      // (midscreen x)
+                                y + (DASH_LENGTH - 1),              // dash, bottom point
                                 display.colors.BLACK    );                            
     }
 
@@ -63,7 +65,7 @@ void setup() {
     // By default, no flip
     // display.setFlip(display.flip.NONE);
 
-    display.setWindow(10, 10, 80, 20);
+    display.setWindow(10, 10, 80, 24);
 
     while( display.calculating() ) {
         // Draw a border around the window
@@ -77,7 +79,7 @@ void setup() {
         display.setCursor(  display.bounds.window.left() + 3,
                             display.bounds.window.top() + 13 );
         
-        display.print(".OFF");
+        display.print(".NONE");
     }
     display.update();   // Draw the first box top left
     delay(2000);
@@ -87,7 +89,6 @@ void setup() {
     // -----------------------------------------
 
     display.setFlip(display.flip.HORIZONTAL);
-    display.setWindow(10, 10, 80, 20);          // Re-set your window after changing flip
     while( display.calculating() ) {
         // Draw a border around the window
         display.drawRect(   display.bounds.window.left(), 
@@ -110,7 +111,6 @@ void setup() {
     // ------------------------------------------
 
     display.setFlip(display.flip.VERTICAL);
-    display.setWindow(10, 10, 80, 20);          // Re-set your window after changing flip
     while( display.calculating() ) {
         // Draw a border around the window
         display.drawRect(   display.bounds.window.left(), 
@@ -128,6 +128,52 @@ void setup() {
     display.update();
     delay(2000);
 
+
+    // Draw a new box, in middle
+    // ------------------------------------------
+
+    display.setFlip(display.flip.NONE);
+    display.setWindow(10, 50, 120, 24);
+
+    while( display.calculating() ) {
+        // Draw a border around the window
+        display.drawRect(   display.bounds.window.left(), 
+                            display.bounds.window.top(), 
+                            display.bounds.window.width(), 
+                            display.bounds.window.height(),
+                            display.colors.BLACK    );
+
+        // Some text for reference
+        display.setCursor(  display.bounds.window.left() + 3,
+                            display.bounds.window.top() + 13 );
+        
+        display.print(".NONE");
+    }
+    display.update();
+    delay(2000);
+
+
+    // Windowed Flip
+    // ------------------------------------------
+
+    display.setFlip(display.flip.HORIZONTAL_WINDOW);
+
+    while( display.calculating() ) {
+        // Draw a border around the window
+        display.drawRect(   display.bounds.window.left(), 
+                            display.bounds.window.top(), 
+                            display.bounds.window.width(), 
+                            display.bounds.window.height(),
+                            display.colors.BLACK    );
+
+        // Some text for reference
+        display.setCursor(  display.bounds.window.left() + 3,
+                            display.bounds.window.top() + 13 );
+        
+        display.print(".HORIZONTAL_WINDOW");
+    }
+    display.update();
+    delay(2000);
 }
 
 void loop() { }

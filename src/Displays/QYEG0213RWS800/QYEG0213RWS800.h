@@ -19,7 +19,7 @@ class QYEG0213RWS800 : public GFX {
     // Consts for user config
     // ======================
     public:
-        static struct FlipList{enum Flip{NONE = 0, HORIZONTAL=1, VERTICAL=2}; } flip;
+        static struct FlipList{enum Flip{NONE = 0, HORIZONTAL=1, VERTICAL=2, HORIZONTAL_WINDOW=5, VERTICAL_WINDOW=6}; } flip;
         static struct ColorList{enum Colors{BLACK = 0, WHITE = 1, RED = 3}; } colors;
         static struct RotationList {enum Rotations{PINS_ABOVE = 0, PINS_LEFT=1, PINS_BELOW = 2, PINS_RIGHT = 3};} orientation;  // NB: member is "orientation", as GFX::rotation already exists
     
