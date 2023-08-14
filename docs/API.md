@@ -38,6 +38,8 @@
   - [`getTextBounds()`](#gettextbounds)
   - [`getTextWidth()`](#gettextwidth)
   - [`getTextHeight()`](#gettextheight)
+  - [`getTextCenterX()`](#gettextcenterx)
+  - [`getTextCenterY()`](#gettextcentery)
   - [`setFont()`](#setfont)
   - [`setTextColor()`](#settextcolor)
   - [`setTextWrap()`](#settextwrap)
@@ -366,7 +368,11 @@ void setup() {
 ___
 ### `setRotation()`
 
-Rotate future drawing operations by a multiple of 90 degrees. Avoid calling between `setWindow()` and the start of the `calculating()` loop. Because of a hardware limitation, window width (or height, if you are using a landscape rotation) is always a multiple of 8. If you are using a window, your window's width will be automatically rounded up to the nearest multiple. For your convenience, these new "rounded up" dimensions are available through the `.bounds.window` feature. In this way, you can draw your graphics to cover the slightly expanded window, and work around the limitation. Note that the window will never "round down"; your originally requested region will always fit within the window provided.
+Rotate future drawing operations by a multiple of 90 degrees. 
+
+Avoid calling between `setWindow()` and the start of the `calculating()` loop. 
+
+Because of a hardware limitation, window width (or height, if you are using a landscape rotation) is always a multiple of 8. If you are using a window, your window's width will be automatically rounded up to the nearest multiple. For your convenience, these new "rounded up" dimensions are available through the `.bounds.window` feature. In this way, you can draw your graphics to cover the slightly expanded window, and work around the limitation. Note that the window will never "round down"; your originally requested region will always fit within the window provided.
 
 #### Syntax
 
@@ -591,7 +597,11 @@ void loop() {}
 ___
 ### `setFlip()`
 
-Reverse the image, either horizontally, or vertically. Flip is applied relative to the current rotation. Because of a hardware limitation, window width (or height, if you are using a landscape rotation) is always a multiple of 8. Be aware that this may affect window dimensions when drawing flipped. If you are using a window, your window's width will be automatically rounded up to the nearest multiple. For your convenience, these new "rounded up" dimensions are available through the `.bounds.window` feature. In this way, you can draw your graphics to cover the slightly expanded window, and work around the limitation. Note that the window will never "round down"; your originally requested region will always fit within the window provided.
+Reverse the image, either horizontally, or vertically. 
+
+Flip is applied relative to the current rotation.
+
+Because of a hardware limitation, window width (or height, if you are using a landscape rotation) is always a multiple of 8. Be aware that this may affect window dimensions when drawing flipped. If you are using a window, your window's width will be automatically rounded up to the nearest multiple. For your convenience, these new "rounded up" dimensions are available through the `.bounds.window` feature. In this way, you can draw your graphics to cover the slightly expanded window, and work around the limitation. Note that the window will never "round down"; your originally requested region will always fit within the window provided.
 
 #### Syntax
 
@@ -1239,6 +1249,104 @@ The height of the string.
 #### See also
 
 * [getTextWidth()](#gettextbounds)
+
+___
+
+### `getTextCenterX()`
+
+Gets the required cursor x position to horizontally center a given string.
+
+#### Syntax
+
+```cpp
+display.getTextCenterX(text)
+```
+
+#### Parameters
+
+* _text_: the string to use for dimensioning, as a char array or char pointer
+
+#### Returns
+
+X value for use with [setCursor()](#setcursor)
+
+#### Example
+
+```cpp
+#include <heltec-eink-modules.h>
+
+DEPG0150BNS810 display(8, 10, 7);
+
+void setup() {
+
+    const char text[] = "Hello!";
+
+    int x = display.getTextCenterX(text);   // Horizontal
+    int y = display.getTextCenterY(text);   // Vertical
+
+    while( display.calculating() ) {
+        display.setCursor(x, y);
+        display.print(text);
+    }
+
+    display.update();
+}
+
+void loop() {}
+```
+
+#### See also
+
+* [getTextCenterY()](#gettextcentery)
+
+___
+
+### `getTextCenterY()`
+
+Gets the required cursor y position to vertically center a given string.
+
+#### Syntax
+
+```cpp
+display.getTextCenterY(text)
+```
+
+#### Parameters
+
+* _text_: the string to use for dimensioning, as a char array or char pointer
+
+#### Returns
+
+Y value for use with [setCursor()](#setcursor)
+
+#### Example
+
+```cpp
+#include <heltec-eink-modules.h>
+
+DEPG0150BNS810 display(8, 10, 7);
+
+void setup() {
+
+    const char text[] = "Hello!";
+
+    int x = display.getTextCenterX(text);   // Horizontal
+    int y = display.getTextCenterY(text);   // Vertical
+
+    while( display.calculating() ) {
+        display.setCursor(x, y);
+        display.print(text);
+    }
+
+    display.update();
+}
+
+void loop() {}
+```
+
+#### See also
+
+* [getTextCenterX()](#gettextcenterx)
 
 ___
 ### `setFont()`
