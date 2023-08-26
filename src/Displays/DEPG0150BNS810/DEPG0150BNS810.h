@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <SPI.h>
 #include "GFX_Root/GFX.h"
+#include "Enviros/enviros.h"
 
 /// Heltec 1.54" V2
 /// Declaration: DEPG0150BNS810(  d/c pin  , cs pin , busy pin )
@@ -53,7 +54,7 @@ class DEPG0150BNS810 : public GFX {
     // =============================================================================
     public:
         // Constructor
-        DEPG0150BNS810( uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint8_t page_height=20);
+        DEPG0150BNS810( uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint16_t page_height = DEFAULT_PAGE_HEIGHT);
 
         // Graphics overrides and config methods                                                                
         void drawPixel(int16_t x, int16_t y, uint16_t color);

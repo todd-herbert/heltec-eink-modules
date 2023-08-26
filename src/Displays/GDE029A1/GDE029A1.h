@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <SPI.h>
 #include "GFX_Root/GFX.h"
+#include "Enviros/enviros.h"
 
 /// Heltec 2.9" V2
 /// Declaration: GDE029A1(  d/c pin  , cs pin , busy pin )
@@ -46,7 +47,7 @@ class GDE029A1 : public GFX {
     // =============================================================================
     public:
         // Constructor
-        GDE029A1(uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint8_t page_height=20);
+        GDE029A1(uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint16_t page_height = DEFAULT_PAGE_HEIGHT);
 
         // Graphics overrides and config methods                                                                
         void drawPixel(int16_t x, int16_t y, uint16_t color);
@@ -207,7 +208,7 @@ class GDE029A1 : public GFX {
         FastmodeList::Fastmode mode = FastmodeList::OFF;
 
         // Paging
-        uint8_t pagefile_height;
+        uint16_t pagefile_height;
         uint16_t page_bytecount;
         uint8_t *page_black;
         uint16_t pagefile_length = 0;   // Used for windowed memory ops

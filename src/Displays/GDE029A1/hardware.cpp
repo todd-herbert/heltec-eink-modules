@@ -6,7 +6,7 @@ PROGMEM constexpr uint8_t GDE029A1::lut_full[];
 PROGMEM constexpr uint8_t GDE029A1::lut_partial[];
 
 // Constructor
-GDE029A1::GDE029A1( uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint8_t page_height) : GFX(panel_width, panel_height) {
+GDE029A1::GDE029A1( uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint16_t page_height) : GFX(panel_width, panel_height) {
     // Store the config
     this->pin_dc = pin_dc;
     this->pin_cs = pin_cs;
@@ -28,7 +28,7 @@ GDE029A1::GDE029A1( uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint8_t pa
     
     // Prepare SPI
     digitalWrite(pin_cs, HIGH); // Helpful if using more than one display
-    SPI.begin();    
+    SPI_BEGIN();    
 
     // Calculate pagefile size
     pagefile_height = constrain(pagefile_height, 1, 50);

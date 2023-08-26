@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <SPI.h>
 #include "GFX_Root/GFX.h"
+#include "Enviros/enviros.h"
 
 /// Heltec 1.54" V2
 /// Declaration: GDEP015OC1(  d/c pin  , cs pin , busy pin )
@@ -45,7 +46,7 @@ class GDEP015OC1 : public GFX {
     // =============================================================================
     public:
         // Constructor
-        GDEP015OC1( uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint8_t page_height=20);
+        GDEP015OC1( uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint16_t page_height = DEFAULT_PAGE_HEIGHT);
 
         // Graphics overrides and config methods                                                                
         void drawPixel(int16_t x, int16_t y, uint16_t color);

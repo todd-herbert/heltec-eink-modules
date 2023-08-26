@@ -5,7 +5,7 @@
 PROGMEM constexpr uint8_t DEPG0290BNS75A::lut_partial[];
 
 // Have to initialize because of GFX class
-DEPG0290BNS75A::DEPG0290BNS75A( uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint8_t page_height) : GFX(panel_width, panel_height) {
+DEPG0290BNS75A::DEPG0290BNS75A( uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint16_t page_height) : GFX(panel_width, panel_height) {
     // Store the config
     this->pin_dc = pin_dc;
     this->pin_cs = pin_cs;
@@ -27,7 +27,7 @@ DEPG0290BNS75A::DEPG0290BNS75A( uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy
     
     // Prepare SPI
     digitalWrite(pin_cs, HIGH); // Helpful if using more than one display
-    SPI.begin();    
+    SPI_BEGIN();    
 
     // Calculate pagefile size
     pagefile_height = constrain(pagefile_height, 1, 50);
