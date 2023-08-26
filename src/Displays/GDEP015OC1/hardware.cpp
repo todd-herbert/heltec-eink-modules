@@ -31,7 +31,7 @@ GDEP015OC1::GDEP015OC1( uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint16
     SPI_BEGIN();    
 
     // Calculate pagefile size
-    pagefile_height = constrain(pagefile_height, 1, 50);
+    pagefile_height = constrain(pagefile_height, 1, MAX_PAGE_HEIGHT);
     page_bytecount = panel_width * pagefile_height / 8;     // nb: this is a class member and gets reused
 
     // Set an initial configuration for drawing

@@ -23,7 +23,7 @@ QYEG0213RWS800::QYEG0213RWS800(uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy,
     
     // Prepare SPI
     digitalWrite(pin_cs, HIGH); // Helpful if using more than one display
-    SPI.begin();
+    SPI_BEGIN();
 
     // Calculate pagefile size
     pagefile_height = constrain(pagefile_height, 1, MAX_PAGE_HEIGHT);

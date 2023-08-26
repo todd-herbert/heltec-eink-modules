@@ -130,7 +130,7 @@ bool DEPG0290BNS800::calculating() {
         reset();
 
         page_top = winrot_top;  // We're now translating the window in drawPixel()
-        page_bottom = (winrot_top + pagefile_height) - 1;
+        page_bottom = min((winrot_top + pagefile_height) - 1, winrot_bottom);
         pagefile_length = (page_bottom - page_top + 1) * ((winrot_right - winrot_left + 1) / 8);
     }
 

@@ -120,7 +120,7 @@ bool QYEG0213RWS800::calculating() {
         reset();                        // If panel is asleep, Wake to receive SPI image data.
 
         page_top = winrot_top;                                          // Minimum (topmost) y-value for this paging operation
-        page_bottom = (winrot_top + pagefile_height) - 1;
+        page_bottom = min((winrot_top + pagefile_height) - 1, winrot_bottom);
 
         // This value is used sending image to the display, to know how much data to read out of the page file
         pagefile_length = (page_bottom - page_top + 1) * ((winrot_right - winrot_left + 1) / 8);
