@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <SPI.h>
 #include "GFX_Root/GFX.h"
-#include "Enviros/enviros.h"
+#include "Environments/environments.h"
 
 /// Heltec 2.13" Red V2
 /// Declaration: QYEG0213RWS800(  d/c pin  , cs pin , busy pin )

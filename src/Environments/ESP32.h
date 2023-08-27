@@ -1,4 +1,4 @@
-// Platform specific options for ESP32
+// Specific options for ESP32
 
 #ifndef __ESP32_H__
 #define __ESP32_H__
@@ -18,9 +18,6 @@
         // Paging
         #define DEFAULT_PAGE_HEIGHT     panel_height    // Full screen at once
         #define MAX_PAGE_HEIGHT         296             // (Largest supported panel)
-
-        #define RELEASE_PAGE_MEM        false           // Not relevant with large MCUs   
-
 
     #endif
 

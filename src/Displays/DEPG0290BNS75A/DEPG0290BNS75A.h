@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <SPI.h>
 #include "GFX_Root/GFX.h"
-#include "Enviros/enviros.h"
+#include "Environments/environments.h"
 
 /// Heltec 2.9" V2
 /// Declaration: DEPG0290BNS75A(  d/c pin  , cs pin , busy pin )

@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <SPI.h>
 #include "GFX_Root/GFX.h"
-#include "Enviros/enviros.h"
+#include "Environments/environments.h"
 
 /// Heltec 1.54" V2
 /// Declaration: DEPG0150BNS810(  d/c pin  , cs pin , busy pin )

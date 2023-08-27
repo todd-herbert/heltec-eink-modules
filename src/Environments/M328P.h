@@ -1,4 +1,4 @@
-// Platform specific options for ATmega328P
+// Specific options for ATmega328P
 
 #ifndef __M328P_H__
 #define __M328P_H__
@@ -12,8 +12,6 @@
         // Paging
         #define DEFAULT_PAGE_HEIGHT     20
         #define MAX_PAGE_HEIGHT         50      // Size, in bytes: MAX_PAGE_HEIGHT * (width / 8)
-
-        #define RELEASE_PAGE_MEM        true    // Re-allocate before each paging operation     
 
     #endif
 
