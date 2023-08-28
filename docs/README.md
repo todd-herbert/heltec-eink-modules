@@ -1,5 +1,11 @@
 # Heltec E-Ink Modules
 
-### Branch: test/ESP32
+### Branch: feature/environments
 
-Experimental support for ESP32
+Configurable enviorment settings, allowing support for additional boards.
+Not yet suitable for general use.
+
+ Model          | Support
+----------------|--------
+Arduino UNO     | ✔
+ESP32           | Provisional
