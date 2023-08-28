@@ -53,8 +53,14 @@ class DEPG0150BNS810 : public GFX {
     // Methods
     // =============================================================================
     public:
-        // Constructor
+        // Constructors
         DEPG0150BNS810( uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint16_t page_height = DEFAULT_PAGE_HEIGHT);
+
+        #if CAN_SPECIFY_SPI_PINS
+            DEPG0150BNS810(uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint8_t pin_sdi, uint8_t pin_clk, uint16_t page_height = DEFAULT_PAGE_HEIGHT);
+        #else
+            /* --- ERROR: Your board's SPI pinout cannot be customized --- */  DEPG0150BNS810(uint8_t pin_dc, uint8_t pin_sdi, uint8_t pin_cs, uint8_t pin_clk, uint8_t pin_busy, uint16_t page_height = DEFAULT_PAGE_HEIGHT) = delete;
+        #endif 
 
         // Graphics overrides and config methods                                                                
         void drawPixel(int16_t x, int16_t y, uint16_t color);
@@ -72,6 +78,7 @@ class DEPG0150BNS810 : public GFX {
         void deepSleep(uint16_t pause = 500);
 
     private:    // Hardware methods
+        void init();
         void grabPageMemory();
         void freePageMemory();
         void sendCommand(uint8_t command);
@@ -211,6 +218,8 @@ class DEPG0150BNS810 : public GFX {
     // =========================================================================================
     private:
         uint8_t pin_dc, pin_cs, pin_busy;
+        uint8_t pin_sdi = DEFAULT_SDI;      // Only set if CAN_SPECIFY_SPI_PINS
+        uint8_t pin_clk = DEFAULT_CLK;   
 
         uint16_t default_color = colors.WHITE;
         FlipList::Flip imgflip = FlipList::NONE;

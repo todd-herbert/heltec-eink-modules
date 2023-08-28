@@ -4,14 +4,32 @@
 // Required for an in-class PROGMEM definition
 PROGMEM constexpr uint8_t DEPG0154BNS800::lut_partial[];
 
-// Constructor
+// Short constructor
 DEPG0154BNS800::DEPG0154BNS800(uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint16_t page_height) : GFX(panel_width, panel_height) {
-    
-    // Store the config
+    // Store the config, and init
     this->pin_dc = pin_dc;
     this->pin_cs = pin_cs;
     this->pin_busy = pin_busy;
     this->pagefile_height = page_height;
+    init();
+}
+
+// Constructor for SPI pin customization
+#if CAN_SPECIFY_SPI_PINS
+    DEPG0154BNS800::DEPG0154BNS800(uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint8_t pin_sdi, uint8_t pin_clk, uint16_t page_height) : GFX(panel_width, panel_height) {
+        // Store the config, and init
+        this->pin_dc =  pin_dc;
+        this->pin_cs = pin_cs;
+        this->pin_busy = pin_busy;
+        this->pin_sdi = pin_sdi;
+        this->pin_clk = pin_clk;
+        this->pagefile_height = page_height;
+        init();
+    }
+#endif
+
+// Actual init code, called by all constructors
+void DEPG0154BNS800::init() {
 
     // Pass references to nested classes
     this->bounds = Bounds(  &winrot_top, 
