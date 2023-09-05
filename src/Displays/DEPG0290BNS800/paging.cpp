@@ -70,7 +70,7 @@ void DEPG0290BNS800::setWindow(uint16_t left, uint16_t top, uint16_t width, uint
             while(winrot_right < (drawing_width - 1) - window_top) winrot_right += 8;   // Iterate until box includes the byte where our far-left bit lives
 
             winrot_top = window_left;
-            winrot_bottom = window_right + 1;
+            winrot_bottom = window_right;
             break;
 
         case 2: 
