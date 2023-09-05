@@ -63,7 +63,7 @@ void GDEP015OC1::setWindow(uint8_t left, uint8_t top, uint8_t width, uint8_t hei
             while(winrot_right < (drawing_width - 1) - window_top) winrot_right += 8;   // Iterate until box includes the byte where our far-left bit lives
 
             winrot_top = window_left;
-            winrot_bottom = window_right + 1;
+            winrot_bottom = window_right;
             break;
 
         case 2: 
