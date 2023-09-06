@@ -1,9 +1,16 @@
+/* 
+    File: full.h
+
+        - Subclass; nfo about display fullscreen dimensions
+*/
+
+
 #ifndef __BOUNDS_FULL_H__
 #define __BOUNDS_FULL_H__
 
 #include <Arduino.h>
 
-#include "DataTypes/enums.h"
+#include "Displays/BaseDisplay/enums.h"
 
 // Reference dimensions for fullscreen
 class FullBounds {
@@ -22,6 +29,7 @@ class FullBounds {
         // Constructors
         FullBounds() = default;
         FullBounds(uint16_t drawing_width, uint16_t drawing_height, uint8_t *rotation) {
+            // Store pointers at construction
             this->drawing_width = drawing_width;
             this->drawing_height = drawing_height;
             this->rotation = rotation;

@@ -1,12 +1,17 @@
+/* 
+    File: bounds.h
+
+        - Subclass structure, to give dimension info
+*/
+
 #ifndef __BOUNDS_H__
 #define __BOUNDS_H__
 
-#include "DataTypes/enums.h"
+#include "Displays/BaseDisplay/enums.h"
 
-#include "Bounds/window.h"
-#include "Bounds/full.h"
+#include "window.h"
+#include "full.h"
 
-// Subclasses to provide dimensioning info
 class Bounds { 
     public:  
         // Constructors
@@ -20,6 +25,7 @@ class Bounds {
                 uint8_t *rotation, 
                 Flip *flip ) {
 
+            // At construction, create instances of "window" and "full"
             this->window = WindowBounds(drawing_width, drawing_height, window_top, window_right, window_bottom, window_left, rotation, flip);
             this->full = FullBounds(drawing_width, drawing_height, rotation);
         } 

@@ -1,231 +1,65 @@
 #include <Arduino.h>
-#include <SPI.h>
-#include "GFX_Root/GFX.h"
-#include "Environments/environments.h"
+#include "Displays/BaseDisplay/base.h"
 
-/// Heltec 1.54" V2
-/// Declaration: GDEP015OC1(  d/c pin  , cs pin , busy pin )
-class GDEP015OC1 : public GFX {
+// Heltec 1.54" V2
+// Connector label: HINK-E0154A05-A2
+class GDEP015OC1 : public BaseDisplay {
 
-    // Consts
-    // ===================
+    // Display Config
+    // ======================
     private:
-        // These are correct for the Heltec 1.54" V2, but are still defined here for easy access
-        const SPISettings spi_settings = SPISettings(200000, MSBFIRST, SPI_MODE0);
-        static const int16_t panel_width = 200;
-        static const int16_t panel_height = 200;
-        static const int16_t drawing_width = 200;   // Redundant for this display, handles odd resolutions. 
-        static const int16_t drawing_height = 200;
+        const uint16_t panel_width = 200;                               // Display width
+        const uint16_t panel_height = 200;                              // Display height
+        const Color supported_colors = (Color) ( BLACK | WHITE );       // Colors available for drawing
 
-        // Look Up Table for "refresh" operations
-        // Unmodified from Heltec source
-        PROGMEM static constexpr uint8_t lut_full[30] = {
-            0x50, 0xAA, 0x55, 0xAA, 0x11, 0x00,
-            0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-            0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-            0x00, 0x00, 0xFF, 0xFF, 0x1F, 0x00,
-            0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-        };
-        PROGMEM static constexpr uint8_t lut_partial[30] = {
-            0x10, 0x18, 0x18, 0x08, 0x18, 0x18,
-            0x08, 0x00, 0x00, 0x00, 0x00, 0x00,
-            0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-            0x00, 0x00, 0x13, 0x14, 0x44, 0x12,
-            0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-        };  
 
-    // Consts for user config
-    // ------------------------
+    // Constructors
+    // ======================
     public:
-        static struct FlipList{enum Flip{NONE = 0, HORIZONTAL=1, VERTICAL=2, HORIZONTAL_WINDOW=5, VERTICAL_WINDOW=6}; } flip;
-        static struct ColorList{enum Colors{BLACK = 0, WHITE = 1}; } colors;
-        static struct FastmodeList{enum Fastmode{OFF = 0, ON = 1, FINALIZE = 2}; } fastmode;
-        static struct RotationList {enum Rotations{PINS_ABOVE = 0, PINS_LEFT=1, PINS_BELOW = 2, PINS_RIGHT = 3};} orientation;  // NB: member is "orientation", as GFX::rotation already exists
 
-    // Methods
-    // =============================================================================
-    public:
-        // Constructors
-        GDEP015OC1(uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint16_t page_height = DEFAULT_PAGE_HEIGHT);
+        // UNO-style constructor
+        GDEP015OC1(  uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint16_t page_height = DEFAULT_PAGE_HEIGHT)
+            : BaseDisplay ( pin_dc, pin_cs, pin_busy, DEFAULT_SDI, DEFAULT_CLK, page_height) 
+                { init(); }
 
+        // Full pinout constructor
         #if CAN_SPECIFY_SPI_PINS
-            GDEP015OC1(uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint8_t pin_sdi, uint8_t pin_clk, uint16_t page_height = DEFAULT_PAGE_HEIGHT);
+            GDEP015OC1(  uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint8_t pin_sdi, uint8_t pin_clk, uint16_t page_height = DEFAULT_PAGE_HEIGHT)
+                : BaseDisplay ( pin_dc, pin_cs, pin_busy, pin_sdi, pin_clk, page_height)
+                    { init(); }
+
         #else
-            /* --- ERROR: Your board's SPI pinout cannot be customized --- */  GDEP015OC1(uint8_t pin_dc, uint8_t pin_sdi, uint8_t pin_cs, uint8_t pin_clk, uint8_t pin_busy, uint16_t page_height = DEFAULT_PAGE_HEIGHT) = delete;
-        #endif 
+            // If UNO uses full constructor
+            /* --- ERROR: Your board's SPI pinout cannot be customized --- */   GDEP015OC1( uint8_t pin_dc, uint8_t pin_sdi, uint8_t pin_cs, 
+                                                                                                uint8_t pin_clk, uint8_t pin_busy, 
+                                                                                                uint16_t page_height ) = delete;
+        #endif                                       
 
-        // Graphics overrides and config methods                                                                
-        void drawPixel(int16_t x, int16_t y, uint16_t color);
-        void setDefaultColor(uint16_t bgcolor);
-        void setRotation(uint8_t r);
 
-        // Paging and Hardware methods
-        void fullscreen();
-        void setWindow(uint8_t left, uint8_t top, uint8_t width, uint8_t height);
-        void setFastmode(FastmodeList::Fastmode mode);
-        bool calculating();
-        void update() { update(false); }
-        void clear();
-        void deepSleep(uint16_t pause = 50);
-
-    private:    // Hardware methods
-        void init();
-        void grabPageMemory();
-        void freePageMemory();
-        void sendCommand(uint8_t command);
-        void sendData(uint8_t data);
-        void reset();
-        bool busy() {return digitalRead(pin_busy);}
-        void wait();
-        void update(bool override_checks);
-        void clearPage(uint16_t bgcolor);
-        void writePage();
-
-        // Graphics overrides and config methods                                                                
-        size_t write(uint8_t c);
-        void charBounds(unsigned char c, int16_t *x, int16_t *y, int16_t *minx, int16_t *miny, int16_t *maxx, int16_t *maxy);
-
-    private:    // Deleted methods
-        using GFX::availableForWrite;
-        using GFX::clearWriteError;
-        using GFX::drawGrayscaleBitmap;
-        using GFX::drawRGBBitmap;
-        using GFX::flush;
-        using GFX::getWriteError;
-        using GFX::GFX;
-        using GFX::invertDisplay;
-        using GFX::write;
-
-    // Supplementary Drawing Methods
-    // ========================================================================================
-    //
-    //  Messy, here is current structure:
-    //      setFlip
-    //      setCursorTopLeft
-    //      getTextWidth
-    //      getTextHeight
-    //      getTextCenterX
-    //      getTextCenterY
-    // 
-    //      Bounds ->
-    //          Window->
-    //                  Top
-    //                  Right
-    //                  Bottom
-    //                  Left
-    //                  Width
-    //                  Height
-    //                  CenterX
-    //                  CenterY
-    //          Full->
-    //                  Top
-    //                  Right
-    //                  Bottom
-    //                  Left
-    //                  Width
-    //                  Height
-    //                  CenterX
-    //                  CenterY
-    // ==================================
-
-    public:
-
-        void setFlip(FlipList::Flip flip);
-        void setCursorTopLeft(const char* text, uint16_t x, uint16_t y);
-        uint16_t getTextWidth(const char* text);
-        uint16_t getTextHeight(const char* text);
-        uint16_t getTextCenterX(const char* text);
-        uint16_t getTextCenterY(const char* text);    
-
-        // Nested Subclasses to provide dimensioning info
-        class Bounds { 
-            public:
-                    // Reference dimensions for windows
-                    class Window {
-                        public:
-                            // TODO: Bounds.Window subclass with info about "Requested Bounds" vs "Actual Bounds"
-                            // TODO: calculate window boundaries early to facilitate user layout calculation
-
-                            uint8_t top();
-                            uint8_t right();
-                            uint8_t bottom();
-                            uint8_t left();
-
-                            uint8_t width() {return right() - left() + 1;}
-                            uint8_t height() {return bottom() - top() + 1;}
-
-                            uint8_t centerX() {return right() - ((width() - 1) / 2);}
-                            uint8_t centerY() {return bottom() - ((height() - 1) / 2);}
-
-                            Window(uint8_t *top, uint8_t *right, uint8_t *bottom, uint8_t *left, uint8_t *arg_rotation, FlipList::Flip *arg_imgflip) {
-                                edges[T] = top;
-                                edges[R] = right;
-                                edges[B] = bottom;
-                                edges[L] = left;
-                                m_rotation = arg_rotation;
-                                m_imgflip = arg_imgflip;
-                            }  // Called in setup
-                            Window() = delete;  // Please use a pointer instead 
-                        private:
-                            uint8_t *edges[4];   // t, r, b, l
-                            uint8_t *m_rotation;    // NB: "rotation" is already used as member
-                            FlipList::Flip *m_imgflip;
-                            enum side{T=0, R=1, B=2, L=3};
-                            uint8_t getWindowBounds(side request);
-                        };
-                        Window window = Window(nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);    // Prevent user instantiating class without due care
-
-                    // Reference dimensions for fullscreen
-                    class Full {
-                        public:
-                            uint8_t left() {return 0;}
-                            uint8_t right() {return width() - 1;}   
-                            uint8_t top() {return 0;}
-                            uint8_t bottom() {return height() - 1;}
-
-                            uint8_t width() {return ((*rotation % 2) ? drawing_height : drawing_width);} // Width if portrait, height if landscape
-                            uint8_t height() {return ((*rotation % 2) ? drawing_width : drawing_height);}
-
-                            uint8_t centerX() {return (right() / 2);}
-                            uint8_t centerY() {return (bottom() / 2);}
-
-                            Full(uint8_t *arg_rotation) : rotation(arg_rotation) {}
-                            Full() = delete;    // Please use a pointer instead
-                        private:
-                            uint8_t *rotation;
-                    };
-                    Full full = Full(nullptr);  // Prevent untintentional instantiation
-
-                    Bounds() = delete;  // Please use a pointer instead
-                    Bounds(uint8_t *top, uint8_t *right, uint8_t *bottom, uint8_t *left, uint8_t *arg_rotation, FlipList::Flip *arg_imgflip) {
-                                                                                                                    window = Window(top, right, bottom, left, arg_rotation, arg_imgflip);
-                                                                                                                    full = Full(arg_rotation);
-                                                                                                                }      
-                    };
-        Bounds bounds = Bounds(nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
-
-    // Members
-    // =========================================================================================
+    // Look up tables
+    // ==========================
     private:
-        uint8_t pin_dc, pin_cs, pin_busy;
-        uint8_t pin_sdi = DEFAULT_SDI;      // Only set if CAN_SPECIFY_SPI_PINS
-        uint8_t pin_clk = DEFAULT_CLK;   
+        PROGMEM static constexpr uint8_t lut_full[30] = {
+            #include "lut_full.inc"
+        };
+    
+        PROGMEM static constexpr uint8_t lut_partial[30] = {
+            #include "lut_partial.inc"
+        };
 
-        uint16_t default_color = colors.WHITE;
-        FlipList::Flip imgflip = FlipList::NONE;
-        FastmodeList::Fastmode mode = FastmodeList::OFF;
 
-        // Paging
-        uint8_t pagefile_height;
-        uint16_t page_bytecount;
-        uint8_t *page_black;
-        uint16_t pagefile_length = 0;   // Used for windowed memory ops
+    // Setup
+    // ==========================     
+    private:
+        void init();        // Once instantiated, pass config to base
 
-        uint8_t page_cursor = 0;
-        uint8_t page_top, page_bottom;  // Counters
 
-        // Mode settings
-        uint8_t window_left, window_top, window_right, window_bottom;
-        uint8_t winrot_left, winrot_top, winrot_right, winrot_bottom;   // Window boundaries in reference frame of rotation(0)
-        bool first_pass = true;      
+    // Virtual methods
+    // =========================
+    public:
+        void specifyMemoryArea( int16_t &sx, int16_t &sy, int16_t &ex, int16_t &ey );       // Display specific formatting of memory locations
+    private:
+        void configFull();              // Configure panel to use full refresh
+        void configPartial();           // Configure panel to use partial refresh
+        void activate();                // Command sequence to trigger display update
 };
