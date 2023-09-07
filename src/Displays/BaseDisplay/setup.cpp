@@ -26,9 +26,6 @@ BaseDisplay::BaseDisplay(   uint8_t pin_dc,
 
 void BaseDisplay::init() {
 
-    if (pagefile_height == -1)
-        pagefile_height = panel_height;
-
     // We lied to GFX about dimensions in the constructor, but now we do have the information.
     // I'm not sure it matters, but..
 

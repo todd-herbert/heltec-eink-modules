@@ -22,7 +22,7 @@
         #define DEFAULT_CLK             SCK
 
         // Paging
-        #define DEFAULT_PAGE_HEIGHT     -1    // Indicate that we want the full display 
+        #define DEFAULT_PAGE_HEIGHT     panel_height    // Indicate that we want the full display 
         #define MAX_PAGE_HEIGHT         296             // (Largest supported panel)
 
     #endif

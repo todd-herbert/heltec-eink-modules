@@ -8,9 +8,9 @@ class DEPG0150BNS810 : public BaseDisplay {
     // Display Config
     // ======================
     private:
-        const uint16_t panel_width = 200;                               // Display width
-        const uint16_t panel_height = 200;                              // Display height
-        const Color supported_colors = (Color) ( BLACK | WHITE );       // Colors available for drawing
+        static const uint16_t panel_width = 200;                                // Display width
+        static const uint16_t panel_height = 200;                               // Display height
+        static const Color supported_colors = (Color) ( BLACK | WHITE );        // Colors available for drawing
 
 
     // Constructors

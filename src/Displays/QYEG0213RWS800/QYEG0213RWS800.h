@@ -8,11 +8,11 @@ class QYEG0213RWS800 : public BaseDisplay {
     // Display Config
     // ======================
     private:
-        const uint16_t panel_width = 128;                                    // Display width
-        const uint16_t panel_height = 250;                                   // Display height
-        const uint16_t drawing_width = 122;                                  // Usable width
-        const uint16_t drawing_height = 250;                                 // Usable height
-        const Color supported_colors = (Color) ( BLACK | WHITE | RED );      // Colors available for drawing
+        static const uint16_t panel_width = 128;                                    // Display width
+        static const uint16_t panel_height = 250;                                   // Display height
+        static const uint16_t drawing_width = 122;                                  // Usable width
+        static const uint16_t drawing_height = 250;                                 // Usable height
+        static const Color supported_colors = (Color) ( BLACK | WHITE | RED );      // Colors available for drawing
 
 
     // Constructors
