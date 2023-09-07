@@ -53,6 +53,11 @@ class BaseDisplay: public GFX {
         bool calculating();                                         // Main method controlling paging. while( calculating() )
         #define DRAW(display) while(display.calculating())          // Macro to call while(.calculating())
 
+        #if PRESERVE_IMAGE
+            void overwrite();
+        #else
+            /* --- Error: selected board has insufficient memory. Use a DRAW() loop instead --- */       void overwrite() = delete;
+        #endif
 
     protected:
         void init();
@@ -130,7 +135,6 @@ class BaseDisplay: public GFX {
         Fastmode fastmode_state = NOT_SET;                          // Which update technique is in use (Full, Partial, Partial "double pass")
 
         // Paging
-        // --------------------
         uint16_t page_bytecount;                                    // Size of each pagefile (image buffer)
         uint16_t pagefile_length = 0;                               // Amount of pagefile utilized (by current window)
 

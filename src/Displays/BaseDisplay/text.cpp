@@ -109,43 +109,43 @@ size_t BaseDisplay::write(uint8_t c) {
   if (!gfxFont) { // 'Classic' built-in font
 
     if (c == '\n') {              // Newline?
-      cursor_x = (int16_t)bounds.window.left();               // Reset x to zero,
-      cursor_y += textsize_y * 8; // advance y one line
-    } else if (c != '\r') {       // Ignore carriage returns
-      if (wrap && ((cursor_x + textsize_x * 6) > (int16_t)bounds.window.right())) {     // Off right?
-        cursor_x = (int16_t)bounds.window.left();                                       // Reset x to zero,
+        cursor_x = (int16_t)bounds.window.left();               // Reset x to zero,
         cursor_y += textsize_y * 8; // advance y one line
-      }
-      drawChar(cursor_x, cursor_y, c, textcolor, textbgcolor, textsize_x,
-               textsize_y);
-      cursor_x += textsize_x * 6; // Advance x one char
+    } 
+    else if (c != '\r') {       // Ignore carriage returns
+        if (wrap && ((cursor_x + textsize_x * 6) > (int16_t)bounds.window.right())) {     // Off right?
+            cursor_x = (int16_t)bounds.window.left();                                       // Reset x to zero,
+            cursor_y += textsize_y * 8; // advance y one line
+        }
+        drawChar(cursor_x, cursor_y, c, textcolor, textbgcolor, textsize_x, textsize_y);
+        cursor_x += textsize_x * 6; // Advance x one char
     }
 
-  } else { // Custom font
+  } 
+  else {    // Custom font
 
     if (c == '\n') {
-      cursor_x = (int16_t)bounds.window.left();
-      cursor_y +=
-        (int16_t)textsize_y * (uint8_t)pgm_read_byte(&gfxFont->yAdvance);
-    } else if (c != '\r') {
-      uint8_t first = pgm_read_byte(&gfxFont->first);
-      if ((c >= first) && (c <= (uint8_t)pgm_read_byte(&gfxFont->last))) {
-        GFXglyph *glyph = pgm_read_glyph_ptr(gfxFont, c - first);
-        uint8_t w = pgm_read_byte(&glyph->width),
-                h = pgm_read_byte(&glyph->height);
-        if ((w > 0) && (h > 0)) { // Is there an associated bitmap?
-          int16_t xo = (int8_t)pgm_read_byte(&glyph->xOffset); // sic
-          if (wrap && ((cursor_x + textsize_x * (xo + w)) > (int16_t)bounds.window.right())) {
-            cursor_x = (int16_t)bounds.window.left();
-            cursor_y += (int16_t)textsize_y *
-                        (uint8_t)pgm_read_byte(&gfxFont->yAdvance);
-          }
-          drawChar(cursor_x, cursor_y, c, textcolor, textbgcolor, textsize_x,
-                   textsize_y);
+        cursor_x = (int16_t)bounds.window.left();
+        cursor_y += (int16_t)textsize_y * (uint8_t)pgm_read_byte(&gfxFont->yAdvance);
+    } 
+    else if (c != '\r') {
+        uint8_t first = pgm_read_byte(&gfxFont->first);
+        if ((c >= first) && (c <= (uint8_t)pgm_read_byte(&gfxFont->last))) {
+            GFXglyph *glyph = pgm_read_glyph_ptr(gfxFont, c - first);
+            uint8_t w = pgm_read_byte(&glyph->width);
+            uint8_t h = pgm_read_byte(&glyph->height);
+
+            if ((w > 0) && (h > 0)) {                                       // Is there an associated bitmap?
+                int16_t xo = (int8_t)pgm_read_byte(&glyph->xOffset);        // sic
+                
+                if (wrap && ((cursor_x + textsize_x * (xo + w)) > (int16_t)bounds.window.right())) {
+                    cursor_x = (int16_t)bounds.window.left();
+                    cursor_y += (int16_t)textsize_y * (uint8_t)pgm_read_byte(&gfxFont->yAdvance);
+                }
+                drawChar(cursor_x, cursor_y, c, textcolor, textbgcolor, textsize_x, textsize_y);
+            }
+            cursor_x += (uint8_t)pgm_read_byte(&glyph->xAdvance) * (int16_t)textsize_x;
         }
-        cursor_x +=
-          (uint8_t)pgm_read_byte(&glyph->xAdvance) * (int16_t)textsize_x;
-      }
     }
   }
   return 1;
@@ -153,7 +153,6 @@ size_t BaseDisplay::write(uint8_t c) {
 
 void BaseDisplay::charBounds(unsigned char c, int16_t *x, int16_t *y, int16_t *minx, int16_t *miny, int16_t *maxx, int16_t *maxy) 
 {
-
     if (gfxFont) {
         if (c == '\n') {    // Newline
             *x = (int16_t)bounds.window.left();        // Reset x to zero, advance y by one line
@@ -178,18 +177,22 @@ void BaseDisplay::charBounds(unsigned char c, int16_t *x, int16_t *y, int16_t *m
                     *y += textsize_y * (uint8_t)pgm_read_byte(&gfxFont->yAdvance);
                 }
 
-                int16_t tsx = (int16_t)textsize_x, tsy = (int16_t)textsize_y,
-                        x1 = *x + xo * tsx, y1 = *y + yo * tsy, x2 = x1 + gw * tsx - 1,
+                int16_t tsx = (int16_t)textsize_x, 
+                        tsy = (int16_t)textsize_y,
+                        x1 = *x + xo * tsx, 
+                        y1 = *y + yo * tsy, 
+                        x2 = x1 + gw * tsx - 1,
                         y2 = y1 + gh * tsy - 1;
 
                 if (x1 < *minx)
-                *minx = x1;
+                    *minx = x1;
                 if (y1 < *miny)
-                *miny = y1;
+                    *miny = y1;
                 if (x2 > *maxx)
-                *maxx = x2;
+                    *maxx = x2;
                 if (y2 > *maxy)
-                *maxy = y2;
+                    *maxy = y2;
+                    
                 *x += xa * tsx;
             }
         }

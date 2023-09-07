@@ -17,7 +17,8 @@
 
         // Paging
         #define DEFAULT_PAGE_HEIGHT     20
-        #define MAX_PAGE_HEIGHT         50      // Size, in bytes: MAX_PAGE_HEIGHT * (width / 8)
+        #define MAX_PAGE_HEIGHT         50          // Size, in bytes: MAX_PAGE_HEIGHT * (width / 8)
+        #define PRESERVE_IMAGE          false       // No clearing of page file between updates
 
     #endif
 

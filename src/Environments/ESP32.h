@@ -24,6 +24,7 @@
         // Paging
         #define DEFAULT_PAGE_HEIGHT     panel_height    // Indicate that we want the full display 
         #define MAX_PAGE_HEIGHT         296             // (Largest supported panel)
+        #define PRESERVE_IMAGE          true            // No clearing of page file between updates
 
     #endif
 

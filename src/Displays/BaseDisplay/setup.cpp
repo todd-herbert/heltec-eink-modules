@@ -53,10 +53,19 @@ void BaseDisplay::init() {
 
     // Calculate pagefile size
     pagefile_height = constrain(pagefile_height, 1, MAX_PAGE_HEIGHT);
-    page_bytecount = panel_width * pagefile_height / 8;                
-    
+    page_bytecount = panel_width * pagefile_height / 8;
+
     // Set an initial configuration for drawing
     setDefaultColor(WHITE);
     setTextColor(BLACK);
-    fullscreen();
+
+    // If PRESERVE_IMAGE, allocate the memory now (it will not allocate in calculating)
+    #if PRESERVE_IMAGE
+        grabPageMemory();
+        fullscreen();   // Window change, clears page
+        writePage();    // Make sure display memory is also blanked
+    #else
+        // Otherwise, just set the region
+        fullscreen();
+    #endif
 }

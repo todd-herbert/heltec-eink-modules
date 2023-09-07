@@ -133,3 +133,29 @@ void BaseDisplay::deepSleep(uint16_t pause) {
     sendData(0x01);
     delay(pause);
 }
+
+#if PRESERVE_IMAGE
+    // Manually update display, drawing on-top of existing contents
+    void BaseDisplay::overwrite() {
+        Serial.println(pagefile_height);
+        Serial.println(panel_height);
+
+        // Check if user has (for some reason) requested smaller page file
+        if (pagefile_height < panel_height)
+            return;
+
+        // Check if has initialised yet
+        if (fastmode_state == NOT_SET)
+            fastmodeOff();
+
+        // Copy the local image data to the display memory, then update
+        writePage();
+        activate();
+        
+        // If fastmode setting requires, repeat
+        if (fastmode_state == ON) {
+            writePage();
+            activate();
+        }
+    }
+#endif

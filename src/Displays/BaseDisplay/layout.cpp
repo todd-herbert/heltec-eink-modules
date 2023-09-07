@@ -129,4 +129,27 @@ void BaseDisplay::setWindow(uint16_t left, uint16_t top, uint16_t width, uint16_
             winrot_bottom = (drawing_height - 1) - window_left;
             break;
     }   // -- Finish calculating window rotation
+
+    // Limit window to panel 
+    if (window_left < 0)                    window_left = 0;
+    if (window_top < 0)                     window_top = 0;
+    if (rotation % 2) { // Landscape
+        if (window_right >= drawing_height - 1)     window_right = drawing_height - 1;
+        if (window_bottom >= drawing_width - 1)     window_bottom = drawing_width - 1;
+    }
+    else {  // Portrait
+        if (window_right >= drawing_width - 1)      window_right = drawing_width - 1;
+        if (window_bottom >= drawing_height - 1)    window_bottom = drawing_height - 1;
+    }
+
+    // If preserving image, and window moves, need to reset relevant area for drawPixel, and clear
+    #if PRESERVE_IMAGE
+
+        // Specify display region handled, either in paging, or outside loop
+        page_top = winrot_top;
+        page_bottom = min((winrot_top + pagefile_height) - 1, winrot_bottom);
+        pagefile_length = (page_bottom - page_top + 1) * ((winrot_right - winrot_left + 1) / 8);
+
+        clearPage(default_color);
+    #endif
 }
