@@ -21,6 +21,7 @@ class BaseDisplay: public GFX {
     private:
         const SPISettings spi_settings = SPISettings(200000, MSBFIRST, SPI_MODE0);
 
+
     public:
         // Constructor
         BaseDisplay (   uint8_t pin_dc, 
@@ -42,8 +43,8 @@ class BaseDisplay: public GFX {
 
         enum Fastmode : int8_t {OFF, ON, TURBO, NOT_SET = -1};      // Different display update techniques. Enum for internal use only
         void fastmodeOff();                                         // Use full refresh
-        void fastmodeOn();                                          // Use Partial refresh, double pass
-        void fastmodeTurbo();                                       // Use Partial refresh, single pass
+        virtual void fastmodeOn();                                  // Use Partial refresh, double pass. Deletable by derived class
+        virtual void fastmodeTurbo();                               // Use Partial refresh, single pass. Deletable by derived class
 
         void fullscreen();                                          // Use whole screen area for drawing
         void setWindow(uint16_t left, uint16_t top, uint16_t width, uint16_t height);       // Specify a section of screen for drawing
@@ -56,8 +57,9 @@ class BaseDisplay: public GFX {
         #if PRESERVE_IMAGE
             void overwrite();
         #else
-            /* --- Error: selected board has insufficient memory. Use a DRAW() loop instead --- */       void overwrite() = delete;
+            /* --- Error: Microcontroller doesn't have enough RAM. Use a DRAW() loop instead --- */       void overwrite() = delete;
         #endif
+
 
     protected:
         void init();
@@ -84,8 +86,8 @@ class BaseDisplay: public GFX {
     protected:
         // Defined in derived class
         virtual void specifyMemoryArea( int16_t &sx, int16_t &sy, int16_t &ex, int16_t &ey ) = 0;   // Area of display memory to accept data
-        virtual void configFull() {};                               // Load settings for full refresh
-        virtual void configPartial() {};                            // Load settings for partial refresh
+        virtual void configFull() {};                               // Load display specific settings for full refresh
+        virtual void configPartial() {};                            // Load display specific settings for partial refresh
         virtual void activate() = 0;                                // Perform the display update, "master activation"
 
 
