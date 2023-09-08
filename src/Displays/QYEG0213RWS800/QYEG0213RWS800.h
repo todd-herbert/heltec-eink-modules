@@ -37,13 +37,6 @@ class QYEG0213RWS800 : public BaseDisplay {
                                                                                                 uint16_t page_height ) = delete;
         #endif     
 
-    // Disabled methods
-    // =========================
-    private:
-        using BaseDisplay::fastmodeOff;
-        using BaseDisplay::fastmodeOn;
-        using BaseDisplay::fastmodeTurbo;
-
 
     // Setup
     // ==========================     
@@ -60,9 +53,9 @@ class QYEG0213RWS800 : public BaseDisplay {
         void activate();
 
     
-    // Deleted methods
+    // Disabled methods
     // ==========================
     private:
-        /* --- Error: Display does not support fastmode (partial refresh) --- */        void fastmodeOn();
-        /* --- Error: Display does not support fastmode (partial refresh) --- */        void fastmodeTurbo();
+        /* --- Error: Display does not support fastmode (partial refresh) --- */        void fastmodeOn() {}
+        /* --- Error: Display does not support fastmode (partial refresh) --- */        void fastmodeTurbo() {}
 };

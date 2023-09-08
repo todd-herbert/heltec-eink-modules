@@ -12,7 +12,7 @@
 
 void BaseDisplay::drawPixel(int16_t x, int16_t y, uint16_t color) {
     // Rotate the pixel
-    int16_t x1, y1;
+    int16_t x1=0, y1=0;
     switch(rotation) {
         case 0:         // No rotation
         x1=x;

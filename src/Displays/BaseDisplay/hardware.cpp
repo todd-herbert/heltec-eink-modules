@@ -222,19 +222,10 @@ void BaseDisplay::clear(bool refresh) {
 #if PRESERVE_IMAGE
     // Manually update display, drawing on-top of existing contents
     void BaseDisplay::overwrite() {
-        Serial.println(pagefile_height);
-        Serial.println(panel_height);
 
         // Check if user has (for some reason) requested smaller page file
         if (pagefile_height < panel_height)
             return;
-
-        // Check if has initialised yet
-        if (fastmode_state == NOT_SET) {
-            fastmodeOff();
-            clear(false);   // Fill whole memory, incase updating window after reset (static)
-        }
-
 
         // Copy the local image data to the display memory, then update
         writePage();

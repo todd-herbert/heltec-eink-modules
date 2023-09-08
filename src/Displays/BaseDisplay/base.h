@@ -12,7 +12,7 @@
 
 #include "GFX_Root/GFX.h"
 
-#include "Environments/environments.h"
+#include "Platforms/platforms.h"
 #include "Bounds/bounds.h"
 #include "Displays/BaseDisplay/enums.h"
 
@@ -29,7 +29,7 @@ class BaseDisplay: public GFX {
 
         // Destructor
         ~BaseDisplay() {
-            Serial.println("destructor called");
+            freePageMemory();
         }
 
         // Virtual methods from AdafruitGFX base                                                               

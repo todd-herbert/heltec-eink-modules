@@ -1,10 +1,10 @@
-// Specific options for ESP32
+// Specific options for ESP8266
 
-#ifndef __ESP32_H__
-#define __ESP32_H__
+#ifndef __ESP8266_H__
+#define __ESP8266_H__
 
     // If building for ESP32
-    #ifdef ESP32
+    #ifdef ESP8266
 
         // Redefine macros with AVR version
         #define min(a,b) ((a)<(b)?(a):(b))
@@ -13,13 +13,13 @@
         #define constrain(amt,low,high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
 
         // Name
-        #define ENVIRONMENT             ESP32
+        #define PLATFORM             ESP8266
 
         // SPI
-        #define SPI_BEGIN() ( SPI.begin(pin_clk, -1, pin_sdi, -1) )
-        #define CAN_SPECIFY_SPI_PINS    true
-        #define DEFAULT_SDI             MOSI
-        #define DEFAULT_CLK             SCK
+        #define SPI_BEGIN() ( SPI.begin() )
+        #define CAN_SPECIFY_SPI_PINS    false
+        #define DEFAULT_SDI             -1
+        #define DEFAULT_CLK             -1
 
         // Paging
         #define DEFAULT_PAGE_HEIGHT     panel_height    // Indicate that we want the full display 
