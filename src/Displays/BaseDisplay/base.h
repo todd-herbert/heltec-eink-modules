@@ -18,10 +18,6 @@
 
 class BaseDisplay: public GFX {
 
-    private:
-        const SPISettings spi_settings = SPISettings(200000, MSBFIRST, SPI_MODE0);
-
-
     public:
         // Constructor
         BaseDisplay (   uint8_t pin_dc, 
@@ -49,7 +45,7 @@ class BaseDisplay: public GFX {
         void fullscreen();                                          // Use whole screen area for drawing
         void setWindow(uint16_t left, uint16_t top, uint16_t width, uint16_t height);       // Specify a section of screen for drawing
 
-        void clear();                                               // Clear the display with one call.
+        void clear();                                               // Public clear() method. Obligatory refresh
         void deepSleep(uint16_t pause = 500);                       // Enter power-saving mode. Display requires power-cycle to wake
         bool calculating();                                         // Main method controlling paging. while( calculating() )
         #define DRAW(display) while(display.calculating())          // Macro to call while(.calculating())
@@ -68,6 +64,7 @@ class BaseDisplay: public GFX {
         void sendCommand(uint8_t command);                          // Send SPI Command to display (see datasheets)
         void sendData(uint8_t data);                                // Send SPI data to display
      
+        void clear(bool refresh);                                   // Clear display memory, with optional update
         void clearPage(uint16_t bgcolor);                           // Fill the pagefile(s) with default_color
         void writePage();                                           // Send image data to display memory (no refresh)
 
@@ -83,16 +80,16 @@ class BaseDisplay: public GFX {
                         int16_t *maxx, int16_t *maxy);
 
 
+    // Defined in derived class
     protected:
-        // Defined in derived class
         virtual void specifyMemoryArea( int16_t &sx, int16_t &sy, int16_t &ex, int16_t &ey ) = 0;   // Area of display memory to accept data
         virtual void configFull() {};                               // Load display specific settings for full refresh
         virtual void configPartial() {};                            // Load display specific settings for partial refresh
         virtual void activate() = 0;                                // Perform the display update, "master activation"
 
 
+    // Drawing helpers
     public:
-        // Drawing helpers
         bool supportsColor(Color c);                                // Does display support given color
         uint16_t getTextWidth(const char* text);                    // Width of text, when rendered
         uint16_t getTextHeight(const char* text);                   // Height of text, when rendered
@@ -105,8 +102,8 @@ class BaseDisplay: public GFX {
         Bounds bounds;
 
 
+    // Disabled AdafruitGFX methods
     private:
-        // Disabled AdafruitGFX methods
         using GFX::availableForWrite;
         using GFX::clearWriteError;
         using GFX::drawGrayscaleBitmap;
@@ -117,6 +114,8 @@ class BaseDisplay: public GFX {
         using GFX::invertDisplay;
         using GFX::write;
 
+
+    // Members
     protected:
         // Config received in constructor
         // -------------------------------
@@ -130,6 +129,9 @@ class BaseDisplay: public GFX {
         uint16_t drawing_width, drawing_height;                     // Usable dimensions
         Color supported_colors;                                     // Colors supported by the display
         // --------------------------------
+
+        // SPI
+        const SPISettings spi_settings = SPISettings(200000, MSBFIRST, SPI_MODE0);
 
         // Drawing parameters
         uint16_t default_color = WHITE;                             // Background color of the canvas, before drawing           

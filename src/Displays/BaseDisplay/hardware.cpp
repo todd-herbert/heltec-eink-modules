@@ -128,13 +128,24 @@ void BaseDisplay::deepSleep(uint16_t pause) {
 
 // Clear the screen in one optimized step
 void BaseDisplay::clear() {
+    clear(true);
+}
+
+// Private clear method, with optional refresh
+void BaseDisplay::clear(bool refresh) {
     // Store current settings
     uint8_t page_top_original = page_top;
     uint8_t page_bottom_original = page_bottom;
     Fastmode mode_original = fastmode_state;
+    uint8_t rotation_original = rotation;
+    uint16_t l = bounds.window.left();
+    uint16_t t = bounds.window.top();
+    uint16_t w = bounds.window.width();
+    uint16_t h = bounds.window.height();
 
-    // Back to full refresh
+    // Back to default settings, temporarily
     fastmodeOff();
+    fullscreen();
 
     // Claim that the page file is "fullscreen", even though it isn't
     page_top = 0;
@@ -193,7 +204,8 @@ void BaseDisplay::clear() {
     }
 
     // Update the display with blank memory
-    activate();
+    if (refresh)
+        activate();
 
     // Restore old settings
     if (mode_original == Fastmode::ON)
@@ -201,6 +213,8 @@ void BaseDisplay::clear() {
     else if(mode_original == Fastmode::TURBO)
         fastmodeTurbo();
 
+    setRotation(rotation_original);
+    setWindow(l, t, w, h);
     page_top = page_top_original;
     page_bottom = page_bottom_original;
 }
@@ -216,8 +230,11 @@ void BaseDisplay::clear() {
             return;
 
         // Check if has initialised yet
-        if (fastmode_state == NOT_SET)
+        if (fastmode_state == NOT_SET) {
             fastmodeOff();
+            clear(false);   // Fill whole memory, incase updating window after reset (static)
+        }
+
 
         // Copy the local image data to the display memory, then update
         writePage();

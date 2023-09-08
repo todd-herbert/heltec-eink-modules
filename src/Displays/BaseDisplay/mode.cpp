@@ -18,7 +18,7 @@ void BaseDisplay::fastmodeOff() {
 // Use sparingly.
 void BaseDisplay::fastmodeOn() {
     if(fastmode_state == NOT_SET)
-        clear();     // Initialize dispaly memory, if needed
+        clear(false);     // Initialize display memory, if needed
 
     fastmode_state = Fastmode::ON;
     reset();
@@ -30,7 +30,7 @@ void BaseDisplay::fastmodeOn() {
 // Use with caution.
 void BaseDisplay::fastmodeTurbo() {
     if(fastmode_state == NOT_SET)
-        clear();    // Initialize dispaly memory, if needed
+        clear(false);    // Initialize dispaly memory, if needed
 
     fastmode_state = Fastmode::TURBO;
     reset();
