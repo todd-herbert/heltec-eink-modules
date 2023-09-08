@@ -6,14 +6,6 @@
 
 #include "base.h"
 
-// Clear the screen in one step
-void BaseDisplay::clear() {
-    fastmodeOff();
-    while( calculating() ) {    // Less efficient, but smaller
-        fillScreen(default_color);
-    }
-}
-
 // Allocate memory to the pagefile(s)
 void BaseDisplay::grabPageMemory() {
     page_black = new uint8_t[page_bytecount];
@@ -132,6 +124,85 @@ void BaseDisplay::deepSleep(uint16_t pause) {
     sendCommand(0x10);
     sendData(0x01);
     delay(pause);
+}
+
+// Clear the screen in one optimized step
+void BaseDisplay::clear() {
+    // Store current settings
+    uint8_t page_top_original = page_top;
+    uint8_t page_bottom_original = page_bottom;
+    Fastmode mode_original = fastmode_state;
+
+    // Back to full refresh
+    fastmodeOff();
+
+    // Claim that the page file is "fullscreen", even though it isn't
+    page_top = 0;
+    page_bottom = panel_height - 1;
+
+    int16_t sx, sy, ex, ey;
+    specifyMemoryArea(sx, sy, ex, ey);  // Virtual, derived class
+
+    // Split into bytes
+    uint8_t sy1, sy2, ey1, ey2;
+    sy1 = sy & 0xFF;
+    sy2 = (sy >> 8) & 0xFF;
+    ey1 = ey & 0xFF;
+    ey2 = (ey >> 8) & 0xFF; 
+
+    // Data entry mode - Left to Right, Top to Bottom
+    sendCommand(0x11);
+    sendData(0x03);
+
+    // Inform the panel hardware of our chosen memory location
+    sendCommand(0x44);  // Memory X start - end
+    sendData(sx);
+    sendData(ex);
+    sendCommand(0x45);  // Memory Y start - end
+    sendData(sy1);
+    sendData(sy2);
+    sendData(ey1);
+    sendData(ey2);
+    sendCommand(0x4E);  // Memory cursor X
+    sendData(sx);
+    sendCommand(0x4F);  // Memory cursor y
+    sendData(sy1);
+    sendData(sy2);
+
+    uint16_t x, y;
+    uint8_t black_byte, red_byte;
+
+    black_byte = (default_color & WHITE) * 255;          // We're filling in bulk here; bits are either all on or all off
+    if (supportsColor(RED))
+        red_byte = ((default_color & RED) >> 1) * 255;
+    else
+        red_byte = black_byte;
+
+    sendCommand(0x24);   // Fill "BLACK" memory with default_color
+    for(y = 0; y < (panel_width / 8) + 1; y++) {    // (+1 overscan)
+        for(x = 0; x < panel_height; x++) {
+            sendData(black_byte);
+        }
+    }
+
+    sendCommand(0x26);   // Fill "RED" memory with default_color
+    for(y = 0; y < (panel_width / 8) + 1; y++) {  // (+1 overscan)
+        for(x = 0; x < panel_height; x++) {
+            sendData(red_byte);
+        }
+    }
+
+    // Update the display with blank memory
+    activate();
+
+    // Restore old settings
+    if (mode_original == Fastmode::ON)
+        fastmodeOn();
+    else if(mode_original == Fastmode::TURBO)
+        fastmodeTurbo();
+
+    page_top = page_top_original;
+    page_bottom = page_bottom_original;
 }
 
 #if PRESERVE_IMAGE

@@ -11,6 +11,7 @@ void BaseDisplay::fastmodeOff() {
     fastmode_state = Fastmode::OFF;
     reset();
     configFull();
+    wait();
 }
 
 // Fast, low quality updates.
@@ -19,6 +20,7 @@ void BaseDisplay::fastmodeOn() {
     fastmode_state = Fastmode::ON;
     reset();
     configPartial();
+    wait();
 }
 
 // Fastest, low quality updates. Unstable.
@@ -27,5 +29,6 @@ void BaseDisplay::fastmodeTurbo() {
     fastmode_state = Fastmode::TURBO;
     reset();
     configPartial();
+    wait();
 }
 
