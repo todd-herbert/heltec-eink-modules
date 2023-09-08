@@ -17,6 +17,9 @@ void BaseDisplay::fastmodeOff() {
 // Fast, low quality updates.
 // Use sparingly.
 void BaseDisplay::fastmodeOn() {
+    if(fastmode_state == NOT_SET)
+        clear();     // Initialize dispaly memory, if needed
+
     fastmode_state = Fastmode::ON;
     reset();
     configPartial();
@@ -26,6 +29,9 @@ void BaseDisplay::fastmodeOn() {
 // Fastest, low quality updates. Unstable.
 // Use with caution.
 void BaseDisplay::fastmodeTurbo() {
+    if(fastmode_state == NOT_SET)
+        clear();    // Initialize dispaly memory, if needed
+
     fastmode_state = Fastmode::TURBO;
     reset();
     configPartial();
