@@ -1,4 +1,4 @@
-/* 
+/*
     File: hardware.cpp
 
         - Direct interface with the display
@@ -17,7 +17,7 @@ void BaseDisplay::grabPageMemory() {
 // Free pagefile memory
 void BaseDisplay::freePageMemory() {
     delete[] page_black;
-    
+
     if (supportsColor(RED))     // Only if 3-color display
         delete[] page_red;
 }
@@ -68,7 +68,7 @@ void BaseDisplay::writePage() {
     sy1 = sy & 0xFF;
     sy2 = (sy >> 8) & 0xFF;
     ey1 = ey & 0xFF;
-    ey2 = (ey >> 8) & 0xFF; 
+    ey2 = (ey >> 8) & 0xFF;
 
     // Data entry mode - Left to Right, Top to Bottom
     sendCommand(0x11);
@@ -103,13 +103,13 @@ void BaseDisplay::writePage() {
     }
 
     else {  // Black and White only
-    
+
         // Write so-called "RED" memory. With this display, the memory is used during fastmode.
         // Counter-intuitively, need to write both BLACK and RED during normal use.
         // This preserves the image when moving into fastmode.
 
         if(fastmode_state == OFF) {
-            sendCommand(0x26);   
+            sendCommand(0x26);
             for (uint16_t i = 0; i < pagefile_length; i++) {
                 sendData(page_black[i]);
             }
@@ -119,11 +119,39 @@ void BaseDisplay::writePage() {
     wait();
 }
 
-// Enter a power-saving state. Display needs power-cycle to wake.
-void BaseDisplay::deepSleep(uint16_t pause) {
-    sendCommand(0x10);
-    sendData(0x01);
+// Send power-off signal to your custom power switching circuit, and set the display pins to prevent unwanted current flow
+void BaseDisplay::externalPowerOff(uint16_t pause) {
+    // If poweroff is called immediately after drawing, it can compromise the image
     delay(pause);
+
+    // Stop SPI
+    SPI.end();
+
+    // Send the power-down signal
+    digitalWrite(pin_power, !switch_type);
+
+    // Set the logic pins: prevent a small current return path
+    digitalWrite(pin_dc, switch_type);
+    digitalWrite(pin_cs, switch_type);
+    digitalWrite(pin_sdi, switch_type);
+    digitalWrite(pin_clk, switch_type);
+}
+
+// Send power-on signal to your custom power switching circuit, then re-init display
+void BaseDisplay::externalPowerOn() {
+
+    // CS pin deselcted; power-up the display
+    digitalWrite(pin_cs, HIGH);
+    digitalWrite(pin_power, switch_type);
+
+    // Wait for powerup
+    delay(50);
+
+    // SPI resumes
+    SPI_BEGIN();
+
+    // Re-initialize display memory
+    clear(false);
 }
 
 // Clear the screen in one optimized step
@@ -159,7 +187,7 @@ void BaseDisplay::clear(bool refresh) {
     sy1 = sy & 0xFF;
     sy2 = (sy >> 8) & 0xFF;
     ey1 = ey & 0xFF;
-    ey2 = (ey >> 8) & 0xFF; 
+    ey2 = (ey >> 8) & 0xFF;
 
     // Data entry mode - Left to Right, Top to Bottom
     sendCommand(0x11);
@@ -230,7 +258,7 @@ void BaseDisplay::clear(bool refresh) {
         // Copy the local image data to the display memory, then update
         writePage();
         activate();
-        
+
         // If fastmode setting requires, repeat
         if (fastmode_state == ON) {
             writePage();

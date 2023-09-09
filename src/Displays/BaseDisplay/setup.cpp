@@ -1,7 +1,7 @@
 /* 
     File: setup.cpp
 
-        - Constructors and init methods
+        - Constructor, init, setup methods
 */
 
 #include "base.h"
@@ -68,4 +68,18 @@ void BaseDisplay::init() {
         // Otherwise, just set the region
         fullscreen();
     #endif
+}
+
+// Set configuration of custom power-swiching circuit, then power up
+void BaseDisplay::usePowerSwitching(uint8_t pin, SwitchType type) {
+    this->pin_power = pin;
+    this->switch_type = type;
+
+    // Start powered up
+    delay(50);
+    pinMode(pin_power, OUTPUT);
+    digitalWrite(pin_power, switch_type);
+
+    // Wait for powerup
+    delay(100);
 }

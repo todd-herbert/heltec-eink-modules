@@ -45,8 +45,11 @@ class BaseDisplay: public GFX {
         void fullscreen();                                          // Use whole screen area for drawing
         void setWindow(uint16_t left, uint16_t top, uint16_t width, uint16_t height);       // Specify a section of screen for drawing
 
+        void usePowerSwitching(uint8_t pin, SwitchType type);       // Store the config for user's power switching circuit
+        void externalPowerOff(uint16_t pause = 500);                // "Power off" signal to user's power circuit, and set logic pins appropriately
+        void externalPowerOn();                                     // "Power on" signal to user's circuit, then re-init display
+
         void clear();                                               // Public clear() method. Obligatory refresh
-        void deepSleep(uint16_t pause = 500);                       // Enter power-saving mode. Display requires power-cycle to wake
         bool calculating();                                         // Main method controlling paging. while( calculating() )
         #define DRAW(display) while(display.calculating())          // Macro to call while(.calculating())
 
@@ -132,6 +135,10 @@ class BaseDisplay: public GFX {
 
         // SPI
         const SPISettings spi_settings = SPISettings(200000, MSBFIRST, SPI_MODE0);
+
+        // External power switch
+        uint8_t pin_power = -1;
+        SwitchType switch_type = PNP;
 
         // Drawing parameters
         uint16_t default_color = WHITE;                             // Background color of the canvas, before drawing           
