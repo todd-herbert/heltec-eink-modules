@@ -104,17 +104,26 @@ inline uint8_t *pgm_read_bitmap_ptr(const GFXfont *gfxFont) {
 #endif // __AVR__
 }
 
+void BaseDisplay::setCursor(int16_t x, int16_t y) {
+    // Let Adafruit do their thing
+    GFX::setCursor(x, y);
+
+    // Save the value; we'll use it for text wrapping
+    this->cursor_placed_x = x;
+}
+
 size_t BaseDisplay::write(uint8_t c) {
 
   if (!gfxFont) { // 'Classic' built-in font
 
     if (c == '\n') {              // Newline?
-        cursor_x = (int16_t)bounds.window.left();               // Reset x to zero,
+        // Newline: either below the first line, or at window edge, if window moved
+        cursor_x = max( (int16_t)bounds.window.left(), cursor_placed_x); 
         cursor_y += textsize_y * 8; // advance y one line
     } 
     else if (c != '\r') {       // Ignore carriage returns
         if (wrap && ((cursor_x + textsize_x * 6) > (int16_t)bounds.window.right())) {     // Off right?
-            cursor_x = (int16_t)bounds.window.left();                                       // Reset x to zero,
+            cursor_x = max( (int16_t)bounds.window.left(), cursor_placed_x);    // Reset x
             cursor_y += textsize_y * 8; // advance y one line
         }
         drawChar(cursor_x, cursor_y, c, textcolor, textbgcolor, textsize_x, textsize_y);
@@ -125,7 +134,8 @@ size_t BaseDisplay::write(uint8_t c) {
   else {    // Custom font
 
     if (c == '\n') {
-        cursor_x = (int16_t)bounds.window.left();
+        // Newline: either below the first line, or at window edge, if window moved
+        cursor_x = max( (int16_t)bounds.window.left(), cursor_placed_x); 
         cursor_y += (int16_t)textsize_y * (uint8_t)pgm_read_byte(&gfxFont->yAdvance);
     } 
     else if (c != '\r') {
@@ -139,7 +149,7 @@ size_t BaseDisplay::write(uint8_t c) {
                 int16_t xo = (int8_t)pgm_read_byte(&glyph->xOffset);        // sic
                 
                 if (wrap && ((cursor_x + textsize_x * (xo + w)) > (int16_t)bounds.window.right())) {
-                    cursor_x = (int16_t)bounds.window.left();
+                    cursor_x = max( (int16_t)bounds.window.left(), cursor_placed_x); 
                     cursor_y += (int16_t)textsize_y * (uint8_t)pgm_read_byte(&gfxFont->yAdvance);
                 }
                 drawChar(cursor_x, cursor_y, c, textcolor, textbgcolor, textsize_x, textsize_y);
@@ -155,7 +165,7 @@ void BaseDisplay::charBounds(unsigned char c, int16_t *x, int16_t *y, int16_t *m
 {
     if (gfxFont) {
         if (c == '\n') {    // Newline
-            *x = (int16_t)bounds.window.left();        // Reset x to zero, advance y by one line
+            *x = max( (int16_t)bounds.window.left(), cursor_placed_x); // Reset x to line start, advance y by one line
             *y += textsize_y * (uint8_t)pgm_read_byte(&gfxFont->yAdvance);
         } 
 
@@ -173,7 +183,7 @@ void BaseDisplay::charBounds(unsigned char c, int16_t *x, int16_t *y, int16_t *m
                         yo = pgm_read_byte(&glyph->yOffset);
 
                 if (wrap && ((*x + (((int16_t)xo + gw) * textsize_x)) > (int16_t)bounds.window.right())) {
-                    *x = (int16_t)bounds.window.left(); // Reset x to zero, advance y by one line
+                    *x = max( (int16_t)bounds.window.left(), cursor_placed_x); // Reset x to line start, advance y by one line
                     *y += textsize_y * (uint8_t)pgm_read_byte(&gfxFont->yAdvance);
                 }
 
@@ -201,7 +211,7 @@ void BaseDisplay::charBounds(unsigned char c, int16_t *x, int16_t *y, int16_t *m
     else {  // Default font
 
         if (c == '\n') {        // Newline
-            *x = (int16_t)bounds.window.left();               // Reset x to zero,
+            *x = max( (int16_t)bounds.window.left(), cursor_placed_x); // Reset x to line start, advance y by one line
             *y += textsize_y * 8; // advance y one line
             // min/max x/y unchaged -- that waits for next 'normal' character
         } 
@@ -209,7 +219,7 @@ void BaseDisplay::charBounds(unsigned char c, int16_t *x, int16_t *y, int16_t *m
         else if (c != '\r') { // Normal char; ignore carriage returns
 
             if (wrap && ((*x + textsize_x * 6) > (int16_t)bounds.window.right())) {     // Cursor beyond right edge
-                *x = (int16_t)bounds.window.left();      // Reset x to zero,
+                cursor_x = max( (int16_t)bounds.window.left(), cursor_placed_x);        // Reset x
                 *y += textsize_y * 8;                    // advance y one line
             }
 

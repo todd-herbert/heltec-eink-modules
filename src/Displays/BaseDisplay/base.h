@@ -36,6 +36,7 @@ class BaseDisplay: public GFX {
         void drawPixel(int16_t x, int16_t y, uint16_t color);       // Where pixel output of AdafruitGFX is intercepted
         void setDefaultColor(uint16_t bgcolor);                     // Set default background color for drawing
         void setRotation(uint8_t r);                                // Store rotation val, and recalculate window dimensions
+        void setCursor(int16_t x, int16_t y);                       // Not virtual, but passes through
 
         enum Fastmode : int8_t {OFF, ON, TURBO, NOT_SET = -1};      // Different display update techniques. Enum for internal use only
         void fastmodeOff();                                         // Use full refresh
@@ -75,7 +76,7 @@ class BaseDisplay: public GFX {
         void wait();                                                // Pause until the display can accept new commands
 
         // Virtual methods from AdafruitGFX base
-        // Overriden to implement text-wrapping in window                                                       
+        // Overriden to implement text-wrapping in window                                                    
         size_t write(uint8_t c);            
         void charBounds(unsigned char c, 
                         int16_t *x, int16_t *y, 
@@ -145,6 +146,7 @@ class BaseDisplay: public GFX {
         uint16_t default_color = WHITE;                             // Background color of the canvas, before drawing           
         Flip imgflip = NONE;                                        // Along which Axes to mirror the display
         Fastmode fastmode_state = NOT_SET;                          // Which update technique is in use (Full, Partial, Partial "double pass")
+        int16_t cursor_placed_x = 0;                                // X value of last setCursor() call (re: println, text wrapping)
 
         // Paging
         uint16_t page_bytecount;                                    // Size of each pagefile (image buffer)
