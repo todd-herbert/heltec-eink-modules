@@ -10,16 +10,20 @@
   - [`GDE029A1()`](#gde029a1)
   - [`DEPG0213RWS800()`](#depg0213rws800)
   - [`QYEG0213RWS800()`](#qyeg0213rws800)
+  - [`DRAW()`](#draw)
   - [`clear()`](#clear)
   - [`setDefaultColor()`](#setdefaultcolor)
   - [`setRotation()`](#setrotation)
   - [`setWindow()`](#setwindow)
   - [`fullscreen()`](#fullscreen)
-  - [`setFastmode()`](#setfastmode)
+  - [`fastmodeOn()`](#fastmodeon)
+  - [`fastmodeOff()`](#fastmodeoff)
+  - [`fastmodeTurbo()`](#fastmodeturbo)
   - [`setFlip()`](#setflip)
-  - [`calculating()`](#calculating)
-  - [`update()`](#update)
-  - [`deepSleep()`](#deepsleep)
+  - [`overwrite()`](#overwrite)
+  - [`usePowerSwitching()`](#usepowerswitching)
+  - [`externalPowerOff()`](#externalpoweroff)
+  - [`externalPowerOn()`](#externalpoweron)
   - [`drawBitmap()`](#drawbitmap)
   - [`drawCircle()`](#drawcircle)
   - [`drawCircleHelper()`](#drawcirclehelper)
@@ -65,9 +69,9 @@
   - [`bounds.window.centerY()`](#boundswindowcentery)
 - [Constants](#constants)
   - [`colors`](#colors)
-  - [`fastmode`](#fastmode)
   - [`flip`](#flip)
   - [`orientation`](#orientation)
+  - [`SwitchType`](#switchtype)
 
 
 ## Include Library
@@ -86,21 +90,25 @@ Create a display controller object, for model [DEPG0150BNS810](/docs/README.md#s
 ```cpp
 DEPG0150BNS810(DC_PIN, CS_PIN, BUSY_PIN)
 DEPG0150BNS810(DC_PIN, CS_PIN, BUSY_PIN, page_height)
+DEPG0150BNS810(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN)  // ESP32 only
+DEPG0150BNS810(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32 only
 ```
 
 #### Parameters
 
-* _DC_PIN_: pin which connects ([through a level shifter](/docs/README.md#wiring)) to "Display / Command" (D/C) pin on the display.
-* _CS_PIN_: pin which connects ([through a level shifter](/docs/README.md#wiring)) to "Chip Select" (CS) on the display.
+* _DC_PIN_: pin which connects to "Display / Command" (D/C) pin on the display.
+* _CS_PIN_: pin which connects to "Chip Select" (CS) on the display.
 * _BUSY_PIN_: pin which connects to "BUSY" on the display.
-* _page\_height_ (optional): number of rows per page. Default value is 20, meaning the display is calculated 20 rows at a time. Higher values consume more RAM
+* _SDI_PIN_: pin which connects to "SDI" on the display. *ESP32 only*
+* _CLK_PIN_: pin which connects to "CLK" on the display. *ESP32 only*
+* _page\_height_ (optional): number of rows per page. For Arduino Uno default value is 20, meaning the display is calculated 20 rows at a time. Higher values consume more RAM. For more powerful boards, paging is disabled by default.
 
 #### Example
 
 ```cpp
 #include <heltec-eink-modules.h>
 
-DEPG0150BNS810 display(8, 10, 7);
+DEPG0150BNS810 display(2, 4, 5);
 ```
 
 ___
@@ -112,21 +120,25 @@ Create a display controller object, for model [DEPG0154BNS800](/docs/README.md#s
 ```cpp
 DEPG0154BNS800(DC_PIN, CS_PIN, BUSY_PIN)
 DEPG0154BNS800(DC_PIN, CS_PIN, BUSY_PIN, page_height)
+DEPG0154BNS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN)  // ESP32 only
+DEPG0154BNS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32 only
 ```
 
 #### Parameters
 
-* _DC_PIN_: pin which connects ([through a level shifter](/docs/README.md#wiring)) to "Display / Command" (D/C) pin on the display.
-* _CS_PIN_: pin which connects ([through a level shifter](/docs/README.md#wiring)) to "Chip Select" (CS) on the display.
+* _DC_PIN_: pin which connects to "Display / Command" (D/C) pin on the display.
+* _CS_PIN_: pin which connects to "Chip Select" (CS) on the display.
 * _BUSY_PIN_: pin which connects to "BUSY" on the display.
-* _page\_height_ (optional): number of rows per page. Default value is 20, meaning the display is calculated 20 rows at a time. Higher values consume more RAM
+* _SDI_PIN_: pin which connects to "SDI" on the display. *ESP32 only*
+* _CLK_PIN_: pin which connects to "CLK" on the display. *ESP32 only*
+* _page\_height_ (optional): number of rows per page. For Arduino Uno default value is 20, meaning the display is calculated 20 rows at a time. Higher values consume more RAM. For more powerful boards, paging is disabled by default.
 
 #### Example
 
 ```cpp
 #include <heltec-eink-modules.h>
 
-DEPG0154BNS800 display(8, 10, 7);
+DEPG0154BNS800 display(2, 4, 5);
 ```
 
 ___
@@ -139,21 +151,25 @@ Create a display controller object, for model [DEPG0290BNS75A](/docs/README.md#s
 ```cpp
 DEPG0290BNS75A(DC_PIN, CS_PIN, BUSY_PIN)
 DEPG0290BNS75A(DC_PIN, CS_PIN, BUSY_PIN, page_height)
+DEPG0290BNS75A(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN)  // ESP32 only
+DEPG0290BNS75A(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32 only
 ```
 
 #### Parameters
 
-* _DC_PIN_: pin which connects ([through a level shifter](/docs/README.md#wiring)) to "Display / Command" (D/C) pin on the display.
-* _CS_PIN_: pin which connects ([through a level shifter](/docs/README.md#wiring)) to "Chip Select" (CS) on the display.
+* _DC_PIN_: pin which connects to "Display / Command" (D/C) pin on the display.
+* _CS_PIN_: pin which connects to "Chip Select" (CS) on the display.
 * _BUSY_PIN_: pin which connects to "BUSY" on the display.
-* _page\_height_ (optional): number of rows per page. Default value is 20, meaning the display is calculated 20 rows at a time. Higher values consume more RAM
+* _SDI_PIN_: pin which connects to "SDI" on the display. *ESP32 only*
+* _CLK_PIN_: pin which connects to "CLK" on the display. *ESP32 only*
+* _page\_height_ (optional): number of rows per page. For Arduino Uno default value is 20, meaning the display is calculated 20 rows at a time. Higher values consume more RAM. For more powerful boards, paging is disabled by default.
 
 #### Example
 
 ```cpp
 #include <heltec-eink-modules.h>
 
-DEPG0290BNS75A display(8, 10, 7);
+DEPG0290BNS75A display(2, 4, 5);
 ```
 
 ___
@@ -166,21 +182,25 @@ Create a display controller object, for model [DEPG0290BNS800](/docs/README.md#s
 ```cpp
 DEPG0290BNS800(DC_PIN, CS_PIN, BUSY_PIN)
 DEPG0290BNS800(DC_PIN, CS_PIN, BUSY_PIN, page_height)
+DEPG0290BNS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN)  // ESP32 only
+DEPG0290BNS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32 only
 ```
 
 #### Parameters
 
-* _DC_PIN_: pin which connects ([through a level shifter](/docs/README.md#wiring)) to "Display / Command" (D/C) pin on the display.
-* _CS_PIN_: pin which connects ([through a level shifter](/docs/README.md#wiring)) to "Chip Select" (CS) on the display.
+* _DC_PIN_: pin which connects to "Display / Command" (D/C) pin on the display.
+* _CS_PIN_: pin which connects to "Chip Select" (CS) on the display.
 * _BUSY_PIN_: pin which connects to "BUSY" on the display.
-* _page\_height_ (optional): number of rows per page. Default value is 20, meaning the display is calculated 20 rows at a time. Higher values consume more RAM
+* _SDI_PIN_: pin which connects to "SDI" on the display. *ESP32 only*
+* _CLK_PIN_: pin which connects to "CLK" on the display. *ESP32 only*
+* _page\_height_ (optional): number of rows per page. For Arduino Uno default value is 20, meaning the display is calculated 20 rows at a time. Higher values consume more RAM. For more powerful boards, paging is disabled by default.
 
 #### Example
 
 ```cpp
 #include <heltec-eink-modules.h>
 
-DEPG0290BNS800 display(8, 10, 7);
+DEPG0290BNS800 display(2, 4, 5);
 ```
 
 ___
@@ -193,21 +213,25 @@ Create a display controller object, for model [GDEP015OC1](/docs/README.md#suppo
 ```cpp
 GDEP015OC1(DC_PIN, CS_PIN, BUSY_PIN)
 GDEP015OC1(DC_PIN, CS_PIN, BUSY_PIN, page_height)
+GDEP015OC1(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN)  // ESP32 only
+GDEP015OC1(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32 only
 ```
 
 #### Parameters
 
-* _DC_PIN_: pin which connects ([through a level shifter](/docs/README.md#wiring)) to "Display / Command" (D/C) pin on the display.
-* _CS_PIN_: pin which connects ([through a level shifter](/docs/README.md#wiring)) to "Chip Select" (CS) on the display.
+* _DC_PIN_: pin which connects to "Display / Command" (D/C) pin on the display.
+* _CS_PIN_: pin which connects to "Chip Select" (CS) on the display.
 * _BUSY_PIN_: pin which connects to "BUSY" on the display.
-* _page\_height_ (optional): number of rows per page. Default value is 20, meaning the display is calculated 20 rows at a time. Higher values consume more RAM
+* _SDI_PIN_: pin which connects to "SDI" on the display. *ESP32 only*
+* _CLK_PIN_: pin which connects to "CLK" on the display. *ESP32 only*
+* _page\_height_ (optional): number of rows per page. For Arduino Uno default value is 20, meaning the display is calculated 20 rows at a time. Higher values consume more RAM. For more powerful boards, paging is disabled by default.
 
 #### Example
 
 ```cpp
 #include <heltec-eink-modules.h>
 
-GDEP015OC1 display(8, 10, 7);
+GDEP015OC1 display(2, 4, 5);
 ```
 
 ___
@@ -220,21 +244,25 @@ Create a display controller object, for model [GDE029A1](/docs/README.md#support
 ```cpp
 GDE029A1(DC_PIN, CS_PIN, BUSY_PIN)
 GDE029A1(DC_PIN, CS_PIN, BUSY_PIN, page_height)
+GDE029A1(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN)  // ESP32 only
+GDE029A1(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32 only
 ```
 
 #### Parameters
 
-* _DC_PIN_: pin which connects ([through a level shifter](/docs/README.md#wiring)) to "Display / Command" (D/C) pin on the display.
-* _CS_PIN_: pin which connects ([through a level shifter](/docs/README.md#wiring)) to "Chip Select" (CS) on the display.
+* _DC_PIN_: pin which connects to "Display / Command" (D/C) pin on the display.
+* _CS_PIN_: pin which connects to "Chip Select" (CS) on the display.
 * _BUSY_PIN_: pin which connects to "BUSY" on the display.
-* _page\_height_ (optional): number of rows per page. Default value is 20, meaning the display is calculated 20 rows at a time. Higher values consume more RAM
+* _SDI_PIN_: pin which connects to "SDI" on the display. *ESP32 only*
+* _CLK_PIN_: pin which connects to "CLK" on the display. *ESP32 only*
+* _page\_height_ (optional): number of rows per page. For Arduino Uno default value is 20, meaning the display is calculated 20 rows at a time. Higher values consume more RAM. For more powerful boards, paging is disabled by default.
 
 #### Example
 
 ```cpp
 #include <heltec-eink-modules.h>
 
-GDE029A1 display(8, 10, 7);
+GDE029A1 display(2, 4, 5);
 ```
 
 ___
@@ -246,21 +274,25 @@ Create a display controller object, for model [DEPG0213RWS800](/docs/README.md#s
 ```cpp
 DEPG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN)
 DEPG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN, page_height)
+DEPG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN)  // ESP32 only
+DEPG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32 only
 ```
 
 #### Parameters
 
-* _DC_PIN_: pin which connects ([through a level shifter](/docs/README.md#wiring)) to "Display / Command" (D/C) pin on the display.
-* _CS_PIN_: pin which connects ([through a level shifter](/docs/README.md#wiring)) to "Chip Select" (CS) on the display.
+* _DC_PIN_: pin which connects to "Display / Command" (D/C) pin on the display.
+* _CS_PIN_: pin which connects to "Chip Select" (CS) on the display.
 * _BUSY_PIN_: pin which connects to "BUSY" on the display.
-* _page\_height_ (optional): number of rows per page. Default value is 20, meaning the display is calculated 20 rows at a time. Higher values consume more RAM
+* _SDI_PIN_: pin which connects to "SDI" on the display. *ESP32 only*
+* _CLK_PIN_: pin which connects to "CLK" on the display. *ESP32 only*
+* _page\_height_ (optional): number of rows per page. For Arduino Uno default value is 20, meaning the display is calculated 20 rows at a time. Higher values consume more RAM. For more powerful boards, paging is disabled by default.
 
 #### Example
 
 ```cpp
 #include <heltec-eink-modules.h>
 
-DEPG0213RWS800 display(8, 10, 7);
+DEPG0213RWS800 display(2, 4, 5);
 ```
 
 ___
@@ -272,27 +304,63 @@ Create a display controller object, for model [QYEG0213RWS800](/docs/README.md#s
 ```cpp
 QYEG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN)
 QYEG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN, page_height)
+QYEG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN)  // ESP32 only
+QYEG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32 only
 ```
 
 #### Parameters
 
-* _DC_PIN_: pin which connects ([through a level shifter](/docs/README.md#wiring)) to "Display / Command" (D/C) pin on the display.
-* _CS_PIN_: pin which connects ([through a level shifter](/docs/README.md#wiring)) to "Chip Select" (CS) on the display.
+* _DC_PIN_: pin which connects to "Display / Command" (D/C) pin on the display.
+* _CS_PIN_: pin which connects to "Chip Select" (CS) on the display.
 * _BUSY_PIN_: pin which connects to "BUSY" on the display.
-* _page\_height_ (optional): number of rows per page. Default value is 20, meaning the display is calculated 20 rows at a time. Higher values consume more RAM
+* _SDI_PIN_: pin which connects to "SDI" on the display. *ESP32 only*
+* _CLK_PIN_: pin which connects to "CLK" on the display. *ESP32 only*
+* _page\_height_ (optional): number of rows per page. For Arduino Uno default value is 20, meaning the display is calculated 20 rows at a time. Higher values consume more RAM. For more powerful boards, paging is disabled by default.
 
 #### Example
 
 ```cpp
 #include <heltec-eink-modules.h>
 
-QYEG0213RWS800 display(8, 10, 7);
+QYEG0213RWS800 display(2, 4, 5);
+```
+
+___
+### `DRAW()`
+
+Performs drawing commands, then updates the display. If necessary, paging is used.
+
+#### Syntax
+
+```cpp
+DRAW (display)
+```
+
+#### Parameters
+
+* _display_: the display on which to execute the drawing commands.
+
+#### Example
+
+```cpp
+#include <heltec-eink-modules.h>
+
+DEPG0150BNS810 display(2, 4, 5);
+
+void setup() {
+
+    DRAW (display) {
+        //Graphics commands go here, for example:
+        display.fillCircle(50, 100, 20, BLACK);
+    }
+
+}
 ```
 
 ___
 ### `clear()`
 
-Clear the display, along with its internal memory. This is a standalone method, called outside of the `calculating()` loop. The display will be cleared to solid white, unless changed using `setDefaultColor()`.
+Clear the display, along with its internal memory. This is a standalone method, called outside of the `DRAW` loop. The display will be cleared to solid white, unless changed using `setDefaultColor()`.
 
 #### Syntax
 
@@ -308,12 +376,12 @@ None.
 ```cpp
 #include <heltec-eink-modules.h>
 
-QYEG0213RWS800 display(8, 10, 7);
+QYEG0213RWS800 display(2, 4, 5);
 
 void setup() {
     display.clear();    // Display now changes to show solid white
     
-    display.setDefaultColor(display.colors.BLACK);
+    display.setDefaultColor(BLACK);
     display.clear();    // Display clears instead to solid black
     
     ...
@@ -331,7 +399,7 @@ ___
 
 Sets the background color to be used for future display updates. All graphics operations are drawn on top of this background color. Also determines the color which is set during the standalone `clear()` method.
 
-Default value is `.colors.WHITE`
+Default value is `WHITE`
 
 #### Syntax
 
@@ -348,12 +416,12 @@ display.setDefaultColor(bgcolor)
 ```cpp
 #include <heltec-eink-modules.h>
 
-QYEG0213RWS800 display(8, 10, 7);
+QYEG0213RWS800 display(2, 4, 5);
 
 void setup() {
     display.clear();    // Display now changes to show solid white
     
-    display.setDefaultColor(display.colors.BLACK);
+    display.setDefaultColor(BLACK);
     display.clear();    // Display clears instead to solid black
     
     ...
@@ -382,32 +450,31 @@ setRotation(rotation)
 
 * _rotation_: absolute clockwise rotation, in 90 degree increments (1 = 90&deg;, 2=180&deg; etc) <br />
     Alternatively, pass one of the following:
-    * `.orientation.PINS_ABOVE`
-    * `.orientation.PINS_LEFT`
-    * `.orientation.PINS_BELOW`
-    * `.orientation.PINS_RIGHT`
+    * `PINS_ABOVE` &nbsp;(0&deg;)
+    * `PINS_LEFT` &nbsp;(90&deg;)
+    * `PINS_BELOW` &nbsp;(180&deg;)
+    * `PINS_RIGHT` &nbsp;(279&deg;)
 
 #### Example
 
 ```cpp
 #include <heltec-eink-modules.h>
 
-DEPG0150BNS810 display(8, 10, 7);
+DEPG0150BNS810 display(2, 4, 5);
 
 void setup() {
 
     // Set the rotation before
-    display.setRotation(display.orientation.PINS_BELOW);
-    while( display.calculating() ) {
+    display.setRotation( PINS_BELOW );
+    DRAW (display) {
         display.setCursor(10, 10);
         display.print("Upside Down");
     }
-    display.update();
 
     delay(2000);    // Pause to view the image
 
     // Set the rotation during
-    while( display.calculating() ) {
+    DRAW (display) {
         display.setCursor(10, 10);
         display.setRotation(0);     // No rotation
         display.print("top");
@@ -417,10 +484,10 @@ void setup() {
         display.print("left");
 
         display.setCursor(10, 10);
-        display.setRotation( display.orientation.PINS_BELOW );     // 2 * 90deg rotation. (display's pins are now below the screen)
+        display.setRotation( PINS_BELOW );  // 2 * 90deg rotation. (display's pins are now below the screen)
         display.print("bottom");
     }
-    display.update();
+
 }
 
 void loop() {}
@@ -454,20 +521,18 @@ display.setWindow(left, top, width, height)
 ```cpp
 #include <heltec-eink-modules.h>
 
-QYEG0213RWS800 display(8, 10, 7);
+QYEG0213RWS800 display(2, 4, 5);
 
 void setup() {
     display.clear();    // Fill screen with white
 
     display.setWindow(0, 1, 8, 3);                      // Set the window dimensions
-    display.setDefaultColor(display.colors.BLACK);      // Use black as our background color
+    display.setDefaultColor(BLACK);      // Use black as our background color
 
-    while ( display.calculating() ) {
+    DRAW (display) {
         // Not actually doing anything
         // Just drawing the black background
     }
-
-    display.update();
 }
 
 /* The result:
@@ -490,7 +555,7 @@ void setup() {
 ___
 ### `fullscreen()`
 
-Draw to the entire screen, rather than just a particular part. Undoes the `setWindow()` method. Call before the `calculating()` loop.
+Draw to the entire screen, rather than just a particular part. Undoes the `setWindow()` method. Call before the `DRAw` loop.
 
 Fullscreen is the default state at start of sketch.
 
@@ -509,88 +574,212 @@ None.
 * [setWindow()](#setwindow)
 
 ___
-### `setFastmode()`
+### `fastmodeOn()`
 
-Some displays have a secondary mode, where the image updates much faster. This is known officially as a *"Partial Refresh"*. For the sake of user-friendliness, this library instead uses the descriptive term *"Fast Mode*".
+Enable fastmode.
 
-The trade-off is that images drawn in fast mode are of a lower quality. The process may also be particularly difficult on the hardware. **You should make sure to exit fast mode when not in use.**
+Some displays have a second mode, where the image updates much faster. This is known officially as a *"Partial Refresh"*. For the sake of user-friendliness, this library uses the term *"Fast Mode*".
 
-Not all displays support fast mode. Some displays may have a physical limitation, however with others, it seems that the technical settings have not yet been calculated and released.
+The trade-off is that images drawn in fast mode are of a lower quality. The process may also be particularly difficult on the hardware. **Use sparingly.**
 
-Note that this state is somewhat temperamental. If you wish to call `setWindow()`, or to return to `.fastmode.OFF`, you should first set `.fastmode.FINALIZE`
-
-Calling `update()` during `.fastmode.ON` will have no effect; the display is updated automatically. Calling `update()` after `.fastmode.FINALIZE` is unnecessary; doing so will cause the whole screen to be redrawn with the slower, higher definition `.fastmode.OFF` method. This may be desirable.
-
-If you are working in fullscreen, `.fastmode.FINALIZE` is not relevant, as the whole display will be re-rendered.
+Not all displays support fast mode.
 
 #### Syntax
 
 ```cpp
-display.setFastmode(state)
+display.fastmodeOn()
 ```
 
 #### Parameters
 
-* _state_: the fastmode state to use. <br />
-    Options are
-    * `.fastmode.OFF` &nbsp;&nbsp; - &nbsp;&nbsp; Normal operation
-    * `.fastmode.ON` &nbsp;&nbsp; - &nbsp;&nbsp; Fast-mode
-    * `.fastmode.FINALIZE` &nbsp;&nbsp; - &nbsp;&nbsp; A special fast-mode state called before moving back to `.fastmode.OFF`
-
-    Images drawn in ```.fastmode.FINALIZE``` are preserved when moving window, or returning to ```.fastmode.OFF```. <br />
-    Images drawn in ```.fastmode.ON``` will not be preserved. 
-    When ```.fastmode.FINALIZE``` has run, the display will automatically return to ```.fastmode.OFF```.
+None.
 
 #### Example
 
 ```cpp
 #include <heltec-eink-modules.h>
 
-DEPG0150BNS810 display(8, 10, 7);
+DEPG0150BNS810 display(2, 4, 5);
 
 void setup() {
     display.clear();
 
     // Begin fastmode
-    display.setFastmode( display.fastmode.ON );
+    display.fastmodeOn();
 
-    while( display.calculating() ) {
+    DRAW (display) {
         display.setCursor(10, 10);
         display.print("ON");
     }
     delay(2000);
 
-    while( display.calculating() ) {
+    DRAW (display) {
         display.setCursor(10, 10);
         display.print("still ON");
     }
     delay(2000);
 
-    // Still fastmode, but slower; preparing to mode to .OFF
-    display.setFastmode( display.fastmode.FINALIZE );
+    // Back to normal drawing
+    display.fastmodeOff();
 
-    while( display.calculating() ) {
-        display.setCursor(10, 10);
-        display.print("FINALIZE");
-    }
-
-    //display.setFastmode( display.fastmode.OFF ) has been automatically called after .FINALIZE
     display.setWindow(0, 40, 100, 100);
 
-    while( display.calculating() ) {
+    DRAW (display) {
         display.setCursor(10, 40);
         display.print("OFF now..");
     }
-    display.update();
 
 }
 
 void loop() {}
 ```
 
-#### See also
+### `fastmodeOff()`
 
-* [fastmode](#fastmode)
+Disable fastmode, return to normal ("full refresh").
+
+#### Syntax
+```cpp
+display.fastmodeOff()
+```
+
+#### Parameters
+
+None.
+
+#### Example
+
+```cpp
+#include <heltec-eink-modules.h>
+
+DEPG0150BNS810 display(2, 4, 5);
+
+void setup() {
+    display.clear();
+
+    // Begin fastmode
+    display.fastmodeOn();
+
+    DRAW (display) {
+        display.setCursor(10, 10);
+        display.print("ON");
+    }
+    delay(2000);
+
+    DRAW (display) {
+        display.setCursor(10, 10);
+        display.print("still ON");
+    }
+    delay(2000);
+
+    // Back to normal drawing
+    display.fastmodeOff();
+
+    display.setWindow(0, 40, 100, 100);
+
+    DRAW (display) {
+        display.setCursor(10, 40);
+        display.print("OFF now..");
+    }
+
+}
+```
+
+___
+### `fastmodeTurbo()`
+
+A variation of `fastmodeOn().` *Use with caution*
+
+Slightly faster refresh times, particularly with lower-spec microcontrollers. Slightly lower image quality.
+
+**Note**: To prevent changes to your previous image, before calling `setWindow()`, `setRotation()`, or `setFlip()`, you must draw the same identical image, **twice**.
+
+This is a quirk of the display controller IC.
+
+#### Syntax
+
+```cpp
+void setup() {
+    display.clear();
+
+    // Fastmode turbo
+    display.fastmodeTurbo();
+
+    // Print "Turbo Test"
+    DRAW (display) {
+        display.setCursor(10, 10);
+        display.print("Turbo Test");
+    }
+    delay(2000);
+
+    // Print twice: "Double writing..""
+    for(int i=0; i < 2; i++) {
+        DRAW (display) {
+            display.setCursor(10, 10);
+            display.print("Double writing..");
+        }
+    }
+    delay(2000);
+
+    // Move window
+    display.setWindow(0, 40, 100, 100);
+    display.setDefaultColor(BLACK);
+    display.setTextColor(WHITE);
+
+    // Print "Old image OK", in window
+    DRAW (display) {
+        display.setCursor(5, 45);
+        display.println("Old image OK");
+    }
+
+}
+```
+
+#### Parameters
+
+None.
+
+#### Example
+
+```cpp
+#include <heltec-eink-modules.h>
+
+DEPG0150BNS810 display(2, 4, 5);
+
+void setup() {
+    display.clear();
+
+    // Begin fastmode
+    display.fastmodeTurbo();
+
+    DRAW (display) {
+        display.setCursor(10, 10);
+        display.print("Turbo");
+    }
+    delay(2000);
+
+    // Double writing
+    for(int i=0; i < 2; i++) {
+        DRAW (display) {
+            display.setCursor(10, 10);
+            display.print("Preparing to set window");
+        }
+    }
+    delay(2000);
+
+    // New window
+
+    display.setWindow(0, 40, 100, 100);
+    display.defaultColor(BLACK);
+    display.setTextColor(WHITE);
+
+    DRAW (display) {
+        display.setCursor(10, 40);
+        display.print("OFF now..");
+    }
+
+}
+```
 
 ___
 ### `setFlip()`
@@ -611,30 +800,28 @@ setFlip(axis)
 
 * _axis_: which way to flip the image. <br /> 
     Supported values:
-    * `.flip.OFF`
-    * `.flip.HORIZONTAL`
-    * `.flip.VERTICAL`
-    * `.flip.HORIZONTAL_WINDOW`
-    * `.flip.VERTICAL_WINDOW`
+    * `OFF`
+    * `HORIZONTAL`
+    * `VERTICAL`
+    * `HORIZONTAL_WINDOW`
+    * `VERTICAL_WINDOW`
 
 #### Example
 
 ```cpp
 #include <heltec-eink-modules.h>
 
-DEPG0150BNS810 display(8, 10, 7);
+DEPG0150BNS810 display(2, 4, 5);
 
 void setup() {
 
     // Flip horizontally
-    display.setFlip( display.flip.HORIZONTAL );
+    display.setFlip( HORIZONTAL );
     
-    while( display.calculating() ) {
+    DRAW (display) {
         display.setCursor(10, 10);
         display.print("Mirrored Text");
     }
-
-    display.update();
 }
 ```
 
@@ -643,57 +830,16 @@ void setup() {
 * [setRotation()](#setrotation)
 
 ___
-### `calculating()`
+### `overwrite()`
 
-Used exclusively with a `while()` loop. Renders a slice of the image, and writes the result to the display's onboard memory. When using *fast-mode*, it also calls `update()` automatically.
+**ESP32 / ESP8266 only** 
 
-#### Syntax
-
-```cpp
-while ( display.calculating() )
-```
-
-#### Parameters
-
-None.
-
-#### Returns
-
-* `false` if the whole display is calculated, and the `while()` loop should end; or
-* `true` to continue the loop, moving on to calculate the next display slice.
-
-#### Example
-
-```cpp
-#include <heltec-eink-modules.h>
-
-DEPG0150BNS810 display(8, 10, 7);
-
-void setup() {
-
-    while( display.calculating() ) {
-        //Graphics commands go here, for example:
-        display.fillCircle(50, 100, 20, display.colors.RED);
-    }
-
-    display.update();
-}
-```
-
-#### See also
-
-* [update](#update)
-
-
-___
-### `update()`
-
-Display the calculated image on the E-ink screen. Called after the `calculating()` loop. Has no effect when called during fast-mode.
+Execute drawing commands outside a `DRAW` loop, drawing on-top of the existing screen data.
 
 #### Syntax
 
 ```cpp
-display.update()
+display.overwrite()
 ```
 
 #### Parameters
@@ -705,38 +851,67 @@ None.
 ```cpp
 #include <heltec-eink-modules.h>
 
-DEPG0150BNS810 display(8, 10, 7);
+DEPG0150BNS810 display(2, 4, 5);
 
 void setup() {
 
-    while( display.calculating() ) {
-        display.setCursor(10, 10);
-        display.print("Example");
-    }
+    display.setCursor(10, 10);
+    display.print("Example");
 
-    display.update();   // Image on display changes with this command
+    display.overwrite();   // Image on display changes with this command
 }
 ```
 
 ___
-### `deepSleep()`
+### `usePowerSwitching()`
 
-Put the display into a low-power state. The display will not respond to any further commands until power has been fully removed. This can be done manually (unplugging your Arduino), or with external reset hardware.
+Configure the display to use an external power switch, such as a transistor, for power-saving. When requested, the library will configure the display appropriately, and then set the specified switch pin.
 
 #### Syntax
 
 ```cpp
-display.deepSleep()
+usePowerSwitching(pin, type)
 ```
 
 #### Parameters
 
-None.
+* _pin_:    pin connected to base of a transistor, or other low current switching device.
+* _type_:    type of signal to output on pin<br />
+    Supported values:<br />
+    * `NPN`
+    * `PNP`
+    * `ACTIVE_HIGH`
+    * `ACTIVE_LOW`
 
 #### See also
 
 * [README - Power Management](/docs/README.md#power-management)
 
+___
+### `externalPowerOff()`
+
+Disconnect power from the display, using an external power switch, such as a transistor.
+
+Must be configured with `usePowerSwitching()`.
+
+#### Syntax
+
+```cpp
+display.externalPowerOff()
+```
+
+___
+### `externalPowerOn()`
+
+Connect power to the display, using an external power switch, such as a transistor.
+
+Must be configured with `usePowerSwitching()`.
+
+#### Syntax
+
+```cpp
+display.externalPowerOn()
+```
 
 ___
 ### `drawBitmap()`
@@ -817,7 +992,7 @@ display.drawCircleHelper(x, y, r, corner_mask, color)
 ```cpp
 #include <heltec-eink-modules.h>
 
-DEPG0150BNS810 display(8, 10, 7);
+DEPG0150BNS810 display(2, 4, 5);
 
 void setup() {
     byte corners = 0;
@@ -832,8 +1007,8 @@ void setup() {
     // Or alternatively..
     // corners = B1010;
 
-    while( display.calculating() ) {
-        display.drawCircleHelper(50, 50, 50, corners, display.colors.BLACK);
+    DRAW (calculating) {
+        display.drawCircleHelper(50, 50, 50, corners, BLACK);
     }
 
     display.update();
@@ -998,17 +1173,17 @@ display.drawXBitmap( x, y, bitmap[], w, h, color)
 #include <heltec-eink-modules.h>
 #include "chess_200x200.h"
 
-DEPG0150BNS810 display(8, 10, 7);
+DEPG0150BNS810 display(2, 4, 5);
 
 void setup() {
-    // Don't forget to set the orientation, so your image fits how you intended
-    display.setRotation(display.orientation.PINS_LEFT);  
 
-    while( display.calculating() ) {
-        display.drawXBitmap(0, 0, chess_bits, chess_width, chess_height, display.colors.BLACK);
+    // Don't forget to set the orientation, so your image fits how you intended
+    display.setRotation(PINS_LEFT);  
+
+    DRAW (display) {
+        display.drawXBitmap(0, 0, chess_bits, chess_width, chess_height, BLACK);
     }
 
-    display.update();
 }
 
 void loop() {}
@@ -1254,7 +1429,7 @@ ___
 
 ### `getTextCenterX()`
 
-Gets the required cursor x position to horizontally center a given string.
+Gets the required cursor x position to horizontally center text.
 
 #### Syntax
 
@@ -1275,7 +1450,7 @@ X value for use with [setCursor()](#setcursor)
 ```cpp
 #include <heltec-eink-modules.h>
 
-DEPG0150BNS810 display(8, 10, 7);
+DEPG0150BNS810 display(2, 4, 5);
 
 void setup() {
 
@@ -1284,12 +1459,11 @@ void setup() {
     int x = display.getTextCenterX(text);   // Horizontal
     int y = display.getTextCenterY(text);   // Vertical
 
-    while( display.calculating() ) {
+    DRAW (display) {
         display.setCursor(x, y);
         display.print(text);
     }
-
-    display.update();
+    
 }
 
 void loop() {}
@@ -1303,7 +1477,7 @@ ___
 
 ### `getTextCenterY()`
 
-Gets the required cursor y position to vertically center a given string.
+Gets the required cursor y position to vertically center text.
 
 #### Syntax
 
@@ -1324,7 +1498,7 @@ Y value for use with [setCursor()](#setcursor)
 ```cpp
 #include <heltec-eink-modules.h>
 
-DEPG0150BNS810 display(8, 10, 7);
+DEPG0150BNS810 display(2, 4, 5);
 
 void setup() {
 
@@ -1333,12 +1507,11 @@ void setup() {
     int x = display.getTextCenterX(text);   // Horizontal
     int y = display.getTextCenterY(text);   // Vertical
 
-    while( display.calculating() ) {
+    DRAW (display) {
         display.setCursor(x, y);
         display.print(text);
     }
-
-    display.update();
+    
 }
 
 void loop() {}
@@ -1351,7 +1524,7 @@ void loop() {}
 ___
 ### `setFont()`
 
-Set the font to display when print()ing, either custom or default. Several fonts are included with this library, in the [Fonts folder](/src/Fonts/). Fonts can take up a bit of memory, so don't include too many!
+Set the font to display when print()ing, either custom or default. Several fonts are included with this library, in the [Fonts folder](/src/Fonts/). Fonts can take up a bit of memory, so don't #include too many!
 
 *This is an AdafruitGFX method*
 
@@ -1371,21 +1544,18 @@ display.setFont(f)
 #include <heltec-eink-modules.h>
 #include "Fonts/FreeSerifBold12pt7b.h"
 
-DEPG0150BNS810 display(8, 10, 7);
+DEPG0150BNS810 display(2, 4, 5);
 
 void setup() {
     // Pass (the address of) the font to the library
     display.setFont( &FreeSerifBold12pt7b );   
 
-    while( display.calculating() ) {
-
+    DRAW (display) {
         // Set the (word-processor-like) cursor to the abritrary position of x=10, y=50
         display.setCursor(10, 50);                      
-        display.print("sample text");
-
+        display.print("example");
     }
 
-    display.update();
 }
 
 void loop() {}
@@ -1397,6 +1567,21 @@ ___
 Set text font color, with or without a background
 
 *This is an AdafruitGFX method*
+
+Note from Adafruit:
+```cpp
+// NOTE: THERE IS NO 'BACKGROUND' COLOR OPTION ON CUSTOM FONTS.
+// THIS IS ON PURPOSE AND BY DESIGN.  The background color feature
+// has typically been used with the 'classic' font to overwrite old
+// screen contents with new data.  This ONLY works because the
+// characters are a uniform size; it's not a sensible thing to do with
+// proportionally-spaced fonts with glyphs of varying sizes (and that
+// may overlap).  To replace previously-drawn text when using a custom
+// font, use the getTextBounds() function to determine the smallest
+// rectangle encompassing a string, erase the area with fillRect(),
+// then draw new text.  This WILL infortunately 'blink' the text, but
+// is unavoidable.
+```
 
 #### Syntax
 
@@ -1828,50 +2013,32 @@ ___
 
 #### Values
 
-* `.colors.WHITE`
-* `.colors.BLACK`
-* `.colors.RED` - Supported displays only
+* `WHITE`
+* `BLACK`
+* `RED` - Supported displays only
 
 #### Example
 
 ```cpp
-display.setDefaultColor( display.colors.BLACK )
+display.setDefaultColor( BLACK )
 ```
 
-___
-### `fastmode`
-
-Used to move the display in and out of fast-mode. Passed to `setFastmode()'
-
-#### Values
-
-* `.fastmode.OFF`: normal operation
-* `.fastmode.ON`: update the screen using fastmode
-* `.fastmode.FINALIZE`: called to exit fastmode, to preserve the display and return to normal operation
-
-#### Example
-
-```cpp
-display.setFastmode( display.fastmode.ON )
-```
-
-___
 ### `flip`
 
 Specify along which axis the screen should be flipped (mirrored)
 
 #### Values
 
-* `.flip.NONE`
-* `.flip.HORIZONTAL`
-* `.flip.VERTICAL`
-* `.flip.HORIZONTAL_WINDOW`
-* `.flip.VERTICAL_WINDOW`
+* `NONE`
+* `HORIZONTAL`
+* `VERTICAL`
+* `HORIZONTAL_WINDOW`
+* `VERTICAL_WINDOW`
 
 #### Example
 
 ```cpp
-display.setFlip( display.flip.HORIZONTAL )
+display.setFlip( HORIZONTAL )
 ```
 
 ___
@@ -1881,13 +2048,25 @@ A convenient shortcut for getting the correct display rotation. Describes the de
 
 #### Values
 
-* `.orientation.PINS_ABOVE`
-* `.orientation.PINS_LEFT`
-* `.orientation.PINS_BELOW`
-* `.orientation.PINS_RIGHT`
+* `PINS_ABOVE`
+* `PINS_LEFT`
+* `PINS_BELOW`
+* `PINS_RIGHT`
 
 #### Example
 
 ```cpp
-display.setRotation( display.orientation.PINS_LEFT )
+display.setRotation( PINS_LEFT )
 ```
+
+___
+### `SwitchType`
+
+Values passed to `usePowerSwitching()`, to specify the type of external switch in user's custom power control circuit.
+
+#### Values
+
+* `NPN`
+* `PNP`
+* `ACTIVE_HIGH`
+* `ACTIVE_LOW`
