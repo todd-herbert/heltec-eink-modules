@@ -137,8 +137,9 @@ class BaseDisplay: public GFX {
         const SPISettings spi_settings = SPISettings(200000, MSBFIRST, SPI_MODE0);
 
         // External power switch
-        uint8_t pin_power = -1;
-        SwitchType switch_type = PNP;
+        uint8_t pin_power = -1;                                     // Pin connected to switch / transistor gate
+        SwitchType switch_type = PNP;                               // Type of switch / transistor
+        bool just_restarted = false;                                // Track whether display memory was lost (re: fastmodeON)
 
         // Drawing parameters
         uint16_t default_color = WHITE;                             // Background color of the canvas, before drawing           
@@ -155,7 +156,9 @@ class BaseDisplay: public GFX {
         uint8_t *page_black;                                        // Dynamic memory which stores black image bits
         uint8_t *page_red;                                          // Dynamic memory which stores red image bits (if required)
 
+        // Fastmode
         bool fastmode_secondpass = true;                            // Is this pass the first or second? Relevant when Fastmode::ON
+        bool display_cleared = false;                               // Whether display is clear, hopefully. (re: externalPowerOn)
 
         // Mode settings
         uint16_t window_left, window_top, window_right, window_bottom;      // Window boundaries: reference frame of current retation

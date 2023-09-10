@@ -150,8 +150,19 @@ void BaseDisplay::externalPowerOn() {
     // SPI resumes
     SPI_BEGIN();
 
+    // Re-load settings for full-refresh
+    fastmodeOff();
+
+    // Mark display as potentially out of sync with memory
+    just_restarted = true;
+
     // Re-initialize display memory
-    clear(false);
+    #if PRESERVE_IMAGE
+        writePage();
+    #else
+        // No record of old image, just fill blank
+        clear(false);
+    #endif
 }
 
 // Clear the screen in one optimized step
@@ -232,8 +243,13 @@ void BaseDisplay::clear(bool refresh) {
     }
 
     // Update the display with blank memory
-    if (refresh)
+    if (refresh) {
         activate();
+
+        // Track state of display memory (re:externalPowerOn)
+        display_cleared = true;
+        just_restarted = false;
+    }    
 
     // Restore old settings
     if (mode_original == Fastmode::ON)
@@ -264,5 +280,9 @@ void BaseDisplay::clear(bool refresh) {
             writePage();
             activate();
         }
+
+        // Track state of display memory (re:externalPowerOn)
+        display_cleared = false;
+        just_restarted = false;
     }
 #endif

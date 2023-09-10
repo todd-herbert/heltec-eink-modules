@@ -34,6 +34,10 @@ bool BaseDisplay::calculating() {
         pagefile_length = (page_bottom - page_top + 1) * ((winrot_right - winrot_left + 1) / 8);
 
         clearPage(default_color);
+
+        // Track state of display memory (re:externalPowerOn)
+        display_cleared = false;
+        just_restarted = false;
     }
 
     // End of each loop (start of next)
