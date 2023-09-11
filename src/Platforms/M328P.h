@@ -7,7 +7,7 @@
     #ifdef __AVR_ATmega328P__
 
         // Short Name
-        #define ATMEGA328P
+        #define PLATFORM_NAME           ATMEGA328P
 
         // SPI
         #define SPI_BEGIN() ( SPI.begin() )

@@ -13,10 +13,10 @@
         #define constrain(amt,low,high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
 
         // Name
-        #define PLATFORM             ESP8266
+        #define PLATFORM_NAME           ESP8266
 
         // SPI
-        #define SPI_BEGIN() ( SPI.begin() )
+        #define SPI_BEGIN()             ( SPI.begin() )
         #define CAN_SPECIFY_SPI_PINS    false
         #define DEFAULT_SDI             -1
         #define DEFAULT_CLK             -1

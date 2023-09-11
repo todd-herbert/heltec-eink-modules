@@ -13,17 +13,17 @@
         #define constrain(amt,low,high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
 
         // Name
-        #define PLATFORM             ESP32
+        #define PLATFORM_NAME           ESP32
 
         // SPI
-        #define SPI_BEGIN() ( SPI.begin(pin_clk, -1, pin_sdi, -1) )
+        #define SPI_BEGIN()             ( SPI.begin(pin_clk, -1, pin_sdi, -1) )
         #define CAN_SPECIFY_SPI_PINS    true
         #define DEFAULT_SDI             MOSI
         #define DEFAULT_CLK             SCK
 
         // Paging
         #define DEFAULT_PAGE_HEIGHT     panel_height    // Indicate that we want the full display 
-        #define MAX_PAGE_HEIGHT         296             // (Largest supported panel)
+        #define MAX_PAGE_HEIGHT         panel_height    // (Largest supported panel)
         #define PRESERVE_IMAGE          true            // No clearing of page file between updates
 
     #endif
