@@ -158,7 +158,10 @@ void BaseDisplay::externalPowerOn() {
 
     // Re-initialize display memory
     #if PRESERVE_IMAGE
-        writePage();
+        if (pagefile_height == panel_height)
+            writePage();
+        else        
+            clear(false);   // If user has (for some reason) re-enabled paging on a fancy mcu
     #else
         // No record of old image, just fill blank
         clear(false);
@@ -267,8 +270,8 @@ void BaseDisplay::clear(bool refresh) {
     // Manually update display, drawing on-top of existing contents
     void BaseDisplay::overwrite() {
 
-        // Check if user has (for some reason) requested smaller page file
-        if (pagefile_height < panel_height)
+        // Check if user has (for some reason) re-enabled paging on a fancy mcu
+        if (pagefile_height == panel_height)
             return;
 
         // Copy the local image data to the display memory, then update
