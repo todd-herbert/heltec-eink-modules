@@ -271,7 +271,7 @@ void BaseDisplay::clear(bool refresh) {
     void BaseDisplay::overwrite() {
 
         // Check if user has (for some reason) re-enabled paging on a fancy mcu
-        if (pagefile_height == panel_height)
+        if (pagefile_height != panel_height)
             return;
 
         // Copy the local image data to the display memory, then update
