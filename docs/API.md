@@ -796,7 +796,7 @@ void setup() {
     // Or alternatively..
     // corners = B1010;
 
-    DRAW (calculating) {
+    DRAW (display) {
         display.drawCircleHelper(50, 50, 50, corners, BLACK);
     }
 
@@ -1611,7 +1611,7 @@ The width of the string.
 ___
 ### `overwrite()`
 
-**ESP32 / ESP8266 only** 
+**Not supported on ATmega328P (Uno / Nano)** 
 
 Execute drawing commands outside a `DRAW` loop, drawing on-top of the existing screen data.
 
@@ -1644,7 +1644,7 @@ void setup() {
 ___
 ### `setCursor()`
 
-Set text cursor location. *Make sure to use inside the `calculating()` loop*.
+Set text cursor location. *Make sure to use inside the `DRAW()` loop*.
 
 *This is an AdafruitGFX method*
 
@@ -1929,7 +1929,7 @@ display.setTextWrap(w)
 
 ___
 ### `setWindow()`
-Draw to only a particular part of the screen ("a window"), leaving the remainder unchanged. Call before the `calculating()` loop. 
+Draw to only a particular part of the screen ("a window"), leaving the remainder unchanged. Call before the `DRAW()` loop. 
 
 Window parameters are interpreted in the context of the current rotation and flip.
 

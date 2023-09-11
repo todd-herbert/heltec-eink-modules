@@ -1,40 +1,41 @@
 # Heltec E-Ink Modules
 
 Third-party Arduino Library for **Heltec E-Ink Module** displays.<br />
-Run-time graphics on Arduino UNO, using Adafruit-GFX (via [ZinggJM/GFX_Root](https://github.com/ZinggJM/GFX_Root)) 
+Run-time drawing, using Adafruit-GFX.
 
-This is made possible with *"paging".* 
+**[Read the API](/docs/API.md)** <br />
 
-**[Quickstart](/docs/Quickstart/Quickstart.md)** <br />
-**[API](/docs/API.md)** <br />
+- [Supported Platforms](#supported-platforms)
+- [Supported Displays](#supported-displays)
+- [Wiring](#wiring)
+- [To *page*, or not to *page*](#to-page-or-not-to-page)
+- [Drawing stuff](#drawing-stuff)
+  - [Drawing Commands](#drawing-commands)
+  - [Pre-rendered graphics](#pre-rendered-graphics)
+- [Configuration Options](#configuration-options)
+  - [Pins](#pins)
+  - [Page Size](#page-size)
+  - [Power Switching](#power-switching)
+  - [Fast mode (Partial Refresh)](#fast-mode-partial-refresh)
+- [Installation](#installation)
+- [Acknowledgements](#acknowledgements)
 
-[Huh? Paging?](#what-is-paging) <br />
-[Supported Displays](#supported-displays) <br />
-[Identifying Your Display](#identifying-your-display) <br />
-[Wiring](#wiring) <br />
-[Using the library](#using-the-library) <br />
-[Configuration](#configuration-options) <br />
-[Installation](#installation) <br />
-[Acknowledgements](#acknowledgements)  <br />
 
 
-## What is paging?
+## Supported Platforms
 
-*In this context,* it means that the display is calculated and transmitted in several small pieces, rather than in one big memory-clogging lump. 
-
-This means more calculations are performed, but less RAM is needed.
-The resulting increase in calculation time ends up being insignificant, especially when compared to the slow refresh time of E-INK displays.
-
-Most importantly, it is the what allows the *Arduino Uno* to work with these displays, which would otherwise overload the limited memory.
+* ATmega328P &nbsp;( Arduino UNO R3, &nbsp;Arduino Nano, &nbsp;etc. )
+* ATmega2560 &nbsp; ( Arduino Mega 2560 )
+* ESP32
+* ESP8266
 
 
 
 ## Supported Displays
 
-Heltec seem to reuse the same marketing names for different non-interchangeable displays. In this library, displays are referred to by the *model of the panel*.
-You can determine the model by consulting the table below.
+It is sometimes unclear exactly which display you have been sold. Consult the table below to find your model. 
 
-Alternatively, your can declare your panel using the [label printed on the flex connector](#3-declare-your-panel-instead-by-the-flex-connector-label).
+In this library, displays are referred to by the "model name". If you would prefer, you can instead use the [label on the flex connector](FlexConnector/declare_by_flex.md) 
 
 If your Heltec E-ink display is not listed, please let me know.
 
@@ -151,159 +152,74 @@ If your Heltec E-ink display is not listed, please let me know.
 <sup>1</sup> Closest match. No official information available. <br />
 <sup>2</sup> Currently, these two displays use the same driver. This is not guaranteed in the future.
 
-## Identifying your display
-
-### 1. Consult [the supported displays table](#supported-displays).
-The identification data may be incorrect or incomplete. It is based on my own observation.
-
-*or*
-
-### 2. Upload the `identify_display` example sketch to your Arduino. 
-With your display connected [through a level shifter](#wiring), press the reset button to test different models.
-
-*or*
-
-### 3. Declare your panel instead by the *flex connector label*
-
-The E-ink modules have an orange "flex-connector", attatching the display to the PCB.
-There is some amount of text printed on the connector.
-
-![E-ink module, end-on, displaying flex connector label position](flex_connector.jpg)
-
-The main label, printed on the connector, can be used to [identify the model](#supported-displays), 
-or can be used, as a class name, to declare your panel in your sketch.
-
-To use this label directly as a class name, you should remove all non-alphanumeric characters (no spaces, no dashes, no periods etc.) <br />
-For the panel shown above, this class name would be `FPC7525`
-
-```cpp
-// Declaration by model
-DEPG0154BNS800 display( PIN_DC, PIN_CS, PIN_BUSY );
-
-// Is equivalent to
-
-// Declaration by Flex Connector Label
-FPC7525 display( PIN_DC, PIN_CS, PIN_BUSY );
-```
 
 ## Wiring
 
-**Do not connect display directly to Arduino UNO!**
+**Warning: in some cases, connectly directly to the display will cause damage!** <br />
+See your boards's wiring page for specific information:
 
-*Arduino UNO* uses 5V signals, *Heltec E-ink displays* use 3.3V signals. Without a level shifting circuit, you will damage the display.
+* [**Wiring:** Arduino Uno R3 / Arduino Nano](/docs/Wiring/wiring_m328p.md)
+* [**Wiring:** Arduino Mega 2560](/docs/Wiring//wiring_m2560.md)
+* [**Wiring:** ESP32](/docs/Wiring/wiring_esp32.md)
+* [**Wiring:** ESP8266](/docs/Wiring/wiring_esp8266.md)
 
-### Example of connection, using a voltage dividing level-shifter:
+## To *page*, or not to *page*
 
-Schematic|Realization
----|---
-![schematic of Arduino UNO, connected to display, through voltage dividing level shifter](/docs/Quickstart/schematic_voltage_divider.png) | ![graphic of Arduino UNO, connected to display, through voltage dividing level shifter](/docs/wiring_example.png)
+Older boards, like Arduino UNO R3, do not have enough RAM to render a full screen image. A technique called "paging" lets us get around this issue.
 
-### Display Pins:
+On these older boards, your drawing comands are run, over and over, calculating just one small area at a time.
 
-* **VCC**: 3.3V Power In
-* **GND**: Ground
-* **D/C**: Data / Command
-    * Tells display whether incoming serial data is a command, or is image data.
-        * Can connect to any available digital pin on Arduino
-        * 3.3V Logic Input, needs level shifter
+It takes a bit longer, but without paging, Arduino Uno R3 wouldn't stand a chance!
 
-* **SDI**: Serial Data Input
-    * SPI *MOSI* pin
-    * On Arduino UNO, *must connect to pin 11*
-    * 3.3V Logic Input, needs level shifter
-* **CS**: Chip Select
-    * SPI *SS* Pin
-    * Can connect to any available digital pin on Arduino, however *pin 10* is traditional. 
-    * 3.3V Logic Input, needs level shifter
-* **CLK**: Clock
-    * SPI *SCK* pin
-    * On Arduino UNO, *must connect to pin 13*
-    * 3.3V Logic Input, needs level shifter
-* **BUSY**
-    * Pin is LOW when screen is ready to accept commands
-    * Can connect to any available digital pin on Arduino
-    * 3.3V Logic Output, **level shifter not required** as 3.3V is a valid level for a HIGH signal on Arduino UNO
+![paging graphic](/docs/paging_graphic.png)
 
-Make sure to specify the location of your *D/C, CS* and *BUSY* pins in the constructor.
+If you have a more powerful board (ESP, Mega), the library won't waste time paging. Your image will be calculated once, and once only.
 
-## Using the library
+If you board has the resources, paging is disabled automatically.
+If, for any reason, you should want to turn it back on, you can set a `page_height` in your [constructor](/docs/API.md#display-constructors).
+
+## Drawing stuff
 
 ```c++
 #include "heltec-eink-modules.h"
 
-// Use the correct class for your display
-DEPG0150BNS810 display(/* DC PIN */  8, /* CS PIN */  10, /* BUSY PIN */ 7);
+// Use the correct class for your display; set pins for D/C, CS, BUSY
+DEPG0150BNS810 display(2, 4, 5);
 
 void setup() {
 
-    // All drawing commands go inside this WHILE
-    while ( display.calculating() ) {
-        display.fillCircle(50, 100, 20, display.colors.BLACK);
+    // Drawing commands go in the DRAW loop
+    DRAW (display) {
+        display.fillCircle(50, 100, 20, BLACK);
+        display.fillCircle(50, 100, 10, WHITE);
     }
-    
-    // Draw this new image to the display
-    display.update();
+
 }
 
 void loop() {}
 ```
 
-To summarize: 
+A block of `DRAW()` code represents one drawing session.
+`DRAW()` starts as a blank piece of paper, renders your commands, then updates the display.
 
-* Set your hardware pins in the constructor
-* All drawing commands go inside the ```while ( .calculating () )``` loop. <br />
-    This loop repeats the commands for each little slice (page) of the screen, as many times as needed
-* Call ```.update()``` to show this new image data on the screen
+To draw over your existing image, you'll want [setWindow()](/docs/API.md#setwindow)
 
-That's it! Everything else (should) be taken care of automatically.
+If your board is powerful enough to disable paging, you have an alternative: <br />
+Run drawing commands anywhere you like, then call [overwrite()](/docs/API.md#overwrite)
 
 ### Drawing Commands
 
-I'm going to direct you to [the official adafruit-gfx tutorial](https://learn.adafruit.com/adafruit-gfx-graphics-library/graphics-primitives) for information on the drawing commands. 
+You'll find a full list of supported commands in **[the API](/docs/API.md)**. Check out the [examples folder](/examples/) to see them in action.
 
-This implementation has a few small differences, including:
 
-* The display will only support a limited set of colors:
-    * ```.colors.BLACK```
-    * ```.colors.WHITE```
-    * ```.colors.RED```  (3-Color displays only*)
+Alternatively, [the official adafruit-gfx tutorial](https://learn.adafruit.com/adafruit-gfx-graphics-library/graphics-primitives) is a good place to start.
 
-* The adafruit ```.fillScreen()``` method will work just fine, however it is more efficient to use ```.setDefaultColor()```, before the paging while loop.
-
-* A few new handy methods have been added to help with layout:
-    * `.bounds.full.`   ---   *Dimensions for the whole screen* <br />
-                                         * `.left()` <br />
-                            * `.right()` <br />
-                            * `.top()` <br />
-                            * `.bottom()` <br />
-                            * `.centerX()` <br />
-                            * `.centerY()` <br />
-                            <br />
-    * `bounds.window.`  ---   *Dimensions for the current window ([see here](#setting-a-window))* <br />
-                                         * `.left()` <br />
-                            * `.right()` <br />
-                            * `.top()` <br />
-                            * `.bottom()` <br />
-                            * `.centerX()` <br />
-                            * `.centerY()` <br />
-                            <br />
-    * `.setCursorTopLeft()`  --- *sets text-cursor position by upper-left corner value*
-    * `.getTextWidth()` 
-    * `.getTextHeight()` 
-
-For a more complete description, **[read the API here.](/docs/API.md)**
+### Pre-rendered graphics
 
 As decided by the Adafruit library, the ancient *"XBitmap"* is the format of choice for pre-rendered graphics. Luckily, GIMP maintains good support for it. If you need a hint on how to use it, I have thrown together a [tutorial on preparing XBitmap images](XBitmapTutorial/README.md).
 
 
 ## Configuration Options
-
-* [Pins](#pins)
-* [Page Size](#page-size)
-* [Power Management](#power-management)
-* [Setting A Window](#setting-a-window)
-* [Fast Mode (Partial Refresh)](#fast-mode-partial-refresh)
-* [Code Readability](#code-readability)
 
 ### Pins
 
@@ -312,174 +228,48 @@ As decided by the Adafruit library, the ancient *"XBitmap"* is the format of cho
 DEPG0150BNS810 display(dc, cs, busy);   
 ```
 
-Pass the Arduino digital pin numbers where the *D/C*, *CS*, and *BUSY* pins from the display are connected.
+Pass the pin numbers to which the *D/C*, *CS*, and *BUSY* pins from the display are connected.
+
+If you're using ESP32, you are free to set your *SDI*, and *CLK* pins too.
+
+```cpp
+DEPG0150BNS810 display(dc, cs, busy, sdi, clk);
+```
 
 ### Page Size
 
-It is possible to set the page size in the constructor. The optional ```page_height``` argument sets the number of rows. The default value is 20, meaning the display is calculated 20 rows at a time. Higher values use more RAM.
+If your Arduino is paging to compensate for low RAM, you may want to adjust how many rows are calculated in each page. The optional ```page_height``` argument sets the number of rows. 
+
+For Uno R3, the default value is 20, meaning the display is calculated 20 rows at a time. Higher values use more RAM.
+
+If you are using a more modern board, paging is disabled by default. Setting `page_height` here will re-enable it.
 
 ```c++
 DEPG0150BNS810 display(dc, cs, busy, page_height); 
 ```
 
+### Power Switching ###
 
-### Power Management ###
+Many E-ink manufacturers provide a deep-sleep mode. With Heltec displays, this mode is not usable.
 
-Many E-Ink displays are able to enter a "deep sleep" power-saving mode. In this state, the module is no longer listening to any commands we issue. Traditionally, a hardware reset pin is provided, however, with the *Heltec Modules*, this is not the case.
+As an alternative, you might consider using a transistor, or other switching device, to disconnect your display when needed.
 
-One work-around is to manually cycle power to the display ("turn it off and on again"). This does require additional circuitry.
+The library can make the necessary pin changes for this.
+Configure your switching device with [`usePowerSwitching()`](/docs/API.md#usepowerswitching), then call [`externalPowerOff()`](/docs/API.md#externalpoweroff) and [`externalPowerOn()`](/docs/API.md#externalpoweron) as required.
 
-A suitable method of controlling the power is shown here, using a PNP transistor and a FET based level-shifter:
-
-![voltage-divider example](hardware_reset_example.png)
-
-
-```c++
-void reset() {
-    digitalWrite(2, HIGH);      // PNP transistor, block current flow
-    delay(500);                 // Wait for everything to power off
-    digitalWrite(2, LOW);       // PNP transistor, allow current flow
-    delay(500);                 // Wait for everything to power back up
-}
-
-void setup() {
-    // Set the pins for the reset
-    pinMode(2, OUTPUT);
-    digitalWrite(2, LOW);   // PNP transistor, allow current flow
-
-    while (display.calculating()) {
-        display.print("hello world");
-    }
-    display.update();
-
-    // Sleep, wait 8 seconds, and reset (wake up)
-    display.deepSleep();    // Display ignores all commands now, until reset
-    delay(8000);
-    reset();
-
-}
-```
+See your board's [wiring page](#wiring) for a suggested schematic.
 
 
+### Fast mode (Partial Refresh)
 
-Note the use of ```.deepSleep()``` . This is the method which puts the display into power-saving. In this state, the current draw is very low, but the working memory is preserved. This is important, if you wish to wake the display and continue drawing from where you left off.
+E-Ink displays generally take several seconds to refresh. Some displays have a secondary mode, where the image updates much faster. This is known officially as a *"Partial Refresh"*. For the sake of simplicity, this library instead uses the descriptive term *"Fast Mode*".
 
-#### Do:
+The trade-off is that images drawn in fast mode are of a lower quality. The process may also be particularly difficult on the hardware. **Use sparingly.**
 
-* **Feel free to avoid this whole section** <br />
-If you don't ```deepSleep()```, you won't need a reset circuit.
+*Not all displays support fast mode.*
 
-* **Write your own ```reset()``` function** <br />
-    It is not provided, as it must suit your individual circuit.
-
-#### Don't:
-* **Don't ```deepSleep()``` during fast-mode** <br />
-    When you reset, your screen's contents won't be preserved
-
-* **Don't use a [voltage dividing level shifter](#wiring)** <br />
-    Enough current can pass through the signal lines to prevent the display from powering down. If this issue occurs, you can try ```digitalWrite()``` the pins in your ```reset()``` function.
-
-* **Don't sleep by leaving display power disconnected** <br />
-    *( Unless you really want to )* <br />
-    The drawback is that the working memory will be lost. This is not an issue if, after power-on, you intend to ```clear()```, or redraw the entire screen.<br />
-    If, instead, you go straight to *fastmode*, or ```setWindow()```, the display will show static. <br />
-    If you do decide to sleep in this way, it is still a good idea to call ```.deepSleep()``` first. In some displays, it seems necessary to ensure that the image remains crisp.
-    
-<br />
-
-### Setting a Window ###
-
-By default, the entire screen contents will be erased and updated when ```while ( .calculating () ) ``` runs. Alternatively, it is possible to overwrite only a section of the screen, leaving the remainder unchanged. This section is referred to as a *window*.
-
-```c++
-display.setWindow( LEFT, TOP, WIDTH, HEIGHT );
-
-while( display.calculating() )
-{
-    // Graphics commands go here e.g
-    // display.drawRect(0, 0, 100, 100, display.colors.BLACK);
-}
-display.update();
-```
-If needed, make sure to call ```.setRotation()``` before ```.setWindow()```, as the library needs this information to properly place the window.
-
-Be aware that, due to hardware limitations of the displays, windows may only be drawn with a width which is a multiple of 8. *(Note: this limitation does not rotate with the `.setRotation()` command)*.
-
-It is possible to place a window so that it will have precisely the requested dimensions, however this is not strictly required as the library will automatically expand the window until it both satisfies the hardware limitations, and is large enough to encompass the requested region.
-
-This automatic expansion can lead to a border around your graphics. One way to work around this issue is to use the dimensions calculated in `.bounds.window.*` (see [drawing](#drawing-commands)). 
-
-```c++
-display.drawRect( display.bounds.window.left(),
-                  display.bounds.window.top(), 
-                  display.bounds.window.width(),
-                  display.bounds.window.height(), 
-                  display.colors.BLACK );
-```
-
-*(That's a lot of typing for a value that you use so often..  - [yes, yes it is](#code-readability))*
-
-These values are updated to reflect the true dimensions of the window, rather than the dimensions requested in `.calculating()`. This means that although your window won't be quite the size you asked for, you will at least be able to use its full width.
-
-**Note that `.setRotation()` calls should go before `.setWindow()` calls.**
-
-### Fast Mode (Partial Refresh)
-
-E-Ink displays generally take several seconds to refresh. Some displays have a secondary mode, where the image updates much faster. This is known officially as a *"Partial Refresh"*. For the sake of user-friendliness, this library instead uses the descriptive term *"Fast Mode*".
-
-The trade-off is that images drawn in fast mode are of a lower quality. The process may also be particularly difficult on the hardware. **You should make sure to exit fast mode when not in use.**
-
-Not all displays support fast mode. Some displays may have a physical limitation, however with others, it seems that the technical settings have not yet been calculated and released.
-
-To enter fast mode:
-```c++
-display.setFastmode( display.fastmode.ON );
-
-while (display.calculating()) {
-    // Graphics stuff here
-}
-
-// update() is called automatically in fast mode
-```
-Note that this state is somewhat temperamental. If you wish to call ```setWindow()```, or to return to ```fastmode.OFF```, you should use ```fastmode.FINALIZE```:
-```c++
-display.setFastmode( display.fastmode.FINALIZE );
-
-while (display.calculating()) {
-    // Graphics stuff here
-}
-
-// Also no need for update() here
-```
-Images drawn in ```fastmode.FINALIZE``` are preserved when moving window, or returning to ```fastmode.OFF```. <br />
-Images drawn in ```fastmode.ON``` will not be preserved. 
-
-When ```fastmode.FINALIZE``` has run, the display will automatically return to ```fastmode.OFF```.
-
-### Code Readability ###
-
-If you are like me, you might feel that all these long calls make your code "wordy":
-
-```c++
-display.drawRect( display.bounds.window.left(),
-                  display.bounds.window.top(), 
-                  display.bounds.window.width(),
-                  display.bounds.window.height(), 
-                  display.colors.BLACK );
-```
-
-As an alternative, declaring reusable "shortcuts" at the start of the code can really cut down on a lot of the bloat:
-
-```c++
-// Ugly mess here but
-DEPG0150BNS810::Bounds::Window w = display.bounds.window;
-DEPG0150BNS810::ColorList c = display.colors;
-        
-// Nice & clean here
-display.drawRect( w.left(), w.top(), w.width(), w.height(), c.BLACK );
-```
-
-
+Call [`setFastmodeOn()`](/docs/API.md#fastmodeon) to enable.<br />
+Call [`setFastmodeOff()`](/docs/API.md#fastmodeoff) to return to normal.
 
 ## Installation
 
