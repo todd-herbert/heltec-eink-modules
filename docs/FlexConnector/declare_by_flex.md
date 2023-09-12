@@ -1,4 +1,4 @@
-The E-ink modules have an orange "flex-connector", attatching the display to the PCB.
+The E-ink modules have an orange "flex-connector", attaching the display to the PCB.
 There is some amount of text printed on the connector.
 
 ![E-ink module, end-on, displaying flex connector label position](flex_connector.jpg)

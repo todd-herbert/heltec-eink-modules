@@ -12,6 +12,7 @@ Run-time drawing, using Adafruit-GFX.
 - [Drawing stuff](#drawing-stuff)
   - [Drawing Commands](#drawing-commands)
   - [Pre-rendered graphics](#pre-rendered-graphics)
+  - [Shorter code](#shorter-code)
 - [Configuration Options](#configuration-options)
   - [Pins](#pins)
   - [Page Size](#page-size)
@@ -155,7 +156,7 @@ If your Heltec E-ink display is not listed, please let me know.
 
 ## Wiring
 
-**Warning: in some cases, connectly directly to the display will cause damage!** <br />
+**Warning: in some cases, connecting directly to the display will cause damage!** <br />
 See your boards's wiring page for specific information:
 
 * [**Wiring:** Arduino Uno R3 / Arduino Nano](/docs/Wiring/wiring_m328p.md)
@@ -167,7 +168,7 @@ See your boards's wiring page for specific information:
 
 Older boards, like Arduino UNO R3, do not have enough RAM to render a full screen image. A technique called "paging" lets us get around this issue.
 
-On these older boards, your drawing comands are run, over and over, calculating just one small area at a time.
+On these older boards, your drawing commands are run, over and over, calculating just one small area at a time.
 
 It takes a bit longer, but without paging, Arduino Uno R3 wouldn't stand a chance!
 
@@ -217,6 +218,31 @@ Alternatively, [the official adafruit-gfx tutorial](https://learn.adafruit.com/a
 ### Pre-rendered graphics
 
 As decided by the Adafruit library, the ancient *"XBitmap"* is the format of choice for pre-rendered graphics. Luckily, GIMP maintains good support for it. If you need a hint on how to use it, I have thrown together a [tutorial on preparing XBitmap images](XBitmapTutorial/README.md).
+
+### Shorter code
+
+One trick you may find useful: 
+```cpp
+FullBounds f = display.bounds.full;
+WindowBounds w = display.bounds.window;
+```
+
+This way, you have a short way to get dimension info.
+
+```cpp
+// These two are the same
+box_width = display.bounds.window.width();
+box_width = w.width();
+
+// See the difference
+display.drawRect(w.left(), w.top(), w.width(), w.height(), BLACK);
+
+display.drawRect(   display.bounds.window.left(),
+                    display.bounds.window.top(),  
+                    display.bounds.window.width(),
+                    display.bounds.window.height(),
+                    BLACK   );
+```
 
 
 ## Configuration Options

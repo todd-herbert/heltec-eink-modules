@@ -1717,7 +1717,7 @@ void setup() {
     display.setFont( &FreeSerifBold12pt7b );   
 
     DRAW (display) {
-        // Set the (word-processor-like) cursor to the abritrary position of x=10, y=50
+        // Set the (word-processor-like) cursor to the arbitrary position of x=10, y=50
         display.setCursor(10, 50);                      
         display.print("example");
     }
