@@ -20,13 +20,13 @@ class QYEG0213RWS800 : public BaseDisplay {
     public:
 
         // UNO-style constructor
-        QYEG0213RWS800(  uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint16_t page_height = DEFAULT_PAGE_HEIGHT)
+        QYEG0213RWS800(  uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint16_t page_height = 50)   // Enable paging, 3 Colors takes too much RAM
             : BaseDisplay ( pin_dc, pin_cs, pin_busy, DEFAULT_SDI, DEFAULT_CLK, page_height) 
                 { init(); }
 
         // Full pinout constructor
         #if CAN_SPECIFY_SPI_PINS
-            QYEG0213RWS800(  uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint8_t pin_sdi, uint8_t pin_clk, uint16_t page_height = DEFAULT_PAGE_HEIGHT)
+            QYEG0213RWS800(  uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint8_t pin_sdi, uint8_t pin_clk, uint16_t page_height = 50) // Enable paging, 3 Colors takes too much RAM
                 : BaseDisplay ( pin_dc, pin_cs, pin_busy, pin_sdi, pin_clk, page_height)
                     { init(); }
 

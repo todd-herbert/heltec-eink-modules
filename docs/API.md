@@ -1576,7 +1576,8 @@ The width of the string.
 ___
 ### `overwrite()`
 
-**Not supported on ATmega328P (Uno / Nano)** 
+**ATmega328P (Uno / Nano): not supported**<br />
+**ATmega2560: disabled for some displays** 
 
 Execute drawing commands outside a `DRAW` loop, drawing on-top of the existing screen data.
 

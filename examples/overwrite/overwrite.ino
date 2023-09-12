@@ -1,6 +1,7 @@
 #include "heltec-eink-modules.h"
 
-// -- Example will not run on Arduino Uno / Nano --
+// -- Example will not run on Arduino Uno / Nano
+// -- Example *may* run on Arduino Mega
 
 // Find your wiring  -  https://github.com/todd-herbert/heltec-eink-modules#wiring
 // ----------------

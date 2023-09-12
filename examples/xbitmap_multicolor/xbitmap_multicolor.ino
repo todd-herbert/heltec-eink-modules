@@ -32,7 +32,7 @@
 // DEMO: Multicolor XBitmap Images
 // =================================
     // XBitmap is an old image file format from the early days of the internet
-    // It was very inefficient as the imagedata was stored more or less as human readable C code
+    // It was very inefficient as the image data was stored more or less as human readable C code
     // This, however, serves our purposes very well. As such, Adafruit have chosen to add support for XBM images
     // These can be easily created with the free GIMP software.
 
@@ -53,7 +53,7 @@ PANEL_CLASS display(DC_PIN, CS_PIN, BUSY_PIN);
 void setup() {
     display.setRotation(PINS_LEFT);   // Don't forget to set the orientation, so your image fits how you intended
 
-    while( display.calculating() ) {
+    DRAW (display) {
         // Draw each image to its destination color
         display.drawXBitmap(0, 0, apples_black_bits, apples_black_width, apples_black_height, BLACK);
         display.drawXBitmap(0, 0, apples_red_bits, apples_red_width, apples_red_height, RED);

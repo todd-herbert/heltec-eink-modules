@@ -175,10 +175,13 @@ It takes a bit longer, but without paging, Arduino Uno R3 wouldn't stand a chanc
 
 ![paging graphic](/docs/paging_graphic.png)
 
-If you have a more powerful board (ESP, Mega), the library won't waste time paging. Your image will be calculated once, and once only.
+If you have a more powerful board (ESP32  ESP8266), the library won't waste time paging. Your image will be calculated once, and once only.
 
 If you board has the resources, paging is disabled automatically.
 If, for any reason, you should want to turn it back on, you can set a `page_height` in your [constructor](/docs/API.md#display-constructors).
+
+**ATmega2560 is marginal.** <br /> Paging is used for some displays. On other displays, a large amount of RAM is occupied.
+ DEPG0290BNS800 uses **60% of  ATmega2560's RAM**. If this in unacceptable, enable paging by setting a `page_height` in your [constructor](/docs/API.md#display-constructors).
 
 ## Drawing stuff
 
