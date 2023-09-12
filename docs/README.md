@@ -77,10 +77,10 @@ If your Heltec E-ink display is not listed, please let me know.
             <td>Red Tab</td>
             <td>FPC-7525</td>
             <td>152 x 152</td>
-            <td>Yes</td>
+            <td>Yes <sup>1</sup></td>
         </tr>
         <tr>
-            <td><strong>GDEP015OC1</strong>&nbsp;<sup>1</sup></td>
+            <td><strong>GDEP015OC1</strong>&nbsp;<sup>2</sup></td>
             <td align="center"><img alt="Front" src="Identification/GDEP015OC1-Front.jpg" /></td>
             <td align="center"><img alt="Rear" src="Identification/GDEP015OC1-Rear.jpg" /></td>            
             <td>1.54&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2</td>
@@ -91,7 +91,7 @@ If your Heltec E-ink display is not listed, please let me know.
             <td>Yes</td>
         </tr>
         <tr>
-            <td><strong>DEPG0213RWS800</strong>&nbsp;<sup>2</sup></td>
+            <td><strong>DEPG0213RWS800</strong>&nbsp;<sup>3</sup></td>
             <td align="center"><img alt="Front" src="Identification/DEPG0213RWS800-Front.jpg" /></td>
             <td align="center"><img alt="Rear" src="Identification/DEPG0213RWS800-Rear.jpg" /></td>            
             <td>2.13&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2</td>
@@ -102,7 +102,7 @@ If your Heltec E-ink display is not listed, please let me know.
             <td>No</td>
         </tr>        
         <tr>
-            <td><strong>QYEG0213RWS800</strong>&nbsp;<sup>2</sup></td>
+            <td><strong>QYEG0213RWS800</strong>&nbsp;<sup>3</sup></td>
             <td align="center"><img alt="Front" src="Identification/QYEG0213RWS800-Front.jpg" /></td>
             <td align="center"><img alt="Rear" src="Identification/QYEG0213RWS800-Rear.jpg" /></td>            
             <td>2.13&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2</td>
@@ -150,8 +150,9 @@ If your Heltec E-ink display is not listed, please let me know.
 
 <!-- End of table: Display Identification -->
 
-<sup>1</sup> Closest match. No official information available. <br />
-<sup>2</sup> Currently, these two displays use the same driver. This is not guaranteed in the future.
+<sup>1</sup> Fastmode for DEPG0154BNS800 is experimental. Use with caution. <br />
+<sup>2</sup> Closest match. No official information available. <br />
+<sup>3</sup> Currently, these two displays use the same driver. This is not guaranteed in the future.
 
 
 ## Wiring
