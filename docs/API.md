@@ -73,6 +73,7 @@
   - [`flip`](#flip)
   - [`orientation`](#orientation)
   - [`SwitchType`](#switchtype)
+  - [See also](#see-also-28)
 
 
 ## Include Library
@@ -328,7 +329,6 @@ QYEG0213RWS800 display(2, 4, 5);
 
 ## Methods
 
-___
 ### `bounds.full.left()`
 
 Get the left edge of the display. This will always be zero, but is included for completeness.
@@ -479,8 +479,6 @@ None.
 #### Returns
 
 Vertical center of the full display, in pixels.
-
--------------------------------------------------
 
 ___
 ### `bounds.window.left()`
@@ -702,6 +700,10 @@ void setup() {
 }
 ```
 
+#### See also
+
+* [overwrite()](#overwrite)
+
 ___
 ### `drawBitmap()`
 
@@ -800,7 +802,6 @@ void setup() {
         display.drawCircleHelper(50, 50, 50, corners, BLACK);
     }
 
-    display.update();
 }
 
 void loop() {}
@@ -931,7 +932,7 @@ display.drawTriangle(x0, y0, x1, y1, x2, y2, color)
 
 #### See also
 
-* [fillTriangle](#filltriangle)
+* [fillTriangle()](#filltriangle)
 * [colors](#colors)
 
 ___
@@ -1136,6 +1137,16 @@ This is a quirk of the display controller IC.
 #### Syntax
 
 ```cpp
+display.fastmodeTurbo()
+```
+
+#### Parameters
+
+None.
+
+#### Example
+
+```cpp
 void setup() {
     display.clear();
 
@@ -1167,52 +1178,6 @@ void setup() {
     DRAW (display) {
         display.setCursor(5, 45);
         display.println("Old image OK");
-    }
-
-}
-```
-
-#### Parameters
-
-None.
-
-#### Example
-
-```cpp
-#include <heltec-eink-modules.h>
-
-DEPG0150BNS810 display(2, 4, 5);
-
-void setup() {
-    display.clear();
-
-    // Begin fastmode
-    display.fastmodeTurbo();
-
-    DRAW (display) {
-        display.setCursor(10, 10);
-        display.print("Turbo");
-    }
-    delay(2000);
-
-    // Double writing
-    for(int i=0; i < 2; i++) {
-        DRAW (display) {
-            display.setCursor(10, 10);
-            display.print("Preparing to set window");
-        }
-    }
-    delay(2000);
-
-    // New window
-
-    display.setWindow(0, 40, 100, 100);
-    display.defaultColor(BLACK);
-    display.setTextColor(WHITE);
-
-    DRAW (display) {
-        display.setCursor(10, 40);
-        display.print("OFF now..");
     }
 
 }
@@ -1888,11 +1853,7 @@ Note from Adafruit:
 // screen contents with new data.  This ONLY works because the
 // characters are a uniform size; it's not a sensible thing to do with
 // proportionally-spaced fonts with glyphs of varying sizes (and that
-// may overlap).  To replace previously-drawn text when using a custom
-// font, use the getTextBounds() function to determine the smallest
-// rectangle encompassing a string, erase the area with fillRect(),
-// then draw new text.  This WILL infortunately 'blink' the text, but
-// is unavoidable.
+// may overlap).
 ```
 
 #### Syntax
@@ -1963,6 +1924,7 @@ void setup() {
     DRAW (display) {
         // Not actually doing anything
         // Just drawing the black background
+        // (For the example)
     }
 }
 
@@ -2004,15 +1966,10 @@ usePowerSwitching(pin, type)
     * `ACTIVE_HIGH`
     * `ACTIVE_LOW`
 
-#### See also
-
-* [README - Power Management](/docs/README.md#power-management)
-
 ## Constants
 
 This section describes the various constants (as *enumerations*), which are accepted as parameters by various methods throughout the library.
 
-___
 ### `colors`
 
 #### Values
@@ -2027,6 +1984,7 @@ ___
 display.setDefaultColor( BLACK )
 ```
 
+___
 ### `flip`
 
 Specify along which axis the screen should be flipped (mirrored)
@@ -2074,3 +2032,7 @@ Values passed to `usePowerSwitching()`, to specify the type of external switch i
 * `PNP`
 * `ACTIVE_HIGH`
 * `ACTIVE_LOW`
+
+### See also
+
+* [usePowerSwitching()](#usepowerswitching)

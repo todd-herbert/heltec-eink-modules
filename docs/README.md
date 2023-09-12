@@ -50,7 +50,7 @@ If your Heltec E-ink display is not listed, please let me know.
             <th>Rear Label</th>
             <th>Colors</th>
             <th>Screen Protector</th>
-            <th><a href="#3-declare-your-panel-instead-by-the-flex-connector-label">Flex Connector Label</a></th>
+            <th><a href="FlexConnector/declare_by_flex.md">Flex Connector Label</a></th>
             <th>Resolution (px)</th>
             <th><a href="#fast-mode-partial-refresh">Fastmode</a></th>
         </tr>
@@ -159,7 +159,7 @@ If your Heltec E-ink display is not listed, please let me know.
 See your boards's wiring page for specific information:
 
 * [**Wiring:** Arduino Uno R3 / Arduino Nano](/docs/Wiring/wiring_m328p.md)
-* [**Wiring:** Arduino Mega 2560](/docs/Wiring//wiring_m2560.md)
+* [**Wiring:** Arduino Mega 2560](/docs/Wiring/wiring_m2560.md)
 * [**Wiring:** ESP32](/docs/Wiring/wiring_esp32.md)
 * [**Wiring:** ESP8266](/docs/Wiring/wiring_esp8266.md)
 
@@ -202,7 +202,7 @@ void loop() {}
 A block of `DRAW()` code represents one drawing session.
 `DRAW()` starts as a blank piece of paper, renders your commands, then updates the display.
 
-To draw over your existing image, you'll want [setWindow()](/docs/API.md#setwindow)
+To draw over your existing image, see [setWindow()](/docs/API.md#setwindow)
 
 If your board is powerful enough to disable paging, you have an alternative: <br />
 Run drawing commands anywhere you like, then call [overwrite()](/docs/API.md#overwrite)
@@ -252,7 +252,7 @@ DEPG0150BNS810 display(dc, cs, busy, page_height);
 
 Many E-ink manufacturers provide a deep-sleep mode. With Heltec displays, this mode is not usable.
 
-As an alternative, you might consider using a transistor, or other switching device, to disconnect your display when needed.
+As an alternative, consider using a transistor, or other switching device, to disconnect your display when needed.
 
 The library can make the necessary pin changes for this.
 Configure your switching device with [`usePowerSwitching()`](/docs/API.md#usepowerswitching), then call [`externalPowerOff()`](/docs/API.md#externalpoweroff) and [`externalPowerOn()`](/docs/API.md#externalpoweron) as required.
@@ -262,7 +262,7 @@ See your board's [wiring page](#wiring) for a suggested schematic.
 
 ### Fast mode (Partial Refresh)
 
-E-Ink displays generally take several seconds to refresh. Some displays have a secondary mode, where the image updates much faster. This is known officially as a *"Partial Refresh"*. For the sake of simplicity, this library instead uses the descriptive term *"Fast Mode*".
+E-Ink displays generally take several seconds to refresh. Some displays have a secondary mode, where the image updates much faster. This is known officially as a *"Partial Refresh"*. For the sake of simplicity, this library instead uses the term *"Fast Mode*".
 
 The trade-off is that images drawn in fast mode are of a lower quality. The process may also be particularly difficult on the hardware. **Use sparingly.**
 
