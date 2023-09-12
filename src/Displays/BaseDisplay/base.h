@@ -159,7 +159,7 @@ class BaseDisplay: public GFX {
         uint8_t *page_red;                                          // Dynamic memory which stores red image bits (if required)
 
         // Fastmode
-        bool fastmode_secondpass = true;                            // Is this pass the first or second? Relevant when Fastmode::ON
+        bool fastmode_secondpass = false;                            // Is this pass the first or second? Relevant when Fastmode::ON
         bool display_cleared = false;                               // Whether display is clear, hopefully. (re: externalPowerOn)
 
         // Mode settings
