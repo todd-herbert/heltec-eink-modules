@@ -1,17 +1,14 @@
 #include "heltec-eink-modules.h"
 
-// Define your pins:
-// ------------------
+// Find your wiring  -  https://github.com/todd-herbert/heltec-eink-modules#wiring
+// ----------------
 
-// ( DO NOT connect pins directly to display )
-// See https://github.com/todd-herbert/heltec-eink-modules#wiring
-
-    #define PIN_BUSY    7
-    #define PIN_CS      10
-    #define PIN_DC      8
+    #define PIN_DC      2
+    #define PIN_CS      4
+    #define PIN_BUSY    5
 
 
-// Pick your panel  -   https://github.com/todd-herbert/heltec-eink-modules#supported-displays
+// Pick your panel  -  https://github.com/todd-herbert/heltec-eink-modules#supported-displays
 // ---------------
 
     // DEPG0150BNS810 display( PIN_DC, PIN_CS, PIN_BUSY );      // 1.54" V2 - BW - Red Tab
@@ -29,12 +26,11 @@
 
 void setup() {
 
-    while ( display.calculating() ) {
+    DRAW (display) {
         // 50px from left, 100px from top, draw a black circle with 20px radius
-        display.fillCircle(50, 100, 20, display.colors.BLACK);
+        display.fillCircle(50, 100, 20, BLACK);
     }
 
-    display.update();
 }
 
 void loop() {}

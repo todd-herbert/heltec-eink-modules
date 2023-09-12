@@ -1,5 +1,7 @@
 #include "heltec-eink-modules.h"
 
+// -- Example will not run on Arduino Uno / Nano --
+
 // Find your wiring  -  https://github.com/todd-herbert/heltec-eink-modules#wiring
 // ----------------
 
@@ -21,38 +23,34 @@
     // GDE029A1 display( PIN_DC, PIN_CS, PIN_BUSY );            // 2.9"  V2 - BW - Blue Tab
 
 
-// DEMO: setRotation() printing text different orientations
-// --------------------------------------------------------
-
-    // For the sake of readability, orientation can be set with either an integer, or in reference to the "header pins" on the panel:
-    //      PINS_ABOVE = 0
-    //      PINS_LEFT  = 1
-    //      PINS_BELOW = 2
-    //      PINS_RIGHT = 3
-
+// DEMO: Overwrite
+// ------------------------------------------------
+    // Larger microcontrollers have enough RAM to hold the full screen image at once: they do not need paging.
+    // These devices do not need to use the DRAW() loop, drawing commands can be issued almost anywhere.
+    // Call overwrite() to update the display.
 
 void setup() {
 
-    DRAW (display) {
-        
-        display.setRotation(PINS_ABOVE);
-        display.setCursor(10, 10);
-        display.print("Pins Above (0)");
+    // Print two lines of text
 
-        display.setRotation(PINS_LEFT);
-        display.setCursor(10, 10);
-        display.print("Pins Left (1)");
+    display.setCursor(10, 10);
+    display.print("First line.");
 
-        display.setRotation(PINS_BELOW);
-        display.setCursor(10, 10);
-        display.print("Pins Below (2)");
+    display.setCursor(10, 40);
+    display.print("Second line.");
 
-        display.setRotation(3);         // display.orientation.PINS_RIGHT
-        display.setCursor(10, 10);
-        display.print("Pins on Right (3)");
-        
-    }
+    // Update the display
+    display.overwrite();
+
+
+    display.drawTriangle(   10, 50,     // Point 1 x, y
+                            20, 5,      // Point 2 x, y
+                            70, 45,     // Point 3 x, y
+                            BLACK   );  // Color
+
+    // Update the display, drawing over the last image
+    display.overwrite();
 
 }
 
-void loop() { }
+void loop() {}

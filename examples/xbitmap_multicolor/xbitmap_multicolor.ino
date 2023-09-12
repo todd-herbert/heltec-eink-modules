@@ -1,15 +1,20 @@
-// Which panel are you using?  (uncomment one)
+// Pick your panel  -  https://github.com/todd-herbert/heltec-eink-modules#supported-displays
+// ---------------
+
+    // (Only supported panels with 3-color are shown)
+
+    #define  USING_DEPG0213RWS800        // 2.13" V2 - BWR - Red Tab
+    // #define  USING_QYEG0213RWS800        // 2.13" V2 - BWR - Red Tab
+
+
+// Find your wiring  -  https://github.com/todd-herbert/heltec-eink-modules#wiring
+// ----------------
+
 // (Only supported panels with 3-color are shown)
-// -------------------------------------------
-    #define  USING_DEPG0213RWS800       // 2.13" V2 - BWR - Red Tab
-    // #define  USING_QYEG0213RWS800       // 2.13" V2 - BWR - Red Tab
 
-
-// Where is your panel connected?
-// ------------------------------
-    #define DC_PIN 8
-    #define CS_PIN 10
-    #define BUSY_PIN 7
+    #define DC_PIN 2
+    #define CS_PIN 4
+    #define BUSY_PIN 5
 
 
 // (Example automatically picks the correct class and sample image)
@@ -46,15 +51,14 @@
 PANEL_CLASS display(DC_PIN, CS_PIN, BUSY_PIN);
 
 void setup() {
-    display.setRotation(display.orientation.PINS_LEFT);   // Don't forget to set the orientation, so your image fits how you intended
+    display.setRotation(PINS_LEFT);   // Don't forget to set the orientation, so your image fits how you intended
 
     while( display.calculating() ) {
         // Draw each image to its destination color
-        display.drawXBitmap(0, 0, apples_black_bits, apples_black_width, apples_black_height, display.colors.BLACK);
-        display.drawXBitmap(0, 0, apples_red_bits, apples_red_width, apples_red_height, display.colors.RED);
+        display.drawXBitmap(0, 0, apples_black_bits, apples_black_width, apples_black_height, BLACK);
+        display.drawXBitmap(0, 0, apples_red_bits, apples_red_width, apples_red_height, RED);
     }
 
-    display.update();   // The display will only begin to change once update() is called.
 }
 
 void loop() {}

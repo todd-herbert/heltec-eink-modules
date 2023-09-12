@@ -1,5 +1,6 @@
-// Which panel are you using?   -   https://github.com/todd-herbert/heltec-eink-modules#identifying-your-display
-// ---------------------------
+// Pick your panel  -  https://github.com/todd-herbert/heltec-eink-modules#supported-displays
+// ---------------
+
     // #define  USING_DEPG0150BNS810        // 1.54" V2 - BW - Red Tab
     // #define  USING_DEPG0154BNS800        // 1.54" V2 - BW - Red Tab
     // #define  USING_GDEP015OC1            // 1.54" V2 - BW - Blue Tab
@@ -10,11 +11,12 @@
     // #define  USING_GDE029A1              // 2.9" V2 - BW - Blue Tab
 
 
-// Where is your panel connected?
-// --------------------------------
-    #define DC_PIN 8
-    #define CS_PIN 10
-    #define BUSY_PIN 7
+// Find your wiring  -  https://github.com/todd-herbert/heltec-eink-modules#wiring
+// ----------------
+
+    #define DC_PIN 2
+    #define CS_PIN 4
+    #define BUSY_PIN 5
 
 
 // (Example automatically picks the correct class and sample text)
@@ -26,10 +28,10 @@
     #define     SAMPLE_TEXT     "Fancy font."   // Display too small
 #elif   defined USING_GDEP015OC1
     #define     PANEL_CLASS     GDEP015OC1
-    #define     SAMPLE_TEXT     "Fancy fonty text."
+    #define     SAMPLE_TEXT     "Fancy fonty text."  
 #elif   defined USING_DEPG0213RWS800
     #define     PANEL_CLASS     DEPG0213RWS800
-    #define     SAMPLE_TEXT     "Fancy fonty text."   
+    #define     SAMPLE_TEXT     "Fancy fonty text."  
 #elif   defined USING_QYEG0213RWS800
     #define     PANEL_CLASS     QYEG0213RWS800
     #define     SAMPLE_TEXT     "Fancy fonty text."    
@@ -60,9 +62,9 @@
 PANEL_CLASS display(DC_PIN, CS_PIN, BUSY_PIN);
 
 void setup() {
-    display.setRotation(display.orientation.PINS_LEFT);  // Landscape
+    display.setRotation(PINS_LEFT);  // Landscape
 
-    display.setFont( &FreeSerifBoldItalic9pt7b );   // Pass (the address of) the font to the library
+    display.setFont( & FreeSerifBoldItalic9pt7b );   // Pass (the address of) the font to the library
     const char text[] = SAMPLE_TEXT;
 
     // Precisely place our text using getTextBounds()
@@ -75,7 +77,7 @@ void setup() {
     unsigned int text_height;
     
     // This will tell us where the bounds of the text would be, if we setCursor(0,0) and then print(text)
-    // Note that the variables are passed by reference
+    // Note that the variables are passed by reference (with &)
     display.getTextBounds(text, 0, 0, &text_left_edge, &text_top_edge, &text_width, &text_height);
 
     // We can use this information in our loop to help place the string
@@ -89,17 +91,16 @@ void setup() {
     // Graphics GO!
     // -------------
 
-    while( display.calculating() ) {
+    DRAW ( display ) {
 
         display.setCursor(cursor_demo_x, cursor_demo_y);          
         display.print(text);
 
         // Lets draw a line across the screen at cursor height, to really make the point clear
-        display.drawLine(0, cursor_demo_y, display.bounds.full.right(), cursor_demo_y, display.colors.BLACK);
+        display.drawLine(0, cursor_demo_y, display.bounds.full.right(), cursor_demo_y, BLACK);
         
     }
 
-        display.update();   // The display will only begin to change once update() is called
 }
 
 void loop() { }

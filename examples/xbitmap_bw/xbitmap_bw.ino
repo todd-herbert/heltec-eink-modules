@@ -1,5 +1,6 @@
-// Which panel are you using?   -   https://github.com/todd-herbert/heltec-eink-modules#identifying-your-display
-// --------------------------
+// Pick your panel  -  https://github.com/todd-herbert/heltec-eink-modules#supported-displays
+// ---------------
+
     // #define  USING_DEPG0150BNS810        // 1.54" V2 - BW - Red Tab
     // #define  USING_DEPG0154BNS800        // 1.54" V2 - BW - Red Tab
     // #define  USING_GDEP015OC1            // 1.54" V2 - BW - Blue Tab
@@ -10,11 +11,12 @@
     // #define  USING_GDE029A1              // 2.9" V2 - BW - Blue Tab
 
 
-// Where is your panel connected?
-// --------------------------------
-    #define DC_PIN 8
-    #define CS_PIN 10
-    #define BUSY_PIN 7
+// Find your wiring  -  https://github.com/todd-herbert/heltec-eink-modules#wiring
+// ----------------
+
+    #define DC_PIN 2
+    #define CS_PIN 4
+    #define BUSY_PIN 5
 
 
 // (Example automatically picks the correct class and sample image)
@@ -59,21 +61,19 @@
 
 #include "heltec-eink-modules.h"
 
-// Here we are including the xbm image file (chess.h or similar). In this example, for convenience, an appropriate image for you display has been automatically selected. (See above)
+// Here we are including the xbm image file (chess.h or similar). 
+// In this example, for convenience, an appropriate image for you display has been automatically selected. (See above)
 #include CHESS_H
 
 
 PANEL_CLASS display(DC_PIN, CS_PIN, BUSY_PIN);
 
 void setup() {
-    display.setRotation(display.orientation.PINS_LEFT);   // Don't forget to set the orientation, so your image fits how you intended
+    display.setRotation(PINS_LEFT);   // Don't forget to set the orientation, so your image fits how you intended
 
-    while( display.calculating() ) {
-        // This while loop is important; it allows the display to update piece by piece, saving resources
-        display.drawXBitmap(0, 0, chess_bits, chess_width, chess_height, display.colors.BLACK);
+    DRAW (display) {
+        display.drawXBitmap(0, 0, chess_bits, chess_width, chess_height, BLACK);
     }
-
-    display.update();   // The display will only begin to change once update() is called
 }
 
 void loop() {}

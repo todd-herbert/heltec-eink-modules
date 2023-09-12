@@ -1,17 +1,14 @@
 #include "heltec-eink-modules.h"
 
-// Define your pins:
-// ------------------
+// Find your wiring  -  https://github.com/todd-herbert/heltec-eink-modules#wiring
+// ----------------
 
-// ( DO NOT connect pins directly to display )
-// See https://github.com/todd-herbert/heltec-eink-modules#wiring
-
-    #define PIN_BUSY    7
-    #define PIN_CS      10
-    #define PIN_DC      8
+    #define PIN_DC      2
+    #define PIN_CS      4
+    #define PIN_BUSY    5
 
 
-// Pick your panel  -   https://github.com/todd-herbert/heltec-eink-modules#supported-displays
+// Pick your panel  -  https://github.com/todd-herbert/heltec-eink-modules#supported-displays
 // ---------------
 
     // DEPG0150BNS810 display( PIN_DC, PIN_CS, PIN_BUSY );      // 1.54" V2 - BW - Red Tab
@@ -24,7 +21,6 @@
     // GDE029A1 display( PIN_DC, PIN_CS, PIN_BUSY );            // 2.9"  V2 - BW - Blue Tab
 
 
-
 // DEMO: Sprites
 // -------------
     // XBitmaps are well suited for storing graphic elements that can be prerendered and then placed where neeeded
@@ -35,7 +31,7 @@
 
 
 void setup() {
-    display.setRotation(display.orientation.PINS_LEFT);
+    display.setRotation(PINS_LEFT);
 
     // Useful drawing aides
     unsigned int CENTER_X   = display.bounds.full.centerX();
@@ -43,14 +39,14 @@ void setup() {
 
     unsigned int ball_offset = 53;
 
-    while( display.calculating() ) {
+    DRAW (display) {
         // First draw a ball in the background, top centre
         display.drawXBitmap(    CENTER_X - (ball_width / 2),                        // Left
                                 CENTER_Y - (ball_width / 2) - ball_offset,          // Top
                                 ball_bits,                                          // Image Data
                                 ball_width,                                         // Width
                                 ball_height,                                        // Height
-                                display.colors.BLACK );                             // Color
+                                BLACK   );                                          // Color
 
         // ball in the bottom left
         // Note that the XBitmap only specifies location of one color. This allows transparency
@@ -59,22 +55,22 @@ void setup() {
                                 ball_bits, 
                                 ball_width, 
                                 ball_height, 
-                                display.colors.BLACK );
+                                BLACK   );
         
         // Another ball in the bottom right
         // To prevent a transparency effect, you will need either a second xbitmap, or to write a background of white pixels underneath 
         display.fillCircle(     CENTER_X + ball_offset, 
                                 CENTER_Y, ball_width / 2, 
-                                display.colors.WHITE );
+                                WHITE   );
 
         display.drawXBitmap(    CENTER_X - (ball_width / 2) + ball_offset, 
                                 CENTER_Y - (ball_width / 2), ball_bits, 
                                 ball_width, 
                                 ball_height, 
-                                display.colors.BLACK );
+                                BLACK   );
+        
+        // End of DRAW(), display will now update
     }
-
-    display.update();   // The display will only begin to change once update() is called
 
 }
 
