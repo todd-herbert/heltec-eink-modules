@@ -3,6 +3,8 @@
 Third-party Arduino Library for **Heltec E-Ink Module** displays.<br />
 Run-time drawing, using Adafruit-GFX.
 
+*v2.x users: see [breaking_changes.md](breaking_changes.md)*
+
 **[Read the API](/docs/API.md)** <br />
 
 - [Supported Platforms](#supported-platforms)

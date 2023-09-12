@@ -1,10 +1,6 @@
 # Breaking changes
-### Upgrading from v2.5.1 to v3.0.0-alpha
-This is an informal list of changes, maintained during development, to give a "heads up" on what to expect.
+### Upgrading from v2.5.1 to v3.0.0
 
-The list will grow and change.
-
-### Just tell me already!
 
  * `update()` is gone
     * update happens automatically after paging
@@ -19,3 +15,7 @@ The list will grow and change.
         * `setFastmode(instance.fastmode.FINALIZING)` - > `fastmodeON()`
         * `setFastmode(instance.fastmode.ON)` - > `fastmodeTurbo()`
         </nobr>
+* `deepSleep()` replaced with new  hardware-focussed methods:
+    * `usingPowerSwitching(pin, switch_type)`
+    * `externalPowerOff()`
+    * `externalPowerOn()`
