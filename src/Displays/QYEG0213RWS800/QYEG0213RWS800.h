@@ -15,31 +15,41 @@ class QYEG0213RWS800 : public BaseDisplay {
         static const Color supported_colors = (Color) ( BLACK | WHITE | RED );      // Colors available for drawing
 
 
+    // Special case: ATmega2560 LOW RAM - enable paging
+    // =================================================
+
+    #if (PLATFORM_NAME == ATmega2560) || (PLATFORM_NAME == ATmega1280)
+        #define ADJUSTED_PAGEHEIGHT 50
+    #else
+        #define ADJUSTED_PAGEHEIGHT DEFAULT_PAGE_HEIGHT
+    #endif
+
+
     // Constructors
     // ======================
     public:
 
         // UNO-style constructor
-        QYEG0213RWS800(  uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint16_t page_height = 50)   // Enable paging, 3 Colors takes too much RAM
-            : BaseDisplay ( pin_dc, pin_cs, pin_busy, DEFAULT_SDI, DEFAULT_CLK, page_height) 
+        QYEG0213RWS800(  uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint16_t page_height = ADJUSTED_PAGEHEIGHT )
+            : BaseDisplay ( pin_dc, pin_cs, pin_busy, DEFAULT_SDI, DEFAULT_CLK, page_height)
                 { init(); }
 
         // Full pinout constructor
         #if CAN_SPECIFY_SPI_PINS
-            QYEG0213RWS800(  uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint8_t pin_sdi, uint8_t pin_clk, uint16_t page_height = 50) // Enable paging, 3 Colors takes too much RAM
+            QYEG0213RWS800(  uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint8_t pin_sdi, uint8_t pin_clk, uint16_t page_height = ADJUSTED_PAGEHEIGHT)
                 : BaseDisplay ( pin_dc, pin_cs, pin_busy, pin_sdi, pin_clk, page_height)
                     { init(); }
 
         #else
             // If UNO uses full constructor
-            /* --- ERROR: Your board's SPI pinout cannot be customized --- */   QYEG0213RWS800( uint8_t pin_dc, uint8_t pin_sdi, uint8_t pin_cs, 
-                                                                                                uint8_t pin_clk, uint8_t pin_busy, 
+            /* --- ERROR: Your board's SPI pinout cannot be customized --- */   QYEG0213RWS800( uint8_t pin_dc, uint8_t pin_sdi, uint8_t pin_cs,
+                                                                                                uint8_t pin_clk, uint8_t pin_busy,
                                                                                                 uint16_t page_height ) = delete;
-        #endif     
+        #endif
 
 
     // Setup
-    // ==========================     
+    // ==========================
     private:
         void init();        // Once instantiated, pass config to base
 
@@ -52,7 +62,7 @@ class QYEG0213RWS800 : public BaseDisplay {
         void configFull();
         void activate();
 
-    
+
     // Disabled methods
     // ==========================
     private:
