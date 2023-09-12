@@ -274,6 +274,10 @@ void BaseDisplay::clear(bool refresh) {
         if (pagefile_height != panel_height)
             return;
 
+        // Init display, if needed
+        if (fastmode_state == NOT_SET)
+            fastmodeOff();
+
         // Copy the local image data to the display memory, then update
         writePage();
         activate();
