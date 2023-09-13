@@ -18,7 +18,7 @@ class QYEG0213RWS800 : public BaseDisplay {
     // Special case: ATmega2560 LOW RAM - enable paging
     // =================================================
 
-    #if (PLATFORM_NAME == ATmega2560) || (PLATFORM_NAME == ATmega1280)
+    #if defined(__AVR_ATmega2560__) || defined(__AVR_ATmega1280__)
         #define ADJUSTED_PAGEHEIGHT 50
     #else
         #define ADJUSTED_PAGEHEIGHT DEFAULT_PAGE_HEIGHT
