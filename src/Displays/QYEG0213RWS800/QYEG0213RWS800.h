@@ -44,7 +44,7 @@ class QYEG0213RWS800 : public BaseDisplay {
             // If UNO uses full constructor
             /* --- ERROR: Your board's SPI pinout cannot be customized --- */   QYEG0213RWS800( uint8_t pin_dc, uint8_t pin_sdi, uint8_t pin_cs,
                                                                                                 uint8_t pin_clk, uint8_t pin_busy,
-                                                                                                uint16_t page_height ) = delete;
+                                                                                                uint16_t page_height = DEFAULT_PAGE_HEIGHT ) = delete;
         #endif
 
 
