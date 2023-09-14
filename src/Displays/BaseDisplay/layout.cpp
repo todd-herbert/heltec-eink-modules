@@ -16,7 +16,8 @@ void BaseDisplay::setRotation(uint8_t r) {
     setWindow(  bounds.window.left(), 
                 bounds.window.top(), 
                 bounds.window.width(), 
-                bounds.window.height() );
+                bounds.window.height(),
+                false );    // ( Do not clear the page)
 }
 
 // Set the image flip
@@ -50,8 +51,13 @@ void BaseDisplay::fullscreen() {
 }
 
 // Draw on only part of the screen, leaving the rest unchanged
-// Call before calculating
+// Call before DRAW
 void BaseDisplay::setWindow(uint16_t left, uint16_t top, uint16_t width, uint16_t height) {
+    setWindow(left, top, width, height, true);  // true - clear the page (re: PRESERVE_IMAGE)
+}
+
+// Window update code, with exposed clear_page argument. Prevents image during setRotation, with PRESERVE_IMAGE
+void BaseDisplay::setWindow(uint16_t left, uint16_t top, uint16_t width, uint16_t height, bool clear_page) {
     uint16_t right = left + (width - 1);
     uint16_t bottom = top + (height - 1);
     window_left = left;
@@ -150,6 +156,7 @@ void BaseDisplay::setWindow(uint16_t left, uint16_t top, uint16_t width, uint16_
         page_bottom = min((winrot_top + pagefile_height) - 1, winrot_bottom);
         pagefile_length = (page_bottom - page_top + 1) * ((winrot_right - winrot_left + 1) / 8);
 
-        clearPage(default_color);
+        if (clear_page)
+            clearPage(default_color);
     #endif
 }

@@ -71,6 +71,8 @@ class BaseDisplay: public GFX {
         void clear(bool refresh);                                   // Clear display memory, with optional update
         void clearPage(uint16_t bgcolor);                           // Fill the pagefile(s) with default_color
         void writePage();                                           // Send image data to display memory (no refresh)
+        void setWindow(uint16_t left, uint16_t top, uint16_t width, uint16_t height, bool clear_page); // (hide clear_page  from user)
+
 
         void reset();                                               // Soft-reset the dispaly
         void wait();                                                // Pause until the display can accept new commands
