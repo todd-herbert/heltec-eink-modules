@@ -180,7 +180,7 @@ It takes a bit longer, but without paging, Arduino Uno R3 wouldn't stand a chanc
 
 ![paging graphic](/docs/paging_graphic.png)
 
-If you have a more powerful board (ESP32  ESP8266), the library won't waste time paging. Your image will be calculated once, and once only.
+If you have a more powerful board (ESP, SAMD21), the library won't waste time paging. Your image will be calculated once, and once only.
 
 If you board has the resources, paging is disabled automatically.
 If, for any reason, you should want to turn it back on, you can set a `page_height` in your [constructor](/docs/API.md#display-constructors).
@@ -265,7 +265,8 @@ DEPG0150BNS810 display(dc, cs, busy);
 
 Pass the pin numbers to which the *D/C*, *CS*, and *BUSY* pins from the display are connected.
 
-If you're using ESP32, you are free to set your *SDI*, and *CLK* pins too.
+If you're using ESP32, you are free to set your *SDI*, and *CLK* pins too.<br />
+If you're using SAMD21G18A, you are able to make *some* changes to *SDI* and *CLK* assignment. See [wiring](/docs/Wiring/wiring_samd21g18a.md#optional-changing-mosi-and-sck-pins).
 
 ```cpp
 DEPG0150BNS810 display(dc, cs, busy, sdi, clk);

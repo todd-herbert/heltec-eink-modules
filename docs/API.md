@@ -92,8 +92,8 @@ Create a display controller object, for model [DEPG0150BNS810](/docs/README.md#s
 ```cpp
 DEPG0150BNS810(DC_PIN, CS_PIN, BUSY_PIN)
 DEPG0150BNS810(DC_PIN, CS_PIN, BUSY_PIN, page_height)
-DEPG0150BNS810(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN)  // ESP32 only
-DEPG0150BNS810(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32 only
+DEPG0150BNS810(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN)  // ESP32 or SAMD21G18A only
+DEPG0150BNS810(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32 or SAMD21G18A only
 ```
 
 #### Parameters
@@ -101,8 +101,8 @@ DEPG0150BNS810(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32
 * _DC_PIN_: pin which connects to "Display / Command" (D/C) pin on the display.
 * _CS_PIN_: pin which connects to "Chip Select" (CS) on the display.
 * _BUSY_PIN_: pin which connects to "BUSY" on the display.
-* _SDI_PIN_: pin which connects to "SDI" on the display. *ESP32 only*
-* _CLK_PIN_: pin which connects to "CLK" on the display. *ESP32 only*
+* _SDI_PIN_: pin which connects to "SDI" on the display. *ESP32 or SAMD21G18A only*
+* _CLK_PIN_: pin which connects to "CLK" on the display. *ESP32 or SAMD21G18A only*
 * _page\_height_ (optional): number of rows per page. For Arduino Uno default value is 20, meaning the display is calculated 20 rows at a time. Higher values consume more RAM. For more powerful boards, paging is disabled by default.
 
 #### Example
@@ -122,8 +122,8 @@ Create a display controller object, for model [DEPG0154BNS800](/docs/README.md#s
 ```cpp
 DEPG0154BNS800(DC_PIN, CS_PIN, BUSY_PIN)
 DEPG0154BNS800(DC_PIN, CS_PIN, BUSY_PIN, page_height)
-DEPG0154BNS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN)  // ESP32 only
-DEPG0154BNS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32 only
+DEPG0154BNS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN)  // ESP32 or SAMD21G18A only
+DEPG0154BNS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32 or SAMD21G18A only
 ```
 
 #### Parameters
@@ -131,8 +131,8 @@ DEPG0154BNS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32
 * _DC_PIN_: pin which connects to "Display / Command" (D/C) pin on the display.
 * _CS_PIN_: pin which connects to "Chip Select" (CS) on the display.
 * _BUSY_PIN_: pin which connects to "BUSY" on the display.
-* _SDI_PIN_: pin which connects to "SDI" on the display. *ESP32 only*
-* _CLK_PIN_: pin which connects to "CLK" on the display. *ESP32 only*
+* _SDI_PIN_: pin which connects to "SDI" on the display. *ESP32 or SAMD21G18A only*
+* _CLK_PIN_: pin which connects to "CLK" on the display. *ESP32 or SAMD21G18A only*
 * _page\_height_ (optional): number of rows per page. For Arduino Uno default value is 20, meaning the display is calculated 20 rows at a time. Higher values consume more RAM. For more powerful boards, paging is disabled by default.
 
 #### Example
@@ -153,8 +153,8 @@ Create a display controller object, for model [DEPG0290BNS75A](/docs/README.md#s
 ```cpp
 DEPG0290BNS75A(DC_PIN, CS_PIN, BUSY_PIN)
 DEPG0290BNS75A(DC_PIN, CS_PIN, BUSY_PIN, page_height)
-DEPG0290BNS75A(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN)  // ESP32 only
-DEPG0290BNS75A(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32 only
+DEPG0290BNS75A(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN)  // ESP32 or SAMD21G18A only
+DEPG0290BNS75A(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32 or SAMD21G18A only
 ```
 
 #### Parameters
@@ -162,8 +162,8 @@ DEPG0290BNS75A(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32
 * _DC_PIN_: pin which connects to "Display / Command" (D/C) pin on the display.
 * _CS_PIN_: pin which connects to "Chip Select" (CS) on the display.
 * _BUSY_PIN_: pin which connects to "BUSY" on the display.
-* _SDI_PIN_: pin which connects to "SDI" on the display. *ESP32 only*
-* _CLK_PIN_: pin which connects to "CLK" on the display. *ESP32 only*
+* _SDI_PIN_: pin which connects to "SDI" on the display. *ESP32 or SAMD21G18A only*
+* _CLK_PIN_: pin which connects to "CLK" on the display. *ESP32 or SAMD21G18A only*
 * _page\_height_ (optional): number of rows per page. For Arduino Uno default value is 20, meaning the display is calculated 20 rows at a time. Higher values consume more RAM. For more powerful boards, paging is disabled by default.
 
 #### Example
@@ -184,8 +184,8 @@ Create a display controller object, for model [DEPG0290BNS800](/docs/README.md#s
 ```cpp
 DEPG0290BNS800(DC_PIN, CS_PIN, BUSY_PIN)
 DEPG0290BNS800(DC_PIN, CS_PIN, BUSY_PIN, page_height)
-DEPG0290BNS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN)  // ESP32 only
-DEPG0290BNS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32 only
+DEPG0290BNS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN)  // ESP32 or SAMD21G18A only
+DEPG0290BNS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32 or SAMD21G18A only
 ```
 
 #### Parameters
@@ -193,8 +193,8 @@ DEPG0290BNS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32
 * _DC_PIN_: pin which connects to "Display / Command" (D/C) pin on the display.
 * _CS_PIN_: pin which connects to "Chip Select" (CS) on the display.
 * _BUSY_PIN_: pin which connects to "BUSY" on the display.
-* _SDI_PIN_: pin which connects to "SDI" on the display. *ESP32 only*
-* _CLK_PIN_: pin which connects to "CLK" on the display. *ESP32 only*
+* _SDI_PIN_: pin which connects to "SDI" on the display. *ESP32 or SAMD21G18A only*
+* _CLK_PIN_: pin which connects to "CLK" on the display. *ESP32 or SAMD21G18A only*
 * _page\_height_ (optional): number of rows per page. For Arduino Uno default value is 20, meaning the display is calculated 20 rows at a time. Higher values consume more RAM. For more powerful boards, paging is disabled by default.
 
 #### Example
@@ -215,8 +215,8 @@ Create a display controller object, for model [GDEP015OC1](/docs/README.md#suppo
 ```cpp
 GDEP015OC1(DC_PIN, CS_PIN, BUSY_PIN)
 GDEP015OC1(DC_PIN, CS_PIN, BUSY_PIN, page_height)
-GDEP015OC1(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN)  // ESP32 only
-GDEP015OC1(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32 only
+GDEP015OC1(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN)  // ESP32 or SAMD21G18A only
+GDEP015OC1(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32 or SAMD21G18A only
 ```
 
 #### Parameters
@@ -224,8 +224,8 @@ GDEP015OC1(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32 onl
 * _DC_PIN_: pin which connects to "Display / Command" (D/C) pin on the display.
 * _CS_PIN_: pin which connects to "Chip Select" (CS) on the display.
 * _BUSY_PIN_: pin which connects to "BUSY" on the display.
-* _SDI_PIN_: pin which connects to "SDI" on the display. *ESP32 only*
-* _CLK_PIN_: pin which connects to "CLK" on the display. *ESP32 only*
+* _SDI_PIN_: pin which connects to "SDI" on the display. *ESP32 or SAMD21G18A only*
+* _CLK_PIN_: pin which connects to "CLK" on the display. *ESP32 or SAMD21G18A only*
 * _page\_height_ (optional): number of rows per page. For Arduino Uno default value is 20, meaning the display is calculated 20 rows at a time. Higher values consume more RAM. For more powerful boards, paging is disabled by default.
 
 #### Example
@@ -246,8 +246,8 @@ Create a display controller object, for model [GDE029A1](/docs/README.md#support
 ```cpp
 GDE029A1(DC_PIN, CS_PIN, BUSY_PIN)
 GDE029A1(DC_PIN, CS_PIN, BUSY_PIN, page_height)
-GDE029A1(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN)  // ESP32 only
-GDE029A1(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32 only
+GDE029A1(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN)  // ESP32 or SAMD21G18A only
+GDE029A1(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32 or SAMD21G18A only
 ```
 
 #### Parameters
@@ -255,8 +255,8 @@ GDE029A1(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32 only
 * _DC_PIN_: pin which connects to "Display / Command" (D/C) pin on the display.
 * _CS_PIN_: pin which connects to "Chip Select" (CS) on the display.
 * _BUSY_PIN_: pin which connects to "BUSY" on the display.
-* _SDI_PIN_: pin which connects to "SDI" on the display. *ESP32 only*
-* _CLK_PIN_: pin which connects to "CLK" on the display. *ESP32 only*
+* _SDI_PIN_: pin which connects to "SDI" on the display. *ESP32 or SAMD21G18A only*
+* _CLK_PIN_: pin which connects to "CLK" on the display. *ESP32 or SAMD21G18A only*
 * _page\_height_ (optional): number of rows per page. For Arduino Uno default value is 20, meaning the display is calculated 20 rows at a time. Higher values consume more RAM. For more powerful boards, paging is disabled by default.
 
 #### Example
@@ -276,8 +276,8 @@ Create a display controller object, for model [DEPG0213RWS800](/docs/README.md#s
 ```cpp
 DEPG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN)
 DEPG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN, page_height)
-DEPG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN)  // ESP32 only
-DEPG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32 only
+DEPG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN)  // ESP32 or SAMD21G18A only
+DEPG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32 or SAMD21G18A only
 ```
 
 #### Parameters
@@ -285,8 +285,8 @@ DEPG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32
 * _DC_PIN_: pin which connects to "Display / Command" (D/C) pin on the display.
 * _CS_PIN_: pin which connects to "Chip Select" (CS) on the display.
 * _BUSY_PIN_: pin which connects to "BUSY" on the display.
-* _SDI_PIN_: pin which connects to "SDI" on the display. *ESP32 only*
-* _CLK_PIN_: pin which connects to "CLK" on the display. *ESP32 only*
+* _SDI_PIN_: pin which connects to "SDI" on the display. *ESP32 or SAMD21G18A only*
+* _CLK_PIN_: pin which connects to "CLK" on the display. *ESP32 or SAMD21G18A only*
 * _page\_height_ (optional): number of rows per page. For Arduino Uno default value is 20, meaning the display is calculated 20 rows at a time. Higher values consume more RAM. For more powerful boards, paging is disabled by default.
 
 #### Example
@@ -306,8 +306,8 @@ Create a display controller object, for model [QYEG0213RWS800](/docs/README.md#s
 ```cpp
 QYEG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN)
 QYEG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN, page_height)
-QYEG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN)  // ESP32 only
-QYEG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32 only
+QYEG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN)  // ESP32 or SAMD21G18A only
+QYEG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32 or SAMD21G18A only
 ```
 
 #### Parameters
@@ -315,8 +315,8 @@ QYEG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32
 * _DC_PIN_: pin which connects to "Display / Command" (D/C) pin on the display.
 * _CS_PIN_: pin which connects to "Chip Select" (CS) on the display.
 * _BUSY_PIN_: pin which connects to "BUSY" on the display.
-* _SDI_PIN_: pin which connects to "SDI" on the display. *ESP32 only*
-* _CLK_PIN_: pin which connects to "CLK" on the display. *ESP32 only*
+* _SDI_PIN_: pin which connects to "SDI" on the display. *ESP32 or SAMD21G18A only*
+* _CLK_PIN_: pin which connects to "CLK" on the display. *ESP32 or SAMD21G18A only*
 * _page\_height_ (optional): number of rows per page. For Arduino Uno default value is 20, meaning the display is calculated 20 rows at a time. Higher values consume more RAM. For more powerful boards, paging is disabled by default.
 
 #### Example
