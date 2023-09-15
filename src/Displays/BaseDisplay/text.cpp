@@ -237,3 +237,40 @@ void BaseDisplay::charBounds(unsigned char c, int16_t *x, int16_t *y, int16_t *m
         }
     }
 }
+
+// Fix getTextBounds() for 32bit platforms
+// ========================================
+
+// If platform does not use 16 bit ints
+#if __INT_MAX__ != __INT16_MAX__
+
+    // Original (16 bit integer) definitions
+    
+    void BaseDisplay::getTextBounds(const char *str, int16_t x, int16_t y, int16_t *x1, int16_t *y1, uint16_t *w, uint16_t *h) {
+        GFX::getTextBounds(str, x, y, x1, y1, w, h);
+    }
+
+    void BaseDisplay::getTextBounds(const String & str, int16_t x, int16_t y, int16_t *x1, int16_t *y1, uint16_t *w, uint16_t *h) {
+        GFX::getTextBounds(str, x, y, x1, y1, w, h);
+    }
+
+    void BaseDisplay::getTextBounds(const __FlashStringHelper * str, int16_t x, int16_t y, int16_t *x1, int16_t *y1, uint16_t *w, uint16_t *h) {
+        GFX::getTextBounds(str, x, y, x1, y1, w, h);
+    }  
+
+    // Modified to accept "int" on 32 bit platforms
+    // Some users may not be comfortable with fixed-width integers
+
+    void BaseDisplay::getTextBounds(const char *str, int x, int y, int *x1, int *y1, unsigned int *w, unsigned int *h) {
+        GFX::getTextBounds(str, (int16_t) x, (int16_t) y, (int16_t*) x1, (int16_t*) y1, (uint16_t*) w, (uint16_t*) h);
+    }
+
+    void BaseDisplay::getTextBounds(const String & str, int x, int y, int *x1, int *y1, unsigned int *w, unsigned int *h) {
+        GFX::getTextBounds(str, (int16_t) x, (int16_t) y, (int16_t*) x1, (int16_t*) y1, (uint16_t*) w, (uint16_t*) h);
+    }
+
+    void BaseDisplay::getTextBounds(const __FlashStringHelper * str, int x, int y, int *x1, int *y1, unsigned int *w, unsigned int *h) {
+        GFX::getTextBounds(str, (int16_t) x, (int16_t) y, (int16_t*) x1, (int16_t*) y1, (uint16_t*) w, (uint16_t*) h);
+    }  
+
+#endif

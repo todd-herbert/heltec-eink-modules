@@ -54,10 +54,23 @@ class BaseDisplay: public GFX {
         bool calculating();                                         // Main method controlling paging. while( calculating() )
         #define DRAW(display) while(display.calculating())          // Macro to call while(.calculating())
 
+        // If overwrite() is available
         #if PRESERVE_IMAGE
             void overwrite();
         #else
             /* --- Error: Microcontroller doesn't have enough RAM. Use a DRAW() loop instead --- */       void overwrite() = delete;
+        #endif
+
+        // If platform does not use 16 bit ints
+        #if __INT_MAX__ != __INT16_MAX__
+
+            // Fix a parameter issue with AdafruitGFX
+            void getTextBounds(const char *str, int16_t x, int16_t y, int16_t *x1, int16_t *y1, uint16_t *w, uint16_t *h);
+            void getTextBounds(const String & str, int16_t x, int16_t y, int16_t *x1, int16_t *y1, uint16_t *w, uint16_t *h);
+            void getTextBounds(const __FlashStringHelper * str, int16_t x, int16_t y, int16_t *x1, int16_t *y1, uint16_t *w, uint16_t *h);
+            void getTextBounds(const char *str, int x, int y, int *x1, int *y1, unsigned int *w, unsigned int *h);
+            void getTextBounds(const String & str, int x, int y, int *x1, int *y1, unsigned int *w, unsigned int *h);
+            void getTextBounds(const __FlashStringHelper * str, int x, int y, int *x1, int *y1, unsigned int *w, unsigned int *h);  
         #endif
 
 
