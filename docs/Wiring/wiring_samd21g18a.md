@@ -1,5 +1,5 @@
 # Heltec E-ink Modules
-## Wiring:SAMD21G18A
+## Wiring: SAMD21G18A
 
 **✅ SAMD21G18A uses 3.3V logic. It can connect directly to display.**
 
