@@ -8,6 +8,12 @@
 
 // Slow, detailed updates
 void BaseDisplay::fastmodeOff() {
+
+    // SAMD21: Setup SPI
+    #if LATE_INIT
+        lateInit();
+    #endif
+
     fastmode_state = Fastmode::OFF;
     reset();
     configFull();
@@ -17,6 +23,12 @@ void BaseDisplay::fastmodeOff() {
 // Fast, low quality updates.
 // Use sparingly.
 void BaseDisplay::fastmodeOn() {
+
+    // SAMD21: Setup SPI
+    #if LATE_INIT
+        lateInit();
+    #endif
+
     if(fastmode_state == NOT_SET)
         clear(false);     // Initialize display memory, if needed
 
@@ -35,6 +47,12 @@ void BaseDisplay::fastmodeOn() {
 // Fastest, low quality updates. Unstable.
 // Use with caution.
 void BaseDisplay::fastmodeTurbo() {
+
+    // SAMD21: Setup SPI
+    #if LATE_INIT
+        lateInit();
+    #endif
+
     if(fastmode_state == NOT_SET)
         clear(false);    // Initialize dispaly memory, if needed
 

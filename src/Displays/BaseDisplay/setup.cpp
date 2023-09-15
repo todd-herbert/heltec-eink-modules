@@ -49,7 +49,9 @@ void BaseDisplay::init() {
     
     // Prepare SPI
     digitalWrite(pin_cs, HIGH);
-    SPI_BEGIN();    
+    #if !LATE_INIT
+        SPI_BEGIN();
+    #endif    
 
     // Calculate pagefile size
     pagefile_height = constrain(pagefile_height, 1, MAX_PAGE_HEIGHT);
@@ -63,11 +65,37 @@ void BaseDisplay::init() {
     #if PRESERVE_IMAGE
         grabPageMemory();
         fullscreen();   // Window change, clears page
+
+        // SAMD21 can't call SPI.begin from a constructor. See BaseDisplay::lateInit()
+        #if LATE_INIT
+            return;
+        #endif
+
         writePage();    // Make sure display memory is also blanked
+        init_done = true;
     #else
         // Otherwise, just set the region
         fullscreen();
     #endif
+}
+
+// Same platforms won't run SPI commands from constructor. This method is called later to finish the job.
+void BaseDisplay::lateInit() {
+
+    // Start SPI and clear display mem
+    if (!init_done) {
+        SPI.begin();
+        init_done = true;
+        
+        // SAMD21: change SPI pins if requested
+        #ifdef __SAMD21G18A__
+            if (pin_sdi != DEFAULT_SDI && pin_clk != DEFAULT_CLK)
+                PinMux().setSPIPins(pin_sdi, pin_clk);
+        #endif
+        
+        // After all that, clear the display memory
+        writePage();
+    }
 }
 
 // Set configuration of custom power-swiching circuit, then power up

@@ -6,16 +6,15 @@
     // If building for ATmega1280
     #ifdef __AVR_ATmega1280__
 
-        #warning - ATmega1280 support is untested.
-
-        // Short Name
-        #define PLATFORM_NAME           ATMEGA1280
+        // Don't use fallback settigs
+        #define PLATFORM_SUPPORTED      true
 
         // SPI
         #define SPI_BEGIN()             ( SPI.begin() )
         #define CAN_SPECIFY_SPI_PINS    false
         #define DEFAULT_SDI             MOSI
         #define DEFAULT_CLK             SCK
+        #define LATE_INIT                false
 
         // Paging
         #define DEFAULT_PAGE_HEIGHT     panel_height

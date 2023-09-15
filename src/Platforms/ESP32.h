@@ -12,14 +12,15 @@
         #define abs(x) ((x)>0?(x):-(x))
         #define constrain(amt,low,high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
 
-        // Name
-        #define PLATFORM_NAME           ESP32
+        // Don't use fallback settigs
+        #define PLATFORM_SUPPORTED      true
 
         // SPI
         #define SPI_BEGIN()             ( SPI.begin(pin_clk, -1, pin_sdi, -1) )
         #define CAN_SPECIFY_SPI_PINS    true
         #define DEFAULT_SDI             MOSI
         #define DEFAULT_CLK             SCK
+        #define LATE_INIT                false
 
         // Paging
         #define DEFAULT_PAGE_HEIGHT     panel_height    // Indicate that we want the full display 

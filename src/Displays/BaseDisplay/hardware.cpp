@@ -59,6 +59,11 @@ void BaseDisplay::wait() {
 
 /// Write one page to the panel memory
 void BaseDisplay::writePage() {
+    // SAMD21: Setup SPI
+    #if LATE_INIT
+        lateInit();
+    #endif
+
     // Calculate rotated x start and stop values (y is already done via paging)
     int16_t sx, sy, ex, ey;
     specifyMemoryArea(sx, sy, ex, ey);  // Virtual, derived class
@@ -149,6 +154,12 @@ void BaseDisplay::externalPowerOn() {
 
     // SPI resumes
     SPI_BEGIN();
+    
+    // SAMD21: Move the SPI pins back to custom location
+    #ifdef __SAMD21G18A__
+        if (pin_sdi != DEFAULT_SDI && pin_clk != DEFAULT_CLK)
+            PinMux().setSPIPins(pin_sdi, pin_clk);
+    #endif
 
     // Re-load settings for full-refresh
     fastmodeOff();

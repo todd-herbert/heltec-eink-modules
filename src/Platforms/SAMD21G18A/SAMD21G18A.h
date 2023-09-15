@@ -1,25 +1,29 @@
-// Specific options for ATmega2560
+// Specific options for SAMD21G18A
 
-#ifndef __M2560_H__
-#define __M2560_H__
+#ifndef __PLATFORM_FALLBACK_H__
+#define __PLATFORM_FALLBACK_H__
 
-    // If building for ATmega2560
-    #ifdef __AVR_ATmega2560__
+    // Check if not otherwise handled
+    #ifdef __SAMD21G18A__
 
+        #include "pin_mux.h"
+
+        // Don't use fallback settigs
         // Don't use fallback settigs
         #define PLATFORM_SUPPORTED      true
 
         // SPI
+        
         #define SPI_BEGIN()             ( SPI.begin() )
-        #define CAN_SPECIFY_SPI_PINS    false
+        #define CAN_SPECIFY_SPI_PINS    true
         #define DEFAULT_SDI             MOSI
         #define DEFAULT_CLK             SCK
-        #define LATE_INIT               false
+        #define LATE_INIT               true
 
         // Paging
         #define DEFAULT_PAGE_HEIGHT     panel_height
         #define MAX_PAGE_HEIGHT         panel_height    // Size, in bytes: MAX_PAGE_HEIGHT * (width / 8)
-        #define PRESERVE_IMAGE          true            // No clearing of page file between updates
+        #define PRESERVE_IMAGE          true            // Allow the profile to preserve image
 
     #endif
 

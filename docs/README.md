@@ -20,6 +20,7 @@ Run-time drawing, using Adafruit-GFX.
   - [Page Size](#page-size)
   - [Power Switching](#power-switching)
   - [Fast mode (Partial Refresh)](#fast-mode-partial-refresh)
+- [Troubleshooting](#troubleshooting)
 - [Installation](#installation)
 - [Acknowledgements](#acknowledgements)
 
@@ -27,12 +28,13 @@ Run-time drawing, using Adafruit-GFX.
 
 ## Supported Platforms
 
-* ATmega328P &nbsp;( Arduino UNO R3, &nbsp;Arduino Nano, &nbsp;etc. )
-* ATmega2560 &nbsp; ( Arduino Mega 2560 )
-* ESP32
-* ESP8266
-
-
+Platform    | Tested                        
+------------|-------------------------------
+ATmega328P  | Arduino Uno R3, Arduino Nano
+ATmega2560  | Arduino Mega 2560
+ESP32       | Devkit V1
+ESP8266     | NodeMcu v3
+SAMD21G18A  | Protoneer Nano ARM
 
 ## Supported Displays
 
@@ -166,6 +168,7 @@ See your boards's wiring page for specific information:
 * [**Wiring:** Arduino Mega 2560](/docs/Wiring/wiring_m2560.md)
 * [**Wiring:** ESP32](/docs/Wiring/wiring_esp32.md)
 * [**Wiring:** ESP8266](/docs/Wiring/wiring_esp8266.md)
+* [**Wiring:** SAMD21G18A](/docs/Wiring/wiring_samd21g18a.md)
 
 ## To *page*, or not to *page*
 
@@ -302,6 +305,17 @@ The trade-off is that images drawn in fast mode are of a lower quality. The proc
 
 Call [`setFastmodeOn()`](/docs/API.md#fastmodeon) to enable.<br />
 Call [`setFastmodeOff()`](/docs/API.md#fastmodeoff) to return to normal.
+
+## Troubleshooting
+
+* **Double-check your wiring**<br />
+    On breadboard, or header pins, it is easy to be one row out.<br />
+    Make sure to use a level-shifter, if needed.
+
+* **Disconnect and Reconnect**<br />
+    If the display has been used incorrectly, it can get "stuck".<br />
+    Remove all power from the display for 5 seconds.
+
 
 ## Installation
 

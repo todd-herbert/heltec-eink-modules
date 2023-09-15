@@ -4,6 +4,9 @@
 #include <Arduino.h>
 #include "GFX_Root/GFX.h"
 
+#include "Platforms/platforms.h"
+#include "Platforms/warnings.h"
+
 #include "Displays/class-aliases.h"                     // Rename displays, for backwards compatibility
 
 #include "Displays/DEPG0150BNS810/DEPG0150BNS810.h"     // Heltec 1.54" BW V2   - Red Tab

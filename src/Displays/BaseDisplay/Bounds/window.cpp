@@ -47,10 +47,10 @@ uint16_t WindowBounds::left() {
 uint16_t WindowBounds::getWindowBounds(WindowBounds::side request) {
     
     // Boolean LUT (x:side, y:rotation): after considering rotation, does requested edge need to measure from opposite edge.
-    static const uint8_t rotswap_lut[4] = { B0000,
-                                            B0101,
-                                            B1111,
-                                            B1010 };
+    static const uint8_t rotswap_lut[4] = { 0b0000,
+                                            0b0101,
+                                            0b1111,
+                                            0b1010 };
 
     // Handle setFlip() - first part
     // If flipping, we need to find the opposite edge, and right at the end, measure from the opposite side

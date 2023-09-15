@@ -12,14 +12,15 @@
         #define abs(x) ((x)>0?(x):-(x))
         #define constrain(amt,low,high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
 
-        // Name
-        #define PLATFORM_NAME           ESP8266
+        // Don't use fallback settigs
+        #define PLATFORM_SUPPORTED      true
 
         // SPI
         #define SPI_BEGIN()             ( SPI.begin() )
         #define CAN_SPECIFY_SPI_PINS    false
         #define DEFAULT_SDI             -1
         #define DEFAULT_CLK             -1
+        #define LATE_INIT                false
 
         // Paging
         #define DEFAULT_PAGE_HEIGHT     panel_height    // Indicate that we want the full display 

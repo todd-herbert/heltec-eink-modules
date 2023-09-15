@@ -63,6 +63,7 @@ class BaseDisplay: public GFX {
 
     protected:
         void init();
+        void lateInit();                                            // Platform which refuse to use SPI in constructor. Called before methods
         void grabPageMemory();                                      // Allocate dynamic memory to the pagefile(s) (image buffer)
         void freePageMemory();                                      // Release pagefile memory
         void sendCommand(uint8_t command);                          // Send SPI Command to display (see datasheets)
@@ -138,6 +139,7 @@ class BaseDisplay: public GFX {
 
         // SPI
         const SPISettings spi_settings = SPISettings(200000, MSBFIRST, SPI_MODE0);
+        bool init_done = false;                                     // If using lateInit(), has it run once?
 
         // External power switch
         uint8_t pin_power = -1;                                     // Pin connected to switch / transistor gate
