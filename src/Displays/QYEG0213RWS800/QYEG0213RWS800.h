@@ -19,7 +19,7 @@ class QYEG0213RWS800 : public BaseDisplay {
     // =================================================
 
     #if defined(__AVR_ATmega2560__) || defined(__AVR_ATmega1280__)
-        #define ADJUSTED_PAGEHEIGHT 50
+        #define ADJUSTED_PAGEHEIGHT 20
     #else
         #define ADJUSTED_PAGEHEIGHT DEFAULT_PAGE_HEIGHT
     #endif
