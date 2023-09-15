@@ -1,7 +1,7 @@
 // Specific options for SAMD21G18A
 
-#ifndef __PLATFORM_FALLBACK_H__
-#define __PLATFORM_FALLBACK_H__
+#ifndef __PLATFORM_SAMD21G18A_H__
+#define __PLATFORM_SAMD21G18A_H__
 
     // Check if not otherwise handled
     #ifdef __SAMD21G18A__
