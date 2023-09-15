@@ -72,10 +72,14 @@ void BaseDisplay::init() {
         #endif
 
         writePage();    // Make sure display memory is also blanked
-        init_done = true;
     #else
         // Otherwise, just set the region
         fullscreen();
+    #endif
+
+    // Currently has no impact unless LATE_INIT
+    #if !LATE_INIT
+        init_done = true;
     #endif
 }
 
