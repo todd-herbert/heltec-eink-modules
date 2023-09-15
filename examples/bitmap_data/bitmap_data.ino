@@ -61,7 +61,7 @@
 PANEL_CLASS display(DC_PIN, CS_PIN, BUSY_PIN);
 
 void setup() {
-    display.setRotation(PINS_LEFT);   // Don't forget to set the correct orientation, so your image fits how you intended
+    display.setRotation(PINS_LEFT);   // Don't forget to set the correct rotation, so your image fits how you intended
 
     // Bitmap image data comes in all sorts of weird formats. 
     // To get it to work, you might have to play with the settings.

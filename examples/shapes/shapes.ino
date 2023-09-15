@@ -56,7 +56,7 @@ FullBounds f = display.bounds.full;
 
 
 void setup() {
-    display.setRotation(3);     // Alternatively, display.orientation.PINS_RIGHT
+    display.setRotation(3);     // Alternatively, PINS_RIGHT
 
     // Picks colors that will work on your panel
     // =============================================

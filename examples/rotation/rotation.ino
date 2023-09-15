@@ -21,10 +21,10 @@
     // GDE029A1 display( PIN_DC, PIN_CS, PIN_BUSY );            // 2.9"  V2 - BW - Blue Tab
 
 
-// DEMO: setRotation() printing text different orientations
+// DEMO: setRotation()
 // --------------------------------------------------------
 
-    // For the sake of readability, orientation can be set with either an integer, or in reference to the "header pins" on the panel:
+    // For the sake of readability, rotation can be set with either an integer, or in reference to the "header pins" on the panel:
     //      PINS_ABOVE = 0
     //      PINS_LEFT  = 1
     //      PINS_BELOW = 2
@@ -47,7 +47,7 @@ void setup() {
         display.setCursor(10, 10);
         display.print("Pins Below (2)");
 
-        display.setRotation(3);         // display.orientation.PINS_RIGHT
+        display.setRotation(3);         // PINS_RIGHT
         display.setCursor(10, 10);
         display.print("Pins on Right (3)");
         

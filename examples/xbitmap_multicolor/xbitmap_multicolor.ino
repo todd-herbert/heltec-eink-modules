@@ -51,7 +51,7 @@
 PANEL_CLASS display(DC_PIN, CS_PIN, BUSY_PIN);
 
 void setup() {
-    display.setRotation(PINS_LEFT);   // Don't forget to set the orientation, so your image fits how you intended
+    display.setRotation(PINS_LEFT);   // Don't forget to set the rotation, so your image fits how you intended
 
     DRAW (display) {
         // Draw each image to its destination color

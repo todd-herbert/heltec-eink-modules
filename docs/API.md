@@ -69,9 +69,9 @@
   - [`setWindow()`](#setwindow)
   - [`usePowerSwitching()`](#usepowerswitching)
 - [Constants](#constants)
-  - [`colors`](#colors)
-  - [`flip`](#flip)
-  - [`orientation`](#orientation)
+  - [`Color`](#color)
+  - [`Flip`](#flip)
+  - [`Rotation`](#rotation)
   - [`SwitchType`](#switchtype)
   - [See also](#see-also-28)
 
@@ -967,7 +967,7 @@ DEPG0150BNS810 display(2, 4, 5);
 
 void setup() {
 
-    // Don't forget to set the orientation, so your image fits how you intended
+    // Don't forget to set the rotation, so your image fits how you intended
     display.setRotation(PINS_LEFT);  
 
     DRAW (display) {
@@ -1355,7 +1355,7 @@ None.
 #### See also
 
 * [setRotation()](#setrotation)
-* [orientation](#orientation)
+* [Rotation](#rotation)
 
 ___
 ### `getCursorX()`
@@ -1837,7 +1837,7 @@ void loop() {}
 ```
 #### See also
 
-* [orientation](#orientation)
+* [Rotation](#rotation)
 
 ___
 ### `setTextColor()`
@@ -1971,7 +1971,7 @@ usePowerSwitching(pin, type)
 
 This section describes the various constants (as *enumerations*), which are accepted as parameters by various methods throughout the library.
 
-### `colors`
+### `Color`
 
 #### Values
 
@@ -1986,7 +1986,7 @@ display.setDefaultColor( BLACK )
 ```
 
 ___
-### `flip`
+### `Flip`
 
 Specify along which axis the screen should be flipped (mirrored)
 
@@ -2005,7 +2005,7 @@ display.setFlip( HORIZONTAL )
 ```
 
 ___
-### `orientation`
+### `Rotation`
 
 A convenient shortcut for getting the correct display rotation. Describes the desired rotation in relation to the header pins on the module.
 
