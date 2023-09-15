@@ -3,13 +3,12 @@
 #ifndef __PLATFORM_SAMD21G18A_H__
 #define __PLATFORM_SAMD21G18A_H__
 
-    // Check if not otherwise handled
+    // If building for SAMD21G18A
     #ifdef __SAMD21G18A__
 
         #include "pin_mux.h"
 
-        // Don't use fallback settigs
-        // Don't use fallback settigs
+        // Don't use fallback settings
         #define PLATFORM_SUPPORTED      true
 
         // SPI

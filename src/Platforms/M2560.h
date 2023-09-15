@@ -6,7 +6,7 @@
     // If building for ATmega2560
     #ifdef __AVR_ATmega2560__
 
-        // Don't use fallback settigs
+        // Don't use fallback settings
         #define PLATFORM_SUPPORTED      true
 
         // SPI

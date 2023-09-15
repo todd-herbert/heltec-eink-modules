@@ -6,7 +6,7 @@
     // If building for ATmega328P (UNO, or compatible)
     #ifdef __AVR_ATmega328P__
 
-        // Don't use fallback settigs
+        // Don't use fallback settings
         #define PLATFORM_SUPPORTED      true
 
         // SPI

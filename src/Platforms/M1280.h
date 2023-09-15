@@ -6,7 +6,7 @@
     // If building for ATmega1280
     #ifdef __AVR_ATmega1280__
 
-        // Don't use fallback settigs
+        // Don't use fallback settings
         #define PLATFORM_SUPPORTED      true
 
         // SPI
