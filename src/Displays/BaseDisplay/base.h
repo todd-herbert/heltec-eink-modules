@@ -112,11 +112,16 @@ class BaseDisplay: public GFX {
     public:
         bool supportsColor(Color c);                                // Does display support given color
         uint16_t getTextWidth(const char* text);                    // Width of text, when rendered
+        uint16_t getTextWidth(const String &text);        
         uint16_t getTextHeight(const char* text);                   // Height of text, when rendered
+        uint16_t getTextHeight(const String &text);
         uint16_t getTextCenterX(const char* text);                  // X co-ord required to horizontally center text
+        uint16_t getTextCenterX(const String &text);
         uint16_t getTextCenterY(const char* text);                  // Y co-ord required to vertically center text
+        uint16_t getTextCenterY(const String &text);
         void setFlip(Flip flip);                                    // Mirror the display along specified axis                                
-        void setCursorTopLeft(const char* text, uint16_t x, uint16_t y);        // Place text by top-leftmost pixel                     
+        void setCursorTopLeft(const char* text, uint16_t x, uint16_t y);        // Place text by top-leftmost pixel  
+        void setCursorTopLeft(const String &text, uint16_t x, uint16_t y);                           
         
         // Subclass. Information about screen and window
         Bounds bounds;

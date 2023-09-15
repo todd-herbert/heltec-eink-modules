@@ -17,6 +17,11 @@ void BaseDisplay::setCursorTopLeft(const char* text, uint16_t x, uint16_t y) {
     setCursor(x - offset_x, y - offset_y);
 }
 
+// Set the text cursor according to the desired upper left corner, from an Arduino String
+void BaseDisplay::setCursorTopLeft(const String &text, uint16_t x, uint16_t y) {
+    setCursorTopLeft(text.c_str(), x, y);
+}
+
 // Rendered width of a string
 uint16_t BaseDisplay::getTextWidth(const char* text) {
     int16_t x(0),y(0);
@@ -25,12 +30,22 @@ uint16_t BaseDisplay::getTextWidth(const char* text) {
     return w;
 }
 
+// Rendered width of an Arduino string
+uint16_t BaseDisplay::getTextWidth(const String &text) {
+    return getTextWidth(text.c_str());
+}
+
 // Rendered height of a string
 uint16_t BaseDisplay::getTextHeight(const char* text) {
     int16_t x(0),y(0);
     uint16_t w(0), h(0);
     getTextBounds(text, 0, 0, &x, &y, &w, &h);  // Still need x and y; used internally by getTextBounds()
     return h;
+}
+
+// Rendered height of a string
+uint16_t BaseDisplay::getTextHeight(const String &text) {
+    return getTextHeight(text.c_str());
 }
 
 // Get the required cursor X position to horizontally center text 
@@ -45,6 +60,11 @@ uint16_t BaseDisplay::getTextCenterX(const char* text) {
     return max(0, left - (width / 2) );
 }
 
+// Get the required cursor X position to horizontally center an Arduino String
+uint16_t BaseDisplay::getTextCenterX(const String &text) {
+    return getTextCenterX(text.c_str());
+}
+
 // Get the required cursor Y position to vertically center text 
 uint16_t BaseDisplay::getTextCenterY(const char* text) {
     int16_t offset_x(0), offset_y(0);
@@ -57,6 +77,10 @@ uint16_t BaseDisplay::getTextCenterY(const char* text) {
     return max(0, top - (height / 2) );
 }
 
+// Get the required cursor Y position to vertically center an Arduino String
+uint16_t BaseDisplay::getTextCenterY(const String &text) {
+    return getTextCenterY(text.c_str());
+}
 
 // Virtual AdafruitGFX methods. Tweaked to implement text-wrapping 
 // ================================================================
