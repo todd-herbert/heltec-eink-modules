@@ -23,7 +23,7 @@
 
 // DEMO: Sprites
 // -------------
-    // XBitmaps are well suited for storing graphic elements that can be prerendered and then placed where neeeded
+    // XBitmaps are well suited for storing graphic elements that can be pre-rendered and then placed where neeeded
 
 
 // Here we are including a small image of a ball
@@ -42,7 +42,7 @@ void setup() {
     DRAW (display) {
         // First draw a ball in the background, top centre
         display.drawXBitmap(    CENTER_X - (ball_width / 2),                        // Left
-                                CENTER_Y - (ball_width / 2) - ball_offset,          // Top
+                                CENTER_Y - (ball_height / 2) - ball_offset,         // Top
                                 ball_bits,                                          // Image Data
                                 ball_width,                                         // Width
                                 ball_height,                                        // Height
@@ -51,7 +51,7 @@ void setup() {
         // ball in the bottom left
         // Note that the XBitmap only specifies location of one color. This allows transparency
         display.drawXBitmap(    CENTER_X - (ball_width / 2) - ball_offset, 
-                                CENTER_Y - (ball_width / 2), 
+                                CENTER_Y - (ball_height / 2), 
                                 ball_bits, 
                                 ball_width, 
                                 ball_height, 
@@ -60,11 +60,11 @@ void setup() {
         // Another ball in the bottom right
         // To prevent a transparency effect, you will need either a second xbitmap, or to write a background of white pixels underneath 
         display.fillCircle(     CENTER_X + ball_offset, 
-                                CENTER_Y, ball_width / 2, 
+                                CENTER_Y, ball_height / 2, 
                                 WHITE   );
 
         display.drawXBitmap(    CENTER_X - (ball_width / 2) + ball_offset, 
-                                CENTER_Y - (ball_width / 2), ball_bits, 
+                                CENTER_Y - (ball_height / 2), ball_bits, 
                                 ball_width, 
                                 ball_height, 
                                 BLACK   );
