@@ -75,7 +75,6 @@
   - [`Flip`](#flip)
   - [`Rotation`](#rotation)
   - [`SwitchType`](#switchtype)
-  - [See also](#see-also-29)
 
 
 ## Include Library
@@ -1936,7 +1935,7 @@ Reset the drawing memory to default color, if not using a `DRAW()` loop. Changes
 #### Syntax
 
 ```cpp
-clear()
+startOver()
 ```
 
 #### Parameters
@@ -1974,6 +1973,7 @@ void loop() {}
 * [DRAW()](#draw)
 * [update()](#update)
 * [setDefaultColor()](#setdefaultcolor)
+
 ___
 ### `update()`
 
@@ -2007,6 +2007,11 @@ void setup() {
     display.update();   // Image on display changes with this command
 }
 ```
+
+#### See also
+
+* [DRAW()](#draw)
+* [update()](#update)
 
 ___
 ### `usePowerSwitching()`
@@ -2096,6 +2101,6 @@ Values passed to `usePowerSwitching()`, to specify the type of external switch i
 * `ACTIVE_HIGH`
 * `ACTIVE_LOW`
 
-### See also
+#### See also
 
 * [usePowerSwitching()](#usepowerswitching)
