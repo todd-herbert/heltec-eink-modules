@@ -57,7 +57,7 @@ class QYEG0213RWS800 : public BaseDisplay {
     // Virtual methods
     // ==========================
     public:
-        void specifyMemoryArea( int16_t &sx, int16_t &sy, int16_t &ex, int16_t &ey );
+        void calculateMemoryArea( int16_t &sx, int16_t &sy, int16_t &ex, int16_t &ey );
     private:
         void configFull();
         void activate();

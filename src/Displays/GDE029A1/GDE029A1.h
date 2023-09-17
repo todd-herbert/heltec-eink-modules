@@ -57,7 +57,7 @@ class GDE029A1 : public BaseDisplay {
     // Virtual methods
     // =========================
     public:
-        void specifyMemoryArea( int16_t &sx, int16_t &sy, int16_t &ex, int16_t &ey );       // Display specific formatting of memory locations
+        void calculateMemoryArea( int16_t &sx, int16_t &sy, int16_t &ex, int16_t &ey );       // Display specific formatting of memory locations
     private:
         void configFull();              // Configure panel to use full refresh
         void configPartial();           // Configure panel to use partial refresh

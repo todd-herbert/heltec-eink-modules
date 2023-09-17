@@ -66,33 +66,9 @@ void BaseDisplay::writePage() {
 
     // Calculate rotated x start and stop values (y is already done via paging)
     int16_t sx, sy, ex, ey;
-    specifyMemoryArea(sx, sy, ex, ey);  // Virtual, derived class
-
-    // Split into bytes
-    uint8_t sy1, sy2, ey1, ey2;
-    sy1 = sy & 0xFF;
-    sy2 = (sy >> 8) & 0xFF;
-    ey1 = ey & 0xFF;
-    ey2 = (ey >> 8) & 0xFF;
-
-    // Data entry mode - Left to Right, Top to Bottom
-    sendCommand(0x11);
-    sendData(0x03);
-
-    // Inform the panel hardware of our chosen memory location
-    sendCommand(0x44);  // Memory X start - end
-    sendData(sx);
-    sendData(ex);
-    sendCommand(0x45);  // Memory Y start - end
-    sendData(sy1);
-    sendData(sy2);
-    sendData(ey1);
-    sendData(ey2);
-    sendCommand(0x4E);  // Memory cursor X
-    sendData(sx);
-    sendCommand(0x4F);  // Memory cursor y
-    sendData(sy1);
-    sendData(sy2);
+    calculateMemoryArea(sx, sy, ex, ey);  // Virtual, derived class
+    setMemoryArea(sx, sy, ex, ey);
+   
 
     // Now we can send over our image data
     sendCommand(0x24);   // Write "BLACK" memory
@@ -122,6 +98,35 @@ void BaseDisplay::writePage() {
     }
 
     wait();
+}
+
+// Inform the display of selected memory area
+void BaseDisplay::setMemoryArea(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey) {
+    // Split into bytes
+    uint8_t sy1, sy2, ey1, ey2;
+    sy1 = sy & 0xFF;
+    sy2 = (sy >> 8) & 0xFF;
+    ey1 = ey & 0xFF;
+    ey2 = (ey >> 8) & 0xFF;
+
+    // Data entry mode - Left to Right, Top to Bottom
+    sendCommand(0x11);
+    sendData(0x03);
+
+    // Inform the panel hardware of our chosen memory location
+    sendCommand(0x44);  // Memory X start - end
+    sendData(sx);
+    sendData(ex);
+    sendCommand(0x45);  // Memory Y start - end
+    sendData(sy1);
+    sendData(sy2);
+    sendData(ey1);
+    sendData(ey2);
+    sendCommand(0x4E);  // Memory cursor X
+    sendData(sx);
+    sendCommand(0x4F);  // Memory cursor y
+    sendData(sy1);
+    sendData(sy2);
 }
 
 // Send power-off signal to your custom power switching circuit, and set the display pins to prevent unwanted current flow
@@ -205,33 +210,8 @@ void BaseDisplay::clear(bool refresh) {
     page_bottom = panel_height - 1;
 
     int16_t sx, sy, ex, ey;
-    specifyMemoryArea(sx, sy, ex, ey);  // Virtual, derived class
-
-    // Split into bytes
-    uint8_t sy1, sy2, ey1, ey2;
-    sy1 = sy & 0xFF;
-    sy2 = (sy >> 8) & 0xFF;
-    ey1 = ey & 0xFF;
-    ey2 = (ey >> 8) & 0xFF;
-
-    // Data entry mode - Left to Right, Top to Bottom
-    sendCommand(0x11);
-    sendData(0x03);
-
-    // Inform the panel hardware of our chosen memory location
-    sendCommand(0x44);  // Memory X start - end
-    sendData(sx);
-    sendData(ex);
-    sendCommand(0x45);  // Memory Y start - end
-    sendData(sy1);
-    sendData(sy2);
-    sendData(ey1);
-    sendData(ey2);
-    sendCommand(0x4E);  // Memory cursor X
-    sendData(sx);
-    sendCommand(0x4F);  // Memory cursor y
-    sendData(sy1);
-    sendData(sy2);
+    calculateMemoryArea(sx, sy, ex, ey);  // Virtual, derived class
+    setMemoryArea(sx, sy, ex, ey);
 
     uint16_t x, y;
     uint8_t black_byte, red_byte;

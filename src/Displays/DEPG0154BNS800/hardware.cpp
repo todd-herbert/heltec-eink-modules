@@ -1,6 +1,6 @@
 #include "DEPG0154BNS800.h"
 
-void DEPG0154BNS800::specifyMemoryArea( int16_t &sx, int16_t &sy, int16_t &ex, int16_t &ey ) {
+void DEPG0154BNS800::calculateMemoryArea( int16_t &sx, int16_t &sy, int16_t &ex, int16_t &ey ) {
     sx = (winrot_left / 8) + 1; //Notice the offset
     sy = page_top;
     ex = ((winrot_right + 1) / 8);

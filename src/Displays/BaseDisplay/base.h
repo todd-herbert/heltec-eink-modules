@@ -89,6 +89,7 @@ class BaseDisplay: public GFX {
         void clear(bool refresh);                                   // Clear display memory, with optional update
         void clearPage(uint16_t bgcolor);                           // Fill the pagefile(s) with default_color
         void writePage();                                           // Send image data to display memory (no refresh)
+        void setMemoryArea(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey);                             // Inform the display of selected memory area
         void setWindow(uint16_t left, uint16_t top, uint16_t width, uint16_t height, bool clear_page);      // (hide final parameter from user)
 
 
@@ -106,7 +107,7 @@ class BaseDisplay: public GFX {
 
     // Defined in derived class
     protected:
-        virtual void specifyMemoryArea( int16_t &sx, int16_t &sy, int16_t &ex, int16_t &ey ) = 0;   // Area of display memory to accept data
+        virtual void calculateMemoryArea( int16_t &sx, int16_t &sy, int16_t &ex, int16_t &ey ) = 0;   // Calculate area of display memory to accept data
         virtual void configFull() {};                               // Load display specific settings for full refresh
         virtual void configPartial() {};                            // Load display specific settings for partial refresh
         virtual void activate() = 0;                                // Perform the display update, "master activation"
