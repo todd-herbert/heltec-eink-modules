@@ -19,3 +19,8 @@
     * `usingPowerSwitching(pin, switch_type)`
     * `externalPowerOff()`
     * `externalPowerOn()`
+
+### v3.2.0
+* `overwrite()` deprecated: term "overwrite" is misleading
+    * Renamed to `update()`
+    * `overwrite()` command remains as a synonym, for now

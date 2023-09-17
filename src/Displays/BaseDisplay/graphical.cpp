@@ -81,3 +81,14 @@ void BaseDisplay::setDefaultColor(uint16_t bgcolor) {
 bool BaseDisplay::supportsColor(Color c) {
     return ((supported_colors & c) == c);
 }
+
+#if PRESERVE_IMAGE
+    // Clear the drawing memory, without updating display
+    void BaseDisplay::startOver() {
+        // Check if user has (for some reason) re-enabled paging on a fancy mcu
+        if (pagefile_height != panel_height)
+            return;
+
+        clear(false);   // Clear memory, no refresh
+    }
+#endif

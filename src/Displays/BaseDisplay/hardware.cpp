@@ -279,7 +279,7 @@ void BaseDisplay::clear(bool refresh) {
 
 #if PRESERVE_IMAGE
     // Manually update display, drawing on-top of existing contents
-    void BaseDisplay::overwrite() {
+    void BaseDisplay::update() {
 
         // Check if user has (for some reason) re-enabled paging on a fancy mcu
         if (pagefile_height != panel_height)

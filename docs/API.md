@@ -67,13 +67,15 @@
   - [`setTextColor()`](#settextcolor)
   - [`setTextWrap()`](#settextwrap)
   - [`setWindow()`](#setwindow)
+  - [`startOver()`](#startover)
+  - [`update()`](#update)
   - [`usePowerSwitching()`](#usepowerswitching)
 - [Constants](#constants)
   - [`Color`](#color)
   - [`Flip`](#flip)
   - [`Rotation`](#rotation)
   - [`SwitchType`](#switchtype)
-  - [See also](#see-also-28)
+  - [See also](#see-also-29)
 
 
 ## Include Library
@@ -702,7 +704,7 @@ void setup() {
 
 #### See also
 
-* [overwrite()](#overwrite)
+* [update()](#update)
 
 ___
 ### `drawBitmap()`
@@ -1576,36 +1578,13 @@ The width of the string.
 ___
 ### `overwrite()`
 
-**ATmega328P (Uno / Nano): not supported**<br />
-**ATmega2560: disabled for some displays** 
 
-Execute drawing commands outside a `DRAW` loop, drawing on-top of the existing screen data.
 
-#### Syntax
+**Deprecated.** 
 
-```cpp
-display.overwrite()
-```
+Renamed to [`update()`](#update)
 
-#### Parameters
 
-None.
-
-#### Example
-
-```cpp
-#include <heltec-eink-modules.h>
-
-DEPG0150BNS810 display(2, 4, 5);
-
-void setup() {
-
-    display.setCursor(10, 10);
-    display.print("Example");
-
-    display.overwrite();   // Image on display changes with this command
-}
-```
 
 ___
 ### `setCursor()`
@@ -1945,6 +1924,89 @@ void setup() {
 * [fullscreen()](#fullscreen)
 * [setRotation()](#setrotation)
 * [setFlip()](#setflip)
+
+___
+### `startOver()`
+
+**ATmega328P (Uno / Nano): not supported**<br />
+**ATmega2560: disabled for some displays** 
+
+Reset the drawing memory to default color, if not using a `DRAW()` loop. Changes are not displayed until `update()` is called.
+
+#### Syntax
+
+```cpp
+clear()
+```
+
+#### Parameters
+None.
+
+#### Example
+
+```cpp
+#include <heltec-eink-modules.h>
+
+QYEG0213RWS800 display(2, 4, 5);
+
+void setup() {
+    display.clear();    // Whole display immediately changes now to white
+
+    display.setCursor(10, 10);
+    display.print("First line.");
+
+    display.update();   // Display now shows "first line"
+
+    display.startOver();    // Last drawing cleared from memory; display unchanged
+    
+    display.setCursor(10, 40);
+    display.print("Second line.");
+    
+    display.update();   // Display now shows "second line", and not "first line"
+}
+
+void loop() {}
+```
+
+#### See also
+
+* [clear()](#clear)
+* [DRAW()](#draw)
+* [update()](#update)
+* [setDefaultColor()](#setdefaultcolor)
+___
+### `update()`
+
+**ATmega328P (Uno / Nano): not supported**<br />
+**ATmega2560: disabled for some displays** 
+
+Execute drawing commands outside of a `DRAW` loop, drawing on-top of the existing screen data.
+
+#### Syntax
+
+```cpp
+display.update()
+```
+
+#### Parameters
+
+None.
+
+#### Example
+
+```cpp
+#include <heltec-eink-modules.h>
+
+DEPG0150BNS810 display(2, 4, 5);
+
+void setup() {
+
+    display.setCursor(10, 10);
+    display.print("Example");
+
+    display.update();   // Image on display changes with this command
+}
+```
 
 ___
 ### `usePowerSwitching()`

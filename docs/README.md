@@ -215,7 +215,7 @@ A block of `DRAW()` code represents one drawing session.
 To draw over your existing image, see [setWindow()](/docs/API.md#setwindow)
 
 If your board is powerful enough to disable paging, you have an alternative: <br />
-Run drawing commands anywhere you like, then call [overwrite()](/docs/API.md#overwrite)
+Run drawing commands anywhere you like, then call [update()](/docs/API.md#update)
 
 ### Drawing Commands
 

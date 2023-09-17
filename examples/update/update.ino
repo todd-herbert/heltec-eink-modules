@@ -24,11 +24,11 @@
     // GDE029A1 display( PIN_DC, PIN_CS, PIN_BUSY );            // 2.9"  V2 - BW - Blue Tab
 
 
-// DEMO: Overwrite
+// DEMO: update()
 // ------------------------------------------------
     // Larger microcontrollers have enough RAM to hold the full screen image at once: they do not need paging.
     // These devices do not need to use the DRAW() loop, drawing commands can be issued almost anywhere.
-    // Call overwrite() to update the display.
+    // Call update() to show the result the display.
 
 void setup() {
 
@@ -41,7 +41,7 @@ void setup() {
     display.print("Second line.");
 
     // Update the display
-    display.overwrite();
+    display.update();
 
 
     display.drawTriangle(   10, 50,     // Point 1 x, y
@@ -49,9 +49,20 @@ void setup() {
                             70, 45,     // Point 3 x, y
                             BLACK   );  // Color
 
-    // Update the display, drawing over the last image
-    display.overwrite();
+    // Update the display, drawing over-top the last image
+    display.update();
 
+    delay(5000);
+
+    // Display image remains; but memory is wiped clean
+    // "A blank canvas"
+    display.startOver();
+
+    display.setCursor(10, 60);
+    display.println("startOver()");
+    display.print("a blank canvas");
+
+    display.update();
 }
 
 void loop() {}

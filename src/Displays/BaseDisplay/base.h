@@ -54,16 +54,20 @@ class BaseDisplay: public GFX {
         bool calculating();                                         // Main method controlling paging. while( calculating() )
         #define DRAW(display) while(display.calculating())          // Macro to call while(.calculating())
 
-        // If overwrite() is available
+        // If non-paged drawing is possible
         #if PRESERVE_IMAGE
-            void overwrite();
+            void update();                                          // Non-paged: display the result of drawing.
+            void startOver();                                       // Non-paged: clear the pagefile (which is full screen-height)
+            void overwrite()        { update(); }                   // Deprecated; renamed
         #else
+            // If MCU not capable, tell the user to DRAW() instead
+            /* --- Error: Microcontroller doesn't have enough RAM. Use a DRAW() loop instead --- */       void update() = delete;
+            /* --- Error: Microcontroller doesn't have enough RAM. Use a DRAW() loop instead --- */       void startOver() = delete;
             /* --- Error: Microcontroller doesn't have enough RAM. Use a DRAW() loop instead --- */       void overwrite() = delete;
         #endif
 
         // If platform does not use 16 bit ints
         #if __INT_MAX__ != __INT16_MAX__
-
             // Fix a parameter issue with AdafruitGFX
             void getTextBounds(const char *str, int16_t x, int16_t y, int16_t *x1, int16_t *y1, uint16_t *w, uint16_t *h);
             void getTextBounds(const String & str, int16_t x, int16_t y, int16_t *x1, int16_t *y1, uint16_t *w, uint16_t *h);
@@ -76,7 +80,7 @@ class BaseDisplay: public GFX {
 
     protected:
         void init();
-        void lateInit();                                            // Platform which refuse to use SPI in constructor. Called before methods
+        void lateInit();                                            // For platforms which refuse to use SPI in constructor. Called before hardware methods
         void grabPageMemory();                                      // Allocate dynamic memory to the pagefile(s) (image buffer)
         void freePageMemory();                                      // Release pagefile memory
         void sendCommand(uint8_t command);                          // Send SPI Command to display (see datasheets)
@@ -85,7 +89,7 @@ class BaseDisplay: public GFX {
         void clear(bool refresh);                                   // Clear display memory, with optional update
         void clearPage(uint16_t bgcolor);                           // Fill the pagefile(s) with default_color
         void writePage();                                           // Send image data to display memory (no refresh)
-        void setWindow(uint16_t left, uint16_t top, uint16_t width, uint16_t height, bool clear_page); // (hide clear_page  from user)
+        void setWindow(uint16_t left, uint16_t top, uint16_t width, uint16_t height, bool clear_page);      // (hide final parameter from user)
 
 
         void reset();                                               // Soft-reset the dispaly
