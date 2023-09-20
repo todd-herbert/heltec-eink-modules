@@ -192,8 +192,8 @@ void BaseDisplay::clear() {
 // Private clear method, with optional refresh
 void BaseDisplay::clear(bool refresh) {
     // Store current settings
-    uint8_t page_top_original = page_top;
-    uint8_t page_bottom_original = page_bottom;
+    uint16_t page_top_original = page_top;
+    uint16_t page_bottom_original = page_bottom;
     Fastmode mode_original = fastmode_state;
     uint8_t rotation_original = rotation;
     uint16_t l = bounds.window.left();
