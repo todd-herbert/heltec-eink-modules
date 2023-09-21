@@ -16,7 +16,7 @@
         #define PLATFORM_SUPPORTED      true
 
         // SPI
-        #define SPI_BEGIN()             ( SPI.begin(pin_clk, -1, pin_sdi, -1) )
+        #define SPI_BEGIN()             ( SPI.begin(pin_clk, pin_miso, pin_sdi, -1) )
         #define CAN_SPECIFY_SPI_PINS    true
         #define DEFAULT_SDI             MOSI
         #define DEFAULT_CLK             SCK
