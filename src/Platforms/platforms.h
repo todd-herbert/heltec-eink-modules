@@ -3,6 +3,8 @@
 #ifndef __PLATFORMS_H__
 #define __PLATFORMS_H__
 
+#include <Arduino.h>
+
 // Supported
 #include "Platforms/M328P.h"
 #include "Platforms/ESP32.h"
