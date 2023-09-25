@@ -23,14 +23,14 @@ void BaseDisplay::setRotation(uint8_t r) {
 // Set the image flip
 void BaseDisplay::setFlip(Flip flip) {
     // Reverse the last flip operation applied
-    setWindow(window_left, window_top, window_right - window_left + 1, window_bottom - window_top + 1);
+    setWindow(window_left, window_top, window_right - window_left + 1, window_bottom - window_top + 1, false);
 
     // Store the flip property, for later internal use by GFX methods
     this->imgflip = (Flip)(flip & (Flip::HORIZONTAL | Flip::VERTICAL));
 
     // If flipping the whole screen, not within a window, recalculate bounds
     if (flip == Flip::HORIZONTAL || flip == Flip::VERTICAL)
-        setWindow(window_left, window_top, window_right - window_left + 1, window_bottom - window_top + 1);
+        setWindow(window_left, window_top, window_right - window_left + 1, window_bottom - window_top + 1, false);
 }
 
 // Draw using the whole screen area
