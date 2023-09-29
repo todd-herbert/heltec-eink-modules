@@ -46,12 +46,12 @@ void BaseDisplay::init() {
     pinMode(pin_cs, OUTPUT);
     pinMode(pin_dc, OUTPUT);
     pinMode(pin_busy, INPUT);       // NOTE: do not use internal pullups: incompatible logic levels
-    
+
     // Prepare SPI
     digitalWrite(pin_cs, HIGH);
     #if !LATE_INIT
         SPI_BEGIN();
-    #endif    
+    #endif
 
     // Calculate pagefile size
     pagefile_height = constrain(pagefile_height, 1, MAX_PAGE_HEIGHT);
@@ -77,7 +77,7 @@ void BaseDisplay::init() {
         fullscreen();
     #endif
 
-    // Currently has no impact unless LATE_INIT
+    // Init done, unless platform needs LATE_INIT
     #if !LATE_INIT
         init_done = true;
     #endif
@@ -88,13 +88,13 @@ void BaseDisplay::lateInit() {
 
     // Start SPI and clear display mem
     if (!init_done) {
-        SPI.begin();
+        SPI_BEGIN();
         init_done = true;
         
         // SAMD21: change SPI pins if requested
         #ifdef __SAMD21G18A__
-            if (pin_sdi != DEFAULT_SDI && pin_clk != DEFAULT_CLK)
-                PinMux().setSPIPins(pin_sdi, pin_clk);
+            if (pin_sdi != DEFAULT_SDI || pin_clk != DEFAULT_CLK)
+                pin_miso = PinMux().setSPIPins(pin_sdi, pin_clk);
         #endif
         
         // After all that, clear the display memory

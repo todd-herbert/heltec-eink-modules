@@ -85,10 +85,6 @@ bool BaseDisplay::supportsColor(Color c) {
 #if PRESERVE_IMAGE
     // Clear the drawing memory, without updating display
     void BaseDisplay::startOver() {
-        // Check if user has (for some reason) re-enabled paging on a fancy mcu
-        if (pagefile_height != panel_height)
-            return;
-
-        clear(false);   // Clear memory, no refresh
+         clear(false);   // Clear memory, no refresh
     }
 #endif

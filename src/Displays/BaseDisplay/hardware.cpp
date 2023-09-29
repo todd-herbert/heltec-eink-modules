@@ -59,10 +59,17 @@ void BaseDisplay::wait() {
 
 /// Write one page to the panel memory
 void BaseDisplay::writePage() {
+
     // SAMD21: Setup SPI
     #if LATE_INIT
         lateInit();
     #endif
+
+    // Intercept here for WRITE_CANVAS
+    if (writing_canvas) {
+        writePageToCanvas();
+        return; // Don't draw to screen at same time?
+    }
 
     // Calculate rotated x start and stop values (y is already done via paging)
     int16_t sx, sy, ex, ey;
@@ -145,6 +152,12 @@ void BaseDisplay::externalPowerOff(uint16_t pause) {
     digitalWrite(pin_cs, switch_type);
     digitalWrite(pin_sdi, switch_type);
     digitalWrite(pin_clk, switch_type);
+
+    // Same, if we're using sd card
+    if (pin_cs_card != 0xFF) {
+        digitalWrite(pin_cs_card, switch_type);
+        digitalWrite(pin_miso, switch_type);
+    }
 }
 
 // Send power-on signal to your custom power switching circuit, then re-init display
@@ -162,8 +175,8 @@ void BaseDisplay::externalPowerOn() {
     
     // SAMD21: Move the SPI pins back to custom location
     #ifdef __SAMD21G18A__
-        if (pin_sdi != DEFAULT_SDI && pin_clk != DEFAULT_CLK)
-            PinMux().setSPIPins(pin_sdi, pin_clk);
+        if (pin_sdi != MOSI || pin_clk != SCK || pin_miso != MISO)
+            PinMux().setSPIPins(pin_sdi, pin_clk, pin_miso);
     #endif
 
     // Re-load settings for full-refresh
@@ -238,7 +251,7 @@ void BaseDisplay::clear(bool refresh) {
 
     // Update the display with blank memory
     if (refresh) {
-        activate();
+        activate(); 
 
         // Track state of display memory (re:externalPowerOn)
         display_cleared = true;
@@ -255,15 +268,12 @@ void BaseDisplay::clear(bool refresh) {
     setWindow(l, t, w, h);
     page_top = page_top_original;
     page_bottom = page_bottom_original;
+    
 }
 
 #if PRESERVE_IMAGE
     // Manually update display, drawing on-top of existing contents
     void BaseDisplay::update() {
-
-        // Check if user has (for some reason) re-enabled paging on a fancy mcu
-        if (pagefile_height != panel_height)
-            return;
 
         // Init display, if needed
         if (fastmode_state == NOT_SET)
@@ -271,12 +281,12 @@ void BaseDisplay::clear(bool refresh) {
 
         // Copy the local image data to the display memory, then update
         writePage();
-        activate();
+        activate(); 
 
         // If fastmode setting requires, repeat
         if (fastmode_state == ON) {
             writePage();
-            activate();
+            activate(); 
         }
 
         // Track state of display memory (re:externalPowerOn)

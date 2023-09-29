@@ -70,7 +70,9 @@ bool BaseDisplay::calculating() {
 
         // Fastmode OFF or TURBO, single pass
         if (fastmode_state == OFF || fastmode_state == TURBO) {
-            activate();
+            if(!writing_canvas)
+                activate(); 
+                
             return false;
         }
 
@@ -78,13 +80,17 @@ bool BaseDisplay::calculating() {
         else {
             // End of first pass
             if (fastmode_secondpass == false) {
-                activate();            
+                if (!writing_canvas)
+                    activate(); 
+         
                 fastmode_secondpass = true;
                 return true;                    // Re-calculate the whole display again
             }
             // End of second pass
-            else { 
-                activate();            
+            else {
+                if (!writing_canvas)
+                    activate(); 
+      
                 fastmode_secondpass = false;    // Reset state for next time
                 return false;
             }

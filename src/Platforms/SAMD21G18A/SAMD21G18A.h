@@ -24,10 +24,6 @@
         #define MAX_PAGE_HEIGHT         panel_height    // Size, in bytes: MAX_PAGE_HEIGHT * (width / 8)
         #define PRESERVE_IMAGE          true            // Allow the profile to preserve image
 
-        // Debug
-        #define LOGGING_SERIAL          SerialUSB
-        #define LOGGING_INIT_DELAY      3000
-
     #endif
 
 #endif
