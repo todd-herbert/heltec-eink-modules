@@ -319,6 +319,13 @@ void BaseDisplay::loadCanvas(const char* filename) {
     if (fastmode_state == NOT_SET)
         fastmodeOff();
 
+    // Need to return to fullscreen to load - store the current window and restore later
+    uint16_t oldwin_left = bounds.window.left();
+    uint16_t oldwin_top = bounds.window.top();
+    uint16_t oldwin_width = bounds.window.width();
+    uint16_t oldwin_height = bounds.window.height();
+    fullscreen();
+
     // The SD class instance takes a lot of RAM; create as needed (some platforms only)
     sd = new SDWrapper();
 
@@ -363,8 +370,11 @@ void BaseDisplay::loadCanvas(const char* filename) {
 
     activate(); 
 
-    // End of method
+    // Free memory from SD instance
     delete sd;
+
+    // Restore the previous window setting
+    setWindow(oldwin_left, oldwin_top, oldwin_width, oldwin_height);
 }
 
 // Backend for the WRITE_CAVAS loop, using canvasXXX.bmp for filename
