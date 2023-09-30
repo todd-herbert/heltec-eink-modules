@@ -31,11 +31,13 @@ class PinMux {
         };
         
         // Array of all relevant mux options, for all relevant pins
-        const Mux valid_muxs[13] = {
+        const Mux valid_muxs[15] = {
             (Mux) {2, &sercom2, 2, PIO_SERCOM},         // D2,          sercom2/pad[2]
+            (Mux) {2, &sercom4, 2, PIO_SERCOM_ALT},     // D2,      alt_sercom4/pad[2]
             (Mux) {3, &sercom2, 1, PIO_SERCOM_ALT},     // D3,      alt_sercom2/pad[1]  
             (Mux) {4, &sercom2, 0, PIO_SERCOM_ALT},     // D4,      alt_sercom2/pad[0]
             (Mux) {5, &sercom2, 3, PIO_SERCOM},         // D5,          sercom2/pad[3]
+            (Mux) {5, &sercom4, 3, PIO_SERCOM_ALT},     // D5,      alt_sercom4/pad[3]
             (Mux) {10, &sercom1, 2, PIO_SERCOM},        // D10,         sercom1/pad[2]
             (Mux) {11, &sercom1, 0, PIO_SERCOM},        // D11,         sercom1/pad[0]
             (Mux) {12, &sercom1, 3, PIO_SERCOM},        // D12,         sercom1/pad[3]
