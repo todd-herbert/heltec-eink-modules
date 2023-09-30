@@ -92,8 +92,10 @@ uint8_t PinMux::setSPIPins(uint8_t sdi, uint8_t clk, uint8_t miso) {
                 pinPeripheral(clk, clk_mux.type);
 
                 // Also set MISO, if the user requested a pin for it
-                if (miso != 0xFF)
+                if (miso != 0xFF) {
+                    pinPeripheral(MISO, PIO_INPUT); // Unset original MISO pin - seems necessary
                     pinPeripheral(miso_mux.pin, miso_mux.type);
+                }
 
                 return miso_mux.pin;    // Pass miso back to BaseDisplay, incase it was auto-assigned here 
 
