@@ -1,7 +1,7 @@
 # Heltec E-ink Modules
 ## Wiring: ESP8266
 
-**✅ ESP8266 uses 3.3V logic. It can connect directly to display.**
+**✅ ESP8266 uses 3.3V logic. It can connect directly to the display.**
 
 Note: labels are for the "GPIO" pins, not the "D1, D2, etc." labels printed on the board.
 
@@ -32,3 +32,25 @@ void setup() {
 ```
 
 ![schematic of display connected to ESP8266, using PNP transistor as a switch](ESP8266_power_switching.png)
+
+### (Optional) Additional wiring: MicroSD card module
+**✅ ESP8266 uses 3.3V logic. It can connect directly to microSD module.**
+```cpp
+void setup() {
+    // Set MicroSD CS pin
+    display.useSD(15);
+}
+```
+
+ Micro SD Module    | ESP8266
+ -------------------|-------
+ VCC                | 3.3V
+ CS                 | GPIO 15
+ MOSI               | GPIO 13
+ SCK                | GPIO 14
+ MISO               | GPIO 12
+ GND                | GND
+
+ Some pins are shared with the display.
+
+*CS* pin (card) must be set with `useSD(cs)`

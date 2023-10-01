@@ -29,10 +29,12 @@
   - [`bounds.window.centerY()`](#boundswindowcentery)
   - [`clear()`](#clear)
   - [`DRAW()`](#draw)
+  - [`draw24bitBitmapFile()`](#draw24bitbitmapfile)
   - [`drawBitmap()`](#drawbitmap)
   - [`drawCircle()`](#drawcircle)
   - [`drawCircleHelper()`](#drawcirclehelper)
   - [`drawLine()`](#drawline)
+  - [`drawMonoBitmapFile()`](#drawmonobitmapfile)
   - [`drawPixel()`](#drawpixel)
   - [`drawRect()`](#drawrect)
   - [`drawRoundRect()`](#drawroundrect)
@@ -49,15 +51,22 @@
   - [`fillScreen()`](#fillscreen)
   - [`fillTriangle()`](#filltriangle)
   - [`fullscreen()`](#fullscreen)
-  - [`getRotation()`](#getrotation)
+  - [`getBMPHeight()`](#getbmpheight)
+  - [`getBMPWidth()`](#getbmpwidth)
   - [`getCursorX()`](#getcursorx)
   - [`getCursorY()`](#getcursory)
+  - [`getRotation()`](#getrotation)
   - [`getTextBounds()`](#gettextbounds)
   - [`getTextCenterX()`](#gettextcenterx)
   - [`getTextCenterY()`](#gettextcentery)
   - [`getTextHeight()`](#gettextheight)
   - [`getTextWidth()`](#gettextwidth)
+  - [`loadCanvas()`](#loadcanvas)
   - [`overwrite()`](#overwrite)
+  - [`SDCardFound()`](#sdcardfound)
+  - [`SDFileExists()`](#sdfileexists)
+  - [`SDCanvasExists()`](#sdcanvasexists)
+  - [`SDCanvasValid()`](#sdcanvasvalid)
   - [`setCursor()`](#setcursor)
   - [`setCursorTopLeft()`](#setcursortopleft)
   - [`setDefaultColor()`](#setdefaultcolor)
@@ -70,6 +79,9 @@
   - [`startOver()`](#startover)
   - [`update()`](#update)
   - [`usePowerSwitching()`](#usepowerswitching)
+  - [`useSD()`](#usesd)
+  - [`WRITE_CANVAS()`](#write_canvas)
+  - [`writeCanvas()`](#writecanvas)
 - [Constants](#constants)
   - [`Color`](#color)
   - [`Flip`](#flip)
@@ -704,6 +716,40 @@ void setup() {
 #### See also
 
 * [update()](#update)
+  
+___
+### `draw24bitBitmapFile()`
+
+**ATmega328P (Uno / Nano): not supported**<br />
+**ATmega2560: disabled for some displays** 
+
+Draw a 24-bit .bmp image, from SD card, at the specified (x,y) position. 
+Alpha-mask color can be set, either by [Color](#color) enum, or RGB values.
+
+#### Syntax
+
+``` cpp
+display.draw24bitBitmapFile(left, top, filename)
+display.draw24bitBitmapFile(left, top, filename, mask)
+display.draw24bitBitmapFile(left, top, filename, mask_r, mask_g, mask_b)
+
+```
+
+#### Parameters
+
+* _left_:   Top left corner x coordinate
+* _top_:   Top left corner y coordinate
+* _filename_:  filename of the .bmp image on SD card
+* _mask_ (optional): Color to draw transparent
+* _mask_r_ (optional): Color to draw transparent - Red channel
+* _mask_g_ (optional): Color to draw transparent - Green channel
+* _mask_b_ (optional): Color to draw transparent - Blue channel
+
+#### See also
+
+* [colors](#colors)
+* [drawXbitmap()](#drawxbitmap)
+* [SD card](/docs/SD/sd.md)
 
 ___
 ### `drawBitmap()`
@@ -835,6 +881,33 @@ display.drawLine(x0, y0, x1, y1, color)
 #### See also
 
 * [colors](#colors)
+
+___
+### `drawMonoBitmapFile()`
+
+Draw a 1-bit .bmp image, from SD card, at the specified (x,y) position, using the specified foreground color. 
+Unset bits are transparent by default, unless argument `bg` is passed.
+
+#### Syntax
+
+``` cpp
+display.drawMonoBitmapFile(left, top, filename, color)
+display.drawMonoBitmapFile(left, top, filename, color, bg)
+```
+
+#### Parameters
+
+* _left_:   Top left corner x coordinate
+* _top_:   Top left corner y coordinate
+* _filename_:  filename of the .bmp image on SD card
+* _color_: Color to draw pixels with
+* _bg_: Color to draw background with
+
+#### See also
+
+* [colors](#colors)
+* [drawXbitmap()](#drawxbitmap)
+* [SD card](/docs/SD/sd.md)
 
 ___
 ### `drawPixel()`
@@ -1334,29 +1407,52 @@ None.
 * [setWindow()](#setwindow)
 
 ___
-### `getRotation()`
-Get rotation setting for display
+### `getBMPHeight()`
 
-*This is an AdafruitGFX method*
+Gets height of a .bmp image stored on SD card.
 
 #### Syntax
 
 ```cpp
-display.getRotation()
+display.getBMPHeight(filename)
 ```
 
 #### Parameters
 
-None.
+* _filename_: the name of the image to read, on SD card
 
 #### Returns
 
-0 through 3, corresponding to 4 cardinal rotations
+The height of the image.
 
 #### See also
 
-* [setRotation()](#setrotation)
-* [Rotation](#rotation)
+* [getBMPWidth()](#getbmpwidth)
+* [SD card](/docs/SD/sd.md)
+
+___
+### `getBMPWidth()`
+
+Gets width of a .bmp image stored on SD card.
+
+#### Syntax
+
+```cpp
+display.getBMPWidth(filename)
+```
+
+#### Parameters
+
+* _filename_: the name of the image to read, on SD card
+
+#### Returns
+
+The width of the image.
+
+#### See also
+
+* [getBMPHeight()](#getbmpheight)
+* [SD card](/docs/SD/sd.md)
 
 ___
 ### `getCursorX()`
@@ -1399,6 +1495,31 @@ None.
 #### Returns
 
 Y coordinate in pixels
+
+___
+### `getRotation()`
+Get rotation setting for display
+
+*This is an AdafruitGFX method*
+
+#### Syntax
+
+```cpp
+display.getRotation()
+```
+
+#### Parameters
+
+None.
+
+#### Returns
+
+0 through 3, corresponding to 4 cardinal rotations
+
+#### See also
+
+* [setRotation()](#setrotation)
+* [Rotation](#rotation)
 
 ___
 ### `getTextBounds()`
@@ -1575,6 +1696,28 @@ The width of the string.
 * [getTextWidth()](#gettextbounds)
 
 ___
+### `loadCanvas()`
+
+Load a full screen image (canvas), from SD card to display, in one pass. 
+
+#### Syntax
+
+```cpp
+display.loadCanvas(filename)
+display.loadCanvas(number)
+```
+
+#### Parameters
+
+* _filename_: canvas file to load
+* _number_: canvas file to load, by int (< 1000), where `1` refers to `"canvas001.bmp"`, etc.
+
+#### See also
+
+* [WRITE_CANVAS()](#write_canvas)
+* [SD card](/docs/SD/sd.md)
+
+___
 ### `overwrite()`
 
 
@@ -1583,7 +1726,108 @@ ___
 
 Renamed to [`update()`](#update)
 
+___
+### `SDCardFound()`
 
+Check if SD card is connected and accessible.
+
+#### Syntax
+
+```cpp
+display.SDCardFound()
+```
+
+#### Parameters
+
+None.
+
+#### Returns
+
+`true` if card is accessible.
+`false` if there is an error.
+
+#### See also
+
+* [SD card](/docs/SD/sd.md)
+
+___
+### `SDFileExists()`
+
+Check if a file exists on SD card.
+
+#### Syntax
+
+```cpp
+display.SDFileExists(filename)
+```
+
+#### Parameters
+
+* _filename_: file to check
+
+#### Returns
+
+`true` if exists.
+`false` if not found.
+
+#### See also
+
+* [SD card](/docs/SD/sd.md)
+
+___
+### `SDCanvasExists()`
+
+Check if a "canvas" image exists on SD card.
+
+#### Syntax
+
+```cpp
+display.SDCanvasExists(filename)
+display.SDCanvasExists(number)
+```
+
+#### Parameters
+
+* _filename_: canvas file
+* _number_: canvas file to check, by int (< 1000), where `1` refers to `"canvas001.bmp"`, etc.
+
+#### Returns
+
+`true` if exists.
+`false` if not found.
+
+#### See also
+
+* [SD card](/docs/SD/sd.md)
+
+___
+### `SDCanvasValid()`
+
+Check if file is a valid canvas image.
+
+#### Syntax
+
+```cpp
+display.SDCanvasValid(filename)
+display.SDCanvasValid(number)
+display.SDCanvasValid(filename, purge)
+display.SDCanvasValid(number, purge)
+```
+
+#### Parameters
+
+* _filename_: canvas file to check
+* _number_: canvas file to check, by int (< 1000), where `1` refers to `"canvas001.bmp"`, etc.
+* _purge_ (optional): when purge = true, canvas will be deleted from SD card, if detected as invalid. 
+
+#### Returns
+
+`true` if canvas is valid for this display.
+`false` if invalid, wrong display, or doesn't exist.
+
+#### See also
+
+* [SD card](/docs/SD/sd.md)
 
 ___
 ### `setCursor()`
@@ -2021,18 +2265,121 @@ Configure the display to use an external power switch, such as a transistor, for
 #### Syntax
 
 ```cpp
-usePowerSwitching(pin, type)
+display.usePowerSwitching(pin, type)
 ```
 
 #### Parameters
 
-* _pin_:    pin connected to base of a transistor, or other low current switching device.
-* _type_:    type of signal to output on pin<br />
+* _pin_: pin connected to base of a transistor, or other low current switching device.
+* _type_: type of signal to output on pin<br />
     Supported values:<br />
     * `NPN`
     * `PNP`
     * `ACTIVE_HIGH`
     * `ACTIVE_LOW`
+
+___
+### `useSD()`
+
+Configure the library to use an SD card - SPI adapter. Must be called before and SD code is used.
+
+#### Syntax
+
+```cpp
+display.useSD(cs_pin)
+display.useSD(cs_pin, miso_pin) // ESP32 or SAMD21G18A only
+```
+
+#### Parameters
+
+* _cs_pin_: pin connected to the CS pin of the SD card adapter
+* _miso_pin_: custom pin for the MISO connection of the the SD card adapter 
+
+#### See also
+
+* [SD card](/docs/SD/sd.md)
+
+___
+### `WRITE_CANVAS()`
+
+Performs drawing commands, outputting to SD card, instead of display. If necessary, paging is used.
+
+#### Syntax
+
+```cpp
+WRITE_CANVAS (display, filename)
+WRITE_CANVAS (display, number)
+```
+
+#### Parameters
+
+* _display_: generate a canvas image suitable for this display
+* _filename_: save canvas on SD card with this filename
+* _number_: save canvas on SD card, by int (< 1000), where `1` refers to `"canvas001.bmp"`, etc.
+
+#### Example
+
+```cpp
+#include <heltec-eink-modules.h>
+
+DEPG0150BNS810 display(2, 4, 5);
+
+void setup() {
+    // SD card CS pin 7
+    display.useSD(7);
+
+    WRITE_CANVAS (display, "canvas001.bmp") {
+        //Graphics commands go here, for example:
+        display.fillCircle(50, 100, 20, BLACK);
+    }
+
+}
+```
+
+#### See also
+
+* [update()](#update)
+
+___
+### `writeCanvas()`
+
+**ATmega328P (Uno / Nano): not supported**<br />
+**ATmega2560: disabled for some displays** 
+
+Draw a canvas image to SD card, outside of a `WRITE_CANVAS` loop, on-top of any existing screen data. 
+
+#### Syntax
+
+```cpp
+display.writeCanvas(filename)
+display.writeCanvas(number)
+```
+
+#### Parameters
+
+* _filename_: save canvas on SD card with this filename
+* _number_: save canvas on SD card, by int (< 1000), where `1` refers to `"canvas001.bmp"`, etc.
+
+#### Example
+
+```cpp
+#include <heltec-eink-modules.h>
+
+DEPG0150BNS810 display(2, 4, 5);
+
+void setup() {
+
+    display.setCursor(10, 10);
+    display.print("Example");
+
+    display.writeCanvas("canvas001.bmp");   // Result of first two commands saved to SD
+}
+```
+
+#### See also
+
+* [SD card](/docs/SD/sd.md)
+
 
 ## Constants
 

@@ -99,9 +99,14 @@ class BaseDisplay: public GFX {
 
         // Draw 24bit bitmap from SD
         #ifndef __AVR_ATmega328P__
-             void draw24bitBitmapFile(int16_t left, int16_t top, const char* filename);
+            void draw24bitBitmapFile(int16_t left, int16_t top, const char* filename);
+            void draw24bitBitmapFile(int16_t left, int16_t top, const char* filename, Color mask);
+            void draw24bitBitmapFile(int16_t left, int16_t top, const char* filename, uint8_t mask_r, uint8_t mask_g, uint8_t mask_b, bool apply_mask = true);
         #else
             /* --- Error: Not enough RAM, use drawMonoBitmapFile() instead  --- */              void draw24bitBitmapFile(int16_t left, int16_t top, const char* filename) = delete;
+            /* --- Error: Not enough RAM, use drawMonoBitmapFile() instead  --- */              void draw24bitBitmapFile(int16_t left, int16_t top, const char* filename, Color transparency) = delete;            
+            /* --- Error: Not enough RAM, use drawMonoBitmapFile() instead  --- */              void draw24bitBitmapFile(int16_t left, int16_t top, const char* filename, uint8_t mask_r, uint8_t mask_g, uint8_t mask_b, bool apply_mask = true) = delete;            
+        
         #endif
         
 

@@ -241,8 +241,41 @@ void BaseDisplay::drawMonoBitmapFile(int16_t left, int16_t top, const char* file
 // draw23bitBitmapFile()  -  Too slow if using paging - SD seek too slow to "hop between pixels" 
 #ifndef __AVR_ATmega328P__
 
-    // Draw a 24bit .bmp file from SD card
+    // Draw a 24bit .bmp file from SD card, using a display color as transparency mask
     void BaseDisplay::draw24bitBitmapFile(int16_t left, int16_t top, const char* filename) {
+        // Pass dummy values for mask, set apply_mask as false
+        draw24bitBitmapFile(left, top, filename, 0, 0, 0, false);
+    }
+
+    // Draw a 24bit .bmp file from SD card, using a display color as transparency mask
+    void BaseDisplay::draw24bitBitmapFile(int16_t left, int16_t top, const char* filename, Color mask) {
+
+        // Handle as an RGB mask
+        uint8_t r = 0;
+        uint8_t g = 0; 
+        uint8_t b = 0;
+        
+        switch (mask) {
+            case BLACK:
+                r = g = b = 0;
+                break;
+            
+            case RED:
+                r = 0xFF;
+                g = 0;
+                b = 0;
+                break;
+
+            case WHITE:
+                r = g = b = 0xFF;
+                break;
+        }
+
+        draw24bitBitmapFile(left, top, filename, r, g, b);
+    }
+
+    // Draw a 24bit .bmp file from SD card, with a custom transparency mask color
+    void BaseDisplay::draw24bitBitmapFile(int16_t left, int16_t top, const char* filename, uint8_t mask_r, uint8_t mask_g, uint8_t mask_b, bool apply_mask) {
 
         // The SD class instance takes a lot of RAM; create as needed
         sd = new SDWrapper();
@@ -283,8 +316,11 @@ void BaseDisplay::drawMonoBitmapFile(int16_t left, int16_t top, const char* file
                 uint16_t source_y = (height - 1) - y;
 
                 // Don't draw the padding at end of rows
-                if (source_x < width)
-                    drawPixel(source_x + left, source_y + top, pixel);
+                if (source_x < width) {
+                    // Don't draw if pixel color matches transparency mask
+                    if (!apply_mask || !(B == mask_b && G == mask_g && R == mask_r))
+                        drawPixel(source_x + left, source_y + top, pixel);
+                }
             }
         }
 

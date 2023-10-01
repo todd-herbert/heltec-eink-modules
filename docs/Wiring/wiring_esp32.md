@@ -1,7 +1,7 @@
 # Heltec E-ink Modules
 ## Wiring: ESP32
 
-**✅ ESP32 uses 3.3V logic. It can connect directly to display.**
+**✅ ESP32 uses 3.3V logic. It can connect directly to the display.**
 
 Display | ESP32
 --------|--------
@@ -32,3 +32,28 @@ void setup() {
 ```
 
 ![schematic of display connected to ESP32, using PNP transistor as a switch](ESP32_power_switching.png)
+
+### (Optional) Additional wiring: MicroSD card module
+**✅ ESP32 uses 3.3V logic. It can connect directly to microSD module.**
+```cpp
+void setup() {
+    // Set MicroSD CS pin
+    display.useSD(22);
+}
+```
+
+ Micro SD Module    | ESP32
+ -------------------|-------
+ VCC                | 3.3V
+ CS                 | GPIO 22
+ MOSI               | GPIO 23 (VSPI MOSI)
+ SCK                | GPIO 18 (VSPI SCK)
+ MISO               | GPIO 19 (VSPI MISO)
+ GND                | GND
+
+ Some pins are shared with the display.
+
+ *MOSI* and *SCK* pins can be changed in the display constructor (see above).
+
+*CS* pin (card) must be set with `useSD(cs)`. Any suitable GPIO pin may be used.
+Optionally, MISO may also be set, with `useSD(cs, miso)`

@@ -14,6 +14,7 @@ Run-time drawing, using Adafruit-GFX.
 - [Drawing stuff](#drawing-stuff)
   - [Drawing Commands](#drawing-commands)
   - [Pre-rendered graphics](#pre-rendered-graphics)
+  - [SD card](#sd-card)
   - [Shorter code](#shorter-code)
 - [Configuration Options](#configuration-options)
   - [Pins](#pins)
@@ -33,7 +34,7 @@ Platform    | Tested
 ATmega328P  | Arduino Uno R3, Arduino Nano
 ATmega2560  | Arduino Mega 2560
 ESP32       | Devkit V1
-ESP8266     | NodeMcu v3
+ESP8266     | NodeMcu v3, LOLIN D1 Mini
 SAMD21G18A  | Protoneer Nano ARM
 
 ## Supported Displays
@@ -228,6 +229,10 @@ Alternatively, [the official adafruit-gfx tutorial](https://learn.adafruit.com/a
 
 As decided by the Adafruit library, the ancient *"XBitmap"* is the format of choice for pre-rendered graphics. Luckily, GIMP maintains good support for it. If you need a hint on how to use it, I have thrown together a [tutorial on preparing XBitmap images](XBitmapTutorial/README.md).
 
+### SD card
+
+It is possible to load and save .bmp images, using a cheap SD card SPI adapter. [Read more](/docs/SD/sd.md)
+
 ### Shorter code
 
 One trick you may find useful: 
@@ -329,3 +334,5 @@ Call [`setFastmodeOff()`](/docs/API.md#fastmodeoff) to return to normal.
 Display information from both [official Heltec sources](https://github.com/HelTecAutomation/e-ink), and  [GxEPD2](https://github.com/ZinggJM/GxEPD2)
 
 Drawing functions provided by [GFX Root](https://github.com/ZinggJM/GFX_Root), which itself is a stripped down version of [Adafruit GFX](https://github.com/adafruit/Adafruit-GFX-Library).
+
+A bundled version of [SdFat](https://github.com/greiman/SdFat) is used with some platforms.
