@@ -2255,7 +2255,7 @@ void setup() {
 #### See also
 
 * [DRAW()](#draw)
-* [update()](#update)
+* [startOver()](#startover)
 
 ___
 ### `usePowerSwitching()`
