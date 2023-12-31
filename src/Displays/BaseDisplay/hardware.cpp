@@ -175,7 +175,7 @@ void BaseDisplay::externalPowerOn() {
     // SAMD21: Move the SPI pins back to custom location
     #ifdef __SAMD21G18A__
         if (pin_sdi != MOSI || pin_clk != SCK || pin_miso != MISO)
-            PinMux().setSPIPins(pin_sdi, pin_clk, pin_miso);
+            Platform::setSPIPins(pin_sdi, pin_clk, pin_miso);
     #endif
 
     // Re-load settings for full-refresh

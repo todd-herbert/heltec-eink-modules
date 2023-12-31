@@ -39,7 +39,7 @@ void BaseDisplay::useSD(uint8_t pin_cs_card) {
         #elif defined( __SAMD21G18A__ )
             // If a custom MISO pin was just specified with useSD, then re-calculate the pin muxing
             if (miso_changing) {
-                PinMux().setSPIPins(pin_sdi, pin_clk, pin_miso);
+                Platform::setSPIPins(pin_sdi, pin_clk, pin_miso);
                 miso_changing = false;
             }
         #endif

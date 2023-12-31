@@ -44,7 +44,7 @@ void BaseDisplay::begin() {
     // SAMD21: change SPI pins if requested
     #ifdef __SAMD21G18A__
         if (pin_sdi != DEFAULT_SDI || pin_clk != DEFAULT_CLK)
-            pin_miso = PinMux().setSPIPins(pin_sdi, pin_clk);
+            pin_miso = Platform::setSPIPins(pin_sdi, pin_clk);
     #endif
 
     // Calculate pagefile size
