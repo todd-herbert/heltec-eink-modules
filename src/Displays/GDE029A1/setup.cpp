@@ -10,5 +10,8 @@ void GDE029A1::init() {
     BaseDisplay::drawing_width = this->panel_width;
     BaseDisplay::drawing_height = this->panel_height;
 
+    // Get the Bounds subclass ready now (in constructor), so that it can be used to init. globals.
+    BaseDisplay::instantiateBounds();
+
     // TODO: call BaseDisplay::begin() from here. Implement at next major version - breaking change
 }
