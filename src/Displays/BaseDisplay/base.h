@@ -171,7 +171,7 @@ class BaseDisplay: public GFX {
         // SD card
         void send24BitBMP(Color target);                                    // Feed .bmp into sendData()
         Color parseColor(uint8_t B, uint8_t G, uint8_t R);                  // Get a Color enum. from a 24bit bgr pixel
-        void initCavas(const char* filename);                               // Write a template .bmp to sd card
+        void initCanvas(const char* filename);                               // Write a template .bmp to sd card
         void writePageToCanvas();                                           // Write one page to the canvas file
 
 

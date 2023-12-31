@@ -47,7 +47,7 @@ void BaseDisplay::useSD(uint8_t pin_cs_card) {
 #endif
 
 // Create a blank 24bit bitmap on SD card
-void BaseDisplay::initCavas(const char* filename) {
+void BaseDisplay::initCanvas(const char* filename) {
 
     // Call begin() automatically. 
     // TODO: require manual call in next major version, breaking change.
@@ -412,7 +412,7 @@ void BaseDisplay::loadCanvas(const char* filename) {
     setWindow(oldwin_left, oldwin_top, oldwin_width, oldwin_height);
 }
 
-// Backend for the WRITE_CAVAS loop, using canvasXXX.bmp for filename
+// Backend for the WRITE_CANVAS loop, using canvasXXX.bmp for filename
 bool BaseDisplay::writingCanvas(uint16_t number) {
 
     char filename[] = "canvas***.bmp";
@@ -441,7 +441,7 @@ bool BaseDisplay::writingCanvas(const char* filename) {
 
         // First loop only - repair canvas if corrupt
         if (!SDCanvasValid(filename, true))
-            initCavas(filename);
+            initCanvas(filename);
         
         // Signals that next writingCanvas setup is done. Also signals writePageToCanvas() to intercept the outgoing gfx data
         writing_canvas = true;
@@ -493,7 +493,7 @@ bool BaseDisplay::writingCanvas(const char* filename) {
 
         // repair canvas if corrupt
         if (!SDCanvasValid(filename, true))
-            initCavas(filename);
+            initCanvas(filename);
 
         // No need to set writing_canvas, we're not exploiting calculating() this time
 
