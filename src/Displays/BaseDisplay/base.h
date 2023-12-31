@@ -90,7 +90,7 @@ class BaseDisplay: public GFX {
         
 
         // Configure the SD card reader
-        #if CAN_SPECIFY_SPI_PINS
+        #if CAN_MOVE_SPI_PINS
             void useSD(uint8_t pin_cs_card, uint8_t pin_miso);
         #else
             /* --- Error: This model of microcontroller can't move SPI pins around --- */       void useSD(uint8_t pin_cs_card, uint8_t pin_miso) = delete;
@@ -147,8 +147,8 @@ class BaseDisplay: public GFX {
 
     protected:
         // Initial setup
-        void init();                                    // Called from derived-class' constructor: gets access to derived-class parameters                                    
-        void lateInit();                                // For platforms which refuse to use SPI in constructor. Called before hardware methods
+        void begin();                                   // Called from derived-class' constructor: gets access to derived-class parameters                                    
+        void instantiateBounds();                       // Called by derived class constructor, asap, so globals can be initialized with bounds() info
 
 
         // Display interaction
@@ -191,8 +191,8 @@ class BaseDisplay: public GFX {
         uint8_t pin_dc;                                             // Display / Command
         uint8_t pin_cs;                                             // Chip Select
         uint8_t pin_busy;                                           // Can display accept new commands
-        uint8_t pin_sdi;                                            // "MOSI". Unless CAN_SPECIFY_SPI_PINS, value is -1
-        uint8_t pin_clk;                                            // "SCK". Unless CAN_SPECIFY_SPI_PINS, value is -1
+        uint8_t pin_sdi;                                            // "MOSI". Unless CAN_MOVE_SPI_PINS, value is -1
+        uint8_t pin_clk;                                            // "SCK". Unless CAN_MOVE_SPI_PINS, value is -1
         uint16_t pagefile_height;                                   // How many vertical lines per page
         uint16_t panel_width, panel_height;                         // True dimensions
         uint16_t drawing_width, drawing_height;                     // Usable dimensions
@@ -201,7 +201,7 @@ class BaseDisplay: public GFX {
 
         // SPI
         const SPISettings spi_settings = SPISettings(200000, MSBFIRST, SPI_MODE0);
-        bool init_done = false;                                     // If using lateInit(), has it run once?
+        bool begun = false;                                     // Has BaseDisplay::begin run once?
 
 
         // SD

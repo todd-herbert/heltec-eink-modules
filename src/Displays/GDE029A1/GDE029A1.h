@@ -23,7 +23,7 @@ class GDE029A1 : public BaseDisplay {
                 { init(); }
 
         // Full pinout constructor
-        #if CAN_SPECIFY_SPI_PINS
+        #if CAN_MOVE_SPI_PINS
             GDE029A1(  uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint8_t pin_sdi, uint8_t pin_clk, uint16_t page_height = DEFAULT_PAGE_HEIGHT)
                 : BaseDisplay ( pin_dc, pin_cs, pin_busy, pin_sdi, pin_clk, page_height)
                     { init(); }
@@ -51,8 +51,8 @@ class GDE029A1 : public BaseDisplay {
     // Setup
     // ==========================     
     private:
-        void init();        // Once instantiated, pass config to base
-
+        void init();               // Once instantiated, pass config and init BaseDisplay class
+        
 
     // Virtual methods
     // =========================

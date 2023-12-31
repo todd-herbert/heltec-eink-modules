@@ -14,10 +14,9 @@
         // SPI
         
         #define SPI_BEGIN()             ( SPI.begin() )
-        #define CAN_SPECIFY_SPI_PINS    true
+        #define CAN_MOVE_SPI_PINS       true
         #define DEFAULT_SDI             MOSI
         #define DEFAULT_CLK             SCK
-        #define LATE_INIT               true
 
         // Paging
         #define DEFAULT_PAGE_HEIGHT     panel_height

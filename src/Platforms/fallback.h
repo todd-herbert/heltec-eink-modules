@@ -10,10 +10,9 @@
 
         // SPI
         #define SPI_BEGIN()             ( SPI.begin() )
-        #define CAN_SPECIFY_SPI_PINS    false
+        #define CAN_MOVE_SPI_PINS       false
         #define DEFAULT_SDI             -1
         #define DEFAULT_CLK             -1
-        #define LATE_INIT                true
 
         // Paging
         #define DEFAULT_PAGE_HEIGHT     5

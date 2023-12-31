@@ -24,8 +24,65 @@ BaseDisplay::BaseDisplay(   uint8_t pin_dc,
 }        
 
 
-void BaseDisplay::init() {
+void BaseDisplay::begin() {
 
+    // Only begin() once
+    if (begun)
+        return;
+    else
+        begun = true;
+
+    // Set the digital pins that supplement the SPI interface
+    pinMode(pin_cs, OUTPUT);
+    pinMode(pin_dc, OUTPUT);
+    pinMode(pin_busy, INPUT);       // NOTE: do not use internal pullups: incompatible logic levels
+
+    // Prepare SPI
+    digitalWrite(pin_cs, HIGH);
+    SPI_BEGIN();
+
+    // SAMD21: change SPI pins if requested
+    #ifdef __SAMD21G18A__
+        if (pin_sdi != DEFAULT_SDI || pin_clk != DEFAULT_CLK)
+            pin_miso = PinMux().setSPIPins(pin_sdi, pin_clk);
+    #endif
+
+    // Calculate pagefile size
+    pagefile_height = constrain(pagefile_height, 1, MAX_PAGE_HEIGHT);
+    page_bytecount = panel_width * pagefile_height / 8;
+
+    // Set an initial configuration for drawing
+    setDefaultColor(WHITE);
+    setTextColor(BLACK);
+
+    // If PRESERVE_IMAGE possible, and enabled, allocate the memory now (it will not allocate in calculating)
+    if (PRESERVE_IMAGE && pagefile_height == panel_height) {
+        grabPageMemory();
+        fullscreen();   // Window change, clears page
+        writePage();    // Make sure display memory is also blanked
+    }
+    // Otherwise, just set the region
+    else 
+        fullscreen();
+}
+
+// Set configuration of custom power-swiching circuit, then power up
+void BaseDisplay::usePowerSwitching(uint8_t pin, SwitchType type) {
+    this->pin_power = pin;
+    this->switch_type = type;
+
+    // Start powered up
+    delay(50);
+    pinMode(pin_power, OUTPUT);
+    digitalWrite(pin_power, switch_type);
+
+    // Wait for powerup
+    delay(100);
+}
+
+// Get the Bounds() subclass ready early, so it can be used to initialize globals
+void BaseDisplay::instantiateBounds() {
+    
     // We lied to GFX about dimensions in the constructor, but now we do have the information.
     // I'm not sure it matters, but..
 
@@ -41,77 +98,4 @@ void BaseDisplay::init() {
                             &winrot_left, 
                             &rotation,
                             &imgflip    );
-
-    // Set the digital pins that supplement the SPI interface
-    pinMode(pin_cs, OUTPUT);
-    pinMode(pin_dc, OUTPUT);
-    pinMode(pin_busy, INPUT);       // NOTE: do not use internal pullups: incompatible logic levels
-
-    // Prepare SPI
-    digitalWrite(pin_cs, HIGH);
-    #if !LATE_INIT
-        SPI_BEGIN();
-    #endif
-
-    // Calculate pagefile size
-    pagefile_height = constrain(pagefile_height, 1, MAX_PAGE_HEIGHT);
-    page_bytecount = panel_width * pagefile_height / 8;
-
-    // Set an initial configuration for drawing
-    setDefaultColor(WHITE);
-    setTextColor(BLACK);
-
-    // If PRESERVE_IMAGE, allocate the memory now (it will not allocate in calculating)
-    #if PRESERVE_IMAGE
-        grabPageMemory();
-        fullscreen();   // Window change, clears page
-
-        // SAMD21 can't call SPI.begin from a constructor. See BaseDisplay::lateInit()
-        #if LATE_INIT
-            return;
-        #endif
-
-        writePage();    // Make sure display memory is also blanked
-    #else
-        // Otherwise, just set the region
-        fullscreen();
-    #endif
-
-    // Init done, unless platform needs LATE_INIT
-    #if !LATE_INIT
-        init_done = true;
-    #endif
-}
-
-// Same platforms won't run SPI commands from constructor. This method is called later to finish the job.
-void BaseDisplay::lateInit() {
-
-    // Start SPI and clear display mem
-    if (!init_done) {
-        SPI_BEGIN();
-        init_done = true;
-        
-        // SAMD21: change SPI pins if requested
-        #ifdef __SAMD21G18A__
-            if (pin_sdi != DEFAULT_SDI || pin_clk != DEFAULT_CLK)
-                pin_miso = PinMux().setSPIPins(pin_sdi, pin_clk);
-        #endif
-        
-        // After all that, clear the display memory
-        writePage();
-    }
-}
-
-// Set configuration of custom power-swiching circuit, then power up
-void BaseDisplay::usePowerSwitching(uint8_t pin, SwitchType type) {
-    this->pin_power = pin;
-    this->switch_type = type;
-
-    // Start powered up
-    delay(50);
-    pinMode(pin_power, OUTPUT);
-    digitalWrite(pin_power, switch_type);
-
-    // Wait for powerup
-    delay(100);
 }

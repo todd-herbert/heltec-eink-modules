@@ -24,9 +24,8 @@ bool BaseDisplay::calculating() {
         }
 
         // Grab memory, if it doesn't persist between updates
-        #if !PRESERVE_IMAGE
+        if (!PRESERVE_IMAGE || pagefile_height < panel_height)
             grabPageMemory();
-        #endif
 
         // Specify display region handled, either in paging, or outside loop
         page_top = winrot_top;
@@ -59,14 +58,14 @@ bool BaseDisplay::calculating() {
         page_cursor = 0; // Reset for next time
 
         // Release the memory, if not preserved
-        #if !PRESERVE_IMAGE
+        if (!PRESERVE_IMAGE || pagefile_height < panel_height)
             freePageMemory();
-        #else
+        else {
             // Reset now, incase big MCU wants to draw outside loop
             page_top = winrot_top;
             page_bottom = min((winrot_top + pagefile_height) - 1, winrot_bottom);
             pagefile_length = (page_bottom - page_top + 1) * ((winrot_right - winrot_left + 1) / 8);
-        #endif
+        }
 
         // Fastmode OFF or TURBO, single pass
         if (fastmode_state == OFF || fastmode_state == TURBO) {

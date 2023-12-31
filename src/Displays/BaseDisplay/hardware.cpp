@@ -60,10 +60,9 @@ void BaseDisplay::wait() {
 /// Write one page to the panel memory
 void BaseDisplay::writePage() {
 
-    // SAMD21: Setup SPI
-    #if LATE_INIT
-        lateInit();
-    #endif
+    // Call begin() automatically. 
+    // TODO: require manual call in next major version, breaking change.
+    begin();
 
     // Intercept here for WRITE_CANVAS
     if (writing_canvas) {
@@ -197,13 +196,18 @@ void BaseDisplay::externalPowerOn() {
     #endif
 }
 
-// Clear the screen in one optimized step
+// Clear the screen in one optimized step - public
 void BaseDisplay::clear() {
     clear(true);
 }
 
 // Private clear method, with optional refresh
 void BaseDisplay::clear(bool refresh) {
+
+    // Call begin() automatically. 
+    // TODO: require manual call in next major version, breaking change.
+    begin();
+
     // Store current settings
     uint16_t page_top_original = page_top;
     uint16_t page_bottom_original = page_bottom;

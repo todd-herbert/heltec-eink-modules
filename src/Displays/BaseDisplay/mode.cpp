@@ -9,10 +9,9 @@
 // Slow, detailed updates
 void BaseDisplay::fastmodeOff() {
 
-    // SAMD21: Setup SPI
-    #if LATE_INIT
-        lateInit();
-    #endif
+    // Call begin() automatically. 
+    // TODO: require manual call in next major version, breaking change.
+    begin();
 
     fastmode_state = Fastmode::OFF;
     reset();
@@ -24,10 +23,9 @@ void BaseDisplay::fastmodeOff() {
 // Use sparingly.
 void BaseDisplay::fastmodeOn() {
 
-    // SAMD21: Setup SPI
-    #if LATE_INIT
-        lateInit();
-    #endif
+    // Call begin() automatically. 
+    // TODO: require manual call in next major version, breaking change.
+    begin();
 
     if(fastmode_state == NOT_SET)
         clear(false);     // Initialize display memory, if needed
@@ -48,10 +46,9 @@ void BaseDisplay::fastmodeOn() {
 // Use with caution.
 void BaseDisplay::fastmodeTurbo() {
 
-    // SAMD21: Setup SPI
-    #if LATE_INIT
-        lateInit();
-    #endif
+    // Call begin() automatically. 
+    // TODO: require manual call in next major version, breaking change.
+    begin();
 
     if(fastmode_state == NOT_SET)
         clear(false);    // Initialize dispaly memory, if needed

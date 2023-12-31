@@ -17,10 +17,9 @@
 
         // SPI
         #define SPI_BEGIN()             ( SPI.begin(pin_clk, pin_miso, pin_sdi, -1) )
-        #define CAN_SPECIFY_SPI_PINS    true
+        #define CAN_MOVE_SPI_PINS       true
         #define DEFAULT_SDI             MOSI
         #define DEFAULT_CLK             SCK
-        #define LATE_INIT                false
 
         // Paging
         #define DEFAULT_PAGE_HEIGHT     panel_height    // Indicate that we want the full display 
