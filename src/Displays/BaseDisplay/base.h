@@ -201,14 +201,13 @@ class BaseDisplay: public GFX {
 
         // SPI
         const SPISettings spi_settings = SPISettings(200000, MSBFIRST, SPI_MODE0);
-        bool begun = false;                                     // Has BaseDisplay::begin run once?
+        bool begun = false;                                                             // Has BaseDisplay::begin run once?
 
 
         // SD
         SDWrapper* sd;                                              // Dynamically allocated SD instance
         uint8_t pin_miso = MISO;                                    // Set in useSD(). Relevant to SAMD21 pin muxing
         uint8_t pin_cs_card = -1;                                   // Set in useSD()
-        bool miso_changing = false;                                 // Does the (SAMD21) pin-muxing need to run again, to move miso (on user's request)
         bool writing_canvas = false;                                // Are drawing operations currently diverted into a bmp file?
         const char* canvas_filename;                                // Pass filename to writePageToCanvas()
 

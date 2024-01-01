@@ -28,7 +28,6 @@ void BaseDisplay::useSD(uint8_t pin_cs_card) {
         // Just store the pins
         this->pin_cs_card = pin_cs_card;
         this->pin_miso = pin_miso;
-        this->miso_changing = true;     // Make sure to re-run pin muxing
 
         // Set a MISO pin, if the platform allows, and the user wants
         #if defined(ESP32)
@@ -38,10 +37,7 @@ void BaseDisplay::useSD(uint8_t pin_cs_card) {
 
         #elif defined( __SAMD21G18A__ )
             // If a custom MISO pin was just specified with useSD, then re-calculate the pin muxing
-            if (miso_changing) {
                 Platform::setSPIPins(pin_sdi, pin_clk, pin_miso);
-                miso_changing = false;
-            }
         #endif
     }
 #endif
