@@ -152,7 +152,7 @@ class BaseDisplay: public GFX {
 
 
         // Display interaction
-        void reset();                                   // Soft-reset the dispaly
+        void softReset();                                   // Soft-reset the dispaly
         void wait();                                    // Pause until the display can accept new commands
         void sendCommand(uint8_t command);              // Send SPI Command to display (see datasheets)
         void sendData(uint8_t data);                    // Send SPI data to display

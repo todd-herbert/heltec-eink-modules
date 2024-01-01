@@ -45,7 +45,7 @@ void BaseDisplay::sendData(uint8_t data) {
 }
 
 // Soft-reset the display
-void BaseDisplay::reset() {
+void BaseDisplay::softReset() {
     sendCommand(0x12);
     wait();
 }
