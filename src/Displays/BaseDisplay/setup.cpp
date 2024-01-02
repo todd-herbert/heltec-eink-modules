@@ -21,6 +21,11 @@ BaseDisplay::BaseDisplay(   uint8_t pin_dc,
     this->pin_sdi = pin_sdi;
     this->pin_clk = pin_clk;
     this->pagefile_height = page_height;
+
+    // Set an initial configuration for drawing
+    // Moved from begin(), as "auto-begin" call would overwrite any config by user before first update
+    setDefaultColor(WHITE);
+    setTextColor(BLACK);
 }        
 
 
@@ -50,10 +55,6 @@ void BaseDisplay::begin() {
     // Calculate pagefile size
     pagefile_height = constrain(pagefile_height, 1, MAX_PAGE_HEIGHT);
     page_bytecount = panel_width * pagefile_height / 8;
-
-    // Set an initial configuration for drawing
-    setDefaultColor(WHITE);
-    setTextColor(BLACK);
 
     // If PRESERVE_IMAGE possible, and enabled, allocate the memory now (it will not allocate in calculating)
     if (PRESERVE_IMAGE && pagefile_height == panel_height) {
