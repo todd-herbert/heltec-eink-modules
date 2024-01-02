@@ -6,7 +6,7 @@
 
 #ifdef __SAMD21G18A__
 
-#include "pin_mux.h"
+#include "SAMD21G18A.h"
 
 namespace Platform {
 

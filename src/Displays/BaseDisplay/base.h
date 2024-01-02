@@ -111,7 +111,6 @@ class BaseDisplay: public GFX {
 
 
         // SD write: Potentially disabled by optimization.h
-
         #if !defined(__AVR_ATmega328P__) || defined(UNO_ENABLE_SDWRITE)
             bool writingCanvas(const char* filename);                                                                                   // Non-paged: write memory to canvas (numbered)
             bool writingCanvas(uint16_t number);                                                                                        // Non-paged: write memory to canvas 
@@ -212,6 +211,7 @@ class BaseDisplay: public GFX {
 
 
         // SPI
+        SPIClass *display_spi;                                                          // SPI instance is platform specific
         const SPISettings spi_settings = SPISettings(200000, MSBFIRST, SPI_MODE0);
         bool begun = false;                                                             // Has BaseDisplay::begin run once?
 

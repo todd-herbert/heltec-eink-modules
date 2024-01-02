@@ -23,25 +23,25 @@ void BaseDisplay::freePageMemory() {
 }
 
 void BaseDisplay::sendCommand(uint8_t command) {
-    SPI.beginTransaction(spi_settings);
+    display_spi->beginTransaction(spi_settings);
     digitalWrite(pin_dc, LOW);  // D/C pin LOW means SPI transfer is a command
     digitalWrite(pin_cs, LOW);
 
-    SPI.transfer(command);
+    display_spi->transfer(command);
 
     digitalWrite(pin_cs, HIGH);
-    SPI.endTransaction();
+    display_spi->endTransaction();
 }
 
 void BaseDisplay::sendData(uint8_t data) {
-    SPI.beginTransaction(spi_settings);
+    display_spi->beginTransaction(spi_settings);
     digitalWrite(pin_dc, HIGH);     // D/C pin HIGH means SPI transfer is data
     digitalWrite(pin_cs, LOW);
 
-    SPI.transfer(data);
+    display_spi->transfer(data);
 
     digitalWrite(pin_cs, HIGH);
-    SPI.endTransaction();
+    display_spi->endTransaction();
 }
 
 // Soft-reset the display
@@ -144,7 +144,7 @@ void BaseDisplay::externalPowerOff(uint16_t pause) {
     delay(pause);
 
     // Stop SPI
-    SPI.end();
+    display_spi->end();
 
     // Send the power-down signal
     digitalWrite(pin_power, !switch_type);
@@ -173,7 +173,7 @@ void BaseDisplay::externalPowerOn() {
     delay(50);
 
     // SPI resumes
-    SPI_BEGIN();
+    Platform::beginSPI(display_spi, pin_miso, pin_miso, pin_clk);
     
     // SAMD21: Move the SPI pins back to custom location
     #ifdef __SAMD21G18A__

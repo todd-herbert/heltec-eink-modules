@@ -32,9 +32,9 @@ void BaseDisplay::useSD(uint8_t pin_cs_card) {
         // Set a MISO pin, if the platform allows, and the user wants
         #if defined(ESP32)
             // ES32: Re-init SPI, with the chosen MISO pin
-            SPI.end();
-            SPI_BEGIN();
-
+            display_spi->end();
+            Platform::beginSPI(display_spi, pin_miso, pin_miso, pin_clk);
+            
         #elif defined( __SAMD21G18A__ )
             // If a custom MISO pin was just specified with useSD, then re-calculate the pin muxing
                 Platform::setSPIPins(pin_sdi, pin_clk, pin_miso);

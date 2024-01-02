@@ -43,8 +43,9 @@ void BaseDisplay::begin() {
     pinMode(pin_busy, INPUT);       // NOTE: do not use internal pullups: incompatible logic levels
 
     // Prepare SPI
+    display_spi = Platform::getSPI();
     digitalWrite(pin_cs, HIGH);
-    SPI_BEGIN();
+    Platform::beginSPI(display_spi, pin_sdi, pin_miso, pin_clk);
 
     // SAMD21: change SPI pins if requested
     #ifdef __SAMD21G18A__

@@ -6,8 +6,11 @@
     // If building for ATmega328P (UNO, or compatible)
     #ifdef __AVR_ATmega328P__
 
+        #include <Arduino.h>
+        #include <SPI.h>
+
         // Don't use fallback settings
-        #define PLATFORM_SUPPORTED      true
+        #define PLATFORM_SUPPORTED
 
         // SPI
         #define SPI_BEGIN()             ( SPI.begin() )
@@ -19,6 +22,12 @@
         #define DEFAULT_PAGE_HEIGHT     20
         #define MAX_PAGE_HEIGHT         50          // Size, in bytes: MAX_PAGE_HEIGHT * (width / 8)
         #define PRESERVE_IMAGE          false       // Page file will be cleared between updates
+
+        // Platform-specific methods
+        namespace Platform{
+            extern SPIClass* getSPI();                                                                      // Pass the correct SPI bus to display class
+            extern void beginSPI(SPIClass *spi, uint8_t pin_mosi, uint8_t pin_miso, uint8_t pin_clk);       // Call the appropriate SPI begin method                        // SAMD21G18A: move spi, if useSD() has been called
+        }
 
     #endif
 
