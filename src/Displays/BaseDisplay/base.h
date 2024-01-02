@@ -10,6 +10,8 @@
 #include <Arduino.h>
 #include <SPI.h>
 
+#include "optimization.h"   // Compile-time size reduction, configurable
+
 #include "GFX_Root/GFX.h"
 #include "SDWrapper/sd_wrapper.h"
 
@@ -69,8 +71,8 @@ class BaseDisplay: public GFX {
             /* --- Error: Microcontroller doesn't have enough RAM. Use a DRAW() loop instead --- */       void overwrite() = delete;
         #endif
 
-
-        // SD card 
+        // SD card
+        // ----------------------------
         void useSD(uint8_t pin_cs_card);                                                                                            // Store the config needed to use SD Card
         bool SDCardFound();                                                                                                         // Check if card is connected
         bool SDFileExists(const char* filename);                                                                                    // Check if file exists on SD card                                         
@@ -82,12 +84,10 @@ class BaseDisplay: public GFX {
         void drawMonoBitmapFile(int16_t left, int16_t top, const char* filename, Color foreground_color, Color background_color);   // Draw a mono bitmap from SD Card, with background
         void loadCanvas(const char* filename);                                                                                      // Draw canvas from SD card, direct to screen
         void loadCanvas(uint16_t number);                                                                                           // Draw canvas (numbered) from SD, direct to screen 
-        bool writingCanvas(const char* filename);                                                                                   // Non-paged: write memory to canvas (numbered)
-        bool writingCanvas(uint16_t number);                                                                                        // Non-paged: write memory to canvas 
         uint16_t getBMPWidth(const char* filename);                                                                                 // Read image width from .bmp header, sd card
         uint16_t getBMPHeight(const char* filename);                                                                                // Read image height from .bmp header, sd card        
         #define WRITE_CANVAS(display, canvas) while(display.writingCanvas(canvas))                                                  // Macro to call while.writingCanvas()
-        
+
 
         // Configure the SD card reader
         #if CAN_MOVE_SPI_PINS
@@ -108,6 +108,17 @@ class BaseDisplay: public GFX {
             /* --- Error: Not enough RAM, use drawMonoBitmapFile() instead  --- */              void draw24bitBitmapFile(int16_t left, int16_t top, const char* filename, uint8_t mask_r, uint8_t mask_g, uint8_t mask_b, bool apply_mask = true) = delete;            
         
         #endif
+
+
+        // SD write: Potentially disabled by optimization.h
+
+        #if !defined(__AVR_ATmega328P__) || defined(UNO_ENABLE_SDWRITE)
+            bool writingCanvas(const char* filename);                                                                                   // Non-paged: write memory to canvas (numbered)
+            bool writingCanvas(uint16_t number);                                                                                        // Non-paged: write memory to canvas 
+        #else
+            /* --- Error: SD Write disabled by config in optimization.h --- */                  bool writingCanvas(const char* filename) = delete;
+            /* --- Error: SD Write disabled by config in optimization.h --- */                  bool writingCanvas(uint16_t number) = delete;
+        #endif
         
 
         // Non-paged: write canvas to SD card
@@ -119,6 +130,7 @@ class BaseDisplay: public GFX {
             /* --- Error: Not enough RAM, use WRITE_CANVAS() instead --- */         void writeCanvas(uint16_t number) = delete;
         #endif
 
+        // ---------------
 
         // Drawing helpers
         Bounds bounds;                                                          // Dimension info about screen and window

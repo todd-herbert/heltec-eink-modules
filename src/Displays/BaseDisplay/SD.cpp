@@ -409,58 +409,62 @@ void BaseDisplay::loadCanvas(const char* filename) {
 }
 
 // Backend for the WRITE_CANVAS loop, using canvasXXX.bmp for filename
-bool BaseDisplay::writingCanvas(uint16_t number) {
 
-    char filename[] = "canvas***.bmp";
-    
-    filename[6] = number / 100;
-    filename[7] = (number / 10) % 10;
-    filename[8] = number % 10;
+// Potentially disabled by optimization.h
+#if !defined(__AVR_ATmega328P__) || defined(UNO_ENABLE_SDWRITE)
+    bool BaseDisplay::writingCanvas(uint16_t number) {
 
-    // Convert: (int) 0 to (char)'0'
-    filename[6] += 48;
-    filename[7] += 48;
-    filename[8] += 48;
-
-    // Pass through
-    return writingCanvas(filename);
-}
-
-// Backend for the WRITE_CANVAS loop
-bool BaseDisplay::writingCanvas(const char* filename) {
-
-    // Start of WRITE_CANVAS loop
-    if (!writing_canvas) {    
-
-        // Store the filename, for writePageToCanvas()        
-        canvas_filename = filename;       
-
-        // First loop only - repair canvas if corrupt
-        if (!SDCanvasValid(filename, true))
-            initCanvas(filename);
+        char filename[] = "canvas***.bmp";
         
-        // Signals that next writingCanvas setup is done. Also signals writePageToCanvas() to intercept the outgoing gfx data
-        writing_canvas = true;
+        filename[6] = number / 100;
+        filename[7] = (number / 10) % 10;
+        filename[8] = number % 10;
 
-        // Now, offload onto calculating() (main "paging" loop). SD class is (usually) instantiated in writePageToCanvas()
-        return calculating();
+        // Convert: (int) 0 to (char)'0'
+        filename[6] += 48;
+        filename[7] += 48;
+        filename[8] += 48;
+
+        // Pass through
+        return writingCanvas(filename);
     }
 
-    // Subequent loops
-    else {
+    // Backend for the WRITE_CANVAS loop
+    bool BaseDisplay::writingCanvas(const char* filename) {
 
-        // If the usual paging loop is still doing its thing, loop around
-        if (calculating())
-            return true;
+        // Start of WRITE_CANVAS loop
+        if (!writing_canvas) {    
 
-        // Otherwise, stop intercepting writePage()
-        writing_canvas = false;
+            // Store the filename, for writePageToCanvas()        
+            canvas_filename = filename;       
 
-        // No need for another loop
-        return false;
+            // First loop only - repair canvas if corrupt
+            if (!SDCanvasValid(filename, true))
+                initCanvas(filename);
+            
+            // Signals that next writingCanvas setup is done. Also signals writePageToCanvas() to intercept the outgoing gfx data
+            writing_canvas = true;
+
+            // Now, offload onto calculating() (main "paging" loop). SD class is (usually) instantiated in writePageToCanvas()
+            return calculating();
+        }
+
+        // Subequent loops
+        else {
+
+            // If the usual paging loop is still doing its thing, loop around
+            if (calculating())
+                return true;
+
+            // Otherwise, stop intercepting writePage()
+            writing_canvas = false;
+
+            // No need for another loop
+            return false;
+        }
+        
     }
-    
-}
+#endif
 
 #if PRESERVE_IMAGE
     // Non-paged: write the result of drawing operations to SD card (once), using canvasXXX.bmp for filename

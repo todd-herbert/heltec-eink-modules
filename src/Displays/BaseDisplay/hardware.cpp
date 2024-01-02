@@ -65,10 +65,13 @@ void BaseDisplay::writePage() {
     begin();
 
     // Intercept here for WRITE_CANVAS
-    if (writing_canvas) {
-        writePageToCanvas();
-        return; // Don't draw to screen at same time?
-    }
+    // Potentially disabled by optimization.h
+    #if !defined(__AVR_ATmega328P__) || defined(UNO_ENABLE_SDWRITE)
+        if (writing_canvas) {
+            writePageToCanvas();
+            return; // Don't draw to screen at same time?
+        }
+    #endif
 
     // Calculate rotated x start and stop values (y is already done via paging)
     int16_t sx, sy, ex, ey;
