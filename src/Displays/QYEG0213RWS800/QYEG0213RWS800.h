@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include "Displays/BaseDisplay/base.h"
 
-// Heltec 2.9" V2
+// Heltec 2.13" V2
 // Connector label: FPC-7528
 class QYEG0213RWS800 : public BaseDisplay {
 
