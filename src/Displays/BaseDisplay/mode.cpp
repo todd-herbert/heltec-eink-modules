@@ -14,7 +14,7 @@ void BaseDisplay::fastmodeOff() {
     begin();
 
     fastmode_state = Fastmode::OFF;
-    softReset();
+    reset();
     configFull();
     wait();
 }
@@ -37,7 +37,7 @@ void BaseDisplay::fastmodeOn() {
     #endif
 
     fastmode_state = Fastmode::ON;
-    softReset();
+    reset();
     configPartial();
     wait();
 }
@@ -54,7 +54,7 @@ void BaseDisplay::fastmodeTurbo() {
         clear(false);    // Initialize dispaly memory, if needed
 
     fastmode_state = Fastmode::TURBO;
-    softReset();
+    reset();
     configPartial();
     wait();
 }

@@ -163,7 +163,7 @@ class BaseDisplay: public GFX {
 
 
         // Display interaction
-        void softReset();                                   // Soft-reset the dispaly
+        void reset();                                   // Reset the dispaly
         void wait();                                    // Pause until the display can accept new commands
         void sendCommand(uint8_t command);              // Send SPI Command to display (see datasheets)
         void sendData(uint8_t data);                    // Send SPI data to display
@@ -222,6 +222,7 @@ class BaseDisplay: public GFX {
         uint8_t pin_cs_card = -1;                                   // Set in useSD()
         bool writing_canvas = false;                                // Are drawing operations currently diverted into a bmp file?
         const char* canvas_filename;                                // Pass filename to writePageToCanvas()
+
 
         // External power switch
         uint8_t pin_power = -1;                                     // Pin connected to switch / transistor gate
