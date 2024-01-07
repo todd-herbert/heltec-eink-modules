@@ -1,6 +1,6 @@
-#ifdef __AVR_ATmega328P__
+#include "Platforms/platforms.h"
 
-#include "M328P.h"
+#ifdef __AVR_ATmega328P__
 
 namespace Platform {
 

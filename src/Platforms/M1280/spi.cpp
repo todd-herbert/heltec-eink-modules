@@ -1,6 +1,6 @@
-#ifdef __AVR_ATmega1280__
+#include "Platforms/platforms.h"
 
-#include "M1280.h"
+#ifdef __AVR_ATmega1280__
 
 namespace Platform {
 

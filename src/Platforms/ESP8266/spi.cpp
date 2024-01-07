@@ -1,6 +1,6 @@
-#ifdef ESP8266
+#include "Platforms/platforms.h"
 
-#include "ESP8266.h"
+#ifdef ESP8266
 
 namespace Platform {
 

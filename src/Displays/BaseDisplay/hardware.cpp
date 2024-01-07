@@ -46,6 +46,13 @@ void BaseDisplay::sendData(uint8_t data) {
 
 // Soft-reset the display
 void BaseDisplay::reset() {
+    // On "Wireless Paper" platforms: ensure peripheral power is on, then briefly pull the display's reset pin to ground
+    #ifdef WIRELESS_PAPER
+        Platform::VExtOn();
+        Platform::toggleResetPin();
+    #endif
+
+    // All platforms: send software reset SPI command
     sendCommand(0x12);
     wait();
 }

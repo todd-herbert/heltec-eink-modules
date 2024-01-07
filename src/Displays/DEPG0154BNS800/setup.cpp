@@ -12,6 +12,9 @@ void DEPG0154BNS800::init() {
 
     // Get the Bounds subclass ready now (in constructor), so that it can be used to init. globals.
     BaseDisplay::instantiateBounds();
+    
+     // Set the initial drawing config early, so user's config commands before the first update aren't ignored
+    BaseDisplay::initDrawingParams(); 
 
     // TODO: call BaseDisplay::begin() from here. Implement at next major version - breaking change
 }

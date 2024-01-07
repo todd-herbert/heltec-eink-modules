@@ -17,4 +17,6 @@
 #include "Displays/DEPG0290BNS800/DEPG0290BNS800.h"     // Heltec 2.9" BW V2    - Red Tab
 #include "Displays/GDE029A1/GDE029A1.h"                 // Heltec 2.9" BW V2    - Blue tab
 
+#include "Displays/DEPG0213BN/DEPG0213BN.h"         
+
 #endif

@@ -1,6 +1,6 @@
-#ifdef __AVR_ATmega2560__
+#include "Platforms/platforms.h"
 
-#include "M2560.h"
+#ifdef __AVR_ATmega2560__
 
 namespace Platform {
 

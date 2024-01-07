@@ -1,6 +1,7 @@
-#ifdef ESP32
+#include "Platforms/platforms.h"
 
-#include "ESP32.h"
+// If building for (generic) ESP32
+#if defined(ESP32) && !defined(WIRELESS_PAPER)
 
 namespace Platform {
 

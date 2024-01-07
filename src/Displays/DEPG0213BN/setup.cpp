@@ -1,6 +1,6 @@
-#include "QYEG0213RWS800.h"
+#include "DEPG0213BN.h"
 
-void QYEG0213RWS800::init() {
+void DEPG0213BN::init() {
     // Pass information to base class, once instantiated
     BaseDisplay::panel_width = this->panel_width;
     BaseDisplay::panel_height = this->panel_height;

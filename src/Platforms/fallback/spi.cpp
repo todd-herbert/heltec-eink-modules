@@ -1,6 +1,6 @@
-#include "fallback.h"
+#include "Platforms/platforms.h"
 
-#ifndef PLATFORM_FALLBACK
+#ifdef PLATFORM_FALLBACK
 
 namespace Platform {
 

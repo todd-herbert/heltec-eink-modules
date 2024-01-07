@@ -30,6 +30,8 @@ class BaseDisplay: public GFX {
             freePageMemory();
         }
 
+        void begin();                                               // Called from derived-class' constructor: gets access to derived-class parameters, and runs hardware init                              
+
 
         // Virtual: AdafruitGFX drawing                                                           
         void drawPixel(int16_t x, int16_t y, uint16_t color);       // Where pixel output of AdafruitGFX is intercepted
@@ -54,7 +56,8 @@ class BaseDisplay: public GFX {
         void usePowerSwitching(uint8_t pin, SwitchType type);       // Store the config for user's power switching circuit
         void externalPowerOff(uint16_t pause = 500);                // "Power off" signal to user's power circuit, and set logic pins appropriately
         void externalPowerOn();                                     // "Power on" signal to user's circuit, then re-init display
-
+        virtual void sleep() = 0;                                   // Display controller IC: sleep display. Needs external RST pin to wake - Wireless Paper only
+        virtual void wake() = 0;                                    // Wake from "display controller deep sleep" - Wireless Paper only
 
         // Paging and Refresh
         void clear();                                               // Public clear() method. Obligatory refresh
@@ -158,9 +161,8 @@ class BaseDisplay: public GFX {
 
     protected:
         // Initial setup
-        void begin();                                   // Called from derived-class' constructor: gets access to derived-class parameters                                    
         void instantiateBounds();                       // Called by derived class constructor, asap, so globals can be initialized with bounds() info
-
+        void initDrawingParams();                       // Set drawing config early: if placed in begin(), may be over-written by user's early config
 
         // Display interaction
         void reset();                                   // Reset the dispaly

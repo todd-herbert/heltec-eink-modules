@@ -22,15 +22,15 @@ BaseDisplay::BaseDisplay(   uint8_t pin_dc,
     this->pin_clk = pin_clk;
     this->pagefile_height = page_height;
 
-    // Set an initial configuration for drawing
-    // Moved from begin(), as "auto-begin" call would overwrite any config by user before first update
-    setDefaultColor(WHITE);
-    setTextColor(BLACK);
+    // Wireless Paper: power off peripherals, assuring a cold-start
+    // Hardware access from constructor: naughty, but it will save a lot of headache for new-users who will frequently get the panel stuck
+    #ifdef WIRELESS_PAPER
+
+    #endif
 }        
 
 
 void BaseDisplay::begin() {
-
     // Only begin() once
     if (begun)
         return;
@@ -53,19 +53,16 @@ void BaseDisplay::begin() {
             pin_miso = Platform::setSPIPins(pin_sdi, pin_clk);
     #endif
 
-    // Calculate pagefile size
-    pagefile_height = constrain(pagefile_height, 1, MAX_PAGE_HEIGHT);
-    page_bytecount = panel_width * pagefile_height / 8;
+    // Wireless Paper: power on the peripherals, and hard reset to clear away whatever traumatic experience the display has been through
+    // RTS causing double reboot after flash?
+    #ifdef WIRELESS_PAPER
+        Platform::VExtOn();
+        Platform::toggleResetPin();
+    #endif
 
-    // If PRESERVE_IMAGE possible, and enabled, allocate the memory now (it will not allocate in calculating)
-    if (PRESERVE_IMAGE && pagefile_height == panel_height) {
-        grabPageMemory();
-        fullscreen();   // Window change, clears page
+    // If PRESERVE_IMAGE possible, memory was allocated in constructor
+    if (PRESERVE_IMAGE && pagefile_height == panel_height)
         writePage();    // Make sure display memory is also blanked
-    }
-    // Otherwise, just set the region
-    else 
-        fullscreen();
 }
 
 // Set configuration of custom power-swiching circuit, then power up
@@ -100,4 +97,21 @@ void BaseDisplay::instantiateBounds() {
                             &winrot_left, 
                             &rotation,
                             &imgflip    );
+}
+
+void BaseDisplay::initDrawingParams() {
+    // Default drawing config must be set early, as user-config may be issued before begin() is auto-called.
+    
+    // Calculate pagefile size
+    pagefile_height = constrain(pagefile_height, 1, MAX_PAGE_HEIGHT);
+    page_bytecount = panel_width * pagefile_height / 8;
+    
+    // If unpaged drawing possible, allocate the memory, and set library to draw fullscreen
+    if (PRESERVE_IMAGE && pagefile_height == panel_height)
+        grabPageMemory();
+
+    // Defalut GFX options
+    fullscreen();
+    setDefaultColor(WHITE);
+    setTextColor(BLACK);
 }

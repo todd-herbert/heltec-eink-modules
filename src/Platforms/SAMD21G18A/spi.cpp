@@ -1,6 +1,6 @@
-#ifdef __SAMD21G18A__
+#include "Platforms/platforms.h"
 
-#include "SAMD21G18A.h"
+#ifdef __SAMD21G18A__
 
     namespace Platform {
 
