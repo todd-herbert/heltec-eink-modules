@@ -172,8 +172,8 @@ size_t BaseDisplay::write(uint8_t c) {
             if ((w > 0) && (h > 0)) {                                       // Is there an associated bitmap?
                 int16_t xo = (int8_t)pgm_read_byte(&glyph->xOffset);        // sic
                 
-                if (wrap && ((cursor_x + textsize_x * (xo + w)) > (int16_t)bounds.window.right())) {
-                    cursor_x = max( (int16_t)bounds.window.left(), cursor_placed_x); 
+                if (wrap && ((cursor_x + textsize_x * (xo + w)) > (int16_t)bounds.window.right())) {    // Cursor beyond right edge
+                    cursor_x = max( (int16_t)bounds.window.left(), cursor_placed_x);
                     cursor_y += (int16_t)textsize_y * (uint8_t)pgm_read_byte(&gfxFont->yAdvance);
                 }
                 drawChar(cursor_x, cursor_y, c, textcolor, textbgcolor, textsize_x, textsize_y);
@@ -206,8 +206,8 @@ void BaseDisplay::charBounds(unsigned char c, int16_t *x, int16_t *y, int16_t *m
                 int8_t  xo = pgm_read_byte(&glyph->xOffset),
                         yo = pgm_read_byte(&glyph->yOffset);
 
-                if (wrap && ((*x + (((int16_t)xo + gw) * textsize_x)) > (int16_t)bounds.window.right())) {
-                    *x = max( (int16_t)bounds.window.left(), cursor_placed_x); // Reset x to line start, advance y by one line
+                if (wrap && ((*x + (((int16_t)xo + gw) * textsize_x)) > (int16_t)bounds.window.right())) {  // Cursor beyond right edge
+                    *x = max( (int16_t)bounds.window.left(), cursor_placed_x) + xa; // Reset x to line start, advance y by one line
                     *y += textsize_y * (uint8_t)pgm_read_byte(&gfxFont->yAdvance);
                 }
 

@@ -70,12 +70,12 @@ uint16_t WindowBounds::getWindowBounds(WindowBounds::side request) {
     // Start by simply picking a rotated edge
     result = *edges[rotated_request];
 
+    // Handle a special case; funny issues with unusual drawing_width
+    if (rotated_request == R)
+        result = min(result, drawing_width - 1);
+
     // If required by LUT, find display width or height, and subtract the edge distance
     if (rotswap) {
-        // Handle a special case; funny issues with unusual drawing_width
-        if (rotated_request == R)
-            result = min(result, drawing_width - 1);
-
         uint16_t minuend = (rotated_request % 2) ? (drawing_width - 1) : (drawing_height - 1);
         result = minuend - result;
     }
