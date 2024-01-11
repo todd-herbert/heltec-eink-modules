@@ -60,7 +60,7 @@ void BaseDisplay::reset() {
 // Wait until the display hardware is idle. Important as any commands made while "busy" will be discarded.
 void BaseDisplay::wait() {
     while(digitalRead(pin_busy) == HIGH) {      // Pin is HIGH when busy
-        delay(1);
+        yield();
     }
 }
 
