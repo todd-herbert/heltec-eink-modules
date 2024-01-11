@@ -44,7 +44,7 @@ void BaseDisplay::sendData(uint8_t data) {
     display_spi->endTransaction();
 }
 
-// Soft-reset the display
+// Reset the display
 void BaseDisplay::reset() {
     // On "Wireless Paper" platforms: ensure peripheral power is on, then briefly pull the display's reset pin to ground
     #ifdef WIRELESS_PAPER
@@ -64,7 +64,7 @@ void BaseDisplay::wait() {
     }
 }
 
-/// Write one page to the panel memory
+// Write one page to the panel memory
 void BaseDisplay::writePage() {
 
     // Call begin() automatically. 
@@ -84,36 +84,7 @@ void BaseDisplay::writePage() {
     int16_t sx, sy, ex, ey;
     calculateMemoryArea(sx, sy, ex, ey);  // Virtual, derived class
     setMemoryArea(sx, sy, ex, ey);
-   
-
-    // Now we can send over our image data
-    sendCommand(0x24);   // Write "BLACK" memory
-    for (uint16_t i = 0; i < pagefile_length; i++) {
-        sendData(page_black[i]);
-    }
-
-    if ( supportsColor(RED) ) {   // If 3-Color red display
-        sendCommand(0x26);          // Write memory for red(1)/white (0)
-        for (uint16_t i = 0; i < pagefile_length; i++) {
-            sendData(page_red[i]);
-        }
-    }
-
-    else {  // Black and White only
-
-        // Write so-called "RED" memory. With this display, the memory is used during fastmode.
-        // Counter-intuitively, need to write both BLACK and RED during normal use.
-        // This preserves the image when moving into fastmode.
-
-        if(fastmode_state == OFF) {
-            sendCommand(0x26);
-            for (uint16_t i = 0; i < pagefile_length; i++) {
-                sendData(page_black[i]);
-            }
-        }
-    }
-
-    wait();
+    sendImageData();    // Transfer image via SPI
 }
 
 // Inform the display of selected memory area
@@ -143,6 +114,57 @@ void BaseDisplay::setMemoryArea(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t 
     sendCommand(0x4F);  // Memory cursor y
     sendData(sy1);
     sendData(sy2);
+}
+
+// Prepare display controller to receive image data, then transfer
+void BaseDisplay::sendImageData() {
+
+    // Write the data
+    sendCommand(0x24);   // Write "BLACK" memory
+    for (uint16_t i = 0; i < pagefile_length; i++)
+        sendData(page_black[i]);
+
+    if ( supportsColor(RED) ) {   // If 3-Color red display
+        sendCommand(0x26);          // Write memory for red(1)/white (0)
+        for (uint16_t i = 0; i < pagefile_length; i++)
+            sendData(page_red[i]);
+    }
+
+    else {  // Black and White only
+
+        // Write so-called "RED" memory. With this display, the memory is used during fastmode.
+        // Counter-intuitively, need to write both BLACK and RED during normal use.
+        // This preserves the image when moving into fastmode.
+
+        if(fastmode_state == OFF) {
+            sendCommand(0x26);
+            for (uint16_t i = 0; i < pagefile_length; i++)
+                sendData(page_black[i]);
+        }
+    }
+
+    wait();
+}
+
+// Used by clear()
+void BaseDisplay::sendBlankImageData() {
+    // Calculate memory values needed to display default_color
+    uint8_t black_byte, red_byte;
+    black_byte = (default_color & WHITE) * 255;          // Get the black mem value for default color
+    if (supportsColor(RED))
+        red_byte = ((default_color & RED) >> 1) * 255;  // Get the red mem value for default color
+    else
+        red_byte = black_byte;
+
+
+    // Write the data
+    sendCommand(0x24);   // Write "BLACK" memory
+    for (uint16_t i = 0; i < pagefile_length; i++)
+        sendData(black_byte);
+
+    sendCommand(0x26);  // Write "RED" memory
+    for (uint16_t i = 0; i < pagefile_length; i++)
+        sendData(red_byte);
 }
 
 // Send power-off signal to your custom power switching circuit, and set the display pins to prevent unwanted current flow
@@ -237,31 +259,9 @@ void BaseDisplay::clear(bool refresh) {
     page_bottom = panel_height - 1;
 
     int16_t sx, sy, ex, ey;
-    calculateMemoryArea(sx, sy, ex, ey);  // Virtual, derived class
+    calculateMemoryArea(sx, sy, ex, ey);    // Virtual, derived class
     setMemoryArea(sx, sy, ex, ey);
-
-    uint16_t x, y;
-    uint8_t black_byte, red_byte;
-
-    black_byte = (default_color & WHITE) * 255;          // We're filling in bulk here; bits are either all on or all off
-    if (supportsColor(RED))
-        red_byte = ((default_color & RED) >> 1) * 255;
-    else
-        red_byte = black_byte;
-
-    sendCommand(0x24);   // Fill "BLACK" memory with default_color
-    for(y = 0; y < (panel_width / 8) + 1; y++) {    // (+1 overscan)
-        for(x = 0; x < panel_height; x++) {
-            sendData(black_byte);
-        }
-    }
-
-    sendCommand(0x26);   // Fill "RED" memory with default_color
-    for(y = 0; y < (panel_width / 8) + 1; y++) {  // (+1 overscan)
-        for(x = 0; x < panel_height; x++) {
-            sendData(red_byte);
-        }
-    }
+    sendBlankImageData();   // Transfer (blank) image via SPI
 
     // Update the display with blank memory
     if (refresh) {

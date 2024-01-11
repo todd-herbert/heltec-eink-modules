@@ -157,7 +157,7 @@ void BaseDisplay::setWindow(uint16_t left, uint16_t top, uint16_t width, uint16_
             pagefile_length = (page_bottom - page_top + 1) * ((winrot_right - winrot_left + 1) / 8);
 
             if (clear_page)
-                clearPage(default_color);
+                clearPageWindow();  // This is *usually* just clearPage(), unless "partial window" is not supported.
         }
     #endif
 }

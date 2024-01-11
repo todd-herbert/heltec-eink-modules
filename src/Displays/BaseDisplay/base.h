@@ -164,22 +164,26 @@ class BaseDisplay: public GFX {
         void instantiateBounds();                       // Called by derived class constructor, asap, so globals can be initialized with bounds() info
         void initDrawingParams();                       // Set drawing config early: if placed in begin(), may be over-written by user's early config
 
+
         // Display interaction
-        void reset();                                   // Reset the dispaly
-        void wait();                                    // Pause until the display can accept new commands
+        virtual void reset();                           // Reset the display. Overriden for Fitipower ICs
+        virtual void wait();                            // Pause until the display can accept new commands. Overriden for Fitipower ICs
         void sendCommand(uint8_t command);              // Send SPI Command to display (see datasheets)
         void sendData(uint8_t data);                    // Send SPI data to display
+        virtual void sendImageData();                   // Send image over SPI to display's memory. Overriden for Fitipower ICs
+        virtual void sendBlankImageData();              // Send a full frame of black data over SPI to display's memory. Overriden for Fitipower ICs
 
 
         // Paging and Refresh
         void grabPageMemory();                                                                              // Allocate dynamic memory to the pagefile(s) (image buffer)
         void freePageMemory();                                                                              // Release pagefile memory
         void setWindow(uint16_t left, uint16_t top, uint16_t width, uint16_t height, bool clear_page);      // (hide final parameter from user)
-        void setMemoryArea(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey);                             // Inform the display of selected memory area
+        virtual void setMemoryArea(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey);                     // Inform the display of selected memory area. Overriden if no "partial window" support
         void writePage();                                                                                   // Send image data to display memory (no refresh)
-        void clearPage(uint16_t bgcolor);                                                                   // Fill the pagefile(s) with default_color
+        virtual void clearPage(uint16_t bgcolor);                                                           // Fill the pagefile(s) with default_color. Overriden if no "partial window" support
+        virtual void clearPageWindow();                                                                     // Clear page area where new window-data will go. Overriden if no "partial window" support
         void clear(bool refresh);                                                                           // Clear display memory, with optional update
-
+ 
 
         // SD card
         void send24BitBMP(Color target);                                    // Feed .bmp into sendData()
@@ -194,10 +198,11 @@ class BaseDisplay: public GFX {
 
 
         // Derived class: config for specific display models
-        virtual void calculateMemoryArea( int16_t &sx, int16_t &sy, int16_t &ex, int16_t &ey ) = 0;     // Calculate area of display memory to accept data
-        virtual void configFull() {};                                                                   // Load display specific settings for full refresh
-        virtual void configPartial() {};                                                                // Load display specific settings for partial refresh
-        virtual void activate() = 0;                                                                    // Perform the display update, "master activation"
+        virtual void calculateMemoryArea( int16_t &sx, int16_t &sy, int16_t &ex, int16_t &ey ) = 0;                 // Calculate area of display memory to accept data
+        virtual void configPartial() {};                                                                            // Load display specific settings for partial refresh
+        virtual void configFull() {};                                                                               // Load display specific settings for full refresh
+        virtual void activate() = 0;                                                                                // Perform the display update, "master activation"
+        virtual void calculatePixelPageOffset(uint16_t x, uint16_t y, uint16_t &byte_offset, uint8_t &bit_offset); // Calculate byte location of pixel in pagefile. Overriden if no "partial window" support
 
 
         // Config received in constructor

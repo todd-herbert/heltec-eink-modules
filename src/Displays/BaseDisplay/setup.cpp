@@ -21,16 +21,11 @@ BaseDisplay::BaseDisplay(   uint8_t pin_dc,
     this->pin_sdi = pin_sdi;
     this->pin_clk = pin_clk;
     this->pagefile_height = page_height;
-
-    // Wireless Paper: power off peripherals, assuring a cold-start
-    // Hardware access from constructor: naughty, but it will save a lot of headache for new-users who will frequently get the panel stuck
-    #ifdef WIRELESS_PAPER
-
-    #endif
 }        
 
 
 void BaseDisplay::begin() {
+
     // Only begin() once
     if (begun)
         return;

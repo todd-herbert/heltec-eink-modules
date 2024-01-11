@@ -51,24 +51,30 @@ void BaseDisplay::drawPixel(int16_t x, int16_t y, uint16_t color) {
     // Check if pixel falls in our page
     if((uint16_t) x >= winrot_left && (uint16_t) y >= page_top && (uint16_t) y <= page_bottom && (uint16_t) x <= winrot_right) {
 
-        // Calculate a memory location (byte) for our pixel
-        uint16_t memory_location;
-        memory_location = (y - page_top) * ((winrot_right - winrot_left + 1) / 8);
-        memory_location += ((x - winrot_left) / 8);     
-        uint8_t bit_location = x % 8;   // Find the location of the bit in which the value will be stored
-        bit_location = (7 - bit_location);  // For some reason, the screen wants the bit order flipped. MSB vs LSB?
+        uint16_t byte_offset;
+        uint8_t bit_offset;
+        calculatePixelPageOffset(x, y, byte_offset, bit_offset);    // Position of pixel within the page files. Overriden if no "partial window" support
 
         // Insert the correct color values into the appropriate location
-        uint8_t bitmask = ~(1 << bit_location);
-        page_black[memory_location] &= bitmask;
-        page_black[memory_location] |= (color & WHITE) << bit_location;
+        uint8_t bitmask = ~(1 << bit_offset);
+        page_black[byte_offset] &= bitmask;
+        page_black[byte_offset] |= (color & WHITE) << bit_offset;
 
         // Red, if display supports
         if (supportsColor(RED)) {
-            page_red[memory_location] &= bitmask;
-            page_red[memory_location] |= (color >> 1) << bit_location;
+            page_red[byte_offset] &= bitmask;
+            page_red[byte_offset] |= (color >> 1) << bit_offset;
         }
     }
+}
+
+// Where should the pixel be placed in the pagefile - overriden by derived display classes which do not support "partial window"
+void BaseDisplay::calculatePixelPageOffset(uint16_t x, uint16_t y, uint16_t &byte_offset, uint8_t &bit_offset) {
+    // Calculate a memory location (byte) for our pixel
+    byte_offset = (y - page_top) * ((winrot_right - winrot_left + 1) / 8);
+    byte_offset += ((x - winrot_left) / 8);     
+    bit_offset = x % 8;   // Find the location of the bit in which the value will be stored
+    bit_offset = (7 - bit_offset);  // For some reason, the screen wants the bit order flipped. MSB vs LSB?
 }
 
 // Set the color of the blank canvas, before any drawing is done

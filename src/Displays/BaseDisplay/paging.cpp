@@ -32,7 +32,8 @@ bool BaseDisplay::calculating() {
         page_bottom = min((winrot_top + pagefile_height) - 1, winrot_bottom);
         pagefile_length = (page_bottom - page_top + 1) * ((winrot_right - winrot_left + 1) / 8);
 
-        clearPage(default_color);
+        // This is usually just clearPage(), unless "partial window" is not supported
+        clearPageWindow();
 
         // Track state of display memory (re:externalPowerOn)
         display_cleared = false;
@@ -96,7 +97,8 @@ bool BaseDisplay::calculating() {
         }
     }
     else {
-        clearPage(default_color);
+        // This is usually just clearPage(), unless "partial window" is not supported
+        clearPageWindow();
         page_cursor++;
         return true;    // Keep looping
     }
@@ -114,4 +116,9 @@ void BaseDisplay::clearPage(uint16_t bgcolor) {
             for (uint16_t i = 0; i < page_bytecount; i++)
                 page_red[i] = red_byte;
         }
+}
+
+// Clear page area where new window-data will go - overriden if display doesn't support "partial window"
+void BaseDisplay::clearPageWindow() {
+    clearPage(default_color);
 }
