@@ -50,14 +50,14 @@ class BaseDisplay: public GFX {
         // Window
         void fullscreen();                                                                  // Use whole screen area for drawing
         void setWindow(uint16_t left, uint16_t top, uint16_t width, uint16_t height);       // Specify a section of screen for drawing
-
+        
 
         // Power saving
         void usePowerSwitching(uint8_t pin, SwitchType type);       // Store the config for user's power switching circuit
         void externalPowerOff(uint16_t pause = 500);                // "Power off" signal to user's power circuit, and set logic pins appropriately
         void externalPowerOn();                                     // "Power on" signal to user's circuit, then re-init display
-        virtual void sleep() = 0;                                   // Display controller IC: sleep display. Needs external RST pin to wake - Wireless Paper only
-        virtual void wake() = 0;                                    // Wake from "display controller deep sleep" - Wireless Paper only
+        virtual void sleep() {}                                     // Display controller IC: sleep display. Needs external RST pin to wake - Wireless Paper only
+        virtual void wake()  {};                                    // Wake from "display controller deep sleep" - Wireless Paper only
 
         // Paging and Refresh
         void clear();                                               // Public clear() method. Obligatory refresh
