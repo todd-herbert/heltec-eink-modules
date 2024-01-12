@@ -152,14 +152,16 @@ void BaseDisplay::sendBlankImageData() {
     else
         red_byte = black_byte;
 
+    // Determine how many bytes to write
+    uint16_t pagefile_size = (panel_width / 8) * panel_height;
 
     // Write the data
     sendCommand(0x24);   // Write "BLACK" memory
-    for (uint16_t i = 0; i < pagefile_length; i++)
+    for (uint16_t i = 0; i < pagefile_size; i++)
         sendData(black_byte);
 
     sendCommand(0x26);  // Write "RED" memory
-    for (uint16_t i = 0; i < pagefile_length; i++)
+    for (uint16_t i = 0; i < pagefile_size; i++)
         sendData(red_byte);
 }
 
