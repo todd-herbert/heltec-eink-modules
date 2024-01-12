@@ -28,7 +28,7 @@ void BaseDisplay::fastmodeOn() {
     if(fastmode_state == NOT_SET)
         clear(false);     // Initialize display memory, if needed
 
-    // If memory was lost after externalPowerOff
+    // If memory was lost after customPowerOff
     #if !PRESERVE_IMAGE
         if (just_restarted && !display_cleared)
             clear(true);

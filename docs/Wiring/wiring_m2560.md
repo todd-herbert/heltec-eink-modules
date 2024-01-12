@@ -30,11 +30,11 @@ Note: The **BUSY** pin does not require level-shifting, as the ATmega2560 only r
 ```cpp
 void setup() {
     // Pin 53, PNP transistor
-    display.usePowerSwitching(53, PNP);
+    display.useCustomPowerSwitch(53, PNP);
 
     //Later, when required:
-    display.externalPowerOff();
-    display.externalPowerOn();
+    display.customPowerOff();
+    display.customPowerOn();
 }
 ```
 
@@ -50,6 +50,6 @@ This diagram shows possible wiring for MicroSD modules which *do not* have an in
 
 ![schematic of display connected to mega and microSD module](ATmega2560_SD.png)
 
-❗ Take care when combining this wiring and `usePowerSwitching()`.<br /> `NPN` or `ACTIVE_LOW` configurations will damage the SD card. 
+❗ Take care when combining this wiring and `useCustomPowerSwitch()`.<br /> `NPN` or `ACTIVE_LOW` configurations will damage the SD card. 
 
 For greater protection, consider a *bidirectional level shifter*.

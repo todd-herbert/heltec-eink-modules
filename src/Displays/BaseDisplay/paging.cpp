@@ -35,7 +35,7 @@ bool BaseDisplay::calculating() {
         // This is usually just clearPage(), unless "partial window" is not supported
         clearPageWindow();
 
-        // Track state of display memory (re:externalPowerOn)
+        // Track state of display memory (re:customPowerOn)
         display_cleared = false;
         just_restarted = false;
     }

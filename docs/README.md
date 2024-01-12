@@ -296,7 +296,7 @@ Many E-ink manufacturers provide a deep-sleep mode. With Heltec displays, this m
 As an alternative, consider using a transistor, or other switching device, to disconnect your display when needed.
 
 The library can make the necessary pin changes for this.
-Configure your switching device with [`usePowerSwitching()`](/docs/API.md#usepowerswitching), then call [`externalPowerOff()`](/docs/API.md#externalpoweroff) and [`externalPowerOn()`](/docs/API.md#externalpoweron) as required.
+Configure your switching device with [`useCustomPowerSwitch()`](/docs/API.md#useCustomPowerSwitch), then call [`customPowerOff()`](/docs/API.md#customPoweroff) and [`customPowerOn()`](/docs/API.md#customPoweron) as required.
 
 See your board's [wiring page](#wiring) for a suggested schematic.
 

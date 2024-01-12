@@ -40,8 +40,8 @@
   - [`drawRoundRect()`](#drawroundrect)
   - [`drawTriangle()`](#drawtriangle)
   - [`drawXBitmap()`](#drawxbitmap)
-  - [`externalPowerOff()`](#externalpoweroff)
-  - [`externalPowerOn()`](#externalpoweron)
+  - [`customPowerOff()`](#custompoweroff)
+  - [`customPowerOn()`](#custompoweron)
   - [`fastmodeOff()`](#fastmodeoff)
   - [`fastmodeOn()`](#fastmodeon)
   - [`fastmodeTurbo()`](#fastmodeturbo)
@@ -78,7 +78,7 @@
   - [`setWindow()`](#setwindow)
   - [`startOver()`](#startover)
   - [`update()`](#update)
-  - [`usePowerSwitching()`](#usepowerswitching)
+  - [`useCustomPowerSwitch()`](#usecustompowerswitch)
   - [`useSD()`](#usesd)
   - [`WRITE_CANVAS()`](#write_canvas)
   - [`writeCanvas()`](#writecanvas)
@@ -1059,29 +1059,29 @@ void loop() {}
 * [colors](#colors)
 
 ___
-### `externalPowerOff()`
+### `customPowerOff()`
 
 Disconnect power from the display, using an external power switch, such as a transistor.
 
-Must be configured with `usePowerSwitching()`.
+Must be configured with `useCustomPowerSwitch()`.
 
 #### Syntax
 
 ```cpp
-display.externalPowerOff()
+display.customPowerOff()
 ```
 
 ___
-### `externalPowerOn()`
+### `customPowerOn()`
 
 Connect power to the display, using an external power switch, such as a transistor.
 
-Must be configured with `usePowerSwitching()`.
+Must be configured with `useCustomPowerSwitch()`.
 
 #### Syntax
 
 ```cpp
-display.externalPowerOn()
+display.customPowerOn()
 ```
 
 ___
@@ -2258,14 +2258,14 @@ void setup() {
 * [startOver()](#startover)
 
 ___
-### `usePowerSwitching()`
+### `useCustomPowerSwitch()`
 
 Configure the display to use an external power switch, such as a transistor, for power-saving. When requested, the library will configure the display appropriately, and then set the specified switch pin.
 
 #### Syntax
 
 ```cpp
-display.usePowerSwitching(pin, type)
+display.useCustomPowerSwitch(pin, type)
 ```
 
 #### Parameters
@@ -2439,7 +2439,7 @@ display.setRotation( PINS_LEFT )
 ___
 ### `SwitchType`
 
-Values passed to `usePowerSwitching()`, to specify the type of external switch in user's custom power control circuit.
+Values passed to `useCustomPowerSwitch()`, to specify the type of external switch in user's custom power control circuit.
 
 #### Values
 
@@ -2450,4 +2450,4 @@ Values passed to `usePowerSwitching()`, to specify the type of external switch i
 
 #### See also
 
-* [usePowerSwitching()](#usepowerswitching)
+* [useCustomPowerSwitch()](#useCustomPowerSwitch)

@@ -40,24 +40,28 @@ class BaseDisplay: public GFX {
         void setCursor(int16_t x, int16_t y);                       // Hijack the values, then pass through
 
 
-        // Fastmode
+        // Fastmode (partial refresh)
         enum Fastmode : int8_t {OFF, ON, TURBO, NOT_SET = -1};      // Different display update techniques. Enum for internal use only
         void fastmodeOff();                                         // Use full refresh
         virtual void fastmodeOn();                                  // Use Partial refresh, double pass. Deletable by derived class
         virtual void fastmodeTurbo();                               // Use Partial refresh, single pass. Deletable by derived class
 
 
-        // Window
+        // Window (only important when paging)
         void fullscreen();                                                                  // Use whole screen area for drawing
         void setWindow(uint16_t left, uint16_t top, uint16_t width, uint16_t height);       // Specify a section of screen for drawing
         
 
-        // Power saving
-        void usePowerSwitching(uint8_t pin, SwitchType type);       // Store the config for user's power switching circuit
-        void externalPowerOff(uint16_t pause = 500);                // "Power off" signal to user's power circuit, and set logic pins appropriately
-        void externalPowerOn();                                     // "Power on" signal to user's circuit, then re-init display
+        // Power saving 
+        void useCustomPowerSwitch(uint8_t pin, SwitchType type);    // Store the config for user's power switching circuit
+        void customPowerOff(uint16_t pause = 500);                  // "Power off" signal to user's power circuit, and set logic pins appropriately
+        void customPowerOn();                                       // "Power on" signal to user's circuit, then re-init display
         virtual void sleep() {}                                     // Display controller IC: sleep display. Needs external RST pin to wake - Wireless Paper only
-        virtual void wake()  {};                                    // Wake from "display controller deep sleep" - Wireless Paper only
+        virtual void wake()  {}                                     // Wake from "display controller deep sleep" - Wireless Paper only
+        #define usePowerSwitching(pin, type) useCustomPowerSwitch(pin, type)        // DEPRECATION
+        #define externalPowerOff customPowerOff                                     // DEPRECATION
+        #define externalPowerOn customPowerOn                                       // DEPRECATION
+
 
         // Paging and Refresh
         void clear();                                               // Public clear() method. Obligatory refresh
@@ -66,7 +70,7 @@ class BaseDisplay: public GFX {
         #if PRESERVE_IMAGE
             void update();                                          // Non-paged: display the result of drawing.
             void startOver();                                       // Non-paged: clear the pagefile (which is full screen-height)
-            void overwrite()        { update(); }                   // Deprecated; renamed
+            void overwrite()        { update(); }                   // DEPRECATION
         #else
             // If MCU not capable, tell the user to DRAW() instead
             /* --- Error: Microcontroller doesn't have enough RAM. Use a DRAW() loop instead --- */       void update() = delete;
@@ -255,7 +259,7 @@ class BaseDisplay: public GFX {
         // Fastmode
         Fastmode fastmode_state = NOT_SET;                          // Which update technique is in use (Full, Partial, Partial "double pass")
         bool fastmode_secondpass = false;                           // Is this pass the first or second? Relevant when Fastmode::ON
-        bool display_cleared = false;                               // Whether display is clear, hopefully. (re: externalPowerOn)
+        bool display_cleared = false;                               // Whether display is clear, hopefully. (re: customPowerOn)
 
 
         // Window

@@ -63,11 +63,11 @@ SCK*    | A2
 ```cpp
 void setup() {
     // GPIO 7, PNP transistor
-    display.usePowerSwitching(7, PNP);
+    display.useCustomPowerSwitch(7, PNP);
 
     //Later, when required:
-    display.externalPowerOff();
-    display.externalPowerOn();
+    display.customPowerOff();
+    display.customPowerOn();
 }
 ```
 

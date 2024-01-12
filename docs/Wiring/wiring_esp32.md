@@ -23,11 +23,11 @@ DISPLAY_CLASS(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN);
 ```cpp
 void setup() {
     // GPIO 15, PNP transistor
-    display.usePowerSwitching(15, PNP);
+    display.useCustomPowerSwitch(15, PNP);
 
     //Later, when required:
-    display.externalPowerOff();
-    display.externalPowerOn();
+    display.customPowerOff();
+    display.customPowerOn();
 }
 ```
 

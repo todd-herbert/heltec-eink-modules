@@ -23,11 +23,11 @@ Display | ESP8266
 ```cpp
 void setup() {
     // GPIO 0, PNP transistor
-    display.usePowerSwitching(0, PNP);
+    display.useCustomPowerSwitch(0, PNP);
 
     //Later, when required:
-    display.externalPowerOff();
-    display.externalPowerOn();
+    display.customPowerOff();
+    display.customPowerOn();
 }
 ```
 

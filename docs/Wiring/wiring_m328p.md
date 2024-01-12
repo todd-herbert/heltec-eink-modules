@@ -29,11 +29,11 @@ Note: The **BUSY** pin does not require level-shifting, as the Arduino only read
 ```cpp
 void setup() {
     // Pin 7, PNP transistor
-    display.usePowerSwitching(7, PNP);
+    display.useCustomPowerSwitch(7, PNP);
 
     //Later, when required:
-    display.externalPowerOff();
-    display.externalPowerOn();
+    display.customPowerOff();
+    display.customPowerOn();
 }
 ```
 
@@ -49,6 +49,6 @@ This diagram shows possible wiring for MicroSD modules which *do not* have an in
 
 ![schematic of display connected to uno and microSD module](uno_sd.png)
 
-❗ Take care when combining this wiring and `usePowerSwitching()` The `NPN` or `ACTIVE_LOW` configurations will damage the SD card. 
+❗ Take care when combining this wiring and `useCustomPowerSwitch()` The `NPN` or `ACTIVE_LOW` configurations will damage the SD card. 
 
 For greater protection, consider a *bidirectional level shifter*.

@@ -166,7 +166,7 @@ void BaseDisplay::sendBlankImageData() {
 }
 
 // Send power-off signal to your custom power switching circuit, and set the display pins to prevent unwanted current flow
-void BaseDisplay::externalPowerOff(uint16_t pause) {
+void BaseDisplay::customPowerOff(uint16_t pause) {
     // If poweroff is called immediately after drawing, it can compromise the image
     delay(pause);
 
@@ -190,7 +190,7 @@ void BaseDisplay::externalPowerOff(uint16_t pause) {
 }
 
 // Send power-on signal to your custom power switching circuit, then re-init display
-void BaseDisplay::externalPowerOn() {
+void BaseDisplay::customPowerOn() {
 
     // CS pin deselcted; power-up the display
     digitalWrite(pin_cs, HIGH);
@@ -261,7 +261,7 @@ void BaseDisplay::clear(bool refresh) {
     if (refresh) {
         activate(); 
 
-        // Track state of display memory (re:externalPowerOn)
+        // Track state of display memory (re:customPowerOn)
         display_cleared = true;
         just_restarted = false;
     }    
@@ -297,7 +297,7 @@ void BaseDisplay::clear(bool refresh) {
             activate(); 
         }
 
-        // Track state of display memory (re:externalPowerOn)
+        // Track state of display memory (re:customPowerOn)
         display_cleared = false;
         just_restarted = false;
     }

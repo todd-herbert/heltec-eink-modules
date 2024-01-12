@@ -61,7 +61,7 @@ void BaseDisplay::begin() {
 }
 
 // Set configuration of custom power-swiching circuit, then power up
-void BaseDisplay::usePowerSwitching(uint8_t pin, SwitchType type) {
+void BaseDisplay::useCustomPowerSwitch(uint8_t pin, SwitchType type) {
     this->pin_power = pin;
     this->switch_type = type;
 
