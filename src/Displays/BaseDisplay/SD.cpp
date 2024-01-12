@@ -9,8 +9,7 @@
 // Configure the SD card connection
 void BaseDisplay::useSD(uint8_t pin_cs_card) {
 
-    // Call begin() automatically. 
-    // TODO: require manual call in next major version, breaking change.
+    // Init hardware, if not yet done
     begin();
 
     // Just store the pins
@@ -21,8 +20,7 @@ void BaseDisplay::useSD(uint8_t pin_cs_card) {
     // Configure the SD card connection: CS and MISO pins
     void BaseDisplay::useSD(uint8_t pin_cs_card, uint8_t pin_miso) {
 
-        // Call begin() automatically. 
-        // TODO: require manual call in next major version, breaking change.
+        // Init hardware, if not yet done
         begin();
         
         // Just store the pins
@@ -45,9 +43,6 @@ void BaseDisplay::useSD(uint8_t pin_cs_card) {
 // Create a blank 24bit bitmap on SD card
 void BaseDisplay::initCanvas(const char* filename) {
 
-    // Call begin() automatically. 
-    // TODO: require manual call in next major version, breaking change.
-    begin();
     // Open for writing
     sd = new SDWrapper();
     sd->begin(pin_cs_card);
@@ -653,10 +648,6 @@ void BaseDisplay::writePageToCanvas() {
 // Check if SD card is accessible
 bool BaseDisplay::SDCardFound() {
 
-    // Call begin() automatically. 
-    // TODO: require manual call in next major version, breaking change.
-    begin();
-
     // Create SD, check card, delete SD
     sd = new SDWrapper();
     bool card_result = sd->begin(pin_cs_card);
@@ -667,10 +658,6 @@ bool BaseDisplay::SDCardFound() {
 
 // Check if file exists on SD card
 bool BaseDisplay::SDFileExists(const char* filename) {
-
-    // Call begin() automatically. 
-    // TODO: require manual call in next major version, breaking change.
-    begin();
 
     // Create SD, open card, check file, delete SD
     sd = new SDWrapper();
@@ -707,10 +694,6 @@ bool BaseDisplay::SDCanvasExists(const char* filename) {
 
 // Check if canvas .bmp is valid, or corrupt
 bool BaseDisplay::SDCanvasValid(const char* filename, bool purge) {
-
-    // Call begin() automatically. 
-    // TODO: require manual call in next major version, breaking change.
-    begin();
 
     bool exists = true;
     bool isValid = true;
@@ -768,10 +751,6 @@ bool BaseDisplay::SDCanvasValid(uint16_t number, bool purge) {
 // Read image width from .bmp header, sd card
 uint16_t BaseDisplay::getBMPWidth(const char* filename) {
 
-    // Call begin() automatically. 
-    // TODO: require manual call in next major version, breaking change.
-    begin();
-
     // Create SD, open card, open image
     sd = new SDWrapper();
     sd->begin(pin_cs_card);
@@ -785,10 +764,6 @@ uint16_t BaseDisplay::getBMPWidth(const char* filename) {
 
 // Read image height from .bmp header, sd card
 uint16_t BaseDisplay::getBMPHeight(const char* filename) {
-
-    // Call begin() automatically. 
-    // TODO: require manual call in next major version, breaking change.
-    begin();
 
     // Create SD, open card, open image
     sd = new SDWrapper();

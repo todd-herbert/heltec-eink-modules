@@ -15,6 +15,4 @@ void DEPG0213BN::init() {
     
      // Set the initial drawing config early, so user's config commands before the first update aren't ignored
     BaseDisplay::initDrawingParams();     
-
-    // TODO: call BaseDisplay::begin() from here. Implement at next major version - breaking change
 }

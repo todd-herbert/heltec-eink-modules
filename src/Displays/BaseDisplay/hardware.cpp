@@ -67,10 +67,6 @@ void BaseDisplay::wait() {
 // Write one page to the panel memory
 void BaseDisplay::writePage() {
 
-    // Call begin() automatically. 
-    // TODO: require manual call in next major version, breaking change.
-    begin();
-
     // Intercept here for WRITE_CANVAS
     // Potentially disabled by optimization.h
     #if !defined(__AVR_ATmega328P__) || defined(UNO_ENABLE_SDWRITE)
@@ -235,10 +231,6 @@ void BaseDisplay::clear() {
 
 // Private clear method, with optional refresh
 void BaseDisplay::clear(bool refresh) {
-
-    // Call begin() automatically. 
-    // TODO: require manual call in next major version, breaking change.
-    begin();
 
     // Store current settings
     uint16_t page_top_original = page_top;

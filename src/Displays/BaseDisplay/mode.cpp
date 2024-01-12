@@ -9,8 +9,7 @@
 // Slow, detailed updates
 void BaseDisplay::fastmodeOff() {
 
-    // Call begin() automatically. 
-    // TODO: require manual call in next major version, breaking change.
+    // Init hardware, if not yet done
     begin();
 
     fastmode_state = Fastmode::OFF;
@@ -23,8 +22,7 @@ void BaseDisplay::fastmodeOff() {
 // Use sparingly.
 void BaseDisplay::fastmodeOn() {
 
-    // Call begin() automatically. 
-    // TODO: require manual call in next major version, breaking change.
+    // Init hardware, if not yet done
     begin();
 
     if(fastmode_state == NOT_SET)
@@ -46,8 +44,7 @@ void BaseDisplay::fastmodeOn() {
 // Use with caution.
 void BaseDisplay::fastmodeTurbo() {
 
-    // Call begin() automatically. 
-    // TODO: require manual call in next major version, breaking change.
+    // Init hardware, if not yet done
     begin();
 
     if(fastmode_state == NOT_SET)
