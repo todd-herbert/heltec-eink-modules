@@ -51,7 +51,7 @@ void BaseDisplay::begin() {
     // Wireless Paper: power on the peripherals, and hard reset to clear away whatever traumatic experience the display has been through
     // RTS causing double reboot after flash?
     #ifdef WIRELESS_PAPER
-        Platform::VExtOn();
+        Platform::interfacesOn();
         Platform::toggleResetPin();
     #endif
 

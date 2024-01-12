@@ -46,8 +46,8 @@
         namespace Platform {
             extern SPIClass* getSPI();                                                                      // Pass the correct SPI bus to display class
             extern void beginSPI(SPIClass *spi, uint8_t pin_mosi, uint8_t pin_miso, uint8_t pin_clk);       // Call the appropriate SPI begin method                        // SAMD21G18A: move spi, if useSD() has been called
-            extern void VExtOn();
-            extern void VExtOff();
+            extern void interfacesOn();
+            extern void interfacesOff();
             extern void toggleResetPin();
         }
 

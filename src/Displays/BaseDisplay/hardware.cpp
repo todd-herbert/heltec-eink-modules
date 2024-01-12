@@ -48,7 +48,7 @@ void BaseDisplay::sendData(uint8_t data) {
 void BaseDisplay::reset() {
     // On "Wireless Paper" platforms: ensure peripheral power is on, then briefly pull the display's reset pin to ground
     #ifdef WIRELESS_PAPER
-        Platform::VExtOn();
+        Platform::interfacesOn();
         Platform::toggleResetPin();
     #endif
 
