@@ -78,8 +78,10 @@ class BaseDisplay: public GFX {
             /* --- Error: Microcontroller doesn't have enough RAM. Use a DRAW() loop instead --- */       void overwrite() = delete;
         #endif
 
+
         // SD card
         // ----------------------------
+
         void useSD(uint8_t pin_cs_card);                                                                                            // Store the config needed to use SD Card
         bool SDCardFound();                                                                                                         // Check if card is connected
         bool SDFileExists(const char* filename);                                                                                    // Check if file exists on SD card                                         
@@ -93,7 +95,8 @@ class BaseDisplay: public GFX {
         void loadCanvas(uint16_t number);                                                                                           // Draw canvas (numbered) from SD, direct to screen 
         uint16_t getBMPWidth(const char* filename);                                                                                 // Read image width from .bmp header, sd card
         uint16_t getBMPHeight(const char* filename);                                                                                // Read image height from .bmp header, sd card        
-        #define WRITE_CANVAS(display, canvas) while(display.writingCanvas(canvas))                                                  // Macro to call while.writingCanvas()
+        #define SAVE_CANVAS(display, canvas) while(display.savingCanvas(canvas))                                                   // Macro to call while.savingCanvas()
+        #define WRITE_CANVAS(display, canvas) while(display.savingCanvas(canvas))                                                  // DEPRECATED
 
 
         // Configure the SD card reader
@@ -119,21 +122,21 @@ class BaseDisplay: public GFX {
 
         // SD write: Potentially disabled by optimization.h
         #if !defined(__AVR_ATmega328P__) || defined(UNO_ENABLE_SDWRITE)
-            bool writingCanvas(const char* filename);                                                                                   // Non-paged: write memory to canvas (numbered)
-            bool writingCanvas(uint16_t number);                                                                                        // Non-paged: write memory to canvas 
+            bool savingCanvas(const char* filename);                                                                                   // Non-paged: write memory to canvas (numbered)
+            bool savingCanvas(uint16_t number);                                                                                        // Non-paged: write memory to canvas 
         #else
-            /* --- Error: SD Write disabled by config in optimization.h --- */                  bool writingCanvas(const char* filename) = delete;
-            /* --- Error: SD Write disabled by config in optimization.h --- */                  bool writingCanvas(uint16_t number) = delete;
+            /* --- Error: SD Write disabled by config in optimization.h --- */                  bool savingCanvas(const char* filename) = delete;
+            /* --- Error: SD Write disabled by config in optimization.h --- */                  bool savingCanvas(uint16_t number) = delete;
         #endif
         
 
         // Non-paged: write canvas to SD card
         #if PRESERVE_IMAGE
-            void writeCanvas(const char* filename);
-            void writeCanvas(uint16_t number);
+            void saveCanvas(const char* filename);
+            void saveCanvas(uint16_t number);
         #else
-            /* --- Error: Not enough RAM, use WRITE_CANVAS() instead --- */         void writeCanvas(const char* filename) = delete;
-            /* --- Error: Not enough RAM, use WRITE_CANVAS() instead --- */         void writeCanvas(uint16_t number) = delete;
+            /* --- Error: Not enough RAM, use SAVE_CANVAS() instead --- */         void saveCanvas(const char* filename) = delete;
+            /* --- Error: Not enough RAM, use SAVE_CANVAS() instead --- */         void saveCanvas(uint16_t number) = delete;
         #endif
 
         // ---------------
@@ -231,7 +234,7 @@ class BaseDisplay: public GFX {
         SDWrapper* sd;                                              // Dynamically allocated SD instance
         uint8_t pin_miso = MISO;                                    // Set in useSD(). Relevant to SAMD21 pin muxing
         uint8_t pin_cs_card = -1;                                   // Set in useSD()
-        bool writing_canvas = false;                                // Are drawing operations currently diverted into a bmp file?
+        bool saving_canvas = false;                                 // Are drawing operations currently diverted into a bmp file?
         const char* canvas_filename;                                // Pass filename to writePageToCanvas()
 
 

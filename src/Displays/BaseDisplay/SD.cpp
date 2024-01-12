@@ -403,11 +403,11 @@ void BaseDisplay::loadCanvas(const char* filename) {
     setWindow(oldwin_left, oldwin_top, oldwin_width, oldwin_height);
 }
 
-// Backend for the WRITE_CANVAS loop, using canvasXXX.bmp for filename
+// Backend for the SAVE_CANVAS loop, using canvasXXX.bmp for filename
 
 // Potentially disabled by optimization.h
 #if !defined(__AVR_ATmega328P__) || defined(UNO_ENABLE_SDWRITE)
-    bool BaseDisplay::writingCanvas(uint16_t number) {
+    bool BaseDisplay::savingCanvas(uint16_t number) {
 
         char filename[] = "canvas***.bmp";
         
@@ -421,14 +421,14 @@ void BaseDisplay::loadCanvas(const char* filename) {
         filename[8] += 48;
 
         // Pass through
-        return writingCanvas(filename);
+        return savingCanvas(filename);
     }
 
-    // Backend for the WRITE_CANVAS loop
-    bool BaseDisplay::writingCanvas(const char* filename) {
+    // Backend for the SAVE_CANVAS loop
+    bool BaseDisplay::savingCanvas(const char* filename) {
 
-        // Start of WRITE_CANVAS loop
-        if (!writing_canvas) {    
+        // Start of SAVE_CANVAS loop
+        if (!saving_canvas) {    
 
             // Store the filename, for writePageToCanvas()        
             canvas_filename = filename;       
@@ -437,8 +437,8 @@ void BaseDisplay::loadCanvas(const char* filename) {
             if (!SDCanvasValid(filename, true))
                 initCanvas(filename);
             
-            // Signals that next writingCanvas setup is done. Also signals writePageToCanvas() to intercept the outgoing gfx data
-            writing_canvas = true;
+            // Signals that next savingCanvas setup is done. Also signals writePageToCanvas() to intercept the outgoing gfx data
+            saving_canvas = true;
 
             // Now, offload onto calculating() (main "paging" loop). SD class is (usually) instantiated in writePageToCanvas()
             return calculating();
@@ -452,7 +452,7 @@ void BaseDisplay::loadCanvas(const char* filename) {
                 return true;
 
             // Otherwise, stop intercepting writePage()
-            writing_canvas = false;
+            saving_canvas = false;
 
             // No need for another loop
             return false;
@@ -463,7 +463,7 @@ void BaseDisplay::loadCanvas(const char* filename) {
 
 #if PRESERVE_IMAGE
     // Non-paged: write the result of drawing operations to SD card (once), using canvasXXX.bmp for filename
-    void BaseDisplay::writeCanvas(uint16_t number) {
+    void BaseDisplay::saveCanvas(uint16_t number) {
 
         char filename[] = "canvas***.bmp";
 
@@ -477,11 +477,11 @@ void BaseDisplay::loadCanvas(const char* filename) {
         filename[8] += 48;
 
         // Pass through
-        writeCanvas(filename);
+        saveCanvas(filename);
     }
 
     // Non-paged: write the result of drawing operations to SD card (once)
-    void BaseDisplay::writeCanvas(const char* filename) {
+    void BaseDisplay::saveCanvas(const char* filename) {
 
         // Store the filename, accessed by writePageToCanvas();    
         canvas_filename = filename;
@@ -490,7 +490,7 @@ void BaseDisplay::loadCanvas(const char* filename) {
         if (!SDCanvasValid(filename, true))
             initCanvas(filename);
 
-        // No need to set writing_canvas, we're not exploiting calculating() this time
+        // No need to set saving_canvas, we're not exploiting calculating() this time
 
         // Non-paged: page_top and page_bottom should already be set for a "full screen page".
         // Call our writePage() intercept method
@@ -570,7 +570,7 @@ void BaseDisplay::writePageToCanvas() {
     // Open card
     sd->begin(pin_cs_card);
 
-    // Open image. Filename stored in writingCanvas()
+    // Open image. Filename stored in savingCanvas()
     sd->openFile(this->canvas_filename, true);
 
     // Get the bounds of the page we are about to write

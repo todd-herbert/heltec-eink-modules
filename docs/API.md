@@ -80,8 +80,8 @@
   - [`update()`](#update)
   - [`useCustomPowerSwitch()`](#usecustompowerswitch)
   - [`useSD()`](#usesd)
-  - [`WRITE_CANVAS()`](#write_canvas)
-  - [`writeCanvas()`](#writecanvas)
+  - [`SAVE_CANVAS()`](#save_canvas)
+  - [`saveCanvas()`](#savecanvas)
 - [Constants](#constants)
   - [`Color`](#color)
   - [`Flip`](#flip)
@@ -1714,7 +1714,7 @@ display.loadCanvas(number)
 
 #### See also
 
-* [WRITE_CANVAS()](#write_canvas)
+* [SAVE_CANVAS()](#SAVE_CANVAS)
 * [SD card](/docs/SD/sd.md)
 
 ___
@@ -2300,15 +2300,15 @@ display.useSD(cs_pin, miso_pin) // ESP32 or SAMD21G18A only
 * [SD card](/docs/SD/sd.md)
 
 ___
-### `WRITE_CANVAS()`
+### `SAVE_CANVAS()`
 
 Performs drawing commands, outputting to SD card, instead of display. If necessary, paging is used.
 
 #### Syntax
 
 ```cpp
-WRITE_CANVAS (display, filename)
-WRITE_CANVAS (display, number)
+SAVE_CANVAS (display, filename)
+SAVE_CANVAS (display, number)
 ```
 
 #### Parameters
@@ -2328,7 +2328,7 @@ void setup() {
     // SD card CS pin 7
     display.useSD(7);
 
-    WRITE_CANVAS (display, "canvas001.bmp") {
+    SAVE_CANVAS (display, "canvas001.bmp") {
         //Graphics commands go here, for example:
         display.fillCircle(50, 100, 20, BLACK);
     }
@@ -2341,18 +2341,18 @@ void setup() {
 * [update()](#update)
 
 ___
-### `writeCanvas()`
+### `saveCanvas()`
 
 **ATmega328P (Uno / Nano): not supported**<br />
 **ATmega2560: disabled for some displays** 
 
-Draw a canvas image to SD card, outside of a `WRITE_CANVAS` loop, on-top of any existing screen data. 
+Draw a canvas image to SD card, outside of a `SAVE_CANVAS` loop, on-top of any existing screen data. 
 
 #### Syntax
 
 ```cpp
-display.writeCanvas(filename)
-display.writeCanvas(number)
+display.saveCanvas(filename)
+display.saveCanvas(number)
 ```
 
 #### Parameters
@@ -2372,7 +2372,7 @@ void setup() {
     display.setCursor(10, 10);
     display.print("Example");
 
-    display.writeCanvas("canvas001.bmp");   // Result of first two commands saved to SD
+    display.saveCanvas("canvas001.bmp");   // Result of first two commands saved to SD
 }
 ```
 

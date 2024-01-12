@@ -11,9 +11,9 @@
         TODO: mark this as a breaking change
 */
 
-// Enable WRITE_CANVAS() on Uno / Nano
+// Enable SAVE_CANVAS() on Uno / Nano
 // ------------------------------------------------------
 //  Leaving this disabled can save ~20% flash, if *no* SD methods are used.
-//  Disabled by default: WRITE_CANVAS() is a niche method
+//  Disabled by default: SAVE_CANVAS() is a niche method
 
     // #define UNO_ENABLE_SDWRITE

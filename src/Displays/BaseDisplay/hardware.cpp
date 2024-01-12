@@ -67,10 +67,10 @@ void BaseDisplay::wait() {
 // Write one page to the panel memory
 void BaseDisplay::writePage() {
 
-    // Intercept here for WRITE_CANVAS
+    // Intercept here for SAVE_CANVAS
     // Potentially disabled by optimization.h
     #if !defined(__AVR_ATmega328P__) || defined(UNO_ENABLE_SDWRITE)
-        if (writing_canvas) {
+        if (saving_canvas) {
             writePageToCanvas();
             return; // Don't draw to screen at same time?
         }

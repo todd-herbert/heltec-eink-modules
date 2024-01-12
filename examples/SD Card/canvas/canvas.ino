@@ -50,7 +50,7 @@ void setup() {
 
     // Write a "canvas" image to SD card - just like drawing to screen
 
-    WRITE_CANVAS (display, "canvas001.bmp") {
+    SAVE_CANVAS (display, "canvas001.bmp") {
         // 50px from left, 100px from top, draw a black circle with 20px radius
         display.fillCircle(50, 100, 20, BLACK);
     }
@@ -85,7 +85,7 @@ void setup() {
 
     display.setWindow(left, top, width, height);
 
-    WRITE_CANVAS(display, "canvas001.bmp") {
+    SAVE_CANVAS(display, "canvas001.bmp") {
         display.drawRect(w.left(), w.top(), w.width(), w.height(), BLACK);     // Black border around window
 
         display.setCursor(w.left() + 5, w.top() + 10);

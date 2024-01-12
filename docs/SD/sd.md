@@ -72,7 +72,7 @@ void setup() {
     // Once, set CS pin
     display.useSD(7);
 
-    WRITE_CANVAS (display, "test_canvas.bmp") {
+    SAVE_CANVAS (display, "test_canvas.bmp") {
         display.setCursor(20, 20);
         display.print("Hello, World!");
     }
@@ -80,7 +80,7 @@ void setup() {
 }
 ```
 
-If your microcontroller is powerful enough, you can skip the `WRITE_CANVAS` loop (similar to `update()`)
+If your microcontroller is powerful enough, you can skip the `SAVE_CANVAS` loop (similar to `update()`)
 
 ```cpp
 DEPG0290BNS75A display(2, 4, 5);
@@ -92,11 +92,11 @@ void setup() {
     display.setCursor(20, 20);
     display.print("Hello, World!");
 
-    display.writeCanvas("test_canvas.bmp");
+    display.saveCanvas("test_canvas.bmp");
 }
 ```
 
-`WRITE_CANVAS()` and `writeCanvas()` also accept integers, the same as `loadCanvas()` (above)
+`SAVE_CANVAS()` and `saveCanvas()` also accept integers, the same as `loadCanvas()` (above)
 
 ## Drawing with .bmp files
 The most efficient option is to use "monochromatic bitmaps" (1-bit). These can be processed much like [XBitmaps](/docs/XBitmapTutorial/mono.md).
