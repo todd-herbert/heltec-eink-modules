@@ -99,7 +99,7 @@ void setup() {
     #endif
     // ============================================
 
-    display.setDefaultColor(BGCOLOR);
+    display.setBackgroundColor(BGCOLOR);
 
     DRAW (display) {
     

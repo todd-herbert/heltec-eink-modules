@@ -69,9 +69,9 @@
   - [`SDFileExists()`](#sdfileexists)
   - [`SDCanvasExists()`](#sdcanvasexists)
   - [`SDCanvasValid()`](#sdcanvasvalid)
+  - [`setBackgroundColor()`](#setbackgroundcolor)
   - [`setCursor()`](#setcursor)
   - [`setCursorTopLeft()`](#setcursortopleft)
-  - [`setDefaultColor()`](#setdefaultcolor)
   - [`setFont()`](#setfont)
   - [`setFlip()`](#setflip)
   - [`setRotation()`](#setrotation)
@@ -646,7 +646,7 @@ Vertical center of the current window, in pixels.
 ___
 ### `clear()`
 
-Clear the display, along with its internal memory. This is a standalone method, called outside of the `DRAW` loop. The display will be cleared to solid white, unless changed using `setDefaultColor()`.
+Clear the display, along with its internal memory. This is a standalone method, called outside of the `DRAW` loop. The display will be cleared to solid white, unless changed using `setBackgroundColor()`.
 
 #### Syntax
 
@@ -667,7 +667,7 @@ QYEG0213RWS800 display(2, 4, 5);
 void setup() {
     display.clear();    // Display now changes to show solid white
     
-    display.setDefaultColor(BLACK);
+    display.setBackgroundColor(BLACK);
     display.clear();    // Display clears instead to solid black
     
     ...
@@ -678,7 +678,7 @@ void setup() {
 
 #### See also
 
-* [setDefaultColor()](#setdefaultcolor)
+* [setBackgroundColor()](#setbackgroundcolor)
 
 ___
 ### `clearMemory()`
@@ -728,7 +728,7 @@ void loop() {}
 * [clear()](#clear)
 * [DRAW()](#draw)
 * [update()](#update)
-* [setDefaultColor()](#setdefaultcolor)
+* [setBackgroundColor()](#setbackgroundcolor)
 
 ___
 ### `DRAW()`
@@ -1294,7 +1294,7 @@ void setup() {
 
     // Move window
     display.setWindow(0, 40, 100, 100);
-    display.setDefaultColor(BLACK);
+    display.setBackgroundColor(BLACK);
     display.setTextColor(WHITE);
 
     // Print "Old image OK", in window
@@ -1387,7 +1387,7 @@ display.fillRoundRect(x, y, w, h, r, color)
 ___
 ### `fillScreen()`
 
-Fill the screen completely with one color. **Inefficient, consider instead `setDefaultColor()`**
+Fill the screen completely with one color. **Inefficient, consider instead `setBackgroundColor()`**
 
 *This is an AdafruitGFX method*
 
@@ -1403,7 +1403,7 @@ display.fillScreen(color)
 
 #### See also
 
-* [setDefaultColor](#setdefaultcolor)
+* [setBackgroundColor](#setbackgroundcolor)
 * [colors](#colors)
 
 ___
@@ -1951,6 +1951,45 @@ display.SDCanvasValid(number, purge)
 * [SD card](/docs/SD/sd.md)
 
 ___
+### `setBackgroundColor()`
+
+Sets the background color to be used for future display updates. All graphics operations are drawn on top of this background color. Also determines the color which is set during the standalone `clear()` method.
+
+Default value is `WHITE`
+
+#### Syntax
+
+```cpp
+display.setBackgroundColor(bgcolor)
+```
+
+#### Parameters
+
+* _bgcolor_: color to set as background
+
+#### Example
+
+```cpp
+#include <heltec-eink-modules.h>
+
+QYEG0213RWS800 display(2, 4, 5);
+
+void setup() {
+    display.clear();    // Display now changes to show solid white
+    
+    display.setBackgroundColor(BLACK);
+    display.clear();    // Display clears instead to solid black
+    
+    ...
+
+    display.clear();    // Clears again to solid black
+}
+```
+#### See also
+
+* [colors](#colors)
+
+___
 ### `setCursor()`
 
 Set text cursor location. *Make sure to use inside the `DRAW()` loop*.
@@ -1991,45 +2030,6 @@ display.setCursorTopLeft(text, x, y)
 #### See also
 
 * [setCursor()](#setcursor)
-
-___
-### `setDefaultColor()`
-
-Sets the background color to be used for future display updates. All graphics operations are drawn on top of this background color. Also determines the color which is set during the standalone `clear()` method.
-
-Default value is `WHITE`
-
-#### Syntax
-
-```cpp
-display.setDefaultColor(bgcolor)
-```
-
-#### Parameters
-
-* _bgcolor_: color to set as background
-
-#### Example
-
-```cpp
-#include <heltec-eink-modules.h>
-
-QYEG0213RWS800 display(2, 4, 5);
-
-void setup() {
-    display.clear();    // Display now changes to show solid white
-    
-    display.setDefaultColor(BLACK);
-    display.clear();    // Display clears instead to solid black
-    
-    ...
-
-    display.clear();    // Clears again to solid black
-}
-```
-#### See also
-
-* [colors](#colors)
 
 ___
 ### `setFont()`
@@ -2263,7 +2263,7 @@ void setup() {
     display.clear();    // Fill screen with white
 
     display.setWindow(0, 1, 8, 3);                      // Set the window dimensions
-    display.setDefaultColor(BLACK);      // Use black as our background color
+    display.setBackgroundColor(BLACK);      // Use black as our background color
 
     DRAW (display) {
         // Not actually doing anything
@@ -2385,7 +2385,7 @@ This section describes the various constants (as *enumerations*), which are acce
 #### Example
 
 ```cpp
-display.setDefaultColor( BLACK )
+display.setBackgroundColor( BLACK )
 ```
 
 ___

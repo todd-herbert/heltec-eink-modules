@@ -66,8 +66,8 @@ void setup() {
     // Bitmap image data comes in all sorts of weird formats. 
     // To get it to work, you might have to play with the settings.
 
-    display.setFlip(NONE);              // If your image comes out flipped, change this
-    display.setDefaultColor(BLACK);     // If you get a negative of your image, try setting the background to black, and drawing the data as white
+    display.setFlip(NONE);                  // If your image comes out flipped, change this
+    display.setBackgroundColor(BLACK);      // If you get a negative of your image, try setting the background to black, and drawing the data as white
 
     DRAW (display) {
         display.drawBitmap(0, 0, pencils, pencils_width, pencils_height, WHITE);

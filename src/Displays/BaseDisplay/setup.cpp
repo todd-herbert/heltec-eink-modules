@@ -105,8 +105,8 @@ void BaseDisplay::initDrawingParams() {
     if (PRESERVE_IMAGE && pagefile_height == panel_height)
         grabPageMemory();
 
-    // Defalut GFX options
+    // Default GFX options
     fullscreen();
-    setDefaultColor(WHITE);
+    setBackgroundColor(WHITE);
     setTextColor(BLACK);
 }

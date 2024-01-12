@@ -79,7 +79,7 @@ void BaseDisplay::calculatePixelPageOffset(uint16_t x, uint16_t y, uint16_t &byt
 
 // Set the color of the blank canvas, before any drawing is done
 // Only takes effect at the start of a calculation. At any other time, use fillScreen()
-void BaseDisplay::setDefaultColor(uint16_t bgcolor) {
+void BaseDisplay::setBackgroundColor(uint16_t bgcolor) {
     default_color = bgcolor;
 }
 

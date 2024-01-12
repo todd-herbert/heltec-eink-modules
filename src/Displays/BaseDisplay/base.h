@@ -33,11 +33,12 @@ class BaseDisplay: public GFX {
         void begin();                                               // Called from derived-class' constructor: gets access to derived-class parameters, and runs hardware init                              
 
 
-        // Virtual: AdafruitGFX drawing                                                           
+        // Drawing params & AdafruitGFX overrides                                                    
         void drawPixel(int16_t x, int16_t y, uint16_t color);       // Where pixel output of AdafruitGFX is intercepted
-        void setDefaultColor(uint16_t bgcolor);                     // Set default background color for drawing
+        void setBackgroundColor(uint16_t bgcolor);                  // Set default background color for drawing
         void setRotation(uint8_t r);                                // Store rotation val, and recalculate window dimensions
         void setCursor(int16_t x, int16_t y);                       // Hijack the values, then pass through
+        void setDefaultColor(uint16_t bgcolor) { setBackgroundColor(bgcolor); }     // DEPRECATED
 
 
         // Fastmode (partial refresh)
