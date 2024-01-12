@@ -56,10 +56,10 @@ void setup() {
 
     // Display image remains; but memory is wiped clean
     // "A blank canvas"
-    display.startOver();
+    display.clearMemory();
 
     display.setCursor(10, 60);
-    display.println("startOver()");
+    display.println("clearMemory()");
     display.print("a blank canvas");
 
     display.update();

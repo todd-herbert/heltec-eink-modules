@@ -69,13 +69,15 @@ class BaseDisplay: public GFX {
         #define DRAW(display) while(display.calculating())          // Macro to call while(.calculating())
         #if PRESERVE_IMAGE
             void update();                                          // Non-paged: display the result of drawing.
-            void startOver();                                       // Non-paged: clear the pagefile (which is full screen-height)
+            void clearMemory();                                     // Non-paged: clear the pagefile (which is full screen-height)
             void overwrite()        { update(); }                   // DEPRECATION
+            void startOver()        { clearMemory(); }              // DEPRECATION
         #else
             // If MCU not capable, tell the user to DRAW() instead
             /* --- Error: Microcontroller doesn't have enough RAM. Use a DRAW() loop instead --- */       void update() = delete;
-            /* --- Error: Microcontroller doesn't have enough RAM. Use a DRAW() loop instead --- */       void startOver() = delete;
-            /* --- Error: Microcontroller doesn't have enough RAM. Use a DRAW() loop instead --- */       void overwrite() = delete;
+            /* --- Error: Microcontroller doesn't have enough RAM. Use a DRAW() loop instead --- */       void clearMemory() = delete;
+            /* --- Error: Microcontroller doesn't have enough RAM. Use a DRAW() loop instead --- */       void overwrite() = delete;        // DEPRECATION
+            /* --- Error: Microcontroller doesn't have enough RAM. Use a DRAW() loop instead --- */       void startOver() = delete;        // DEPRECATION
         #endif
 
 

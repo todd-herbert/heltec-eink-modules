@@ -90,7 +90,7 @@ bool BaseDisplay::supportsColor(Color c) {
 
 #if PRESERVE_IMAGE
     // Clear the drawing memory, without updating display
-    void BaseDisplay::startOver() {
+    void BaseDisplay::clearMemory() {
          clear(false);   // Clear memory, no refresh
     }
 #endif

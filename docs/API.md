@@ -28,6 +28,7 @@
   - [`bounds.window.centerX()`](#boundswindowcenterx)
   - [`bounds.window.centerY()`](#boundswindowcentery)
   - [`clear()`](#clear)
+  - [`clearMemory()`](#clearmemory)
   - [`DRAW()`](#draw)
   - [`draw24bitBitmapFile()`](#draw24bitbitmapfile)
   - [`drawBitmap()`](#drawbitmap)
@@ -62,7 +63,8 @@
   - [`getTextHeight()`](#gettextheight)
   - [`getTextWidth()`](#gettextwidth)
   - [`loadCanvas()`](#loadcanvas)
-  - [`overwrite()`](#overwrite)
+  - [`SAVE_CANVAS()`](#save_canvas)
+  - [`saveCanvas()`](#savecanvas)
   - [`SDCardFound()`](#sdcardfound)
   - [`SDFileExists()`](#sdfileexists)
   - [`SDCanvasExists()`](#sdcanvasexists)
@@ -76,12 +78,9 @@
   - [`setTextColor()`](#settextcolor)
   - [`setTextWrap()`](#settextwrap)
   - [`setWindow()`](#setwindow)
-  - [`startOver()`](#startover)
   - [`update()`](#update)
   - [`useCustomPowerSwitch()`](#usecustompowerswitch)
   - [`useSD()`](#usesd)
-  - [`SAVE_CANVAS()`](#save_canvas)
-  - [`saveCanvas()`](#savecanvas)
 - [Constants](#constants)
   - [`Color`](#color)
   - [`Flip`](#flip)
@@ -679,6 +678,56 @@ void setup() {
 
 #### See also
 
+* [setDefaultColor()](#setdefaultcolor)
+
+___
+### `clearMemory()`
+
+**ATmega328P (Uno / Nano): not supported**<br />
+**ATmega2560: disabled for some displays** 
+
+Reset the drawing memory to default color, if not using a `DRAW()` loop. Changes are not displayed until `update()` is called.
+
+#### Syntax
+
+```cpp
+clearMemory()
+```
+
+#### Parameters
+None.
+
+#### Example
+
+```cpp
+#include <heltec-eink-modules.h>
+
+QYEG0213RWS800 display(2, 4, 5);
+
+void setup() {
+    display.clear();    // Whole display immediately changes now to white
+
+    display.setCursor(10, 10);
+    display.print("First line.");
+
+    display.update();   // Display now shows "first line"
+
+    display.clearMemory();    // Last drawing cleared from memory; display unchanged
+    
+    display.setCursor(10, 40);
+    display.print("Second line.");
+    
+    display.update();   // Display now shows "second line", and not "first line"
+}
+
+void loop() {}
+```
+
+#### See also
+
+* [clear()](#clear)
+* [DRAW()](#draw)
+* [update()](#update)
 * [setDefaultColor()](#setdefaultcolor)
 
 ___
@@ -1718,13 +1767,85 @@ display.loadCanvas(number)
 * [SD card](/docs/SD/sd.md)
 
 ___
-### `overwrite()`
+### `SAVE_CANVAS()`
 
+Performs drawing commands, outputting to SD card, instead of display. If necessary, paging is used.
 
+#### Syntax
 
-**Deprecated.** 
+```cpp
+SAVE_CANVAS (display, filename)
+SAVE_CANVAS (display, number)
+```
 
-Renamed to [`update()`](#update)
+#### Parameters
+
+* _display_: generate a canvas image suitable for this display
+* _filename_: save canvas on SD card with this filename
+* _number_: save canvas on SD card, by int (< 1000), where `1` refers to `"canvas001.bmp"`, etc.
+
+#### Example
+
+```cpp
+#include <heltec-eink-modules.h>
+
+DEPG0150BNS810 display(2, 4, 5);
+
+void setup() {
+    // SD card CS pin 7
+    display.useSD(7);
+
+    SAVE_CANVAS (display, "canvas001.bmp") {
+        //Graphics commands go here, for example:
+        display.fillCircle(50, 100, 20, BLACK);
+    }
+
+}
+```
+
+#### See also
+
+* [update()](#update)
+
+___
+### `saveCanvas()`
+
+**ATmega328P (Uno / Nano): not supported**<br />
+**ATmega2560: disabled for some displays** 
+
+Draw a canvas image to SD card, outside of a `SAVE_CANVAS` loop, on-top of any existing screen data. 
+
+#### Syntax
+
+```cpp
+display.saveCanvas(filename)
+display.saveCanvas(number)
+```
+
+#### Parameters
+
+* _filename_: save canvas on SD card with this filename
+* _number_: save canvas on SD card, by int (< 1000), where `1` refers to `"canvas001.bmp"`, etc.
+
+#### Example
+
+```cpp
+#include <heltec-eink-modules.h>
+
+DEPG0150BNS810 display(2, 4, 5);
+
+void setup() {
+
+    display.setCursor(10, 10);
+    display.print("Example");
+
+    display.saveCanvas("canvas001.bmp");   // Result of first two commands saved to SD
+}
+```
+
+#### See also
+
+* [SD card](/docs/SD/sd.md)
 
 ___
 ### `SDCardFound()`
@@ -2169,56 +2290,6 @@ void setup() {
 * [setFlip()](#setflip)
 
 ___
-### `startOver()`
-
-**ATmega328P (Uno / Nano): not supported**<br />
-**ATmega2560: disabled for some displays** 
-
-Reset the drawing memory to default color, if not using a `DRAW()` loop. Changes are not displayed until `update()` is called.
-
-#### Syntax
-
-```cpp
-startOver()
-```
-
-#### Parameters
-None.
-
-#### Example
-
-```cpp
-#include <heltec-eink-modules.h>
-
-QYEG0213RWS800 display(2, 4, 5);
-
-void setup() {
-    display.clear();    // Whole display immediately changes now to white
-
-    display.setCursor(10, 10);
-    display.print("First line.");
-
-    display.update();   // Display now shows "first line"
-
-    display.startOver();    // Last drawing cleared from memory; display unchanged
-    
-    display.setCursor(10, 40);
-    display.print("Second line.");
-    
-    display.update();   // Display now shows "second line", and not "first line"
-}
-
-void loop() {}
-```
-
-#### See also
-
-* [clear()](#clear)
-* [DRAW()](#draw)
-* [update()](#update)
-* [setDefaultColor()](#setdefaultcolor)
-
-___
 ### `update()`
 
 **ATmega328P (Uno / Nano): not supported**<br />
@@ -2255,7 +2326,7 @@ void setup() {
 #### See also
 
 * [DRAW()](#draw)
-* [startOver()](#startover)
+* [clearMemory()](#clearmemory)
 
 ___
 ### `useCustomPowerSwitch()`
@@ -2298,88 +2369,6 @@ display.useSD(cs_pin, miso_pin) // ESP32 or SAMD21G18A only
 #### See also
 
 * [SD card](/docs/SD/sd.md)
-
-___
-### `SAVE_CANVAS()`
-
-Performs drawing commands, outputting to SD card, instead of display. If necessary, paging is used.
-
-#### Syntax
-
-```cpp
-SAVE_CANVAS (display, filename)
-SAVE_CANVAS (display, number)
-```
-
-#### Parameters
-
-* _display_: generate a canvas image suitable for this display
-* _filename_: save canvas on SD card with this filename
-* _number_: save canvas on SD card, by int (< 1000), where `1` refers to `"canvas001.bmp"`, etc.
-
-#### Example
-
-```cpp
-#include <heltec-eink-modules.h>
-
-DEPG0150BNS810 display(2, 4, 5);
-
-void setup() {
-    // SD card CS pin 7
-    display.useSD(7);
-
-    SAVE_CANVAS (display, "canvas001.bmp") {
-        //Graphics commands go here, for example:
-        display.fillCircle(50, 100, 20, BLACK);
-    }
-
-}
-```
-
-#### See also
-
-* [update()](#update)
-
-___
-### `saveCanvas()`
-
-**ATmega328P (Uno / Nano): not supported**<br />
-**ATmega2560: disabled for some displays** 
-
-Draw a canvas image to SD card, outside of a `SAVE_CANVAS` loop, on-top of any existing screen data. 
-
-#### Syntax
-
-```cpp
-display.saveCanvas(filename)
-display.saveCanvas(number)
-```
-
-#### Parameters
-
-* _filename_: save canvas on SD card with this filename
-* _number_: save canvas on SD card, by int (< 1000), where `1` refers to `"canvas001.bmp"`, etc.
-
-#### Example
-
-```cpp
-#include <heltec-eink-modules.h>
-
-DEPG0150BNS810 display(2, 4, 5);
-
-void setup() {
-
-    display.setCursor(10, 10);
-    display.print("Example");
-
-    display.saveCanvas("canvas001.bmp");   // Result of first two commands saved to SD
-}
-```
-
-#### See also
-
-* [SD card](/docs/SD/sd.md)
-
 
 ## Constants
 
