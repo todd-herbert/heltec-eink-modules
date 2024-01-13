@@ -8,9 +8,33 @@
 #include "base.h"
 
 // Set the rotation for the display
-// Accepts int range 0 to 3, or enum values of Rotation::*
-void BaseDisplay::setRotation(uint8_t r) {
-    GFX::setRotation(r);    // Base class method
+void BaseDisplay::setRotation(int16_t r) {
+
+    // Interpret "intuitive" rotation vals
+    switch (r) {
+        // 90deg clockwise
+        case 90:
+        case -270:
+        case -3:
+            r = 1;
+            break;
+
+        // 180 deg
+        case 180:
+        case -180:
+        case -2:
+            r = 2;
+            break;
+
+        // 270 deg clockwise
+        case -90:
+        case 270:
+        case -1:
+            r = 3;
+            break;
+    }
+
+    GFX::setRotation((uint8_t) r);    // Base class method
 
     // Re-calculate window locations, for give accurate bounds info
     setWindow(  bounds.window.left(), 

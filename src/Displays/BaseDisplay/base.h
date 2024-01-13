@@ -36,7 +36,9 @@ class BaseDisplay: public GFX {
         // Drawing params & AdafruitGFX overrides                                                    
         void drawPixel(int16_t x, int16_t y, uint16_t color);       // Where pixel output of AdafruitGFX is intercepted
         void setBackgroundColor(uint16_t bgcolor);                  // Set default background color for drawing
-        void setRotation(uint8_t r);                                // Store rotation val, and recalculate window dimensions
+        void setRotation(int16_t r);                                // Store rotation val, and recalculate window dimensions
+        void landscape() { setRotation(3); }                        // Alias for setRotation(3) - ideal orientation for wireless paper
+        void portrait() { setRotation(0); }                         // Alias for setRotation(0)
         void setCursor(int16_t x, int16_t y);                       // Hijack the values, then pass through
         void setDefaultColor(uint16_t bgcolor) { setBackgroundColor(bgcolor); }     // DEPRECATED
 

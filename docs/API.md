@@ -2134,12 +2134,19 @@ setRotation(rotation)
 
 #### Parameters
 
-* _rotation_: absolute clockwise rotation, in 90 degree increments (1 = 90&deg;, 2=180&deg; etc) <br />
-    Alternatively, pass one of the following:
-    * `PINS_ABOVE` &nbsp;(0&deg;)
-    * `PINS_LEFT` &nbsp;(90&deg;)
-    * `PINS_BELOW` &nbsp;(180&deg;)
-    * `PINS_RIGHT` &nbsp;(279&deg;)
+* _rotation_: clockwise rotation:<br /> 
+    * 0, 90, 180, 270 (degrees), negative allowed
+    * in 90 degree increments (1 = 90&deg;, 2=180&deg; etc), negative allowed <br />
+    * relative to "display module" header pins:
+      * `PINS_ABOVE` &nbsp;(0&deg;)
+      * `PINS_LEFT` &nbsp;(90&deg;)
+      * `PINS_BELOW` &nbsp;(180&deg;)
+      * `PINS_RIGHT` &nbsp;(279&deg;)
+    * relative to "Wireless Paper" boards' USB connector:
+      * `USB_ABOVE` &nbsp;(0&deg;)
+      * `USB_LEFT` &nbsp;(90&deg;)
+      * `USB_BELOW` &nbsp;(180&deg;)
+      * `USB_RIGHT` &nbsp;(279&deg;)
 
 #### Example
 
