@@ -1,6 +1,6 @@
-#include "DEPG0213BN.h"
+#include "DEPG0213BNS800.h"
 
-void DEPG0213BN::init() {
+void DEPG0213BNS800::init() {
     // Pass information to base class, once instantiated
     BaseDisplay::panel_width = this->panel_width;
     BaseDisplay::panel_height = this->panel_height;

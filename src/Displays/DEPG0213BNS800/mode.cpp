@@ -1,9 +1,9 @@
-#include "DEPG0213BN.h"
+#include "DEPG0213BNS800.h"
 
 // Required definition, when using PROGMEM inside a class
-PROGMEM constexpr uint8_t DEPG0213BN::lut_partial[];
+PROGMEM constexpr uint8_t DEPG0213BNS800::lut_partial[];
 
-void DEPG0213BN::configPartial() {
+void DEPG0213BNS800::configPartial() {
     // _writeCommand(0x01); //Driver output control
     // _writeData(0x27);
     // _writeData(0x01);
@@ -74,7 +74,7 @@ void DEPG0213BN::configPartial() {
     Serial.println("Config Partial");
 }
 
-void DEPG0213BN::configFull() {
+void DEPG0213BNS800::configFull() {
 
     // Technical settings. Released by Heltec.
     // -------------------------------------------------------

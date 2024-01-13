@@ -1,13 +1,13 @@
-#include "DEPG0213BN.h"
+#include "DEPG0213BNS800.h"
 
-void DEPG0213BN::calculateMemoryArea( int16_t &sx, int16_t &sy, int16_t &ex, int16_t &ey ) {
+void DEPG0213BNS800::calculateMemoryArea( int16_t &sx, int16_t &sy, int16_t &ex, int16_t &ey ) {
     sx = (winrot_left / 8) + 1;     // Get the quirky offsets in the right place
     sy = page_top;
     ex = ((winrot_right) / 8) + 1;
     ey = page_bottom;
 }
 
-void DEPG0213BN::activate() {
+void DEPG0213BNS800::activate() {
     // Specify the update operation to run
     sendCommand(0x22);
     
@@ -24,12 +24,12 @@ void DEPG0213BN::activate() {
 }
 
 #ifdef WIRELESS_PAPER
-    void DEPG0213BN::sleep() {
+    void DEPG0213BNS800::sleep() {
         sendCommand(0x10);
         sendData(0x1);
     }
 
-    void DEPG0213BN::wake() {
+    void DEPG0213BNS800::wake() {
         // On "Wireless Paper" platforms: ensure peripheral power is on, then briefly pull the display's reset pin to ground
         Platform::VExtOn();
 

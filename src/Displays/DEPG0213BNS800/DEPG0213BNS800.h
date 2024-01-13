@@ -3,7 +3,7 @@
 
 // Heltec Wireless Paper
 // Connector label: FPC-7528B
-class DEPG0213BN : public BaseDisplay {
+class DEPG0213BNS800 : public BaseDisplay {
 
     // Display Config
     // ======================
@@ -19,11 +19,11 @@ class DEPG0213BN : public BaseDisplay {
     public:
 
         #ifdef WIRELESS_PAPER
-            DEPG0213BN(uint16_t page_height = DEFAULT_PAGE_HEIGHT) : BaseDisplay(PIN_PCB_DC, PIN_PCB_CS, PIN_PCB_BUSY, DEFAULT_SDI, DEFAULT_CLK, page_height)
+            DEPG0213BNS800(uint16_t page_height = DEFAULT_PAGE_HEIGHT) : BaseDisplay(PIN_PCB_DC, PIN_PCB_CS, PIN_PCB_BUSY, DEFAULT_SDI, DEFAULT_CLK, page_height)
                 { init(); }
 
         #else
-            /* --- ERROR: This display is only used by "Wireless Paper" boards --- */   DEPG0213BN(uint16_t page_height = DEFAULT_PAGE_HEIGHT) = delete;
+            /* --- ERROR: This display is only used by "Wireless Paper" boards --- */   DEPG0213BNS800(uint16_t page_height = DEFAULT_PAGE_HEIGHT) = delete;
         #endif
 
 

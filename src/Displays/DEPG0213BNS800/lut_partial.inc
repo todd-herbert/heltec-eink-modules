@@ -2,7 +2,7 @@
     File: lut_partial.inc
 
         - Lookup table for E-ink display
-            Model: DEPG0213BN
+            Model: DEPG0213BNS800
             Refresh: Partial
 
             Source: Modified from Heltec source for DEPG0290BNS800
