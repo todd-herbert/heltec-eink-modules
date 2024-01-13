@@ -62,7 +62,9 @@
   - [`getTextCenterY()`](#gettextcentery)
   - [`getTextHeight()`](#gettextheight)
   - [`getTextWidth()`](#gettextwidth)
+  - [`landscape()`](#landscape)
   - [`loadCanvas()`](#loadcanvas)
+  - [`portrait()`](#portrait)
   - [`SAVE_CANVAS()`](#save_canvas)
   - [`saveCanvas()`](#savecanvas)
   - [`SDCardFound()`](#sdcardfound)
@@ -1745,6 +1747,17 @@ The width of the string.
 * [getTextWidth()](#gettextbounds)
 
 ___
+### `landscape()`
+
+Alias for `setRotation(3)`. Enters a landscape orientation. 
+270 degrees rotation is used because it is the physical orientation of the display on Wireless Paper all-in-one boards.
+
+#### See also
+
+* [portrait()](#portrait)
+* [setRotation()](#setrotation)
+
+___
 ### `loadCanvas()`
 
 Load a full screen image (canvas), from SD card to display, in one pass. 
@@ -1765,6 +1778,16 @@ display.loadCanvas(number)
 
 * [SAVE_CANVAS()](#SAVE_CANVAS)
 * [SD card](/docs/SD/sd.md)
+
+___
+### `portrait()`
+
+Alias for `setRotation(0)`. Enters a portrait orientation. 
+
+#### See also
+
+* [landscape()](#landscape)
+* [setRotation()](#setrotation)
 
 ___
 ### `SAVE_CANVAS()`
