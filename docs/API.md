@@ -4,11 +4,11 @@
 - [Display Constructors](#display-constructors)
   - [`DEPG0150BNS810()`](#depg0150bns810)
   - [`DEPG0154BNS800()`](#depg0154bns800)
+  - [`DEPG0213RWS800()`](#depg0213rws800)
   - [`DEPG0290BNS75A()`](#depg0290bns75a)
   - [`DEPG0290BNS800()`](#depg0290bns800)
-  - [`GDEP015OC1()`](#gdep015oc1)
   - [`GDE029A1()`](#gde029a1)
-  - [`DEPG0213RWS800()`](#depg0213rws800)
+  - [`GDEP015OC1()`](#gdep015oc1)
   - [`QYEG0213RWS800()`](#qyeg0213rws800)
 - [Methods](#methods)
   - [`bounds.full.left()`](#boundsfullleft)
@@ -81,6 +81,7 @@
   - [`setTextColor()`](#settextcolor)
   - [`setTextWrap()`](#settextwrap)
   - [`setWindow()`](#setwindow)
+  - [`sleep()`](#sleep)
   - [`update()`](#update)
   - [`useCustomPowerSwitch()`](#usecustompowerswitch)
   - [`useSD()`](#usesd)
@@ -159,6 +160,36 @@ DEPG0154BNS800 display(2, 4, 5);
 ```
 
 ___
+### `DEPG0213RWS800()`
+Create a display controller object, for model [DEPG0213RWS800](/docs/README.md#supported-displays).
+
+#### Syntax
+
+```cpp
+DEPG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN)
+DEPG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN, page_height)
+DEPG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN)  // ESP32 or SAMD21G18A only
+DEPG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32 or SAMD21G18A only
+```
+
+#### Parameters
+
+* _DC_PIN_: pin which connects to "Display / Command" (D/C) pin on the display.
+* _CS_PIN_: pin which connects to "Chip Select" (CS) on the display.
+* _BUSY_PIN_: pin which connects to "BUSY" on the display.
+* _SDI_PIN_: pin which connects to "SDI" on the display. *ESP32 or SAMD21G18A only*
+* _CLK_PIN_: pin which connects to "CLK" on the display. *ESP32 or SAMD21G18A only*
+* _page\_height_ (optional): number of rows per page. For Arduino Uno default value is 20, meaning the display is calculated 20 rows at a time. Higher values consume more RAM. For more powerful boards, paging is disabled by default.
+
+#### Example
+
+```cpp
+#include <heltec-eink-modules.h>
+
+DEPG0213RWS800 display(2, 4, 5);
+```
+
+___
 ### `DEPG0290BNS75A()`
 
 Create a display controller object, for model [DEPG0290BNS75A](/docs/README.md#supported-displays).
@@ -221,37 +252,6 @@ DEPG0290BNS800 display(2, 4, 5);
 ```
 
 ___
-### `GDEP015OC1()`
-
-Create a display controller object, for model [GDEP015OC1](/docs/README.md#supported-displays).
-
-#### Syntax
-
-```cpp
-GDEP015OC1(DC_PIN, CS_PIN, BUSY_PIN)
-GDEP015OC1(DC_PIN, CS_PIN, BUSY_PIN, page_height)
-GDEP015OC1(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN)  // ESP32 or SAMD21G18A only
-GDEP015OC1(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32 or SAMD21G18A only
-```
-
-#### Parameters
-
-* _DC_PIN_: pin which connects to "Display / Command" (D/C) pin on the display.
-* _CS_PIN_: pin which connects to "Chip Select" (CS) on the display.
-* _BUSY_PIN_: pin which connects to "BUSY" on the display.
-* _SDI_PIN_: pin which connects to "SDI" on the display. *ESP32 or SAMD21G18A only*
-* _CLK_PIN_: pin which connects to "CLK" on the display. *ESP32 or SAMD21G18A only*
-* _page\_height_ (optional): number of rows per page. For Arduino Uno default value is 20, meaning the display is calculated 20 rows at a time. Higher values consume more RAM. For more powerful boards, paging is disabled by default.
-
-#### Example
-
-```cpp
-#include <heltec-eink-modules.h>
-
-GDEP015OC1 display(2, 4, 5);
-```
-
-___
 ### `GDE029A1()`
 
 Create a display controller object, for model [GDE029A1](/docs/README.md#supported-displays).
@@ -283,16 +283,17 @@ GDE029A1 display(2, 4, 5);
 ```
 
 ___
-### `DEPG0213RWS800()`
-Create a display controller object, for model [DEPG0213RWS800](/docs/README.md#supported-displays).
+### `GDEP015OC1()`
+
+Create a display controller object, for model [GDEP015OC1](/docs/README.md#supported-displays).
 
 #### Syntax
 
 ```cpp
-DEPG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN)
-DEPG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN, page_height)
-DEPG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN)  // ESP32 or SAMD21G18A only
-DEPG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32 or SAMD21G18A only
+GDEP015OC1(DC_PIN, CS_PIN, BUSY_PIN)
+GDEP015OC1(DC_PIN, CS_PIN, BUSY_PIN, page_height)
+GDEP015OC1(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN)  // ESP32 or SAMD21G18A only
+GDEP015OC1(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32 or SAMD21G18A only
 ```
 
 #### Parameters
@@ -309,7 +310,7 @@ DEPG0213RWS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32
 ```cpp
 #include <heltec-eink-modules.h>
 
-DEPG0213RWS800 display(2, 4, 5);
+GDEP015OC1 display(2, 4, 5);
 ```
 
 ___
