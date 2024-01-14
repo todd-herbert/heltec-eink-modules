@@ -11,58 +11,47 @@ With level-shifter  |   Without level-shifter
 For more information, see: [wiring](/docs/README.md#wiring).
 
 - [Limitations](#limitations)
-- [Canvases](#canvases)
-  - [Loading a canvas](#loading-a-canvas)
-  - [Writing a canvas](#writing-a-canvas)
-- [Drawing with .bmp files](#drawing-with-bmp-files)
+- [Canvases (fullscreen .bmp)](#canvases-fullscreen-bmp)
+  - [Pre-rendered](#pre-rendered)
+  - [As a workspace](#as-a-workspace)
+- [Using .bmp for drawing](#using-bmp-for-drawing)
 - [Getting Info](#getting-info)
 
 
 ## Limitations
 
 * Low speed
-    * "draw bitmap file" methods : worse with paging - Uno, Mega <sup>*some displays</sup> 
-    * "writing" methods: worse with ESP32 - Bugs in espressif/arduino-esp32 SD library <sup>\*as of *2023/10/1*</sup>
-* Bigger sketches
-    * On Arduino Uno, >60% Flash used
-    * Other platforms - less of an issue 
+* Bigger sketches 
+   * On Arduino Uno, >60% Flash used
 * Higher RAM usage
-    * Depending on your code, may need to lower `page_height` in constructor.
-* Not all methods available for UNO
+* Not all methods available for Uno
     * `draw24BitBitmapFile()` consumes too much RAM
 * Card format must be FAT or FAT32
 
-## Canvases
+## Canvases (fullscreen .bmp)
 
 *Canvas* refers to a specific type of .bmp image.
 * 24bit .bmp file
 * Portrait, not landscape
 * Dimensions: full screen width x height
 
+
+
 Example: DEPG0290BNS75A | Example: QYEG0213RWS800
 ---|---
 ![diagram of "canvas"](canvas_depg0290bns75a.png) | ![diagram of "canvas"](canvas_qyeg0213rws800.png)
 
-\* For displays QYEG0213RWS800 / DEPG0213RWS800, a hardware quirk gives a canvas width of 128px, rather than the advertised 122px
+\* For displays QYEG0213RWS800, DEPG0213RWS800 and DEPG0213BNS800, a hardware quirk gives a canvas width of 128px, rather than the advertised 122px
 
-### Loading a canvas
-
-`loadCanvas()` is the most efficient of the SD card methods.
-
+### Pre-rendered
+BMP files formatted in this way can be loaded efficiently onto the display:
 ```cpp
-DEPG0290BNS75A display(2, 4, 5);
-
-void setup() {
-    // Once, set CS pin
-    display.useSD(7);
-
-    display.loadCanvas("test_canvas.bmp");
-}
+display.loadFullscreenBitmap("image.bmp");
 ```
-Alternatively, `loadCanvas()` accepts an integer <1000.<br />
-`loadCanvas(001)` will load file `canvas001.bmp` from SD root.
 
-### Writing a canvas
+### As a workspace 
+
+#### Saving a canvas
 Instead of drawing to display, the output can be directed into a canvas.
 
 ```cpp
@@ -93,13 +82,42 @@ void setup() {
     display.print("Hello, World!");
 
     display.saveCanvas("test_canvas.bmp");
+    
+    // If you wish, you can also display the result without re-rendering
+    // display.update();
 }
 ```
 
 `SAVE_CANVAS()` and `saveCanvas()` also accept integers, the same as `loadCanvas()` (above)
 
-## Drawing with .bmp files
-The most efficient option is to use "monochromatic bitmaps" (1-bit). These can be processed much like [XBitmaps](/docs/XBitmapTutorial/mono.md).
+#### Loading a saved canvas
+
+(This is the same as with [pre-rendered canvases](#pre-rendered))
+
+```cpp
+DEPG0290BNS75A display(2, 4, 5);
+
+void setup() {
+    // Once, set CS pin
+    display.useSD(7);
+
+    display.loadCanvas("test_canvas.bmp");
+    
+    // Another canvas:
+    display.loadCanvas("canvas001.bmp");
+
+    // Alternatively: special trick for "canavsxxx.bmp" files
+    // display.loadCanvas(1);
+}
+```
+`loadCanvas()` will also accept an integer <1000.<br />
+`loadCanvas(001)` will load file `canvas001.bmp` from SD root.
+
+## Using .bmp for drawing
+
+Rather than immediately displaying a single .bmp file, you may want use the image as part of a complex drawing.
+
+The most efficient option is to use "monochromatic bitmaps" (1-bit). These can be processed similarly to [XBitmaps](/docs/XBitmapTutorial/mono.md).
 
 Much like XBitmaps, these are drawn as part of the normal drawing flow.
 
@@ -133,6 +151,8 @@ void setup() {
 ```
 
 ## Getting Info
+
+Several methods are provided to retrieve information about the SD card status and contents.
 
 ```cpp
 DEPG0290BNS75A display(2, 4, 5);

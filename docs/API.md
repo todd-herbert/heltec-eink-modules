@@ -64,6 +64,7 @@
   - [`getTextWidth()`](#gettextwidth)
   - [`landscape()`](#landscape)
   - [`loadCanvas()`](#loadcanvas)
+  - [`loadFullscreenBitmap()`](#loadfullscreenbitmap)
   - [`portrait()`](#portrait)
   - [`SAVE_CANVAS()`](#save_canvas)
   - [`saveCanvas()`](#savecanvas)
@@ -1777,6 +1778,25 @@ display.loadCanvas(number)
 #### See also
 
 * [SAVE_CANVAS()](#SAVE_CANVAS)
+* [SD card](/docs/SD/sd.md)
+
+___
+### `loadFullscreenBitmap()`
+Load a full screen image (canvas), from SD card to display, in one pass. Alias for `loadCanvas()`.
+
+#### Syntax
+
+```cpp
+display.loadFullscreenBitmap(filename);
+```
+
+#### Parameters
+
+* _filename_: canvas file to load
+
+#### See also
+
+* [loadCanvas()](#loadcanvas)
 * [SD card](/docs/SD/sd.md)
 
 ___
