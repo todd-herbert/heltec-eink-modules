@@ -101,7 +101,7 @@
 
 ### `DEPG0150BNS810()`
 
-Create a display controller object, for model [DEPG0150BNS810](/docs/README.md#supported-displays).
+Create a display controller object, for model [DEPG0150BNS810](/docs/README.md#154-inch-e-ink-display-v2).
 
 #### Syntax
 
@@ -132,7 +132,7 @@ DEPG0150BNS810 display(2, 4, 5);
 ___
 ### `DEPG0154BNS800()`
 
-Create a display controller object, for model [DEPG0154BNS800](/docs/README.md#supported-displays).
+Create a display controller object, for model [DEPG0154BNS800](/docs/README.md#154-inch-e-ink-display-v2).
 
 #### Syntax
 ```cpp
@@ -161,7 +161,7 @@ DEPG0154BNS800 display(2, 4, 5);
 
 ___
 ### `DEPG0213RWS800()`
-Create a display controller object, for model [DEPG0213RWS800](/docs/README.md#supported-displays).
+Create a display controller object, for model [DEPG0213RWS800](/docs/README.md#213-inch-e‑ink-display-v2).
 
 #### Syntax
 
@@ -192,7 +192,7 @@ DEPG0213RWS800 display(2, 4, 5);
 ___
 ### `DEPG0290BNS75A()`
 
-Create a display controller object, for model [DEPG0290BNS75A](/docs/README.md#supported-displays).
+Create a display controller object, for model [DEPG0290BNS75A](/docs/README.md#29-inch-e‑ink-display-v2).
 
 #### Syntax
 
@@ -223,7 +223,7 @@ DEPG0290BNS75A display(2, 4, 5);
 ___
 ### `DEPG0290BNS800()`
 
-Create a display controller object, for model [DEPG0290BNS800](/docs/README.md#supported-displays).
+Create a display controller object, for model [DEPG0290BNS800](/docs/README.md#29-inch-e‑ink-display-v2).
 
 #### Syntax
 
@@ -254,7 +254,7 @@ DEPG0290BNS800 display(2, 4, 5);
 ___
 ### `GDE029A1()`
 
-Create a display controller object, for model [GDE029A1](/docs/README.md#supported-displays).
+Create a display controller object, for model [GDE029A1](/docs/README.md#29-inch-e‑ink-display-v2).
 
 #### Syntax
 
@@ -285,7 +285,7 @@ GDE029A1 display(2, 4, 5);
 ___
 ### `GDEP015OC1()`
 
-Create a display controller object, for model [GDEP015OC1](/docs/README.md#supported-displays).
+Create a display controller object, for model [GDEP015OC1](/docs/README.md#154-inch-e-ink-display-v2).
 
 #### Syntax
 
@@ -315,7 +315,7 @@ GDEP015OC1 display(2, 4, 5);
 
 ___
 ### `QYEG0213RWS800()`
-Create a display controller object, for model [QYEG0213RWS800](/docs/README.md#supported-displays).
+Create a display controller object, for model [QYEG0213RWS800](/docs/README.md#213-inch-e‑ink-display-v2).
 
 #### Syntax
 
