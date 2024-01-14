@@ -6,8 +6,13 @@
 #ifndef __WIRELESS_PAPER_H__
 #define __WIRELESS_PAPER_H__
 
-    // If building for "Wireless Paper". Board def from Heltec currently uses WifiLoRa32 V3 identifier
+    // Catch outdated board definitions, or PlatformIO users 
     #if defined(ARDUINO_heltec_wifi_lora_32_V3) || defined(WIFI_LoRa_32_V3)
+        #define WIRELESS_PAPER true
+    #endif
+
+    // If building for "Wireless Paper".
+    #ifdef WIRELESS_PAPER 
 
         #include <Arduino.h>
         #include <SPI.h>
@@ -20,10 +25,6 @@
 
         // Don't use fallback settings
         #define PLATFORM_SUPPORTED
-
-        // Identify that this is the "all-in-one" wireless paper board
-        // Should remain unchanged, even if heltec update the board id
-        #define WIRELESS_PAPER
 
         // SPI
         #define CAN_SPECIFY_SPI_PINS    false
