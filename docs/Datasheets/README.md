@@ -1,1 +1,0 @@
-Datasheets are not exact matches for the Heltec displays, but helpful to have.
