@@ -43,11 +43,6 @@ class DEPG0213BNS800 : public BaseDisplay {
 
     // Virtual methods
     // ==========================
-    public:
-        #ifdef WIRELESS_PAPER
-            void sleep();
-            void wake();
-        #endif
     private:
         void calculateMemoryArea( int16_t &sx, int16_t &sy, int16_t &ex, int16_t &ey );
         void configPartial();           // Configure panel to use partial refresh

@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <SPI.h>
 
-// Specific options for ESP32
+// Specific options for "Wireless Paper" all-in-one boards
 
 #ifndef __WIRELESS_PAPER_H__
 #define __WIRELESS_PAPER_H__
@@ -30,26 +30,40 @@
         #define CAN_SPECIFY_SPI_PINS    false
         #define DEFAULT_SDI             2
         #define DEFAULT_CLK             3
+
+        // Optimization
+        #define DISABLE_SDCARD          // Nobody is going to solder an SD Card reader onto these boards.. right?
         
         // Paging
-        #define DEFAULT_PAGE_HEIGHT     panel_height    // Indicate that we want the full display 
-        #define MAX_PAGE_HEIGHT         panel_height    // (Largest supported panel)
-        #define PRESERVE_IMAGE          true            // No clearing of page file between updates
+        #define DEFAULT_PAGE_HEIGHT     panel_height    // On this platform, these defaults are fixed: there is currently no support for paging
+        #define MAX_PAGE_HEIGHT         panel_height
+        #define PRESERVE_IMAGE          true
 
-        // PCB Wiring - All in One
+        // PCB Wiring
         #define PIN_PCB_DC              5
         #define PIN_PCB_CS              4
         #define PIN_PCB_BUSY            7
         #define PIN_PCB_RST             6
         #define PIN_PCB_VEXT            45              // Power to all peripherals on PCB, active LOW
+        
+        // PCB Wiring - LoRa, only used for forceSleep()
+        #define PIN_PCB_RADIO_DIO_1     14
+        #define PIN_PCB_RADIO_NSS       8
+        #define PIN_PCB_RADIO_RESET     12
+        #define PIN_PCB_RADIO_BUSY      13
+        #define PIN_PCB_LORA_CS         8
+        #define PIN_PCB_LORA_CLK        9
+        #define PIN_PCB_LORA_MISO       11
+        #define PIN_PCB_LORA_MOSI       10
 
         // Platform-specific methods
         namespace Platform {
             extern SPIClass* getSPI();                                                                      // Pass the correct SPI bus to display class
-            extern void beginSPI(SPIClass *spi, uint8_t pin_mosi, uint8_t pin_miso, uint8_t pin_clk);       // Call the appropriate SPI begin method                        // SAMD21G18A: move spi, if useSD() has been called
-            extern void interfacesOn();
-            extern void interfacesOff();
-            extern void toggleResetPin();
+            extern void beginSPI(SPIClass *spi, uint8_t pin_mosi, uint8_t pin_miso, uint8_t pin_clk);       // Call the appropriate SPI begin method
+            extern void VExtOn();                                                                           // Enable power to peripherals
+            extern void VExtOff();                                                                          // Disable power to perpiherals
+            extern void toggleResetPin();                                                                   // Trigger the displays' reset pin
+            extern void forceSleep();                                                                       // Configure the board and peripherals for deep sleep (18μA)
         }
 
     #endif

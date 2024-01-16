@@ -59,8 +59,6 @@ class BaseDisplay: public GFX {
         void useCustomPowerSwitch(uint8_t pin, SwitchType type);    // Store the config for user's power switching circuit
         void customPowerOff(uint16_t pause = 500);                  // "Power off" signal to user's power circuit, and set logic pins appropriately
         void customPowerOn();                                       // "Power on" signal to user's circuit, then re-init display
-        virtual void sleep() {}                                     // Display controller IC: sleep display. Needs external RST pin to wake - Wireless Paper only
-        virtual void wake()  {}                                     // Wake from "display controller deep sleep" - Wireless Paper only
         #define usePowerSwitching(pin, type) useCustomPowerSwitch(pin, type)        // DEPRECATION
         #define externalPowerOff customPowerOff                                     // DEPRECATION
         #define externalPowerOn customPowerOn                                       // DEPRECATION

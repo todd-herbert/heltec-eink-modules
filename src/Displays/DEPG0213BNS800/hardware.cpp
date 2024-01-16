@@ -22,35 +22,3 @@ void DEPG0213BNS800::activate() {
     // Block while the command runs
     wait();
 }
-
-#ifdef WIRELESS_PAPER
-    void DEPG0213BNS800::sleep() {
-        sendCommand(0x10);
-        sendData(0x1);
-    }
-
-    void DEPG0213BNS800::wake() {
-        // On "Wireless Paper" platforms: ensure peripheral power is on, then briefly pull the display's reset pin to ground
-        Platform::VExtOn();
-
-        // If display controller was put into "deep sleep"
-        Platform::toggleResetPin();
-
-        // Re-load settings for full-refresh
-        fastmodeOff();
-
-        // Mark display as potentially out of sync with memory
-        just_restarted = true;
-
-        // Re-initialize display memory
-        #if PRESERVE_IMAGE                          // Always true for this display - currently..
-            if (pagefile_height == panel_height)
-                writePage();
-            else        
-                clear(false);   // If user has (for some reason) re-enabled paging on a fancy mcu
-        #else
-            // No record of old image, just fill blank
-            clear(false);
-        #endif
-    }
-#endif
