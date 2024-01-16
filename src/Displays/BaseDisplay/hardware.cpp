@@ -69,11 +69,13 @@ void BaseDisplay::writePage() {
 
     // Intercept here for SAVE_CANVAS
     // Potentially disabled by optimization.h
-    #if !defined(__AVR_ATmega328P__) || defined(UNO_ENABLE_SDWRITE)
+    #ifndef DISABLE_SDCARD                                                  // Global disable of SD methods
+    #if !defined(__AVR_ATmega328P__) || defined(UNO_ENABLE_SDWRITE)         // Must be specifically enabled, if using ATmega328
         if (saving_canvas) {
             writePageToCanvas();
             return; // Don't draw to screen at same time?
         }
+    #endif
     #endif
 
     // Calculate rotated x start and stop values (y is already done via paging)

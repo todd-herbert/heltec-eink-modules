@@ -6,6 +6,9 @@
 
 #include "base.h"
 
+// optimization.h, WirelessPaper.h
+#ifndef DISABLE_SDCARD
+
 // Configure the SD card connection
 void BaseDisplay::useSD(uint8_t pin_cs_card) {
 
@@ -776,3 +779,5 @@ uint16_t BaseDisplay::getBMPHeight(const char* filename) {
     return height;
 
 }
+
+#endif
