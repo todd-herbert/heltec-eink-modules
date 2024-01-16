@@ -4,25 +4,6 @@
 PROGMEM constexpr uint8_t DEPG0213BNS800::lut_partial[];
 
 void DEPG0213BNS800::configPartial() {
-    // _writeCommand(0x01); //Driver output control
-    // _writeData(0x27);
-    // _writeData(0x01);
-    // _writeData(0x00);
-    // _writeCommand(0x11); //data entry mode
-    // _writeData(0x03);
-    // _writeCommand(0x3C); //BorderWavefrom
-    // _writeData(0x05);
-    // _writeCommand(0x21); //  Display update control
-    // _writeData(0x00);
-    // _writeData(0x80);
-    // _writeCommand(0x18); //Read built-in temperature sensor
-    // _writeData(0x80);
-    // _setPartialRamArea(0, 0, WIDTH, HEIGHT);
-
-    
-    // sendCommand(0x22);
-    // sendData(0xf8);
-    // sendCommand(0x20);
 
     sendCommand(0x74); // "Analog Block Control"
     sendData(0x54);
@@ -35,24 +16,13 @@ void DEPG0213BNS800::configPartial() {
     sendData(0x01);
     sendData(0x00);
 
-    sendCommand(0x3C);
+    sendCommand(0x3C);  // Border
     sendData(0x05);
-    // sendCommand(0x21);
-    // sendData(0x00);
-    // sendData(0x80);
-    sendCommand(0x18);
+
+    sendCommand(0x18);  // Temperature sensor
     sendData(0x80);
 
     wait();
-
-    // // Need the same settings, and this saves code
-    // // configFull();
-
-    // // sendCommand(0x21);
-    // // sendData(0x00);
-    // // sendData(0x80);
-
-    // configFull();
 
     // Load the fastmode lut
     sendCommand(0x32);
@@ -70,8 +40,6 @@ void DEPG0213BNS800::configPartial() {
     sendData(0x00);
     sendData(0x00);
     sendData(0x00);
-
-    Serial.println("Config Partial");
 }
 
 void DEPG0213BNS800::configFull() {
