@@ -33,6 +33,7 @@ void LCMEN2R13EFC1::reset() {
     #ifdef WIRELESS_PAPER
         Platform::VExtOn();
         Platform::toggleResetPin();
+        wait();
     #endif
 
     wait();

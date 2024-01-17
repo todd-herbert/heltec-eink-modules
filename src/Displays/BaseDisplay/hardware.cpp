@@ -50,6 +50,7 @@ void BaseDisplay::reset() {
     #ifdef WIRELESS_PAPER
         Platform::VExtOn();
         Platform::toggleResetPin();
+        wait();
     #endif
 
     // All platforms: send software reset SPI command

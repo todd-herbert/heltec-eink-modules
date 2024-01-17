@@ -52,6 +52,7 @@ void BaseDisplay::begin() {
     #ifdef WIRELESS_PAPER
         Platform::VExtOn();
         Platform::toggleResetPin();
+        wait();
     #endif
 
     // If PRESERVE_IMAGE possible, memory was allocated in constructor
