@@ -216,8 +216,10 @@ class BaseDisplay: public GFX {
         virtual void calculateMemoryArea( int16_t &sx, int16_t &sy, int16_t &ex, int16_t &ey ) = 0;                 // Calculate area of display memory to accept data
         virtual void configPartial() {};                                                                            // Load display specific settings for partial refresh
         virtual void configFull() {};                                                                               // Load display specific settings for full refresh
+        virtual void configPingPong() {};                                                                           // Configure for "TURBO" fastmode - single pass partial refresh (only relevant for Uno)
         virtual void activate() = 0;                                                                                // Perform the display update, "master activation"
-        virtual void calculatePixelPageOffset(uint16_t x, uint16_t y, uint16_t &byte_offset, uint8_t &bit_offset); // Calculate byte location of pixel in pagefile. Overriden if no "partial window" support
+        virtual void endImageTxQuiet();                                                                             // Finish the transmission of image data without activation - for differential update
+        virtual void calculatePixelPageOffset(uint16_t x, uint16_t y, uint16_t &byte_offset, uint8_t &bit_offset);  // Calculate byte location of pixel in pagefile. Overriden if no "partial window" support
 
 
         // Config received in constructor

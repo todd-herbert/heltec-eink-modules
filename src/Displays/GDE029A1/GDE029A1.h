@@ -61,5 +61,6 @@ class GDE029A1 : public BaseDisplay {
     private:
         void configFull();              // Configure panel to use full refresh
         void configPartial();           // Configure panel to use partial refresh
+        void configPingPong();          // Enable Ping-Pong - single pass partial refresh for Uno
         void activate();                // Command sequence to trigger display update
 };

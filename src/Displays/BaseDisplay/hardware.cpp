@@ -118,31 +118,48 @@ void BaseDisplay::setMemoryArea(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t 
 // Prepare display controller to receive image data, then transfer
 void BaseDisplay::sendImageData() {
 
-    // Write the data
-    sendCommand(0x24);   // Write "BLACK" memory
-    for (uint16_t i = 0; i < pagefile_length; i++)
-        sendData(page_black[i]);
+    // IF Fastmode OFF
+    // -------------
+    if (fastmode_state == OFF) {
 
-    if ( supportsColor(RED) ) {   // If 3-Color red display
-        sendCommand(0x26);          // Write memory for red(1)/white (0)
+        // Send black
+        sendCommand(0x24);   // Write "BLACK" memory
         for (uint16_t i = 0; i < pagefile_length; i++)
-            sendData(page_red[i]);
-    }
+            sendData(page_black[i]);
 
-    else {  // Black and White only
-
-        // Write so-called "RED" memory. With this display, the memory is used during fastmode.
-        // Counter-intuitively, need to write both BLACK and RED during normal use.
-        // This preserves the image when moving into fastmode.
-
-        if(fastmode_state == OFF) {
-            sendCommand(0x26);
+        // If supports red, send red
+        if ( supportsColor(RED) ) {   // If 3-Color red display
+            sendCommand(0x26);          // Write memory for red(1)/white (0)
             for (uint16_t i = 0; i < pagefile_length; i++)
-                sendData(page_black[i]);
+                sendData(page_red[i]);
+        }
+
+        // If mono, send black data to red memory, for future partial refresh (differential update)
+        else {
+            sendCommand(0x26);   
+                for (uint16_t i = 0; i < pagefile_length; i++)
+                    sendData(page_black[i]);            
         }
     }
 
-    wait();
+    // IF Fastmode ON - first pass
+    // OR Fastmode TURBO
+    // -------------------------
+    else if (!fastmode_secondpass) {
+        // Send black
+        sendCommand(0x24);   // Write "BLACK" memory
+        for (uint16_t i = 0; i < pagefile_length; i++)
+            sendData(page_black[i]);
+    }
+
+    // IF Fastmode OFF - second pass
+    // ----------------------------
+    else {
+        // Send black data to red memory, for differential update
+        sendCommand(0x26);
+        for (uint16_t i = 0; i < pagefile_length; i++)
+            sendData(page_black[i]);
+    }
 }
 
 // Used by clear()
@@ -166,6 +183,15 @@ void BaseDisplay::sendBlankImageData() {
     sendCommand(0x26);  // Write "RED" memory
     for (uint16_t i = 0; i < pagefile_size; i++)
         sendData(red_byte);
+}
+
+// End image-data transmission without updating - for differential update
+void BaseDisplay::endImageTxQuiet() {
+
+    // Default behaviour: Solomon Systech style. Overriden in some derived classes    
+    sendCommand(0x7F);  // Terminate frame write without update
+    wait();
+    return;
 }
 
 // Send power-off signal to your custom power switching circuit, and set the display pins to prevent unwanted current flow

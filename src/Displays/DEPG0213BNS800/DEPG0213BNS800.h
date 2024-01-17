@@ -21,7 +21,6 @@ class DEPG0213BNS800 : public BaseDisplay {
         #ifdef WIRELESS_PAPER
             DEPG0213BNS800(uint16_t page_height = DEFAULT_PAGE_HEIGHT) : BaseDisplay(PIN_PCB_DC, PIN_PCB_CS, PIN_PCB_BUSY, DEFAULT_SDI, DEFAULT_CLK, page_height)
                 { init(); }
-
         #else
             /* --- ERROR: This display is only used by "Wireless Paper" boards --- */   DEPG0213BNS800(uint16_t page_height = DEFAULT_PAGE_HEIGHT) = delete;
         #endif
@@ -50,9 +49,8 @@ class DEPG0213BNS800 : public BaseDisplay {
         void activate();
 
 
-    // // Disabled methods
-    // // ==========================
-    // private:
-    //     /* --- Error: Display does not support fastmode (partial refresh) --- */        void fastmodeOn() {}
-    //     /* --- Error: Display does not support fastmode (partial refresh) --- */        void fastmodeTurbo() {}
+    // Disabled methods
+    // ==========================
+    private:
+        /* --- Error: TURBO gives no performance boost on Wireless Paper --- */        void fastmodeTurbo() {}
 };

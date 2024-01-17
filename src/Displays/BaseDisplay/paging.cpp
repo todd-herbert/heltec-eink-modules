@@ -62,13 +62,14 @@ bool BaseDisplay::calculating() {
         if (!PRESERVE_IMAGE || pagefile_height < panel_height)
             freePageMemory();
         else {
-            // Reset now, incase big MCU wants to draw outside loop
+            // Reset page dimensions now, incase big MCU wants to draw outside loop
             page_top = winrot_top;
             page_bottom = min((winrot_top + pagefile_height) - 1, winrot_bottom);
             pagefile_length = (page_bottom - page_top + 1) * ((winrot_right - winrot_left + 1) / 8);
         }
 
-        // Fastmode OFF or TURBO, single pass
+        // Fastmode OFF or TURBO, (single pass)
+        // ----------------------------------
         if (fastmode_state == OFF || fastmode_state == TURBO) {
             if(!saving_canvas)
                 activate(); 
@@ -76,21 +77,42 @@ bool BaseDisplay::calculating() {
             return false;
         }
 
-        // Fastmode ON: double pass
+        // Fastmode ON
+        // ------------
         else {
-            // End of first pass
+            // If PRESERVE_IMAGE: no need to re-render - we have the whole image in RAM
+            // --------------
+
+            if (PRESERVE_IMAGE && pagefile_height == panel_height) {
+                if (!saving_canvas) {
+                    activate();
+                    fastmode_secondpass = true;
+
+                    writePage();
+                    endImageTxQuiet();              // Controller accepts the "old image data" without refresh - for differential update
+                    fastmode_secondpass = false;    // Reset for next time
+                    return false;
+                }
+            }
+
+            // If Paging
+            // (we need to render all the pieces twice..)
+            // --------------
+
+            // First pass
             if (fastmode_secondpass == false) {
                 if (!saving_canvas)
                     activate(); 
          
                 fastmode_secondpass = true;
-                return true;                    // Re-calculate the whole display again
+                return true; // Re-calculate the whole display again
             }
-            // End of second pass
+
+            // Second Pass
             else {
                 if (!saving_canvas)
-                    activate(); 
-      
+                    endImageTxQuiet();          // Display accepts the "old image data" without updating
+
                 fastmode_secondpass = false;    // Reset state for next time
                 return false;
             }

@@ -8,11 +8,6 @@ void LCMEN2R13EFC1::calculateMemoryArea( int16_t &sx, int16_t &sy, int16_t &ex, 
 }
 
 void LCMEN2R13EFC1::activate() {
-    // No need to double-write display mem: not using ping-pong mode
-    // TODO: attempt to work without ping-pong mode on all displays
-
-    if (fastmode_secondpass)
-        return;
 
     // Power on the panel
     sendCommand(0x04);
@@ -57,7 +52,7 @@ void LCMEN2R13EFC1::sendImageData() {
             sendData(page_black[i]);
     }
 
-    // Fastmode - First Pass (TODO: no more "passes", we are *not* paging here)
+    // Fastmode - First Pass (new memory)
     else if (!fastmode_secondpass) {
         sendCommand(0x13);   // Write "RED / NEW" memory
         for (uint16_t i = 0; i < pagefile_length; i++)
@@ -66,7 +61,7 @@ void LCMEN2R13EFC1::sendImageData() {
 
     // Fastmode - Second Pass (old memory)
     else {
-            sendCommand(0x10);   // Write "BLACK / OLD" memory
+        sendCommand(0x10);   // Write "BLACK / OLD" memory
         for (uint16_t i = 0; i < pagefile_length; i++)
             sendData(page_black[i]);
     }

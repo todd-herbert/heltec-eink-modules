@@ -40,8 +40,9 @@ void BaseDisplay::fastmodeOn() {
     wait();
 }
 
-// Fastest, low quality updates. Unstable.
-// Use with caution.
+// Fastest. Unstable.
+// Only really relevant for Arduino Uno
+// Please draw same image twice before changing mode, window
 void BaseDisplay::fastmodeTurbo() {
 
     // Init hardware, if not yet done
@@ -53,6 +54,7 @@ void BaseDisplay::fastmodeTurbo() {
     fastmode_state = Fastmode::TURBO;
     reset();
     configPartial();
+    configPingPong();
     wait();
 }
 

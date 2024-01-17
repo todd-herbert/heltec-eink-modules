@@ -8,6 +8,7 @@ void DEPG0150BNS810::calculateMemoryArea( int16_t &sx, int16_t &sy, int16_t &ex,
 }
 
 void DEPG0150BNS810::activate() {
+    
     // Specify the update operation to run
     sendCommand(0x22);
 

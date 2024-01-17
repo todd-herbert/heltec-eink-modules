@@ -56,5 +56,6 @@ class DEPG0290BNS800 : public BaseDisplay {
         void calculateMemoryArea( int16_t &sx, int16_t &sy, int16_t &ex, int16_t &ey );       // Display specific formatting of memory locations
     private:
         void configPartial();       // Configure panel to use partial refresh
+        void configPingPong();      // Enable Ping-Pong - single pass partial refresh for Uno
         void activate();            // Command sequence to trigger display update
 };

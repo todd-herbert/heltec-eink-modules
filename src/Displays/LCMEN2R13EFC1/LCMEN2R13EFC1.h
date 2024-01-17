@@ -58,16 +58,18 @@ class LCMEN2R13EFC1 : public BaseDisplay {
     private:
         void calculateMemoryArea( int16_t &sx, int16_t &sy, int16_t &ex, int16_t &ey );
         void configPartial();           // Configure panel to use partial refresh
-        void configFull();
-        void activate();
+        void configFull();              // Configure panel to use full refresh
+        void activate();                // Command sequence to trigger display update
+        void endImageTxQuiet() {}       // Apparently, no action required to terminate an image tx for this controller(?)
+
 
         // Display has controller IC from different manufacturer
         // Lots of BaseDisplay behaviour needs overriding
-        void reset();
-        void setMemoryArea(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey) {}       // Dummy - display doesn't support "partial window"
-        void sendImageData();
+        void reset();                                                                                       // Reset the display - using physical pin
+        void setMemoryArea(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey) {}                           // Dummy - display doesn't support "partial window"
+        void sendImageData();                                                                               // Different SPI commands
         void sendBlankImageData();
-        void wait();
-        void calculatePixelPageOffset(uint16_t x, uint16_t y, uint16_t &byte_offset, uint8_t &bit_offset);
-        void clearPageWindow();
+        void wait();                                                                                        // Read busy pin, inverted for this controller
+        void calculatePixelPageOffset(uint16_t x, uint16_t y, uint16_t &byte_offset, uint8_t &bit_offset);  // No "partial window" support
+        void clearPageWindow();                                                                             // No "partial window" support
 };
