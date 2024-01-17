@@ -1815,6 +1815,8 @@ ___
 
 Performs drawing commands, outputting to SD card, instead of display. If necessary, paging is used.
 
+*Arduino Uno:* this feature is disabled by default, to minimize sketch size. See [optimization.h](/src/optimization.h)
+
 #### Syntax
 
 ```cpp
