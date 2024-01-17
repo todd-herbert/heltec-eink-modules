@@ -5,7 +5,7 @@
             Model: GDE029A1
             Refresh: Partial
 
-            From Heltec source
+            Source: Heltec (unmodified)
 */
 
 0x10, 0x18, 0x18, 0x08, 0x18, 0x18,

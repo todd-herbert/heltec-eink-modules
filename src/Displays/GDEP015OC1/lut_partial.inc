@@ -5,7 +5,7 @@
             Model: GDEP015OC1
             Refresh: Partial
 
-            Unmodified from Heltec source
+            Source: Heltec (unmodified)
 */
 
 0x10, 0x18, 0x18, 0x08, 0x18, 0x18,
