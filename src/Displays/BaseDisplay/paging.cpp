@@ -127,20 +127,21 @@ bool BaseDisplay::calculating() {
 }
 
 // Clear the data arrays in between pages
-void BaseDisplay::clearPage(uint16_t bgcolor) {
-        uint8_t black_byte = (bgcolor & WHITE) * 255;    // We're filling in bulk here; bits are either all on or all off
+void BaseDisplay::clearPage() {
+        uint8_t black_byte = (default_color & WHITE) * 255;    // We're filling in bulk here; bits are either all on or all off
         for (uint16_t i = 0; i < page_bytecount; i++)
             page_black[i] = black_byte;
 
         // Repeat for red
         if (supportsColor(RED)) {
-            uint8_t red_byte = ((bgcolor & RED) >> 1) * 255;
+            uint8_t red_byte = ((default_color & RED) >> 1) * 255;
             for (uint16_t i = 0; i < page_bytecount; i++)
                 page_red[i] = red_byte;
         }
 }
 
-// Clear page area where new window-data will go - overriden if display doesn't support "partial window"
+// USUALLY - just a a wrapper for clearPage()
+// Overriden if display doesn't support "partial window"
 void BaseDisplay::clearPageWindow() {
-    clearPage(default_color);
+    clearPage();
 }
