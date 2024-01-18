@@ -26,11 +26,15 @@
 
 // DEMO: update()
 // ------------------------------------------------
-    // Larger microcontrollers have enough RAM to hold the full screen image at once: they do not need paging.
-    // These devices do not need to use the DRAW() loop, drawing commands can be issued almost anywhere.
-    // Call update() to show the result the display.
+// Larger microcontrollers have enough RAM to hold the full screen image at once: they do not need paging.
+// These devices do not need to use the DRAW() loop, drawing commands can be issued almost anywhere.
+// Call update() to show the result the display.
+
 
 void setup() {
+
+    // Start the display hardware - important when using update()
+    display.begin();
 
     // Print two lines of text
 
@@ -55,7 +59,7 @@ void setup() {
     delay(5000);
 
     // Display image remains; but memory is wiped clean
-    // "A blank canvas"
+    // "A blank slate"
     display.clearMemory();
 
     display.setCursor(10, 60);

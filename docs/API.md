@@ -11,6 +11,7 @@
   - [`GDEP015OC1()`](#gdep015oc1)
   - [`QYEG0213RWS800()`](#qyeg0213rws800)
 - [Methods](#methods)
+  - [`begin()`](#begin)
   - [`bounds.full.left()`](#boundsfullleft)
   - [`bounds.full.top()`](#boundsfulltop)
   - [`bounds.full.right()`](#boundsfullright)
@@ -344,6 +345,48 @@ QYEG0213RWS800 display(2, 4, 5);
 ```
 
 ## Methods
+
+### `begin()`
+
+Perform initial hardware setup at start of sketch.<br />
+For backwards compatability, the library will do its best to call `begin()` for you automatically. Only **required** when drawing with `update()`, instead of the `DRAW()` structure.
+
+#### Syntax
+
+```cpp
+begin()
+```
+
+#### Parameters
+None.
+
+#### Example
+
+```cpp
+#include <heltec-eink-modules.h>
+
+// Class is "display model"
+QYEG0213RWS800 display(2, 4, 5);
+
+void setup() {
+
+    display.begin();    // Get ready to draw - call once only
+    
+    display.setCursor(5, 10);
+    display.print("Hello, World!");
+    
+    display.update();   // Display whatever we've drawn
+
+    delay(4000);        // Let user read
+    dispaly.clear();    // Wipe the screen immediately
+}
+```
+
+#### See also
+
+* [update()](#update)
+* [DRAW()](#draw)
+
 
 ### `bounds.full.left()`
 
