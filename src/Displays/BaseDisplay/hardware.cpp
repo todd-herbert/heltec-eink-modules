@@ -322,8 +322,10 @@ void BaseDisplay::clear(bool refresh) {
 
         // If fastmode setting requires, repeat
         if (fastmode_state == ON) {
+            fastmode_secondpass = true;
             writePage();
-            activate(); 
+            endImageTxQuiet();
+            fastmode_secondpass = false;
         }
 
         // Track state of display memory (re:customPowerOn)

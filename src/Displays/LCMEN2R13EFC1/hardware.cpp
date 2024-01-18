@@ -81,8 +81,8 @@ void LCMEN2R13EFC1::sendBlankImageData() {
 
 
     sendCommand(0x10);   // Write "BLACK / OLD" memory
-        for (uint16_t i = 0; i < pagefile_length; i++)
-            sendData(blank_byte);
+    for (uint16_t i = 0; i < pagefile_length; i++)
+        sendData(blank_byte);
     
 
     wait();
