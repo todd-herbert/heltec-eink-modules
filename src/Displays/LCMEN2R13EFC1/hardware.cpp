@@ -44,30 +44,30 @@ void LCMEN2R13EFC1::sendImageData() {
 
     // Always write the full pagefile - no "partial window" support
     // TODO: optimize
-    const uint16_t pagefile_length = panel_height * panel_width / 8;
+    const uint16_t byte_count = panel_height * panel_width / 8;
 
     // Fastmode Off
     if (fastmode_state == OFF) {
         sendCommand(0x10);   // Write "BLACK / OLD" memory
-        for (uint16_t i = 0; i < pagefile_length; i++)
+        for (uint16_t i = 0; i < byte_count; i++)
             sendData(page_black[i]);
 
         sendCommand(0x13);   // Write "RED / NEW" memory
-        for (uint16_t i = 0; i < pagefile_length; i++)
+        for (uint16_t i = 0; i < byte_count; i++)
             sendData(page_black[i]);
     }
 
     // Fastmode - First Pass (new memory)
     else if (!fastmode_secondpass) {
         sendCommand(0x13);   // Write "RED / NEW" memory
-        for (uint16_t i = 0; i < pagefile_length; i++)
+        for (uint16_t i = 0; i < byte_count; i++)
             sendData(page_black[i]);
     }
 
     // Fastmode - Second Pass (old memory)
     else {
         sendCommand(0x10);   // Write "BLACK / OLD" memory
-        for (uint16_t i = 0; i < pagefile_length; i++)
+        for (uint16_t i = 0; i < byte_count; i++)
             sendData(page_black[i]);
     }
 
@@ -79,16 +79,18 @@ void LCMEN2R13EFC1::sendBlankImageData() {
     uint8_t blank_byte;
     blank_byte = (default_color & WHITE) * 255;          // Get the black mem value for default color
 
+    // In this scope, just
+    const uint16_t byte_count = panel_height * panel_width / 8;
 
     sendCommand(0x13);   // Write "RED / NEW" memory
-    for (uint16_t i = 0; i < pagefile_length; i++)
+    for (uint16_t i = 0; i < byte_count; i++)
         sendData(blank_byte);
 
 
     // Also write the OLD memory, so long as we're not clearing in fastmode
     if (fastmode_state == OFF || fastmode_state == NOT_SET) {
         sendCommand(0x10);   // Write "BLACK / OLD" memory
-        for (uint16_t i = 0; i < pagefile_length; i++)
+        for (uint16_t i = 0; i < byte_count; i++)
             sendData(blank_byte);
     }
     

@@ -278,9 +278,10 @@ void BaseDisplay::clear(bool refresh) {
 
     // Fill the display's memory with blank data
     int16_t sx, sy, ex, ey;
-    calculateMemoryArea(sx, sy, ex, ey, winrot_left, page_top, winrot_right, page_bottom);    // Virtual, derived class
+    calculateMemoryArea(sx, sy, ex, ey, 0, 0, panel_width - 1, panel_height - 1 );    // Virtual, derived class
     setMemoryArea(sx, sy, ex, ey);
     sendBlankImageData();   // Transfer (blank) image via SPI
+    endImageTxQuiet();
 
     // If requested, show this new blank data on the screen
     if (refresh) {
