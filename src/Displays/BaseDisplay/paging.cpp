@@ -20,7 +20,7 @@ bool BaseDisplay::calculating() {
         // Init display, if needed
         if (fastmode_state == NOT_SET) {
             fastmodeOff();
-            clear(false);   // Fill whole memory, incase updating window after reset (static)
+            clearAllMemories(); // Fill whole memory, incase updating window after reset (static)
         }
 
         // Grab memory, if it doesn't persist between updates

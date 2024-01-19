@@ -195,7 +195,7 @@ class BaseDisplay: public GFX {
         void writePage();                                                                                   // Send image data to display memory (no refresh)
         void clearPage();                                                                                   // Fill the pagefile(s) with default_color. Overriden if no "partial window" support
         virtual void clearPageWindow();                                                                     // If controller has no "partial window" support, this behaviour needs to be seperated. By default: a wrapper for clearPage
-        void clear(bool refresh);                                                                           // Clear display memory, with optional update
+        void clearAllMemories();                                                                            // Clears the display memory, and if PRESERVE_IMAGE, the pagefile too
  
 
         // SD card

@@ -197,6 +197,81 @@ void BaseDisplay::endImageTxQuiet() {
     return;
 }
 
+// Clear the screen in one optimized step - public
+void BaseDisplay::clear() {
+    clearAllMemories();
+
+    // Trigger the display update
+    // --------------------------
+
+    // We might need to change to Fastmode::OFF for the update - remember where we started
+    Fastmode original_state = fastmode_state;
+
+    // If sketch just started, might need to load settings
+    if (fastmode_state == NOT_SET)
+        fastmodeOff();
+
+    // Trigger the display changes
+    activate();
+
+    // If we *didn't* want to be in Fastmode::OFF, return to original state
+    if (original_state == ON)
+        fastmodeOn();
+    else if (original_state == TURBO)
+        fastmodeTurbo();
+
+    // Track state of display memory (re:customPowerOn)
+    display_cleared = true;
+    just_restarted = false;
+
+}
+
+// Clears the display memory, and if PRESERVE_IMAGE, the pagefile too
+void BaseDisplay::clearAllMemories() {
+
+    // Perform hardware init, if not already done
+    begin();
+
+    // Fill the image memory with blank data, if drawing unpaged
+    if (PRESERVE_IMAGE && pagefile_height == panel_height)
+        clearPage();
+
+    // Fill the display's memory with blank data
+    int16_t sx, sy, ex, ey;
+    calculateMemoryArea(sx, sy, ex, ey, 0, 0, panel_width - 1, panel_height - 1 );    // Virtual, derived class
+    setMemoryArea(sx, sy, ex, ey);
+    sendBlankImageData();   // Transfer (blank) image via SPI
+    endImageTxQuiet();
+}
+
+#if PRESERVE_IMAGE
+    // Manually update display, drawing on-top of existing contents
+    void BaseDisplay::update() {
+
+        // Init display, if needed
+        if (fastmode_state == NOT_SET)
+            fastmodeOff();
+
+        // Copy the local image data to the display memory, then update
+        writePage();
+        activate(); 
+
+        // If fastmode setting requires, repeat
+        if (fastmode_state == ON) {
+            fastmode_secondpass = true;
+            writePage();
+            endImageTxQuiet();
+            fastmode_secondpass = false;
+        }
+
+        // Track state of display memory (re:customPowerOn)
+        display_cleared = false;
+        just_restarted = false;
+    }
+#endif
+
+
+
 // Send power-off signal to your custom power switching circuit, and set the display pins to prevent unwanted current flow
 void BaseDisplay::customPowerOff(uint16_t pause) {
     // If poweroff is called immediately after drawing, it can compromise the image
@@ -246,87 +321,12 @@ void BaseDisplay::customPowerOn() {
     // Mark display as potentially out of sync with memory
     just_restarted = true;
 
-    // Re-initialize display memory
-    #if PRESERVE_IMAGE
-        if (pagefile_height == panel_height)
+        // Re-initialize display memory
+        if (PRESERVE_IMAGE && pagefile_height == panel_height)     // If not paged - write old image back to display memory
             writePage();
-        else        
-            clear(false);   // If user has (for some reason) re-enabled paging on a fancy mcu
-    #else
-        // No record of old image, just fill blank
-        clear(false);
-    #endif
-}
-
-// Clear the screen in one optimized step - public
-void BaseDisplay::clear() {
-    clear(true);
-}
-
-// Private clear method, with optional refresh
-void BaseDisplay::clear(bool refresh) {
-
-    // We might need to change to Fastmode::OFF for the update - remember where we started
-    Fastmode original_state = fastmode_state;
-
-    // Perform hardware init, if not already done
-    begin();
-
-    // Fill the image memory with blank data, if drawing unpaged
-    if (PRESERVE_IMAGE && pagefile_height == panel_height)
-        clearPage();
-
-    // Fill the display's memory with blank data
-    int16_t sx, sy, ex, ey;
-    calculateMemoryArea(sx, sy, ex, ey, 0, 0, panel_width - 1, panel_height - 1 );    // Virtual, derived class
-    setMemoryArea(sx, sy, ex, ey);
-    sendBlankImageData();   // Transfer (blank) image via SPI
-    endImageTxQuiet();
-
-    // If requested, show this new blank data on the screen
-    if (refresh) {
-        // If sketch just started, might need to load settings
-        if (fastmode_state == NOT_SET)
-            fastmodeOff();
-
-        // Trigger the display changes
-        activate();
-
-        // If we *didn't* want to be in Fastmode::OFF, return to original state
-        if (original_state == ON)
-            fastmodeOn();
-        else if (original_state == TURBO)
-            fastmodeTurbo();
-
-        // Track state of display memory (re:customPowerOn)
-        display_cleared = true;
-        just_restarted = false;
-    }    
-    
-}
-
-#if PRESERVE_IMAGE
-    // Manually update display, drawing on-top of existing contents
-    void BaseDisplay::update() {
-
-        // Init display, if needed
-        if (fastmode_state == NOT_SET)
-            fastmodeOff();
-
-        // Copy the local image data to the display memory, then update
-        writePage();
-        activate(); 
-
-        // If fastmode setting requires, repeat
-        if (fastmode_state == ON) {
-            fastmode_secondpass = true;
-            writePage();
-            endImageTxQuiet();
-            fastmode_secondpass = false;
-        }
-
-        // Track state of display memory (re:customPowerOn)
-        display_cleared = false;
-        just_restarted = false;
+        else    // If paged - No record of old image, just fill blank    
+            clearAllMemories();
+        
     }
+
 #endif

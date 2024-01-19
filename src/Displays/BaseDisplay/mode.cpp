@@ -36,7 +36,7 @@ void BaseDisplay::fastmodeOn() {
     // If memory was lost after customPowerOff
     #if !PRESERVE_IMAGE
         if (just_restarted && !display_cleared)
-            clear(true);
+            clear();
     #endif
 
     fastmode_state = Fastmode::ON;
