@@ -60,20 +60,6 @@ void BaseDisplay::begin() {
         writePage();    // Make sure display memory is also blanked
 }
 
-// Set configuration of custom power-swiching circuit, then power up
-void BaseDisplay::useCustomPowerSwitch(uint8_t pin, SwitchType type) {
-    this->pin_power = pin;
-    this->switch_type = type;
-
-    // Start powered up
-    delay(50);
-    pinMode(pin_power, OUTPUT);
-    digitalWrite(pin_power, switch_type);
-
-    // Wait for powerup
-    delay(100);
-}
-
 // Get the Bounds() subclass ready early, so it can be used to initialize globals
 void BaseDisplay::instantiateBounds() {
     
@@ -110,3 +96,22 @@ void BaseDisplay::initDrawingParams() {
     setBackgroundColor(WHITE);
     setTextColor(BLACK);
 }
+
+// "Custom power swiitching" is disabled on Wireless Paper platforms - irrelevant and maybe the user will break something?
+#ifndef WIRELESS_PAPER
+
+    // Set configuration of custom power-swiching circuit, then power up
+    void BaseDisplay::useCustomPowerSwitch(uint8_t pin, SwitchType type) {
+        this->pin_power = pin;
+        this->switch_type = type;
+
+        // Start powered up
+        delay(50);
+        pinMode(pin_power, OUTPUT);
+        digitalWrite(pin_power, switch_type);
+
+        // Wait for powerup
+        delay(100);
+}
+
+#endif

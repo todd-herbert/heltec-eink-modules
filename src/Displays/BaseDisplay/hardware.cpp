@@ -271,55 +271,57 @@ void BaseDisplay::clearAllMemories() {
 #endif
 
 
+// "Custom power swiitching" is disabled on Wireless Paper platforms - irrelevant and maybe the user will break something?
+#ifndef WIRELESS_PAPER
 
-// Send power-off signal to your custom power switching circuit, and set the display pins to prevent unwanted current flow
-void BaseDisplay::customPowerOff(uint16_t pause) {
-    // If poweroff is called immediately after drawing, it can compromise the image
-    delay(pause);
+    // Send power-off signal to your custom power switching circuit, and set the display pins to prevent unwanted current flow
+    void BaseDisplay::customPowerOff(uint16_t pause) {
+        // If poweroff is called immediately after drawing, it can compromise the image
+        delay(pause);
 
-    // Stop SPI
-    display_spi->end();
+        // Stop SPI
+        display_spi->end();
 
-    // Send the power-down signal
-    digitalWrite(pin_power, !switch_type);
+        // Send the power-down signal
+        digitalWrite(pin_power, !switch_type);
 
-    // Set the logic pins: prevent a small current return path
-    digitalWrite(pin_dc, switch_type);
-    digitalWrite(pin_cs, switch_type);
-    digitalWrite(pin_sdi, switch_type);
-    digitalWrite(pin_clk, switch_type);
+        // Set the logic pins: prevent a small current return path
+        digitalWrite(pin_dc, switch_type);
+        digitalWrite(pin_cs, switch_type);
+        digitalWrite(pin_sdi, switch_type);
+        digitalWrite(pin_clk, switch_type);
 
-    // Same, if we're using sd card
-    if (pin_cs_card != 0xFF) {
-        digitalWrite(pin_cs_card, switch_type);
-        digitalWrite(pin_miso, switch_type);
+        // Same, if we're using sd card
+        if (pin_cs_card != 0xFF) {
+            digitalWrite(pin_cs_card, switch_type);
+            digitalWrite(pin_miso, switch_type);
+        }
     }
-}
 
-// Send power-on signal to your custom power switching circuit, then re-init display
-void BaseDisplay::customPowerOn() {
+    // Send power-on signal to your custom power switching circuit, then re-init display
+    void BaseDisplay::customPowerOn() {
 
-    // CS pin deselcted; power-up the display
-    digitalWrite(pin_cs, HIGH);
-    digitalWrite(pin_power, switch_type);
+        // CS pin deselcted; power-up the display
+        digitalWrite(pin_cs, HIGH);
+        digitalWrite(pin_power, switch_type);
 
-    // Wait for powerup
-    delay(50);
+        // Wait for powerup
+        delay(50);
 
-    // SPI resumes
-    Platform::beginSPI(display_spi, pin_miso, pin_miso, pin_clk);
-    
-    // SAMD21: Move the SPI pins back to custom location
-    #ifdef __SAMD21G18A__
-        if (pin_sdi != MOSI || pin_clk != SCK || pin_miso != MISO)
-            Platform::setSPIPins(pin_sdi, pin_clk, pin_miso);
-    #endif
+        // SPI resumes
+        Platform::beginSPI(display_spi, pin_miso, pin_miso, pin_clk);
+        
+        // SAMD21: Move the SPI pins back to custom location
+        #ifdef __SAMD21G18A__
+            if (pin_sdi != MOSI || pin_clk != SCK || pin_miso != MISO)
+                Platform::setSPIPins(pin_sdi, pin_clk, pin_miso);
+        #endif
 
-    // Re-load settings for full-refresh
-    fastmodeOff();
+        // Re-load settings for full-refresh
+        fastmodeOff();
 
-    // Mark display as potentially out of sync with memory
-    just_restarted = true;
+        // Mark display as potentially out of sync with memory
+        just_restarted = true;
 
         // Re-initialize display memory
         if (PRESERVE_IMAGE && pagefile_height == panel_height)     // If not paged - write old image back to display memory
