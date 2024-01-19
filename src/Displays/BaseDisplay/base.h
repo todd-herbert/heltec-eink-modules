@@ -194,7 +194,7 @@ class BaseDisplay: public GFX {
         virtual void setMemoryArea(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey);                     // Inform the display of selected memory area. Overriden if no "partial window" support
         void writePage();                                                                                   // Send image data to display memory (no refresh)
         void clearPage();                                                                                   // Fill the pagefile(s) with default_color. Overriden if no "partial window" support
-        virtual void clearPageWindow();                                                                     // Clear page area where new window-data will go. Overriden if no "partial window" support
+        virtual void clearPageWindow();                                                                     // If controller has no "partial window" support, this behaviour needs to be seperated. By default: a wrapper for clearPage
         void clear(bool refresh);                                                                           // Clear display memory, with optional update
  
 
