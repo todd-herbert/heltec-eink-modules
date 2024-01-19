@@ -266,48 +266,41 @@ void BaseDisplay::clear() {
 // Private clear method, with optional refresh
 void BaseDisplay::clear(bool refresh) {
 
-    // Store current settings
-    uint16_t page_top_original = page_top;
-    uint16_t page_bottom_original = page_bottom;
-    Fastmode mode_original = fastmode_state;
-    uint8_t rotation_original = rotation;
-    uint16_t l = bounds.window.left();
-    uint16_t t = bounds.window.top();
-    uint16_t w = bounds.window.width();
-    uint16_t h = bounds.window.height();
+    // We might need to change to Fastmode::OFF for the update - remember where we started
+    Fastmode original_state = fastmode_state;
 
-    // Back to default settings, temporarily
-    fastmodeOff();
-    fullscreen();
+    // Perform hardware init, if not already done
+    begin();
 
-    // Claim that the page file is "fullscreen", even though it isn't
-    page_top = 0;
-    page_bottom = panel_height - 1;
+    // Fill the image memory with blank data, if drawing unpaged
+    if (PRESERVE_IMAGE && pagefile_height == panel_height)
+        clearPage();
 
+    // Fill the display's memory with blank data
     int16_t sx, sy, ex, ey;
-    calculateMemoryArea(sx, sy, ex, ey);    // Virtual, derived class
+    calculateMemoryArea(sx, sy, ex, ey, winrot_left, page_top, winrot_right, page_bottom);    // Virtual, derived class
     setMemoryArea(sx, sy, ex, ey);
     sendBlankImageData();   // Transfer (blank) image via SPI
 
-    // Update the display with blank memory
+    // If requested, show this new blank data on the screen
     if (refresh) {
-        activate(); 
+        // If sketch just started, might need to load settings
+        if (fastmode_state == NOT_SET)
+            fastmodeOff();
+
+        // Trigger the display changes
+        activate();
+
+        // If we *didn't* want to be in Fastmode::OFF, return to original state
+        if (original_state == ON)
+            fastmodeOn();
+        else if (original_state == TURBO)
+            fastmodeTurbo();
 
         // Track state of display memory (re:customPowerOn)
         display_cleared = true;
         just_restarted = false;
     }    
-
-    // Restore old settings
-    if (mode_original == Fastmode::ON)
-        fastmodeOn();
-    else if(mode_original == Fastmode::TURBO)
-        fastmodeTurbo();
-
-    setRotation(rotation_original);
-    setWindow(l, t, w, h);
-    page_top = page_top_original;
-    page_bottom = page_bottom_original;
     
 }
 

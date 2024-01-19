@@ -85,9 +85,12 @@ void LCMEN2R13EFC1::sendBlankImageData() {
         sendData(blank_byte);
 
 
-    sendCommand(0x10);   // Write "BLACK / OLD" memory
-    for (uint16_t i = 0; i < pagefile_length; i++)
-        sendData(blank_byte);
+    // Also write the OLD memory, so long as we're not clearing in fastmode
+    if (fastmode_state == OFF || fastmode_state == NOT_SET) {
+        sendCommand(0x10);   // Write "BLACK / OLD" memory
+        for (uint16_t i = 0; i < pagefile_length; i++)
+            sendData(blank_byte);
+    }
     
 
     wait();
