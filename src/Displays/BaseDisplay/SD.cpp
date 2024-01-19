@@ -364,13 +364,14 @@ void BaseDisplay::loadCanvas(const char* filename) {
     // Open image
     sd->openFile(filename, false);
 
-    // Claim that the page file is "fullscreen", even though it isn't
-    // So that derived class will calculate a fullscreen memory areaa
-    page_top = 0;
-    page_bottom = panel_height - 1;
+    // TODO: confirm that SD accepts changes to calculateMemoryArea()
+    // // Claim that the page file is "fullscreen", even though it isn't
+    // // So that derived class will calculate a fullscreen memory areaa
+    // page_top = 0;
+    // page_bottom = panel_height - 1;
 
     int16_t sx, sy, ex, ey;
-    calculateMemoryArea(sx, sy, ex, ey);  // Virtual, derived class
+    calculateMemoryArea(sx, sy, ex, ey, winrot_left, 0, winrot_right, panel_height - 1);  // Virtual, derived class
     setMemoryArea(sx, sy, ex, ey);
 
     // Send the data to the display

@@ -1,10 +1,15 @@
 #include "LCMEN2R13EFC1.h"
 
-void LCMEN2R13EFC1::calculateMemoryArea( int16_t &sx, int16_t &sy, int16_t &ex, int16_t &ey ) {
-    sx = winrot_left;     // Get the quirky offsets in the right place
-    sy = page_top;
-    ex = winrot_right;
-    ey = page_bottom;
+void LCMEN2R13EFC1::calculateMemoryArea( int16_t &sx, int16_t &sy, int16_t &ex, int16_t &ey,                        
+                                            int16_t region_left, int16_t region_top, int16_t region_right, int16_t region_bottom ) {
+                                                
+    // These seem very "straight-forward", but this controller doesn't actually support "partial window"
+    // We're going to change where in the pagefile we write instead
+
+    sx = region_left;
+    sy = region_top;
+    ex = region_right;
+    ey = region_bottom;
 }
 
 void LCMEN2R13EFC1::activate() {

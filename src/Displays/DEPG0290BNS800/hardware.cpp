@@ -1,10 +1,12 @@
 #include "DEPG0290BNS800.h"
 
-void DEPG0290BNS800::calculateMemoryArea( int16_t &sx, int16_t &sy, int16_t &ex, int16_t &ey ) {
-    sx = (winrot_left / 8) + 1; //Notice the offset
-    sy = page_top;
-    ex = ((winrot_right + 1) / 8);
-    ey = page_bottom;
+void DEPG0290BNS800::calculateMemoryArea( int16_t &sx, int16_t &sy, int16_t &ex, int16_t &ey,                        
+                                            int16_t region_left, int16_t region_top, int16_t region_right, int16_t region_bottom ) {
+                                                
+    sx = (region_left / 8) + 1; //Notice the offset
+    sy = region_top;
+    ex = ((region_right + 1) / 8);
+    ey = region_bottom;
 }
 
 void DEPG0290BNS800::activate() {

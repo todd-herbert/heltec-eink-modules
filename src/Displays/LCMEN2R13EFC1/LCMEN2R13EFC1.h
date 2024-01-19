@@ -56,11 +56,13 @@ class LCMEN2R13EFC1 : public BaseDisplay {
     // Virtual methods
     // ==========================
     private:
-        void calculateMemoryArea( int16_t &sx, int16_t &sy, int16_t &ex, int16_t &ey );
         void configPartial();           // Configure panel to use partial refresh
         void configFull();              // Configure panel to use full refresh
         void activate();                // Command sequence to trigger display update
-        void endImageTxQuiet() {}       // Apparently, no action required to terminate an image tx for this controller(?)
+
+        // Display specific formatting of memory locations 
+        void calculateMemoryArea( int16_t &sx, int16_t &sy, int16_t &ex, int16_t &ey,                        
+                                    int16_t region_left, int16_t region_top, int16_t region_right, int16_t region_bottom );        
 
 
         // Display has controller IC from different manufacturer
@@ -72,4 +74,5 @@ class LCMEN2R13EFC1 : public BaseDisplay {
         void wait();                                                                                        // Read busy pin, inverted for this controller
         void calculatePixelPageOffset(uint16_t x, uint16_t y, uint16_t &byte_offset, uint8_t &bit_offset);  // No "partial window" support
         void clearPageWindow();                                                                             // No "partial window" support
+        void endImageTxQuiet() {}                                                                           // Apparently, no action required to terminate an image tx for this controller(?)
 };

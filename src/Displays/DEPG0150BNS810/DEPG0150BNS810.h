@@ -52,10 +52,12 @@ class DEPG0150BNS810 : public BaseDisplay {
 
     // Virtual methods
     // =========================
-    public:
-        void calculateMemoryArea( int16_t &sx, int16_t &sy, int16_t &ex, int16_t &ey );       // Display specific formatting of memory locations
     private:
         void configPartial();       // Configure panel to use partial refresh
         void configPingPong();      // Enable Ping-Pong - single pass partial refresh for Uno
         void activate();            // Command sequence to trigger display update
+
+        // Display specific formatting of memory locations 
+        void calculateMemoryArea( int16_t &sx, int16_t &sy, int16_t &ex, int16_t &ey,                        
+                                    int16_t region_left, int16_t region_top, int16_t region_right, int16_t region_bottom );        
 };

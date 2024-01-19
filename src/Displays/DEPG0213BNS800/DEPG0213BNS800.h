@@ -43,10 +43,14 @@ class DEPG0213BNS800 : public BaseDisplay {
     // Virtual methods
     // ==========================
     private:
-        void calculateMemoryArea( int16_t &sx, int16_t &sy, int16_t &ex, int16_t &ey );
         void configPartial();           // Configure panel to use partial refresh
         void configFull();
         void activate();
+
+        // Display specific formatting of memory locations 
+        void calculateMemoryArea( int16_t &sx, int16_t &sy, int16_t &ex, int16_t &ey,                        
+                                    int16_t region_left, int16_t region_top, int16_t region_right, int16_t region_bottom );
+         
 
 
     // Disabled methods

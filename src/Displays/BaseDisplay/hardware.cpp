@@ -81,7 +81,7 @@ void BaseDisplay::writePage() {
 
     // Calculate rotated x start and stop values (y is already done via paging)
     int16_t sx, sy, ex, ey;
-    calculateMemoryArea(sx, sy, ex, ey);  // Virtual, derived class
+    calculateMemoryArea(sx, sy, ex, ey, winrot_left, page_top, winrot_right, page_bottom);  // Virtual, derived class
     setMemoryArea(sx, sy, ex, ey);
     sendImageData();    // Transfer image via SPI
 }
@@ -180,9 +180,12 @@ void BaseDisplay::sendBlankImageData() {
     for (uint16_t i = 0; i < pagefile_size; i++)
         sendData(black_byte);
 
-    sendCommand(0x26);  // Write "RED" memory
-    for (uint16_t i = 0; i < pagefile_size; i++)
-        sendData(red_byte);
+    // Also write the RED memory, so long as we're not clearing in fastmode (breaks differential update)
+    if (fastmode_state == OFF || fastmode_state == NOT_SET) {
+        sendCommand(0x26);  // Write "RED" memory
+        for (uint16_t i = 0; i < pagefile_size; i++)
+            sendData(red_byte);
+    }
 }
 
 // End image-data transmission without updating - for differential update
