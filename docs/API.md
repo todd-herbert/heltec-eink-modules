@@ -348,8 +348,8 @@ QYEG0213RWS800 display(2, 4, 5);
 
 ### `begin()`
 
-Perform initial hardware setup at start of sketch.<br />
-For backwards compatability, the library will do its best to call `begin()` for you automatically. Only **required** when drawing with `update()`, instead of the `DRAW()` structure.
+**You** ***shouldn't*** **need to call this method.**<br />
+Perform initial hardware setup at start of sketch. In theory, this is all handled automatically, but maybe your use case has a need for this?
 
 #### Syntax
 
@@ -382,12 +382,7 @@ void setup() {
 }
 ```
 
-#### See also
-
-* [update()](#update)
-* [DRAW()](#draw)
-
-
+___
 ### `bounds.full.left()`
 
 Get the left edge of the display. This will always be zero, but is included for completeness.

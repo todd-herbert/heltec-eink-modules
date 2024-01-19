@@ -25,8 +25,13 @@ void BaseDisplay::fastmodeOn() {
     // Init hardware, if not yet done
     begin();
 
-    if(fastmode_state == NOT_SET)
-        clear(false);     // Initialize display memory, if needed
+    // If display hasn't had first update yet, blank the display's memory, for the differential update (assume display is blank..)
+    if(fastmode_state == NOT_SET) {
+            int16_t sx, sy, ex, ey;
+            calculateMemoryArea(sx, sy, ex, ey, winrot_left, page_top, winrot_right, page_bottom);    // Virtual, derived class
+            setMemoryArea(sx, sy, ex, ey);
+            sendBlankImageData();   // Transfer (blank) image via SPI
+    }
 
     // If memory was lost after customPowerOff
     #if !PRESERVE_IMAGE
@@ -48,9 +53,14 @@ void BaseDisplay::fastmodeTurbo() {
     // Init hardware, if not yet done
     begin();
 
-    if(fastmode_state == NOT_SET)
-        clear(false);    // Initialize dispaly memory, if needed
-
+    // If display hasn't had first update yet, blank the display's memory, for the differential update (assume display is blank..)
+    if(fastmode_state == NOT_SET) {
+            int16_t sx, sy, ex, ey;
+            calculateMemoryArea(sx, sy, ex, ey, winrot_left, page_top, winrot_right, page_bottom);    // Virtual, derived class
+            setMemoryArea(sx, sy, ex, ey);
+            sendBlankImageData();   // Transfer (blank) image via SPI
+    }
+    
     fastmode_state = Fastmode::TURBO;
     reset();
     configPartial();

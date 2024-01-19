@@ -33,9 +33,6 @@
 
 void setup() {
 
-    // Start the display hardware - important when using update()
-    display.begin();
-
     // Print two lines of text
 
     display.setCursor(10, 10);
