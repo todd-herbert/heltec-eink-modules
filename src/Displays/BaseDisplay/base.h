@@ -239,7 +239,7 @@ class BaseDisplay: public GFX {
 
         // SPI
         SPIClass *display_spi;                                                          // SPI instance is platform specific
-        const SPISettings spi_settings = SPISettings(200000, MSBFIRST, SPI_MODE0);
+        const SPISettings spi_settings = SPISettings(2000000, MSBFIRST, SPI_MODE0);
         bool begun = false;                                                             // Has BaseDisplay::begin run once?
 
 
