@@ -42,10 +42,10 @@ void LCMEN2R13EFC1::configPartial() {
 void LCMEN2R13EFC1::configFull() {
 
     sendCommand(0x00);  // Panel setting
-    sendData(B11 << 6 | 1 << 4 | 1 << 3 | 1 << 2 | 1 << 1 | 1 << 0);       // [7:6] Display Res, [5] LUT, [4] BW / BWR [3] Scan Vert, [2] Shift Horiz, [1] Booster, [0] Reset?
+    sendData(0b11 << 6 | 1 << 4 | 1 << 3 | 1 << 2 | 1 << 1 | 1 << 0);   // [7:6] Display Res, [5] LUT, [4] BW / BWR [3] Scan Vert, [2] Shift Horiz, [1] Booster, [0] Reset?
 
     sendCommand(0x50);  // VCOM and data interval setting
-    sendData(B10 << 6 | B11 << 4 | B0111 << 0); // [7:6] Border, [5:4] Data polarity (default), [3:0] VCOM and Data interval (default)
+    sendData(0b10 << 6 | 0b11 << 4 | 0b0111 << 0);  // [7:6] Border, [5:4] Data polarity (default), [3:0] VCOM and Data interval (default)
 
 }
 
