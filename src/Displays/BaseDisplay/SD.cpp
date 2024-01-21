@@ -646,6 +646,10 @@ void BaseDisplay::writePageToCanvas() {
                 // Pretend that we have finished reading the last byte
                 x = right;
                 pbit = 0;
+
+                // Add padding (only needed in this specific situation)
+                for(uint8_t i = 0; i < padding; i++)
+                    sd->write(0);
             }
 
             // Move pagefile counters
@@ -657,10 +661,6 @@ void BaseDisplay::writePageToCanvas() {
                 pbyte++;
             }
         } // End of row
-
-        // Add padding, if needed (only for 2.13")
-        for(uint8_t i = 0; i < padding; i++)
-            sd->write(0);
     }
 
     // Finished with the SD card.
