@@ -343,6 +343,7 @@ void BaseDisplay::loadCanvas(uint16_t number) {
 
 // Load a "canvas" image file from SD, direct to screen
 void BaseDisplay::loadCanvas(const char* filename) {
+    begin();
 
     // Method writes direct to display. Have to make sure hardware init is done
     if (fastmode_state == NOT_SET)
@@ -380,6 +381,9 @@ void BaseDisplay::loadCanvas(const char* filename) {
 
         // If display has RED, detect the red pixels, otherwise just use the black again
         send24BitBMP(supportsColor(RED) ? RED : BLACK);
+
+        // Display the result
+        activate();
     }
 
     // If fastmodeON
@@ -389,11 +393,14 @@ void BaseDisplay::loadCanvas(const char* filename) {
 
         // Then send the data again, before final update
         // setMemoryArea(sx, sy, ex, ey);
-        sendCommand(0x24);
+        sendCommand(0x26);
         send24BitBMP(BLACK);
+        endImageTxQuiet();
     }
 
-    activate(); 
+    // If fastmode TURBO, for some reason
+    else if (fastmode_state == TURBO)
+        activate();
 
     // Free memory from SD instance
     delete sd;
