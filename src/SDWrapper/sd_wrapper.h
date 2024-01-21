@@ -23,9 +23,8 @@
 
 #else
     #define USING_BUNDLED_SDLIB
-    // Bundled version of SdFat
-    #include "SdFat/SdFat.h"
-    
+    #include "SdFat/SdFat.h"            // Bundled version of SdFat 
+    #include "SdFat/MinimumSerial.h"    // Replacement serial for UNO_ENABLE_SDWRITE
 #endif
 
 // Wrapper for the various platform-specific SD implementations
