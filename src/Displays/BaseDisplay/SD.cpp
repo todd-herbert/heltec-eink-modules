@@ -323,22 +323,52 @@ void BaseDisplay::drawMonoBitmapFile(int16_t left, int16_t top, const char* file
 
 #endif
 
+char* BaseDisplay::getIterableFilename(const char* prefix, uint32_t number) {
+
+    // Cursor for the new "filename" string
+    uint8_t cursor = 0;
+
+    // 8 chars + .bmp + null-term
+    static char filename[8 + 4 + 1];    // (static: lazy, and we only need to use one file at a time, so)
+
+    // Copy prefix into the new string, counting
+    for(; cursor < 6; cursor++) {
+        filename[cursor] = prefix[cursor];
+
+        // All the prefix already copied
+        if (cursor == strlen(prefix) - 1)
+            break;
+    }
+
+    uint8_t cursor_final = cursor;    // Final position for a digit
+    cursor = 7;
+
+    // Check if number too large
+    number = min(number, pow(10, (7 - cursor_final)) - 1);
+
+    // Add digits (or zeros), from smallest to largest
+    while (cursor > cursor_final) {
+        filename[cursor] = number % 10;
+        number /= 10;
+
+        filename[cursor] += 48; // Convert: (int) 0 to (char)'0'
+
+        cursor--;   // Step one char back (00# -> 0#0 -# #00)
+    }
+
+    // Add the extension
+    strcpy(&filename[8], ".bmp");
+
+    return filename;
+}
+
 // Load a "canvas" image file from SD, direct to screen, using canvasXXX.bmp for filename
-void BaseDisplay::loadCanvas(uint16_t number) {
-
-    char filename[] = "canvas***.bmp";
-    
-    filename[6] = number / 100;
-    filename[7] = (number / 10) % 10;
-    filename[8] = number % 10;
-
-    // Convert: (int) 0 to (char)'0'
-    filename[6] += 48;
-    filename[7] += 48;
-    filename[8] += 48;
+void BaseDisplay::loadCanvas(const char* prefix, uint32_t number) {
 
     // Pass through
-    return loadCanvas(filename);
+    loadCanvas( getIterableFilename(prefix, number) );
+    return;
+
 }
 
 // Load a "canvas" image file from SD, direct to screen
@@ -413,21 +443,11 @@ void BaseDisplay::loadCanvas(const char* filename) {
 
 // Potentially disabled by optimization.h
 #if !defined(__AVR_ATmega328P__) || defined(UNO_ENABLE_SDWRITE)
-    bool BaseDisplay::savingCanvas(uint16_t number) {
-
-        char filename[] = "canvas***.bmp";
-        
-        filename[6] = number / 100;
-        filename[7] = (number / 10) % 10;
-        filename[8] = number % 10;
-
-        // Convert: (int) 0 to (char)'0'
-        filename[6] += 48;
-        filename[7] += 48;
-        filename[8] += 48;
+    bool BaseDisplay::savingCanvas(const char* prefix, uint32_t number) {
 
         // Pass through
-        return savingCanvas(filename);
+        return savingCanvas( getIterableFilename(prefix, number) );
+
     }
 
     // Backend for the SAVE_CANVAS loop
@@ -469,21 +489,10 @@ void BaseDisplay::loadCanvas(const char* filename) {
 
 #if PRESERVE_IMAGE
     // Non-paged: write the result of drawing operations to SD card (once), using canvasXXX.bmp for filename
-    void BaseDisplay::saveCanvas(uint16_t number) {
-
-        char filename[] = "canvas***.bmp";
-
-        filename[6] = number / 100;
-        filename[7] = (number / 10) % 10;
-        filename[8] = number % 10;
-
-        // Convert: (int) 0 to (char)'0'
-        filename[6] += 48;
-        filename[7] += 48;
-        filename[8] += 48;
+    void BaseDisplay::saveCanvas(const char* prefix, uint32_t number) {
 
         // Pass through
-        saveCanvas(filename);
+        saveCanvas( getIterableFilename(prefix, number) );
     }
 
     // Non-paged: write the result of drawing operations to SD card (once)
@@ -691,20 +700,9 @@ bool BaseDisplay::SDFileExists(const char* filename) {
 }
 
 // Check if canvas image exists, by "canvas number"
-bool BaseDisplay::SDCanvasExists(uint16_t number) {
-    
-    char filename[] = "canvas***.bmp";
-    
-    filename[6] = number / 100;
-    filename[7] = (number / 10) % 10;
-    filename[8] = number % 10;
+bool BaseDisplay::SDCanvasExists(const char* prefix, uint32_t number) {
 
-    // Convert: (int) 0 to (char)'0'
-    filename[6] += 48;
-    filename[7] += 48;
-    filename[8] += 48;
-
-    return SDFileExists(filename);
+    return SDFileExists( getIterableFilename(prefix, number) );
 }
 
 // Check if canvas image exists on SD card
@@ -754,20 +752,8 @@ bool BaseDisplay::SDCanvasValid(const char* filename, bool purge) {
 }
 
 // Check if canvas .bmp is valid, or corrupt, by "canvas number"
-bool BaseDisplay::SDCanvasValid(uint16_t number, bool purge) {
-
-    char filename[] = "canvas000.bmp";
-    
-    filename[6] = number / 100;
-    filename[7] = (number / 10) % 10;
-    filename[8] = number % 10;
-
-    // Convert: (int) 0 to (char)'0'
-    filename[6] += 48;
-    filename[7] += 48;
-    filename[8] += 48;
-
-    return SDCanvasValid(filename, purge);
+bool BaseDisplay::SDCanvasValid(const char* prefix, uint32_t number, bool purge) {
+    return SDCanvasValid( getIterableFilename(prefix, number) , purge);
 }
 
 // Read image width from .bmp header, sd card

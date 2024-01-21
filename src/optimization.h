@@ -15,5 +15,6 @@
 // ------------------------------------------------------
 //  Leaving this disabled can save ~20% flash, if *no* SD methods are used.
 //  Disabled by default: SAVE_CANVAS() is a niche method
+//  Enabling this option will interfere with HardwareSerial. See /docs/SD/MinimalSerial.md for a workaround
 
     // #define UNO_ENABLE_SDWRITE

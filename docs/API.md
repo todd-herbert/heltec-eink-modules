@@ -1800,19 +1800,20 @@ Alias for `setRotation(3)`. Enters a landscape orientation.
 ___
 ### `loadCanvas()`
 
-Load a full screen image (canvas), from SD card to display, in one pass. 
+Load a previously saved canvas (fullscreen bitmap), from SD card to display, in one pass. Can be loaded by filename, or using a prefix and numeric identifier, if convenient.
 
 #### Syntax
 
 ```cpp
 display.loadCanvas(filename)
-display.loadCanvas(number)
+display.loadCanvas(prefix, number)
 ```
 
 #### Parameters
 
 * _filename_: canvas file to load
-* _number_: canvas file to load, by int (< 1000), where `1` refers to `"canvas001.bmp"`, etc.
+* _prefix_: identifies different sets of imagess
+* _number_: image's location in the set
 
 #### See also
 
@@ -1821,8 +1822,7 @@ display.loadCanvas(number)
 
 ___
 ### `loadFullscreenBitmap()`
-Load a full screen image (canvas), from SD card to display, in one pass. Alias for `loadCanvas()`.
-
+Load a fullscreen 24bit .BMP file, from SD card, to display, in one pass. Image must be portrait, rather than landscape. Alias for `loadCanvas(filename)`.
 #### Syntax
 
 ```cpp
@@ -1831,7 +1831,7 @@ display.loadFullscreenBitmap(filename);
 
 #### Parameters
 
-* _filename_: canvas file to load
+* _filename_: fullscreen .bmp file to load
 
 #### See also
 
@@ -1851,22 +1851,27 @@ Alias for `setRotation(0)`. Enters a portrait orientation.
 ___
 ### `SAVE_CANVAS()`
 
-Performs drawing commands, outputting to SD card, instead of display. If necessary, paging is used.
+Performs drawing commands, outputting to SD card, instead of display. If necessary, paging is used. 
 
-*Arduino Uno:* this feature is disabled by default, to minimize sketch size. See [optimization.h](/src/optimization.h)
+Canvas' filename can be specified, or instead a prefix and numeric identifier can be given, which will be used to generate a unique filename. The prefix has a maximum length of 6 characters.
+
+#### *On Arduino Uno:* 
+* this feature is disabled by default, to minimize sketch size. See [optimization.h](/src/optimization.h)
+* feature interferes with Serial. The `MinimalSerial` class provided by SdFat should be used instead (todo: explain minimal serial) 
 
 #### Syntax
 
 ```cpp
 SAVE_CANVAS (display, filename)
-SAVE_CANVAS (display, number)
+SAVE_CANVAS (display, prefix, number)
 ```
 
 #### Parameters
 
 * _display_: generate a canvas image suitable for this display
 * _filename_: save canvas on SD card with this filename
-* _number_: save canvas on SD card, by int (< 1000), where `1` refers to `"canvas001.bmp"`, etc.
+* _prefix_: identifies different sets of imagess
+* _number_: image's location in the set
 
 #### Example
 
@@ -1879,7 +1884,14 @@ void setup() {
     // SD card CS pin 7
     display.useSD(7);
 
-    SAVE_CANVAS (display, "canvas001.bmp") {
+    // Save by filename
+    SAVE_CANVAS (display, "canvas01.bmp") {
+        //Graphics commands go here, for example:
+        display.fillCircle(50, 100, 20, BLACK);
+    }
+
+    // Or: save by prefix + number
+    SAVE_CANVAS (display, "canvas", 1) {
         //Graphics commands go here, for example:
         display.fillCircle(50, 100, 20, BLACK);
     }
@@ -1899,17 +1911,20 @@ ___
 
 Draw a canvas image to SD card, outside of a `SAVE_CANVAS` loop, on-top of any existing screen data. 
 
+Canvas' filename can be specified, or instead a prefix and numeric identifier can be given, which will be used to generate a unique filename. The prefix has a maximum length of 6 characters.
+
 #### Syntax
 
 ```cpp
 display.saveCanvas(filename)
-display.saveCanvas(number)
+display.saveCanvas(prefix, number)
 ```
 
 #### Parameters
 
 * _filename_: save canvas on SD card with this filename
-* _number_: save canvas on SD card, by int (< 1000), where `1` refers to `"canvas001.bmp"`, etc.
+* _prefix_: identifies different sets of imagess
+* _number_: image's location in the set
 
 #### Example
 
@@ -1923,7 +1938,11 @@ void setup() {
     display.setCursor(10, 10);
     display.print("Example");
 
-    display.saveCanvas("canvas001.bmp");   // Result of first two commands saved to SD
+    // Save by filename
+    display.saveCanvas("canvas01.bmp");   // Result of first two commands saved to SD
+
+    // Or: save by prefix + identifier
+    display.saveCanvas("canvas", 1);
 }
 ```
 
@@ -1988,13 +2007,14 @@ Check if a "canvas" image exists on SD card.
 
 ```cpp
 display.SDCanvasExists(filename)
-display.SDCanvasExists(number)
+display.SDCanvasExists(prefix, number)
 ```
 
 #### Parameters
 
 * _filename_: canvas file
-* _number_: canvas file to check, by int (< 1000), where `1` refers to `"canvas001.bmp"`, etc.
+* _prefix_: identifies different sets of imagess
+* _number_: image's location in the set
 
 #### Returns
 

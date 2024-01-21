@@ -11,9 +11,10 @@ With level-shifter  |   Without level-shifter
 For more information, see: [wiring](/docs/README.md#wiring).
 
 - [Limitations](#limitations)
-- [Canvases (fullscreen .bmp)](#canvases-fullscreen-bmp)
-  - [Pre-rendered](#pre-rendered)
-  - [As a workspace](#as-a-workspace)
+- [loadFullscreenBitmap()](#loadfullscreenbitmap)
+- [Canvas (Saving GFX workspace)](#canvas-saving-gfx-workspace)
+- [Saving a canvas](#saving-a-canvas)
+- [Loading a saved canvas](#loading-a-saved-canvas)
 - [Using .bmp for drawing](#using-bmp-for-drawing)
 - [Getting Info](#getting-info)
 
@@ -22,15 +23,18 @@ For more information, see: [wiring](/docs/README.md#wiring).
 
 * Low speed
 * Bigger sketches 
-   * On Arduino Uno, >60% Flash used
 * Higher RAM usage
 * Not all methods available for Uno
     * `draw24BitBitmapFile()` consumes too much RAM
+    * `SAVE_CANVAS()` must be enabled in [optimization.h](/src/optimization.h)
+    * Uno HardwareSerial does not play nice with `SAVE_CANVAS()`. [Workaround here](/docs/sd/MinimalSerial.md)
 * Card format must be FAT or FAT32
 
-## Canvases (fullscreen .bmp)
+## loadFullscreenBitmap()
 
-*Canvas* refers to a specific type of .bmp image.
+This is an efficient method for loading a .bmp file directy to the display.
+
+It accepts only a specific type of .bmp image.
 * 24bit .bmp file
 * Portrait, not landscape
 * Dimensions: full screen width x height
@@ -41,35 +45,50 @@ Example: DEPG0290BNS75A | Example: QYEG0213RWS800
 ---|---
 ![diagram of "canvas"](canvas_depg0290bns75a.png) | ![diagram of "canvas"](canvas_qyeg0213rws800.png)
 
-\* For displays QYEG0213RWS800, DEPG0213RWS800 and DEPG0213BNS800, a hardware quirk gives a canvas width of 128px, rather than the advertised 122px
-
-### Pre-rendered
-BMP files formatted in this way can be loaded efficiently onto the display:
 ```cpp
-display.loadFullscreenBitmap("image.bmp");
-```
+#include <heltec-eink-modules.h>
 
-### As a workspace 
-
-#### Saving a canvas
-Instead of drawing to display, the output can be directed into a canvas.
-
-```cpp
 DEPG0290BNS75A display(2, 4, 5);
 
 void setup() {
     // Once, set CS pin
     display.useSD(7);
 
-    SAVE_CANVAS (display, "test_canvas.bmp") {
-        display.setCursor(20, 20);
-        display.print("Hello, World!");
+    display.loadFullscreeBitmap("image.bmp");
+}
+```
+## Canvas (Saving GFX workspace)
+
+## Saving a canvas
+Instead of drawing to display, the output can be directed into a canvas.
+
+*Arduino Uno:* this feature is disabled by default, to minimize sketch size. See [optimization.h](/src/optimization.h)
+
+```cpp
+#include <heltec-eink-modules.h>
+
+DEPG0150BNS810 display(2, 4, 5);
+
+void setup() {
+    // SD card CS pin 7
+    display.useSD(7);
+
+    // Save by filename
+    SAVE_CANVAS (display, "canvas01.bmp") {
+        //Graphics commands go here, for example:
+        display.fillCircle(50, 100, 20, BLACK);
+    }
+
+    // Or: save by prefix + number
+    SAVE_CANVAS (display, "canvas", 1) {
+        //Graphics commands go here, for example:
+        display.fillCircle(50, 100, 20, BLACK);
     }
 
 }
 ```
 
-If your microcontroller is powerful enough, you can skip the `SAVE_CANVAS` loop (similar to `update()`)
+If your microcontroller is powerful enough, you can [skip the `SAVE_CANVAS`](/docs/API.md#savecanvas) loop (similar to `update()`)
 
 ```cpp
 DEPG0290BNS75A display(2, 4, 5);
@@ -90,9 +109,9 @@ void setup() {
 
 `SAVE_CANVAS()` and `saveCanvas()` also accept integers, the same as `loadCanvas()` (above)
 
-#### Loading a saved canvas
+## Loading a saved canvas
 
-(This is the same as with [pre-rendered canvases](#pre-rendered))
+(This is the same as with [loadFullscreenBitmap()](#loadfullscreenbitmap))
 
 ```cpp
 DEPG0290BNS75A display(2, 4, 5);
@@ -101,17 +120,13 @@ void setup() {
     // Once, set CS pin
     display.useSD(7);
 
-    display.loadCanvas("test_canvas.bmp");
+    // Load by filename
+    display.loadCanvas("chart005.bmp");
     
-    // Another canvas:
-    display.loadCanvas("canvas001.bmp");
-
-    // Alternatively: special trick for "canavsxxx.bmp" files
-    // display.loadCanvas(1);
+    // Or alternatively, by prefix + number
+    display.loadCanvas("chart", 5);
 }
 ```
-`loadCanvas()` will also accept an integer <1000.<br />
-`loadCanvas(001)` will load file `canvas001.bmp` from SD root.
 
 ## Using .bmp for drawing
 

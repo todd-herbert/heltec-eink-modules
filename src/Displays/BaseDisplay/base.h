@@ -91,19 +91,18 @@ class BaseDisplay: public GFX {
             void useSD(uint8_t pin_cs_card);                                                                                            // Store the config needed to use SD Card
             bool SDCardFound();                                                                                                         // Check if card is connected
             bool SDFileExists(const char* filename);                                                                                    // Check if file exists on SD card                                         
-            bool SDCanvasExists(uint16_t number);                                                                                       // Check if file exists, by "canvas number"
+            bool SDCanvasExists(const char* prefix, uint32_t number);                                                                   // Check if file exists, by prefix and iterable number
             bool SDCanvasExists(const char* filename);                                                                                  // Synonym for SDFileExists()
-            bool SDCanvasValid(uint16_t number, bool purge = false);                                                                    // Check for corruption in a canvas .bmp, by "canvas number"
+            bool SDCanvasValid(const char* prefix, uint32_t number, bool purge = false);                                                // Check for corruption in a canvas .bmp, by prefix and iterable number
             bool SDCanvasValid(const char* filename, bool purge = false);                                                               // Check for corruption in a canvas .bmp
             void drawMonoBitmapFile(int16_t left, int16_t top, const char* filename, Color color);                                      // Draw a mono bitmap from SD Card
             void drawMonoBitmapFile(int16_t left, int16_t top, const char* filename, Color foreground_color, Color background_color);   // Draw a mono bitmap from SD Card, with background
             void loadCanvas(const char* filename);                                                                                      // Draw canvas from SD card, direct to screen
-            void loadCanvas(uint16_t number);                                                                                           // Draw canvas (numbered) from SD, direct to screen 
-            void loadFullscreenBitmap(const char* filename)       { loadCanvas(filename); }                                             // Load and display a full-size bitmap. Wrapper for loadCanvas
+            void loadCanvas(const char* prefix, uint32_t number);                                                                       // Draw canvas (numbered) from SD, direct to screen 
+            void loadFullscreenBitmap(const char* filename) { loadCanvas(filename); }                                                   // Load and display a full-size bitmap. Wrapper for loadCanvas
             uint16_t getBMPWidth(const char* filename);                                                                                 // Read image width from .bmp header, sd card
             uint16_t getBMPHeight(const char* filename);                                                                                // Read image height from .bmp header, sd card        
-            #define SAVE_CANVAS(display, canvas) while(display.savingCanvas(canvas))                                                   // Macro to call while.savingCanvas()
-            #define WRITE_CANVAS(display, canvas) while(display.savingCanvas(canvas))                                                  // DEPRECATED
+            #define SAVE_CANVAS(display, ...) while(display.savingCanvas(__VA_ARGS__))                                                  // Macro to call while.savingCanvas()
 
 
             // Configure the SD card reader
@@ -129,21 +128,21 @@ class BaseDisplay: public GFX {
 
             // SD write: Potentially disabled by optimization.h
             #if !defined(__AVR_ATmega328P__) || defined(UNO_ENABLE_SDWRITE)
-                bool savingCanvas(const char* filename);                                                                                   // Non-paged: write memory to canvas (numbered)
-                bool savingCanvas(uint16_t number);                                                                                        // Non-paged: write memory to canvas 
+                bool savingCanvas(const char* filename);                    // Non-paged: write memory to canvas (iterable)
+                bool savingCanvas(const char* prefix, uint32_t number);     // Non-paged: write memory to canvas 
             #else
                 /* --- Error: SD Write disabled by config in optimization.h --- */                  bool savingCanvas(const char* filename) = delete;
-                /* --- Error: SD Write disabled by config in optimization.h --- */                  bool savingCanvas(uint16_t number) = delete;
+                /* --- Error: SD Write disabled by config in optimization.h --- */                  bool savingCanvas(const char* prefix, uint32_t number); = delete;
             #endif
             
 
             // Non-paged: write canvas to SD card
             #if PRESERVE_IMAGE
                 void saveCanvas(const char* filename);
-                void saveCanvas(uint16_t number);
+                void saveCanvas(const char* prefix, uint32_t number);
             #else
                 /* --- Error: Not enough RAM, use SAVE_CANVAS() instead --- */         void saveCanvas(const char* filename) = delete;
-                /* --- Error: Not enough RAM, use SAVE_CANVAS() instead --- */         void saveCanvas(uint16_t number) = delete;
+                /* --- Error: Not enough RAM, use SAVE_CANVAS() instead --- */         void saveCanvas(const char* prefix, uint32_t number) = delete;
             #endif
 
         #endif  // ! DISABLE_SDCARD
@@ -204,8 +203,9 @@ class BaseDisplay: public GFX {
         #ifndef DISABLE_SDCARD  // optimization.h, WirelessPaper.h
             void send24BitBMP(Color target);                                    // Feed .bmp into sendData()
             Color parseColor(uint8_t B, uint8_t G, uint8_t R);                  // Get a Color enum. from a 24bit bgr pixel
-            void initCanvas(const char* filename);                               // Write a template .bmp to sd card
+            void initCanvas(const char* filename);                              // Write a template .bmp to sd card
             void writePageToCanvas();                                           // Write one page to the canvas file
+            char* getIterableFilename(const char* prefix, uint32_t number);
         #endif
 
 
