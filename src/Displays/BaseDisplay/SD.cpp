@@ -76,7 +76,7 @@ void BaseDisplay::initCanvas(const char* filename) {
 
     // 4 bytes - image width
     for (uint8_t b = 0; b < 32; b+=8) {
-        wr( (panel_width >> b) & 0xFF );
+        wr( (drawing_width >> b) & 0xFF );
     }
 
     // 4 bytes - image height
@@ -106,8 +106,8 @@ void BaseDisplay::initCanvas(const char* filename) {
     // Image data
 
     // Calculate row width (with padding)
-    uint16_t padding = (4 - ((panel_width*3) % 4)) % 4;           // How many bytes of padding, to round up to 4. BMP format is padded to 4 bytes
-    uint32_t row_width = ((panel_width*3) + padding); // This is too large for uint16_t. Notice the typecast.
+    uint16_t padding = (4 - ((drawing_width*3) % 4)) % 4;           // How many bytes of padding, to round up to 4. BMP format is padded to 4 bytes
+    uint32_t row_width = ((drawing_width*3) + padding); // This is too large for uint16_t. Notice the typecast.
 
     // Get default color in RGB
     uint8_t B, G, R; 
@@ -129,14 +129,14 @@ void BaseDisplay::initCanvas(const char* filename) {
 
     // Fill with default color
     for (uint16_t y = 0; y < panel_height; y++) {
-        for (uint16_t x = 0; x < panel_width * 3; x += 3) {
+        for (uint16_t x = 0; x < drawing_width * 3; x += 3) {
             wr(B);
             wr(G);
             wr(R);
         }
 
         // Add padding at end of row (not a multiple of 3)
-        for (uint16_t x = panel_width * 3; x < row_width; x++)
+        for (uint16_t x = drawing_width * 3; x < row_width; x++)
             wr(0);
     }
 
@@ -506,7 +506,7 @@ void BaseDisplay::send24BitBMP(Color target) {
     uint16_t height = sd->BMPHeight();
     uint16_t image_start = sd->BMPStart();
 
-    // Columns
+    // Rows
     for(int16_t y = (int16_t) height - 1; y >= 0; y--) {    // Cast to suppress warning, signed so y can be < 0
 
         // Calculate the byte offset of the new row
@@ -516,7 +516,7 @@ void BaseDisplay::send24BitBMP(Color target) {
         // Move to row location in the .bmp file
         sd->seek(row_start);
 
-        // Rows
+        // Columns
         for(uint16_t x = 0; x < width; x+=8) {
 
             // Clear byte
@@ -542,6 +542,12 @@ void BaseDisplay::send24BitBMP(Color target) {
                 else if (target == RED) {
                     if (pixel == RED)
                         display_data |= (1<<b);
+                }
+
+                // Special case: take pity on 2.13" displays - accept 122px wide images
+                if (drawing_width == 122 && width == 122 && x + (7 - b) == drawing_width - 1) {
+                    x = width;  // Don't try load x 122 to 127, it doesn't exist
+                    break;  // Accept the rest of the byte as blank
                 }
             }
             // Transfer 8 pixels to the screen
@@ -579,10 +585,9 @@ void BaseDisplay::writePageToCanvas() {
     uint16_t bottom = (panel_height -1) - page_bottom;
 
     // Pre-calculate some dimension info
-    uint16_t row_width = (panel_width*3);           // Width of the row, 24bit pixels
-    uint32_t image_start = sd->BMPStart();          // Initial offset of image data in file
-
-    // No padding, because we're writing out display memory, which has a width divisible by 8. 
+    uint16_t padding = (drawing_width*3) % 4;           // We *might* need row padding, if we crop to 122px for 2.13" displays. BMP format is padded to 4bytes
+    uint16_t row_width = (drawing_width*3) + padding;   // Width of the row, 24bit pixels
+    uint32_t image_start = sd->BMPStart();              // Initial offset of image data in file
 
     // Counters for the page data: pagefile, pagefile bits
     uint16_t pbyte = 0, pbit = 7;   
@@ -627,7 +632,14 @@ void BaseDisplay::writePageToCanvas() {
             sd->write(B);
             sd->write(G);
             sd->write(R);
-  
+
+            // Special case: take pity on 2.13" displays - crop bmp at 122px wide
+            // Is set by using drawing_width in row_start, and in initCanvas()
+            if (drawing_width == 122 && x == drawing_width - 1) {
+                // Pretend that we have finished reading the last byte
+                x = right;
+                pbit = 0;
+            }
 
             // Move pagefile counters
             if (pbit > 0)
@@ -637,7 +649,11 @@ void BaseDisplay::writePageToCanvas() {
                 pbit = 7;
                 pbyte++;
             }
-        }
+        } // End of row
+
+        // Add padding, if needed (only for 2.13")
+        for(uint8_t i = 0; i < padding; i++)
+            sd->write(0);
     }
 
     // Finished with the SD card.
@@ -716,7 +732,7 @@ bool BaseDisplay::SDCanvasValid(const char* filename, bool purge) {
         uint32_t true_size = sd->fileSize();
         
         // Check width, height, and filesize from bitmap header
-        if ( width != panel_width || height != panel_height || reported_size != true_size || true_size == 0  )
+        if ( (width != drawing_width && width != panel_width) || height != panel_height || reported_size != true_size || true_size == 0  )
             isValid = false;
     }
 
