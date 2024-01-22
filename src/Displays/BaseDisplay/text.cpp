@@ -13,7 +13,8 @@
 // Set the text cursor according to the desired upper left corner
 void BaseDisplay::setCursorTopLeft(const char* text, uint16_t x, uint16_t y) {
     int16_t offset_x(0), offset_y(0);
-    getTextBounds(text, 0, 0, &offset_x, &offset_y, NULL, NULL);
+    uint16_t width(0), height(0);
+    getTextBounds(text, 0, 0, &offset_x, &offset_y, &width, &height);
     setCursor(x - offset_x, y - offset_y);
 }
 
