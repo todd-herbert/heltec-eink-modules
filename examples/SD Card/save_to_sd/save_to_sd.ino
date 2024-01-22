@@ -1,4 +1,4 @@
-#include "heltec-eink-modules.h"
+#include <heltec-eink-modules.h>
 
 // Find your wiring  -  https://github.com/todd-herbert/heltec-eink-modules#wiring
 // ----------------
@@ -14,18 +14,21 @@
 // Pick your panel  -  https://github.com/todd-herbert/heltec-eink-modules#supported-displays
 // ---------------
 
-    // DEPG0150BNS810 display( PIN_DC, PIN_CS, PIN_BUSY );      // 1.54" V2 - BW - Red Tab
-    // DEPG0154BNS800 display( PIN_DC, PIN_CS, PIN_BUSY);       // 1.54" V2 - BW - Red Tab
-    // GDEP015OC1 display( PIN_DC, PIN_CS, PIN_BUSY);           // 1.54" V2 - BW - Blue Tab
-    // DEPG0213RWS800 display( PIN_DC, PIN_CS, PIN_BUSY );      // 2.13" V2 - BWR - Red Tab
-    // QYEG0213RWS800 display( PIN_DC, PIN_CS, PIN_BUSY );      // 2.13" V2 - BWR - Red Tab
-    // DEPG0290BNS75A display( PIN_DC, PIN_CS, PIN_BUSY );      // 2.9"  V2 - BW - Red Tab
-    // DEPG0290BNS800 display( PIN_DC, PIN_CS, PIN_BUSY );      // 2.9"  V2 - BW - Red Tab
-    // GDE029A1 display( PIN_DC, PIN_CS, PIN_BUSY );            // 2.9"  V2 - BW - Blue Tab
+    // DEPG0150BNS810 display( PIN_DC, PIN_CS, PIN_BUSY );      // 1.54" - Mono 
+    // DEPG0154BNS800 display( PIN_DC, PIN_CS, PIN_BUSY);       // 1.54" - Mono 
+    // GDEP015OC1 display( PIN_DC, PIN_CS, PIN_BUSY);           // 1.54" - Mono 
+    // DEPG0213RWS800 display( PIN_DC, PIN_CS, PIN_BUSY );      // 2.13" - 3 Color Red
+    // QYEG0213RWS800 display( PIN_DC, PIN_CS, PIN_BUSY );      // 2.13" - 3 Color Red
+    // DEPG0290BNS75A display( PIN_DC, PIN_CS, PIN_BUSY );      // 2.9"  - Mono 
+    // DEPG0290BNS800 display( PIN_DC, PIN_CS, PIN_BUSY );      // 2.9"  - Mono 
+    // GDE029A1 display( PIN_DC, PIN_CS, PIN_BUSY );            // 2.9"  - Mono 
 
 
-// DEMO: Canvas  -  load and save screen image (canvas) using SD card
-// -------------------------------------------------------------------
+// DEMO: Save to SD  -  save and load fullscreen .bmp images using SD card
+// ------------------------------------------------------------------------
+// NOTE: SD write is disabled for Arduino UNO (huge saving in Flash Memory)
+// To re-enable it, edit optimization.h in the library's folder
+
 
 void setup() {
 
@@ -48,9 +51,10 @@ void setup() {
     // --- Found the card! ---
 
 
-    // Write a "canvas" image to SD card - just like drawing to screen
+    // Write a .bmp image to SD card - just like drawing to screen
+    // Save with prefix "DemoIMG", and identifier: 1
 
-    SAVE_CANVAS (display, "canvas001.bmp") {
+    SAVE_TO_SD (display, "Demo", 1) {
         // 50px from left, 100px from top, draw a black circle with 20px radius
         display.fillCircle(50, 100, 20, BLACK);
     }
@@ -68,7 +72,7 @@ void setup() {
 
 
     // Now, lets load the saved canvas - with the spot
-    display.loadCanvas("canvas001.bmp");
+    display.loadFullscreenBMP("Demo", 1);
 
     delay(4000);
 
@@ -85,7 +89,9 @@ void setup() {
 
     display.setWindow(left, top, width, height);
 
-    SAVE_CANVAS(display, "canvas001.bmp") {
+    // Notice that because we setWindow(), most of the old image is preserved
+
+    SAVE_TO_SD(display, "Demo", 1) {
         display.drawRect(w.left(), w.top(), w.width(), w.height(), BLACK);     // Black border around window
 
         display.setCursor(w.left() + 5, w.top() + 10);
@@ -94,21 +100,22 @@ void setup() {
     }
 
     // Clear the screen, we don't need it.
-    // Image data is saved in canvas001.bmp
+    // Image data is saved in Demo0001.bmp
 
     display.clear();
 
     delay(2000);
 
 
-    // Load the canvas, with the spot, and now the window
-    // Note: because we used the special filename "canvas***.bmp"
-    // We can refer to our canvas by number
+    // Load the saved image, with the spot, and now the window
+    // Note that we can also specify the filename manually
 
-    display.loadCanvas(1);
+    display.loadFullscreenBMP("Demo0001.bmp");
 
 
-    // Connect the SD card to your computer, and you will find the canvas001.bmp image
+    // Connect the SD card to your computer, and you will find the Demo0001.bmp image
 }
 
-void loop() {}
+void loop() {
+    
+}
