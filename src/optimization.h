@@ -7,14 +7,12 @@
 
         PlatformIO users: these macros can instead be set as build_flags in platformio.ini
 
-        TODO: document use of this file in API.md and README.md
-        TODO: mark this as a breaking change
 */
 
-// Enable SAVE_CANVAS() on Uno / Nano
+// Enable SAVE_TO_SD() on Uno / Nano
 // ------------------------------------------------------
 //  Leaving this disabled can save ~20% flash, if *no* SD methods are used.
-//  Disabled by default: SAVE_CANVAS() is a niche method
+//  Disabled by default: SAVE_TO_SD() is a niche method
 //  Enabling this option will interfere with HardwareSerial. See /docs/SD/MinimalSerial.md for a workaround
 
     // #define UNO_ENABLE_SDWRITE

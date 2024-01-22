@@ -91,18 +91,16 @@ class BaseDisplay: public GFX {
             void useSD(uint8_t pin_cs_card);                                                                                            // Store the config needed to use SD Card
             bool SDCardFound();                                                                                                         // Check if card is connected
             bool SDFileExists(const char* filename);                                                                                    // Check if file exists on SD card                                         
-            bool SDCanvasExists(const char* prefix, uint32_t number);                                                                   // Check if file exists, by prefix and iterable number
-            bool SDCanvasExists(const char* filename);                                                                                  // Synonym for SDFileExists()
-            bool SDCanvasValid(const char* prefix, uint32_t number, bool purge = false);                                                // Check for corruption in a canvas .bmp, by prefix and iterable number
-            bool SDCanvasValid(const char* filename, bool purge = false);                                                               // Check for corruption in a canvas .bmp
-            void drawMonoBitmapFile(int16_t left, int16_t top, const char* filename, Color color);                                      // Draw a mono bitmap from SD Card
-            void drawMonoBitmapFile(int16_t left, int16_t top, const char* filename, Color foreground_color, Color background_color);   // Draw a mono bitmap from SD Card, with background
-            void loadCanvas(const char* filename);                                                                                      // Draw canvas from SD card, direct to screen
-            void loadCanvas(const char* prefix, uint32_t number);                                                                       // Draw canvas (numbered) from SD, direct to screen 
-            void loadFullscreenBitmap(const char* filename) { loadCanvas(filename); }                                                   // Load and display a full-size bitmap. Wrapper for loadCanvas
+            bool SDFileExists(const char* prefix, uint32_t number);                                                                     // Check if file exists, by prefix and iterable number
+            bool fullscreenBMPValid(const char* prefix, uint32_t number, bool purge = false);                                           // Check for corruption in a fullscreen .bmp, by prefix and iterable number
+            bool fullscreenBMPValid(const char* filename, bool purge = false);                                                          // Check for corruption in a fullscreen .bmp
+            void drawMonoBMP(int16_t left, int16_t top, const char* filename, Color color);                                             // Draw a mono .bmp from SD Card
+            void drawMonoBMP(int16_t left, int16_t top, const char* filename, Color foreground_color, Color background_color);          // Draw a mono .bmp from SD Card, with background
+            void loadFullscreenBMP(const char* filename);                                                                               // Draw fullscreen .bmp from SD card, direct to screen
+            void loadFullscreenBMP(const char* prefix, uint32_t number);                                                                // Draw fullscreen .bmp (numbered) from SD, direct to screen 
             uint16_t getBMPWidth(const char* filename);                                                                                 // Read image width from .bmp header, sd card
             uint16_t getBMPHeight(const char* filename);                                                                                // Read image height from .bmp header, sd card        
-            #define SAVE_CANVAS(display, ...) while(display.savingCanvas(__VA_ARGS__))                                                  // Macro to call while.savingCanvas()
+            #define SAVE_TO_SD(display, ...) while(display.savingBMP(__VA_ARGS__))                                                      // Macro to call while savingBMP()
 
 
             // Configure the SD card reader
@@ -115,34 +113,34 @@ class BaseDisplay: public GFX {
 
             // Draw 24bit bitmap from SD
             #ifndef __AVR_ATmega328P__
-                void draw24bitBitmapFile(int16_t left, int16_t top, const char* filename);
-                void draw24bitBitmapFile(int16_t left, int16_t top, const char* filename, Color mask);
-                void draw24bitBitmapFile(int16_t left, int16_t top, const char* filename, uint8_t mask_r, uint8_t mask_g, uint8_t mask_b, bool apply_mask = true);
+                void draw24bitBMP(int16_t left, int16_t top, const char* filename);
+                void draw24bitBMP(int16_t left, int16_t top, const char* filename, Color mask);
+                void draw24bitBMP(int16_t left, int16_t top, const char* filename, uint8_t mask_r, uint8_t mask_g, uint8_t mask_b, bool apply_mask = true);
             #else
-                /* --- Error: Not enough RAM, use drawMonoBitmapFile() instead  --- */              void draw24bitBitmapFile(int16_t left, int16_t top, const char* filename) = delete;
-                /* --- Error: Not enough RAM, use drawMonoBitmapFile() instead  --- */              void draw24bitBitmapFile(int16_t left, int16_t top, const char* filename, Color transparency) = delete;            
-                /* --- Error: Not enough RAM, use drawMonoBitmapFile() instead  --- */              void draw24bitBitmapFile(int16_t left, int16_t top, const char* filename, uint8_t mask_r, uint8_t mask_g, uint8_t mask_b, bool apply_mask = true) = delete;            
+                /* --- Error: Not enough RAM, use drawMonoBMP() instead  --- */              void draw24bitBMP(int16_t left, int16_t top, const char* filename) = delete;
+                /* --- Error: Not enough RAM, use drawMonoBMP() instead  --- */              void draw24bitBMP(int16_t left, int16_t top, const char* filename, Color transparency) = delete;            
+                /* --- Error: Not enough RAM, use drawMonoBMP() instead  --- */              void draw24bitBMP(int16_t left, int16_t top, const char* filename, uint8_t mask_r, uint8_t mask_g, uint8_t mask_b, bool apply_mask = true) = delete;            
             
             #endif
 
 
             // SD write: Potentially disabled by optimization.h
             #if !defined(__AVR_ATmega328P__) || defined(UNO_ENABLE_SDWRITE)
-                bool savingCanvas(const char* filename);                    // Non-paged: write memory to canvas (iterable)
-                bool savingCanvas(const char* prefix, uint32_t number);     // Non-paged: write memory to canvas 
+                bool savingBMP(const char* filename);                    // Non-paged: write memory to fullscreen.bmp
+                bool savingBMP(const char* prefix, uint32_t number);     // Non-paged: write memory to fullscreen .bmp (iterable)
             #else
-                /* --- Error: SD Write disabled by config in optimization.h --- */                  bool savingCanvas(const char* filename) = delete;
-                /* --- Error: SD Write disabled by config in optimization.h --- */                  bool savingCanvas(const char* prefix, uint32_t number); = delete;
+                /* --- Error: SD Write disabled by config in optimization.h --- */                  bool savingBMP(const char* filename) = delete;
+                /* --- Error: SD Write disabled by config in optimization.h --- */                  bool savingBMP(const char* prefix, uint32_t number) = delete;
             #endif
             
 
-            // Non-paged: write canvas to SD card
+            // Non-paged: write image to SD card
             #if PRESERVE_IMAGE
-                void saveCanvas(const char* filename);
-                void saveCanvas(const char* prefix, uint32_t number);
+                void saveToSD(const char* filename);
+                void saveToSD(const char* prefix, uint32_t number);
             #else
-                /* --- Error: Not enough RAM, use SAVE_CANVAS() instead --- */         void saveCanvas(const char* filename) = delete;
-                /* --- Error: Not enough RAM, use SAVE_CANVAS() instead --- */         void saveCanvas(const char* prefix, uint32_t number) = delete;
+                /* --- Error: Not enough RAM, use SAVE_TO_SD() instead --- */         void saveToSD(const char* filename) = delete;
+                /* --- Error: Not enough RAM, use SAVE_TO_SD() instead --- */         void saveToSD(const char* prefix, uint32_t number) = delete;
             #endif
 
         #endif  // ! DISABLE_SDCARD
@@ -203,8 +201,8 @@ class BaseDisplay: public GFX {
         #ifndef DISABLE_SDCARD  // optimization.h, WirelessPaper.h
             void send24BitBMP(Color target);                                    // Feed .bmp into sendData()
             Color parseColor(uint8_t B, uint8_t G, uint8_t R);                  // Get a Color enum. from a 24bit bgr pixel
-            void initCanvas(const char* filename);                              // Write a template .bmp to sd card
-            void writePageToCanvas();                                           // Write one page to the canvas file
+            void initBMP(const char* filename);                                 // Write a template .bmp to sd card
+            void writePageToBMP();                                              // Write one page to the fullscreen BMP file
             char* getIterableFilename(const char* prefix, uint32_t number);
         #endif
 
@@ -247,8 +245,8 @@ class BaseDisplay: public GFX {
         SDWrapper* sd;                                              // Dynamically allocated SD instance
         uint8_t pin_miso = MISO;                                    // Set in useSD(). Relevant to SAMD21 pin muxing
         uint8_t pin_cs_card = -1;                                   // Set in useSD()
-        bool saving_canvas = false;                                 // Are drawing operations currently diverted into a bmp file?
-        const char* canvas_filename;                                // Pass filename to writePageToCanvas()
+        bool saving_to_sd = false;                                  // Are drawing operations currently diverted into a bmp file?
+        const char* sd_filename;                                    // Pass filename to writePageToBMP()
 
 
         // External power switch

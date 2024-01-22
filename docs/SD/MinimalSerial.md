@@ -1,6 +1,6 @@
 # Heltec E-ink Modules - Minimal Serial
 
-There is a known issue, where HardwareSerial (`Serial.print()` etc) cannot be used after  `SAVE_CANVAS()` is enabled for Arduino UNO (in optimization.h).
+There is a known issue, where HardwareSerial (`Serial.print()` etc) cannot be used after  `SAVE_TO_SD()` is enabled for Arduino UNO (in optimization.h).
 
 As a workaround, the `MinimalSerial` class is available (part of the bundled SdFat library)
 

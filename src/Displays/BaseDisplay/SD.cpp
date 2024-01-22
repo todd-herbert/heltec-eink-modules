@@ -44,7 +44,7 @@ void BaseDisplay::useSD(uint8_t pin_cs_card) {
 #endif
 
 // Create a blank 24bit bitmap on SD card
-void BaseDisplay::initCanvas(const char* filename) {
+void BaseDisplay::initBMP(const char* filename) {
 
     // Open for writing
     sd = new SDWrapper();
@@ -157,13 +157,13 @@ void BaseDisplay::initCanvas(const char* filename) {
 }
 
 // Draw a Monochrome .bmp file from SD card
-void BaseDisplay::drawMonoBitmapFile(int16_t left, int16_t top, const char* filename, Color color) {
+void BaseDisplay::drawMonoBMP(int16_t left, int16_t top, const char* filename, Color color) {
     // Pass through with bgcolor of "-1"
-    drawMonoBitmapFile(left, top, filename, color, (Color) -1); 
+    drawMonoBMP(left, top, filename, color, (Color) -1); 
 }
 
 // Draw a Monochrome .bmp file from SD card
-void BaseDisplay::drawMonoBitmapFile(int16_t left, int16_t top, const char* filename, Color foreground_color, Color background_color) {
+void BaseDisplay::drawMonoBMP(int16_t left, int16_t top, const char* filename, Color foreground_color, Color background_color) {
 
     // The SD class instance takes a lot of RAM; create as needed (some platforms only)
     sd = new SDWrapper();
@@ -235,13 +235,13 @@ void BaseDisplay::drawMonoBitmapFile(int16_t left, int16_t top, const char* file
 #ifndef __AVR_ATmega328P__
 
     // Draw a 24bit .bmp file from SD card, using a display color as transparency mask
-    void BaseDisplay::draw24bitBitmapFile(int16_t left, int16_t top, const char* filename) {
+    void BaseDisplay::draw24bitBMP(int16_t left, int16_t top, const char* filename) {
         // Pass dummy values for mask, set apply_mask as false
-        draw24bitBitmapFile(left, top, filename, 0, 0, 0, false);
+        draw24bitBMP(left, top, filename, 0, 0, 0, false);
     }
 
     // Draw a 24bit .bmp file from SD card, using a display color as transparency mask
-    void BaseDisplay::draw24bitBitmapFile(int16_t left, int16_t top, const char* filename, Color mask) {
+    void BaseDisplay::draw24bitBMP(int16_t left, int16_t top, const char* filename, Color mask) {
 
         // Handle as an RGB mask
         uint8_t r = 0;
@@ -264,11 +264,11 @@ void BaseDisplay::drawMonoBitmapFile(int16_t left, int16_t top, const char* file
                 break;
         }
 
-        draw24bitBitmapFile(left, top, filename, r, g, b);
+        draw24bitBMP(left, top, filename, r, g, b);
     }
 
     // Draw a 24bit .bmp file from SD card, with a custom transparency mask color
-    void BaseDisplay::draw24bitBitmapFile(int16_t left, int16_t top, const char* filename, uint8_t mask_r, uint8_t mask_g, uint8_t mask_b, bool apply_mask) {
+    void BaseDisplay::draw24bitBMP(int16_t left, int16_t top, const char* filename, uint8_t mask_r, uint8_t mask_g, uint8_t mask_b, bool apply_mask) {
 
         // The SD class instance takes a lot of RAM; create as needed
         sd = new SDWrapper();
@@ -363,16 +363,16 @@ char* BaseDisplay::getIterableFilename(const char* prefix, uint32_t number) {
 }
 
 // Load a "canvas" image file from SD, direct to screen, using canvasXXX.bmp for filename
-void BaseDisplay::loadCanvas(const char* prefix, uint32_t number) {
+void BaseDisplay::loadFullscreenBMP(const char* prefix, uint32_t number) {
 
     // Pass through
-    loadCanvas( getIterableFilename(prefix, number) );
+    loadFullscreenBMP( getIterableFilename(prefix, number) );
     return;
 
 }
 
 // Load a "canvas" image file from SD, direct to screen
-void BaseDisplay::loadCanvas(const char* filename) {
+void BaseDisplay::loadFullscreenBMP(const char* filename) {
     begin();
 
     // Method writes direct to display. Have to make sure hardware init is done
@@ -439,34 +439,34 @@ void BaseDisplay::loadCanvas(const char* filename) {
     setWindow(oldwin_left, oldwin_top, oldwin_width, oldwin_height);
 }
 
-// Backend for the SAVE_CANVAS loop, using canvasXXX.bmp for filename
+// Backend for the SAVE_TO_SD loop, using canvasXXX.bmp for filename
 
 // Potentially disabled by optimization.h
 #if !defined(__AVR_ATmega328P__) || defined(UNO_ENABLE_SDWRITE)
-    bool BaseDisplay::savingCanvas(const char* prefix, uint32_t number) {
+    bool BaseDisplay::savingBMP(const char* prefix, uint32_t number) {
 
         // Pass through
-        return savingCanvas( getIterableFilename(prefix, number) );
+        return savingBMP( getIterableFilename(prefix, number) );
 
     }
 
-    // Backend for the SAVE_CANVAS loop
-    bool BaseDisplay::savingCanvas(const char* filename) {
+    // Backend for the SAVE_TO_SD loop
+    bool BaseDisplay::savingBMP(const char* filename) {
 
-        // Start of SAVE_CANVAS loop
-        if (!saving_canvas) {    
+        // Start of SAVE_TO_SD loop
+        if (!saving_to_sd) {    
 
-            // Store the filename, for writePageToCanvas()        
-            canvas_filename = filename;       
+            // Store the filename, for writePageToBMP()        
+            sd_filename = filename;       
 
             // First loop only - repair canvas if corrupt
-            if (!SDCanvasValid(filename, true))
-                initCanvas(filename);
+            if (!fullscreenBMPValid(filename, true))
+                initBMP(filename);
             
-            // Signals that next savingCanvas setup is done. Also signals writePageToCanvas() to intercept the outgoing gfx data
-            saving_canvas = true;
+            // Signals that next savingBMP setup is done. Also signals writePageToBMP() to intercept the outgoing gfx data
+            saving_to_sd = true;
 
-            // Now, offload onto calculating() (main "paging" loop). SD class is (usually) instantiated in writePageToCanvas()
+            // Now, offload onto calculating() (main "paging" loop). SD class is (usually) instantiated in writePageToBMP()
             return calculating();
         }
 
@@ -478,7 +478,7 @@ void BaseDisplay::loadCanvas(const char* filename) {
                 return true;
 
             // Otherwise, stop intercepting writePage()
-            saving_canvas = false;
+            saving_to_sd = false;
 
             // No need for another loop
             return false;
@@ -489,32 +489,32 @@ void BaseDisplay::loadCanvas(const char* filename) {
 
 #if PRESERVE_IMAGE
     // Non-paged: write the result of drawing operations to SD card (once), using canvasXXX.bmp for filename
-    void BaseDisplay::saveCanvas(const char* prefix, uint32_t number) {
+    void BaseDisplay::saveToSD(const char* prefix, uint32_t number) {
 
         // Pass through
-        saveCanvas( getIterableFilename(prefix, number) );
+        saveToSD( getIterableFilename(prefix, number) );
     }
 
     // Non-paged: write the result of drawing operations to SD card (once)
-    void BaseDisplay::saveCanvas(const char* filename) {
+    void BaseDisplay::saveToSD(const char* filename) {
 
-        // Store the filename, accessed by writePageToCanvas();    
-        canvas_filename = filename;
+        // Store the filename, accessed by writePageToBMP();    
+        sd_filename = filename;
 
         // repair canvas if corrupt
-        if (!SDCanvasValid(filename, true))
-            initCanvas(filename);
+        if (!fullscreenBMPValid(filename, true))
+            initBMP(filename);
 
-        // No need to set saving_canvas, we're not exploiting calculating() this time
+        // No need to set saving_to_sd, we're not exploiting calculating() this time
 
         // Non-paged: page_top and page_bottom should already be set for a "full screen page".
         // Call our writePage() intercept method
 
-        writePageToCanvas();
+        writePageToBMP();
     }
 #endif
 
-// Feed bitmap data directly into display - helper method behind loadCanvas()
+// Feed bitmap data directly into display - helper method behind loadFullscreenBMP()
 void BaseDisplay::send24BitBMP(Color target) {
 
     // Grab metadata
@@ -583,7 +583,7 @@ Color BaseDisplay::parseColor(uint8_t B, uint8_t G, uint8_t R) {
         return WHITE;
 }
 
-void BaseDisplay::writePageToCanvas() {
+void BaseDisplay::writePageToBMP() {
 
     // Instantiate SD, but only inside method. (drawing operations might need to use the card too)
     sd = new SDWrapper();                   // Needs to be deleted at end of method
@@ -591,8 +591,8 @@ void BaseDisplay::writePageToCanvas() {
     // Open card
     sd->begin(pin_cs_card);
 
-    // Open image. Filename stored in savingCanvas()
-    sd->openFile(this->canvas_filename, true);
+    // Open image. Filename stored in savingBMP()
+    sd->openFile(this->sd_filename, true);
 
     // Get the bounds of the page we are about to write
     uint16_t left = winrot_left;
@@ -650,7 +650,7 @@ void BaseDisplay::writePageToCanvas() {
             sd->write(R);
 
             // Special case: take pity on 2.13" displays - crop bmp at 122px wide
-            // Is set by using drawing_width in row_start, and in initCanvas()
+            // Is set by using drawing_width in row_start, and in initBMP()
             if (drawing_width == 122 && x == drawing_width - 1) {
                 // Pretend that we have finished reading the last byte
                 x = right;
@@ -700,20 +700,13 @@ bool BaseDisplay::SDFileExists(const char* filename) {
 }
 
 // Check if canvas image exists, by "canvas number"
-bool BaseDisplay::SDCanvasExists(const char* prefix, uint32_t number) {
+bool BaseDisplay::SDFileExists(const char* prefix, uint32_t number) {
 
     return SDFileExists( getIterableFilename(prefix, number) );
 }
 
-// Check if canvas image exists on SD card
-bool BaseDisplay::SDCanvasExists(const char* filename) {
-    // Just a synonym
-    return SDFileExists(filename);
-}
-
-
 // Check if canvas .bmp is valid, or corrupt
-bool BaseDisplay::SDCanvasValid(const char* filename, bool purge) {
+bool BaseDisplay::fullscreenBMPValid(const char* filename, bool purge) {
 
     bool exists = true;
     bool isValid = true;
@@ -752,8 +745,8 @@ bool BaseDisplay::SDCanvasValid(const char* filename, bool purge) {
 }
 
 // Check if canvas .bmp is valid, or corrupt, by "canvas number"
-bool BaseDisplay::SDCanvasValid(const char* prefix, uint32_t number, bool purge) {
-    return SDCanvasValid( getIterableFilename(prefix, number) , purge);
+bool BaseDisplay::fullscreenBMPValid(const char* prefix, uint32_t number, bool purge) {
+    return fullscreenBMPValid( getIterableFilename(prefix, number) , purge);
 }
 
 // Read image width from .bmp header, sd card

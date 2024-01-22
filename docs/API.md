@@ -809,7 +809,7 @@ void setup() {
 * [update()](#update)
   
 ___
-### `draw24bitBitmapFile()`
+### `draw24bitBMP()`
 
 **ATmega328P (Uno / Nano): not supported**<br />
 **ATmega2560: disabled for some displays** 
@@ -820,9 +820,9 @@ Alpha-mask color can be set, either by [Color](#color) enum, or RGB values.
 #### Syntax
 
 ``` cpp
-display.draw24bitBitmapFile(left, top, filename)
-display.draw24bitBitmapFile(left, top, filename, mask)
-display.draw24bitBitmapFile(left, top, filename, mask_r, mask_g, mask_b)
+display.draw24bitBMP(left, top, filename)
+display.draw24bitBMP(left, top, filename, mask)
+display.draw24bitBMP(left, top, filename, mask_r, mask_g, mask_b)
 
 ```
 
@@ -974,7 +974,7 @@ display.drawLine(x0, y0, x1, y1, color)
 * [colors](#colors)
 
 ___
-### `drawMonoBitmapFile()`
+### `drawMonoBMP()`
 
 Draw a 1-bit .bmp image, from SD card, at the specified (x,y) position, using the specified foreground color. 
 Unset bits are transparent by default, unless argument `bg` is passed.
@@ -982,8 +982,8 @@ Unset bits are transparent by default, unless argument `bg` is passed.
 #### Syntax
 
 ``` cpp
-display.drawMonoBitmapFile(left, top, filename, color)
-display.drawMonoBitmapFile(left, top, filename, color, bg)
+display.drawMonoBMP(left, top, filename, color)
+display.drawMonoBMP(left, top, filename, color, bg)
 ```
 
 #### Parameters
@@ -1479,7 +1479,7 @@ display.fillTriangle(x0, y0, x1, y1, x2, y2, color)
 ___
 ### `fullscreen()`
 
-Draw to the entire screen, rather than just a particular part. Undoes the `setWindow()` method. Call before the `DRAw` loop.
+Draw to the entire screen, rather than just a particular part. Undoes the `setWindow()` method. Call before the `DRAW` loop.
 
 Fullscreen is the default state at start of sketch.
 
@@ -1496,6 +1496,36 @@ None.
 #### See also
 
 * [setWindow()](#setwindow)
+
+___
+### `fullscreenBMPValid()`
+
+Check if file is a valid fullscreen .bmp image for this display.
+
+#### Syntax
+
+```cpp
+display.fullscreenBMPValid(filename)
+display.fullscreenBMPValid(prefix, number)
+display.fullscreenBMPValid(filename, purge)
+display.fullscreenBMPValid(prefix, number, purge)
+```
+
+#### Parameters
+
+* _filename_: canvas file to check
+* _prefix_: identifies different sets of imagess
+* _number_: image's location in the set
+* _purge_ (optional): when purge = true, canvas will be deleted from SD card, if detected as invalid. 
+
+#### Returns
+
+`true` if canvas is valid for this display.
+`false` if invalid, wrong display, or doesn't exist.
+
+#### See also
+
+* [SD card](/docs/SD/sd.md)
 
 ___
 ### `getBMPHeight()`
@@ -1798,44 +1828,31 @@ Alias for `setRotation(3)`. Enters a landscape orientation.
 * [setRotation()](#setrotation)
 
 ___
-### `loadCanvas()`
+### `loadFullscreenBMP()`
 
-Load a previously saved canvas (fullscreen bitmap), from SD card to display, in one pass. Can be loaded by filename, or using a prefix and numeric identifier, if convenient.
+Load a fullscreen .bmp, from SD card to display, in one pass. Can be loaded by filename, or using a prefix and numeric identifier, if convenient.
+
+Accepts only a specific type of .bmp image.
+* 24bit .bmp file
+* Portrait, not landscape
+* Dimensions: full screen width x height
 
 #### Syntax
 
 ```cpp
-display.loadCanvas(filename)
-display.loadCanvas(prefix, number)
-```
-
-#### Parameters
-
-* _filename_: canvas file to load
-* _prefix_: identifies different sets of imagess
-* _number_: image's location in the set
-
-#### See also
-
-* [SAVE_CANVAS()](#SAVE_CANVAS)
-* [SD card](/docs/SD/sd.md)
-
-___
-### `loadFullscreenBitmap()`
-Load a fullscreen 24bit .BMP file, from SD card, to display, in one pass. Image must be portrait, rather than landscape. Alias for `loadCanvas(filename)`.
-#### Syntax
-
-```cpp
-display.loadFullscreenBitmap(filename);
+display.loadFullscreenBMP(filename)
+display.loadFullscreenBMP(prefix, number)
 ```
 
 #### Parameters
 
 * _filename_: fullscreen .bmp file to load
+* _prefix_: identifies different sets of imagess
+* _number_: image's location in the set
 
 #### See also
 
-* [loadCanvas()](#loadcanvas)
+* [SAVE_TO_SD()](#SAVE_TO_SD)
 * [SD card](/docs/SD/sd.md)
 
 ___
@@ -1849,11 +1866,11 @@ Alias for `setRotation(0)`. Enters a portrait orientation.
 * [setRotation()](#setrotation)
 
 ___
-### `SAVE_CANVAS()`
+### `SAVE_TO_SD()`
 
 Performs drawing commands, outputting to SD card, instead of display. If necessary, paging is used. 
 
-Canvas' filename can be specified, or instead a prefix and numeric identifier can be given, which will be used to generate a unique filename. The prefix has a maximum length of 6 characters.
+Output filename can be specified, or instead a prefix and numeric identifier can be given, which will be used to generate a unique filename. The prefix has a maximum length of 6 characters.
 
 #### *On Arduino Uno:* 
 * this feature is disabled by default, to minimize sketch size. See [optimization.h](/src/optimization.h)
@@ -1862,15 +1879,15 @@ Canvas' filename can be specified, or instead a prefix and numeric identifier ca
 #### Syntax
 
 ```cpp
-SAVE_CANVAS (display, filename)
-SAVE_CANVAS (display, prefix, number)
+SAVE_TO_SD (display, filename)
+SAVE_TO_SD (display, prefix, number)
 ```
 
 #### Parameters
 
-* _display_: generate a canvas image suitable for this display
+* _display_: display for which the saved image is suitable
 * _filename_: save canvas on SD card with this filename
-* _prefix_: identifies different sets of imagess
+* _prefix_: identifies different sets of images
 * _number_: image's location in the set
 
 #### Example
@@ -1885,13 +1902,13 @@ void setup() {
     display.useSD(7);
 
     // Save by filename
-    SAVE_CANVAS (display, "canvas01.bmp") {
+    SAVE_TO_SD (display, "canvas01.bmp") {
         //Graphics commands go here, for example:
         display.fillCircle(50, 100, 20, BLACK);
     }
 
     // Or: save by prefix + number
-    SAVE_CANVAS (display, "canvas", 1) {
+    SAVE_TO_SD (display, "canvas", 1) {
         //Graphics commands go here, for example:
         display.fillCircle(50, 100, 20, BLACK);
     }
@@ -1904,20 +1921,20 @@ void setup() {
 * [update()](#update)
 
 ___
-### `saveCanvas()`
+### `saveToSD()`
 
 **ATmega328P (Uno / Nano): not supported**<br />
 **ATmega2560: disabled for some displays** 
 
-Draw a canvas image to SD card, outside of a `SAVE_CANVAS` loop, on-top of any existing screen data. 
+Draw a canvas image to SD card, outside of a `SAVE_TO_SD` loop, on-top of any existing screen data. 
 
-Canvas' filename can be specified, or instead a prefix and numeric identifier can be given, which will be used to generate a unique filename. The prefix has a maximum length of 6 characters.
+Output filename can be specified, or instead a prefix and numeric identifier can be given, which will be used to generate a unique filename. The prefix has a maximum length of 6 characters.
 
 #### Syntax
 
 ```cpp
-display.saveCanvas(filename)
-display.saveCanvas(prefix, number)
+display.saveToSD(filename)
+display.saveToSD(prefix, number)
 ```
 
 #### Parameters
@@ -1939,10 +1956,10 @@ void setup() {
     display.print("Example");
 
     // Save by filename
-    display.saveCanvas("canvas01.bmp");   // Result of first two commands saved to SD
+    display.saveToSD("canvas01.bmp");   // Result of first two commands saved to SD
 
     // Or: save by prefix + identifier
-    display.saveCanvas("canvas", 1);
+    display.saveToSD("canvas", 1);
 }
 ```
 
@@ -1977,42 +1994,18 @@ None.
 ___
 ### `SDFileExists()`
 
-Check if a file exists on SD card.
+Check if an image exists on SD card.
 
 #### Syntax
 
 ```cpp
-display.SDFileExists(filename)
+display.SDFileExits(filename)
+display.SDFileExits(prefix, number)
 ```
 
 #### Parameters
 
-* _filename_: file to check
-
-#### Returns
-
-`true` if exists.
-`false` if not found.
-
-#### See also
-
-* [SD card](/docs/SD/sd.md)
-
-___
-### `SDCanvasExists()`
-
-Check if a "canvas" image exists on SD card.
-
-#### Syntax
-
-```cpp
-display.SDCanvasExists(filename)
-display.SDCanvasExists(prefix, number)
-```
-
-#### Parameters
-
-* _filename_: canvas file
+* _filename_: image file
 * _prefix_: identifies different sets of imagess
 * _number_: image's location in the set
 
@@ -2020,35 +2013,6 @@ display.SDCanvasExists(prefix, number)
 
 `true` if exists.
 `false` if not found.
-
-#### See also
-
-* [SD card](/docs/SD/sd.md)
-
-___
-### `SDCanvasValid()`
-
-Check if file is a valid canvas image.
-
-#### Syntax
-
-```cpp
-display.SDCanvasValid(filename)
-display.SDCanvasValid(number)
-display.SDCanvasValid(filename, purge)
-display.SDCanvasValid(number, purge)
-```
-
-#### Parameters
-
-* _filename_: canvas file to check
-* _number_: canvas file to check, by int (< 1000), where `1` refers to `"canvas001.bmp"`, etc.
-* _purge_ (optional): when purge = true, canvas will be deleted from SD card, if detected as invalid. 
-
-#### Returns
-
-`true` if canvas is valid for this display.
-`false` if invalid, wrong display, or doesn't exist.
 
 #### See also
 

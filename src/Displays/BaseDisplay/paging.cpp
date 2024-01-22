@@ -71,7 +71,7 @@ bool BaseDisplay::calculating() {
         // Fastmode OFF or TURBO, (single pass)
         // ----------------------------------
         if (fastmode_state == OFF || fastmode_state == TURBO) {
-            if(!saving_canvas)
+            if(!saving_to_sd)
                 activate(); 
                 
             return false;
@@ -84,7 +84,7 @@ bool BaseDisplay::calculating() {
             // --------------
 
             if (PRESERVE_IMAGE && pagefile_height == panel_height) {
-                if (!saving_canvas) {
+                if (!saving_to_sd) {
                     activate();
                     fastmode_secondpass = true;
 
@@ -101,7 +101,7 @@ bool BaseDisplay::calculating() {
 
             // First pass
             if (fastmode_secondpass == false) {
-                if (!saving_canvas)
+                if (!saving_to_sd)
                     activate(); 
          
                 fastmode_secondpass = true;
@@ -110,7 +110,7 @@ bool BaseDisplay::calculating() {
 
             // Second Pass
             else {
-                if (!saving_canvas)
+                if (!saving_to_sd)
                     endImageTxQuiet();          // Display accepts the "old image data" without updating
 
                 fastmode_secondpass = false;    // Reset state for next time

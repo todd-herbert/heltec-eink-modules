@@ -11,11 +11,10 @@ With level-shifter  |   Without level-shifter
 For more information, see: [wiring](/docs/README.md#wiring).
 
 - [Limitations](#limitations)
-- [loadFullscreenBitmap()](#loadfullscreenbitmap)
-- [Canvas (Saving GFX workspace)](#canvas-saving-gfx-workspace)
-- [Saving a canvas](#saving-a-canvas)
-- [Loading a saved canvas](#loading-a-saved-canvas)
-- [Using .bmp for drawing](#using-bmp-for-drawing)
+- [loadFullscreenBMP()](#loadfullscreenbmp)
+- [Save drawing to SD](#save-drawing-to-sd)
+  - [Loading a saved image](#loading-a-saved-image)
+- [Composing with .bmp](#composing-with-bmp)
 - [Getting Info](#getting-info)
 
 
@@ -25,12 +24,12 @@ For more information, see: [wiring](/docs/README.md#wiring).
 * Bigger sketches 
 * Higher RAM usage
 * Not all methods available for Uno
-    * `draw24BitBitmapFile()` consumes too much RAM
-    * `SAVE_CANVAS()` must be enabled in [optimization.h](/src/optimization.h)
-    * Uno HardwareSerial does not play nice with `SAVE_CANVAS()`. [Workaround here](/docs/sd/MinimalSerial.md)
+    * `draw24BitBMPFile()` consumes too much RAM
+    * `SAVE_TO_SD()` must be enabled in [optimization.h](/src/optimization.h)
+    * Uno HardwareSerial does not play nice with `SAVE_TO_SD()`. [Workaround here](/docs/sd/MinimalSerial.md)
 * Card format must be FAT or FAT32
 
-## loadFullscreenBitmap()
+## loadFullscreenBMP()
 
 This is an efficient method for loading a .bmp file directy to the display.
 
@@ -54,12 +53,11 @@ void setup() {
     // Once, set CS pin
     display.useSD(7);
 
-    display.loadFullscreeBitmap("image.bmp");
+    display.loadFullscreeBMP("image.bmp");
 }
 ```
-## Canvas (Saving GFX workspace)
+## Save drawing to SD
 
-## Saving a canvas
 Instead of drawing to display, the output can be directed into a canvas.
 
 *Arduino Uno:* this feature is disabled by default, to minimize sketch size. See [optimization.h](/src/optimization.h)
@@ -74,13 +72,13 @@ void setup() {
     display.useSD(7);
 
     // Save by filename
-    SAVE_CANVAS (display, "canvas01.bmp") {
+    SAVE_TO_SD (display, "canvas01.bmp") {
         //Graphics commands go here, for example:
         display.fillCircle(50, 100, 20, BLACK);
     }
 
     // Or: save by prefix + number
-    SAVE_CANVAS (display, "canvas", 1) {
+    SAVE_TO_SD (display, "canvas", 1) {
         //Graphics commands go here, for example:
         display.fillCircle(50, 100, 20, BLACK);
     }
@@ -88,7 +86,7 @@ void setup() {
 }
 ```
 
-If your microcontroller is powerful enough, you can [skip the `SAVE_CANVAS`](/docs/API.md#savecanvas) loop (similar to `update()`)
+If your microcontroller is powerful enough, you can [skip the `SAVE_TO_SD`](/docs/API.md#save_to_sd) loop (similar to `update()`)
 
 ```cpp
 DEPG0290BNS75A display(2, 4, 5);
@@ -100,7 +98,7 @@ void setup() {
     display.setCursor(20, 20);
     display.print("Hello, World!");
 
-    display.saveCanvas("test_canvas.bmp");
+    display.saveToSD("test_canvas.bmp");
     
     // If you wish, you can also display the result without re-rendering
     // display.update();
@@ -109,9 +107,9 @@ void setup() {
 
 `SAVE_CANVAS()` and `saveCanvas()` also accept integers, the same as `loadCanvas()` (above)
 
-## Loading a saved canvas
+### Loading a saved image
 
-(This is the same as with [loadFullscreenBitmap()](#loadfullscreenbitmap))
+You can either load a saved image by filename, or with the same prefix and numeric identifier you gave while saving.
 
 ```cpp
 DEPG0290BNS75A display(2, 4, 5);
@@ -121,14 +119,14 @@ void setup() {
     display.useSD(7);
 
     // Load by filename
-    display.loadCanvas("chart005.bmp");
+    display.loadFullscreenBMP("chart005.bmp");
     
     // Or alternatively, by prefix + number
-    display.loadCanvas("chart", 5);
+    display.loadFullscreenBMP("chart", 5);
 }
 ```
 
-## Using .bmp for drawing
+## Composing with .bmp
 
 Rather than immediately displaying a single .bmp file, you may want use the image as part of a complex drawing.
 
@@ -144,7 +142,7 @@ void setup() {
     display.useSD(7);
 
     DRAW (display) {
-        display.drawMonoBitmapFile(0, 0, "mono.bmp", BLACK);
+        display.drawMonoBMP(0, 0, "mono.bmp", BLACK);
     }    
 }
 ```
@@ -160,7 +158,7 @@ void setup() {
     display.useSD(7);
 
     DRAW (display) {
-        display.draw24bitBitmapFile(0, 0, "24bit.bmp");
+        display.draw24bitBMP(0, 0, "24bit.bmp");
     }    
 }
 ```
@@ -184,13 +182,13 @@ void setup() {
     if ( !display.SDFileExists("test.bmp" ))
         return;
 
-    // Check if canvas is valid
-    if ( !display.SDCanvasValid("test.bmp")) {
+    // Check if image file is suitable for loadFullscreenBMP()
+    if ( !display.fullscreenBMPValid("test.bmp")) {
         // Do something?
     }
 
 
-    // Check if canvas is valid, and delete if corrupt
+    // Check if valid for loadFullscreenBMP, and delete if corrupt
     if ( display.SDCanvasValid("test.bmp", true) ) {
         // Do something?
     }
