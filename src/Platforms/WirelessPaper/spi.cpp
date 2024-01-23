@@ -14,8 +14,8 @@ namespace Platform {
     void beginSPI(SPIClass *spi, uint8_t pin_mosi, uint8_t pin_miso, uint8_t pin_clk) {
 
         // Init the display hardware-reset pin
-        digitalWrite(PIN_PCB_RST, HIGH);
-        pinMode(PIN_PCB_RST, OUTPUT);
+        digitalWrite(PIN_DISPLAY_RST, HIGH);
+        pinMode(PIN_DISPLAY_RST, OUTPUT);
 
         spi->begin(pin_clk, pin_miso, pin_mosi, -1);    // CS handled manually
     }

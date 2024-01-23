@@ -27,14 +27,14 @@ namespace Platform {
     }
 
     void toggleResetPin() {
-        pinMode(PIN_PCB_RST, OUTPUT);
-        digitalWrite(PIN_PCB_RST, LOW);
+        pinMode(PIN_DISPLAY_RST, OUTPUT);
+        digitalWrite(PIN_DISPLAY_RST, LOW);
         
         uint32_t start = millis();              // Non-blocking wait for reset
         while (millis() - start < 10)           // 10 ms
             yield();
 
-        digitalWrite(PIN_PCB_RST, HIGH);
+        digitalWrite(PIN_DISPLAY_RST, HIGH);
     }
 
     void forceSleep() {
@@ -43,24 +43,24 @@ namespace Platform {
         // -----------------------------------------------------------------
 
         // Default pin states
-        digitalWrite(PIN_PCB_RADIO_NSS, HIGH);
-        digitalWrite(PIN_PCB_LORA_CLK, LOW);    // Mode 0 - Idle Low
-        digitalWrite(PIN_PCB_LORA_MOSI, LOW);   // Is MOSI polarity reversed?
+        digitalWrite(PIN_LORA_NSS, HIGH);
+        digitalWrite(PIN_LORA_SCK, LOW);        // Mode 0 - Idle Low
+        digitalWrite(PIN_LORA_MOSI, LOW);
 
         // Set pin modes
-        pinMode(PIN_PCB_RADIO_NSS, OUTPUT);
-        pinMode(PIN_PCB_LORA_CLK, OUTPUT);
-        pinMode(PIN_PCB_LORA_MOSI, OUTPUT);
+        pinMode(PIN_LORA_NSS, OUTPUT);
+        pinMode(PIN_LORA_SCK, OUTPUT);
+        pinMode(PIN_LORA_MOSI, OUTPUT);
 
         // CS LOW
-        digitalWrite(PIN_PCB_RADIO_NSS, LOW); 
+        digitalWrite(PIN_LORA_NSS, LOW); 
 
         // TX data and params
-        shiftOut(PIN_PCB_LORA_MOSI, PIN_PCB_LORA_CLK, MSBFIRST, 0x84);   // Command: Enter SLEEP mode
-        shiftOut(PIN_PCB_LORA_MOSI, PIN_PCB_LORA_CLK, MSBFIRST, 0x04);   // Parameter: sleepConfig - maintain chip config while sleeping
+        shiftOut(PIN_LORA_MOSI, PIN_LORA_SCK, MSBFIRST, 0x84);  // Command: Enter SLEEP mode
+        shiftOut(PIN_LORA_MOSI, PIN_LORA_SCK, MSBFIRST, 0x04);  // Parameter: sleepConfig - maintain chip config while sleeping
 
         // CS HIGH - all done
-        digitalWrite(PIN_PCB_RADIO_NSS, HIGH);
+        digitalWrite(PIN_LORA_NSS, HIGH);
 
 
         // Set the GPIOs for sleep
@@ -69,16 +69,16 @@ namespace Platform {
         VExtOff();
 
         // LoRa pins to high-impedence
-        pinMode(PIN_PCB_RADIO_RESET, ANALOG);
-        pinMode(PIN_PCB_RADIO_BUSY, ANALOG);
-        pinMode(PIN_PCB_LORA_CLK, ANALOG);
-        pinMode(PIN_PCB_LORA_MISO, ANALOG);
-        pinMode(PIN_PCB_LORA_MOSI, ANALOG);
+        pinMode(PIN_LORA_NRST, ANALOG);
+        pinMode(PIN_LORA_BUSY, ANALOG);
+        pinMode(PIN_LORA_SCK, ANALOG);
+        pinMode(PIN_LORA_MISO, ANALOG);
+        pinMode(PIN_LORA_MOSI, ANALOG);
 
         // LoRa CS (RADIO_NSS) needs to stay HIGH, even during deep sleep
-        pinMode(PIN_PCB_RADIO_NSS, OUTPUT);
-        digitalWrite(PIN_PCB_RADIO_NSS, HIGH);
-        gpio_hold_en((gpio_num_t) PIN_PCB_RADIO_NSS);    // "stay where you're told"
+        pinMode(PIN_LORA_NSS, OUTPUT);
+        digitalWrite(PIN_LORA_NSS, HIGH);
+        gpio_hold_en((gpio_num_t) PIN_LORA_NSS);    // "stay where you're told"
 
 
         // Sleep the ESP32

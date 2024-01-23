@@ -34,21 +34,21 @@
         #define PRESERVE_IMAGE          true
 
         // PCB Wiring
-        #define PIN_PCB_DC              5
-        #define PIN_PCB_CS              4
-        #define PIN_PCB_BUSY            7
-        #define PIN_PCB_RST             6
+        #define PIN_DISPLAY_DC          5
+        #define PIN_DISPLAY_CS          4
+        #define PIN_DISPLAY_BUSY        7
+        #define PIN_DISPLAY_RST         6
         #define PIN_PCB_VEXT            45              // Power to all peripherals on PCB, active LOW
         
-        // PCB Wiring - LoRa, only used for forceSleep()
-        #define PIN_PCB_RADIO_DIO_1     14
-        #define PIN_PCB_RADIO_NSS       8
-        #define PIN_PCB_RADIO_RESET     12
-        #define PIN_PCB_RADIO_BUSY      13
-        #define PIN_PCB_LORA_CS         8
-        #define PIN_PCB_LORA_CLK        9
-        #define PIN_PCB_LORA_MISO       11
-        #define PIN_PCB_LORA_MOSI       10
+        // PCB Wiring - LoRa - only used for forceSleep()
+        // Provided for use convenience, and examples
+        #define PIN_LORA_DIO_1          14
+        #define PIN_LORA_NSS            8
+        #define PIN_LORA_NRST           12
+        #define PIN_LORA_BUSY           13
+        #define PIN_LORA_SCK            9
+        #define PIN_LORA_MISO           11
+        #define PIN_LORA_MOSI           10
 
         // Onboard LED
         #ifdef LED_BUILTIN

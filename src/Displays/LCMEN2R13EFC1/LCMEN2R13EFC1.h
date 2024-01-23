@@ -19,11 +19,11 @@ class LCMEN2R13EFC1 : public BaseDisplay {
     public:
 
         #ifdef WIRELESS_PAPER
-            LCMEN2R13EFC1(uint16_t page_height = DEFAULT_PAGE_HEIGHT) : BaseDisplay(PIN_PCB_DC, PIN_PCB_CS, PIN_PCB_BUSY, DEFAULT_SDI, DEFAULT_CLK, page_height)
+            LCMEN2R13EFC1() : BaseDisplay(PIN_DISPLAY_DC, PIN_DISPLAY_CS, PIN_DISPLAY_BUSY, DEFAULT_SDI, DEFAULT_CLK, page_height)
                 { init(); }
 
         #else
-            /* --- ERROR: This display is only used by "Wireless Paper" boards --- */   LCMEN2R13EFC1(uint16_t page_height = DEFAULT_PAGE_HEIGHT) = delete;
+            /* --- ERROR: This display is only used by "Wireless Paper" boards --- */   LCMEN2R13EFC1() = delete;
         #endif
 
 
