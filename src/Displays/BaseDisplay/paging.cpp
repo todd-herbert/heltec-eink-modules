@@ -29,7 +29,7 @@ bool BaseDisplay::calculating() {
 
         // Specify display region handled, either in paging, or outside loop
         page_top = winrot_top;
-        page_bottom = min((winrot_top + pagefile_height) - 1, winrot_bottom);
+        page_bottom = min((uint16_t)((winrot_top + pagefile_height) - 1), winrot_bottom);
         pagefile_length = (page_bottom - page_top + 1) * ((winrot_right - winrot_left + 1) / 8);
 
         // This is usually just clearPage(), unless "partial window" is not supported
@@ -49,7 +49,7 @@ bool BaseDisplay::calculating() {
 
         // Calculate memory locations for the new page
         page_top += pagefile_height;
-        page_bottom = min(page_top + pagefile_height - 1, winrot_bottom);
+        page_bottom = min((uint16_t)((page_top + pagefile_height) - 1), winrot_bottom);
         pagefile_length = (page_bottom - page_top + 1) * ((winrot_right - winrot_left+1) / 8);
     }
 
@@ -64,7 +64,7 @@ bool BaseDisplay::calculating() {
         else {
             // Reset page dimensions now, incase big MCU wants to draw outside loop
             page_top = winrot_top;
-            page_bottom = min((winrot_top + pagefile_height) - 1, winrot_bottom);
+            page_bottom = min((uint16_t)((winrot_top + pagefile_height) - 1), winrot_bottom);
             pagefile_length = (page_bottom - page_top + 1) * ((winrot_right - winrot_left + 1) / 8);
         }
 

@@ -17,12 +17,6 @@
         #include <Arduino.h>
         #include <SPI.h>
 
-        // Redefine macros with AVR version
-        #define min(a,b) ((a)<(b)?(a):(b))
-        #define max(a,b) ((a)>(b)?(a):(b))
-        #define abs(x) ((x)>0?(x):-(x))
-        #define constrain(amt,low,high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
-
         // Don't use fallback settings
         #define PLATFORM_SUPPORTED
 
@@ -55,6 +49,14 @@
         #define PIN_PCB_LORA_CLK        9
         #define PIN_PCB_LORA_MISO       11
         #define PIN_PCB_LORA_MOSI       10
+
+        // Onboard LED
+        #ifdef LED_BUILTIN
+            #undef LED_BUILTIN
+        #endif
+        #define LED_BUILTIN 18
+
+        #define BUTTON_BUILTIN 0
 
         // Platform-specific methods
         namespace Platform {

@@ -72,7 +72,7 @@ uint16_t WindowBounds::getWindowBounds(WindowBounds::side request) {
 
     // Handle a special case; funny issues with unusual drawing_width
     if (rotated_request == R)
-        result = min(result, drawing_width - 1);
+        result = min(result, (uint16_t)(drawing_width - 1));
 
     // If required by LUT, find display width or height, and subtract the edge distance
     if (rotswap) {

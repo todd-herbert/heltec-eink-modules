@@ -344,7 +344,7 @@ char* BaseDisplay::getIterableFilename(const char* prefix, uint32_t number) {
     cursor = 7;
 
     // Check if number too large
-    number = min(number, pow(10, (7 - cursor_final)) - 1);
+    number = min(number, (uint32_t)pow(10, (7 - cursor_final)) - 1);
 
     // Add digits (or zeros), from smallest to largest
     while (cursor > cursor_final) {

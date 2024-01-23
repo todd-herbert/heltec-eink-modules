@@ -177,7 +177,7 @@ void BaseDisplay::setWindow(uint16_t left, uint16_t top, uint16_t width, uint16_
         if (pagefile_height == panel_height) {  // If user didn't re-enable paging
             // Specify display region handled, either in paging, or outside loop
             page_top = winrot_top;
-            page_bottom = min((winrot_top + pagefile_height) - 1, winrot_bottom);
+            page_bottom = min((uint16_t)((winrot_top + pagefile_height) - 1), winrot_bottom);
             pagefile_length = (page_bottom - page_top + 1) * ((winrot_right - winrot_left + 1) / 8);
 
             if (clear_page)
