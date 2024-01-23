@@ -287,15 +287,24 @@ void BaseDisplay::charBounds(unsigned char c, int16_t *x, int16_t *y, int16_t *m
     // Some users may not be comfortable with fixed-width integers
 
     void BaseDisplay::getTextBounds(const char *str, int x, int y, int *x1, int *y1, unsigned int *w, unsigned int *h) {
-        GFX::getTextBounds(str, (int16_t) x, (int16_t) y, (int16_t*) x1, (int16_t*) y1, (uint16_t*) w, (uint16_t*) h);
+        int16_t x16, y16;
+        GFX::getTextBounds(str, (int16_t) x, (int16_t) y, (int16_t*) &x16, (int16_t*) &y16, (uint16_t*) w, (uint16_t*) h);
+        *x1 = x16;
+        *y1 = y16;
     }
 
     void BaseDisplay::getTextBounds(const String & str, int x, int y, int *x1, int *y1, unsigned int *w, unsigned int *h) {
-        GFX::getTextBounds(str, (int16_t) x, (int16_t) y, (int16_t*) x1, (int16_t*) y1, (uint16_t*) w, (uint16_t*) h);
+        int16_t x16, y16;
+        GFX::getTextBounds(str, (int16_t) x, (int16_t) y, (int16_t*) &x16, (int16_t*) &y16, (uint16_t*) w, (uint16_t*) h);
+        *x1 = x16;
+        *y1 = y16;
     }
 
     void BaseDisplay::getTextBounds(const __FlashStringHelper * str, int x, int y, int *x1, int *y1, unsigned int *w, unsigned int *h) {
-        GFX::getTextBounds(str, (int16_t) x, (int16_t) y, (int16_t*) x1, (int16_t*) y1, (uint16_t*) w, (uint16_t*) h);
+        int16_t x16, y16;
+        GFX::getTextBounds(str, (int16_t) x, (int16_t) y, (int16_t*) &x16, (int16_t*) &y16, (uint16_t*) w, (uint16_t*) h);
+        *x1 = x16;
+        *y1 = y16;
     }  
 
 #endif

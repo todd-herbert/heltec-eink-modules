@@ -71,10 +71,10 @@ void setup() {
     // -----------------------------------------------
 
 
-    int text_top_edge; // These will receive information about how much space our text will take up 
-    int text_left_edge;
-    unsigned int text_width;
-    unsigned int text_height;
+    int text_top_edge = 0;          // These will receive information about how much space our text will take up 
+    int text_left_edge = 0;         // Remember to initialize them as 0, or else..
+    unsigned int text_width = 0;
+    unsigned int text_height = 0;
     
     // This will tell us where the bounds of the text would be, if we setCursor(0,0) and then print(text)
     // Note that the variables are passed by reference (with &)
