@@ -19,7 +19,7 @@ class LCMEN2R13EFC1 : public BaseDisplay {
     public:
 
         #ifdef WIRELESS_PAPER
-            LCMEN2R13EFC1() : BaseDisplay(PIN_DISPLAY_DC, PIN_DISPLAY_CS, PIN_DISPLAY_BUSY, DEFAULT_SDI, DEFAULT_CLK, page_height)
+            LCMEN2R13EFC1() : BaseDisplay(PIN_DISPLAY_DC, PIN_DISPLAY_CS, PIN_DISPLAY_BUSY, DEFAULT_SDI, DEFAULT_CLK, MAX_PAGE_HEIGHT)
                 { init(); }
 
         #else
