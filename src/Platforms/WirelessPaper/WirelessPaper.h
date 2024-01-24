@@ -40,7 +40,7 @@
         #define PIN_DISPLAY_RST         6
         #define PIN_PCB_VEXT            45              // Power to all peripherals on PCB, active LOW
         
-        // PCB Wiring - LoRa - only used for forceSleep()
+        // PCB Wiring - LoRa - only used for prepareToSleep()
         // Provided for use convenience, and examples
         #define PIN_LORA_DIO_1          14
         #define PIN_LORA_NSS            8
@@ -65,7 +65,7 @@
             extern void VExtOn();                                                                           // Enable power to peripherals
             extern void VExtOff();                                                                          // Disable power to perpiherals
             extern void toggleResetPin();                                                                   // Trigger the displays' reset pin
-            extern void forceSleep();                                                                       // Configure the board and peripherals for deep sleep (18μA)
+            extern void prepareToSleep();                                                                       // Configure the board and peripherals for deep sleep (18μA)
         }
 
     #endif

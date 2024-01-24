@@ -37,7 +37,7 @@ namespace Platform {
         digitalWrite(PIN_DISPLAY_RST, HIGH);
     }
 
-    void forceSleep() {
+    void prepareToSleep() {
 
         // Set SX1262 to SLEEP mode - Software SPI so we can "trample" stuff
         // -----------------------------------------------------------------
@@ -80,12 +80,16 @@ namespace Platform {
         digitalWrite(PIN_LORA_NSS, HIGH);
         gpio_hold_en((gpio_num_t) PIN_LORA_NSS);    // "stay where you're told"
 
-
-        // Sleep the ESP32
-        // ---------------
-
+        // Set what exactly should be powered down
         esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_PERIPH, ESP_PD_OPTION_OFF);
-        esp_deep_sleep_start();
+
+
+        // User: please set the time and start sleep:
+        // -----------------------------------------
+        
+        // const uint8_t sleep_seconds = 10;
+        // esp_sleep_enable_timer_wakeup((uint64_t) 1000 * 1000 * sleep_seconds);
+        // esp_deep_sleep_start()
     }
 
 }   // End of namespace
