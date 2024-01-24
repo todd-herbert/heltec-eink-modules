@@ -91,6 +91,7 @@ bool BaseDisplay::supportsColor(Color c) {
 #if PRESERVE_IMAGE
     // Clear the drawing memory, without updating display
     void BaseDisplay::clearMemory() {
+        begin();
         clearPageWindow();  // Clear our local mem (either fullscreen or window)
         writePage();        // Copy the local image data to the display memory
         endImageTxQuiet();  // Terminate the frame without an update
