@@ -11,6 +11,14 @@ In addition to the line of SPI E-Ink displays, Heltec sell an all-in-one board, 
 
 Only the board's E-Ink display falls within the scope of this library.
 
+- [Getting Started](#getting-started)
+  - [Arduino IDE](#arduino-ide)
+  - [PlatformIO](#platformio)
+- [Things to know](#things-to-know)
+  - [`VExtOn()`](#vexton)
+  - [Deep Sleep](#deep-sleep)
+
+
 ## Getting Started
 
 ### Arduino IDE
