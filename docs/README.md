@@ -1,26 +1,33 @@
 # Heltec E-Ink Modules
 
-Third-party Arduino Library for **Heltec E-Ink Module** displays.<br />
+Third-party Arduino Library for **Heltec E-Ink Module** displays, and **Wireless Paper** boards<br />
 Run-time drawing, using Adafruit-GFX.
-
-*v2.x users: see [breaking_changes.md](breaking_changes.md)*
 
 **[Read the API](/docs/API.md)** <br />
 
+**[Get started with "Wireless Paper" boards](/docs/WirelessPaper/wireless_paper.md)** <br />
+
 - [Supported Platforms](#supported-platforms)
-- [Supported Displays](#supported-displays)
+- [Supported Displays - **Identify your model**](#supported-displays---identify-your-model)
+  - [1.54 Inch](#154-inch)
+  - [2.13 Inch](#213-inch)
+  - [2.9 Inch](#29-inch)
+  - [Wireless Paper](#wireless-paper)
 - [Wiring](#wiring)
-- [To *page*, or not to *page*](#to-page-or-not-to-page)
-- [Drawing stuff](#drawing-stuff)
-  - [Drawing Commands](#drawing-commands)
-  - [Pre-rendered graphics](#pre-rendered-graphics)
+- [Drawing](#drawing)
+  - [Compatibility or Convenience?](#compatibility-or-convenience)
+  - [Shapes and Text](#shapes-and-text)
+  - [Fonts](#fonts)
+  - [Images](#images)
   - [SD card](#sd-card)
   - [Shorter code](#shorter-code)
-- [Configuration Options](#configuration-options)
+- [Configuration](#configuration)
+  - [Model Name](#model-name)
   - [Pins](#pins)
-  - [Page Size](#page-size)
-  - [Power Switching](#power-switching)
-  - [Fast mode (Partial Refresh)](#fast-mode-partial-refresh)
+  - [Saving RAM](#saving-ram)
+  - [Saving Flash](#saving-flash)
+  - [Saving Power](#saving-power)
+  - [Fast Mode (Partial Refresh)](#fast-mode-partial-refresh)
 - [Troubleshooting](#troubleshooting)
 - [Installation](#installation)
 - [Acknowledgements](#acknowledgements)
@@ -33,132 +40,194 @@ Platform    | Tested
 ------------|-------------------------------
 ATmega328P  | Arduino Uno R3, Arduino Nano
 ATmega2560  | Arduino Mega 2560
-ESP32       | Devkit V1
+ESP32       | Devkit V1, **Heltec Wireless Paper**
 ESP8266     | NodeMcu v3, LOLIN D1 Mini
 SAMD21G18A  | Protoneer Nano ARM
 
-## Supported Displays
+## Supported Displays - **Identify your model**
 
-It is sometimes unclear exactly which display you have been sold. Consult the table below to find your model. 
+**Pay attention to the model name: you will need it to use the library.**
 
-In this library, displays are referred to by the "model name". If you would prefer, you can instead use the [label on the flex connector](FlexConnector/declare_by_flex.md) 
-
-If your Heltec E-ink display is not listed, please let me know.
-
-<!-- Large table of display identification info -->
+### 1.54 Inch
 
 <table>
     <thead>
         <tr>
             <th>Model Name</th>
+            <th><a href="FlexConnector/flex_labels.md">Flex Connector Label</a></th>
             <th align="center">Front Image</th>
             <th align="center">Rear Image</th>
-            <th>Rear Label</th>
             <th>Colors</th>
             <th>Screen Protector</th>
-            <th><a href="FlexConnector/declare_by_flex.md">Flex Connector Label</a></th>
             <th>Resolution (px)</th>
-            <th><a href="#fast-mode-partial-refresh">Fastmode</a></th>
+            <th><a href="#fast-mode-partial-refresh">Fastmode (partial&nbsp;refresh)</a></th>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td><strong>DEPG0150BNS810</strong></td>
-            <td align="center"><img alt="Front" src="Identification/DEPG0150BNS810-Front.jpg" /></td>
-            <td align="center"><img alt="Rear" src="Identification/DEPG0150BNS810-Rear.jpg" /></td>
-            <td>1.54&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2</td>
-            <td>Black, White</td>
-            <td>Red Tab</td>
-            <td>FPC-8101</td>
-            <td>200 x 200</td>
-            <td>Yes</td>
-        </tr>
-        <tr>
             <td><strong>DEPG0154BNS800</strong></td>
+            <td>FPC-7525</td>
             <td align="center"><img alt="Front" src="Identification/DEPG0154BNS800-Front.jpg" /></td>
             <td align="center"><img alt="Rear" src="Identification/DEPG0154BNS800-Rear.jpg" /></td>            
-            <td>1.54&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2</td>
             <td>Black, White</td>
             <td>Red Tab</td>
-            <td>FPC-7525</td>
             <td>152 x 152</td>
-            <td>Yes <sup>1</sup></td>
+            <td>Yes</td>
         </tr>
         <tr>
-            <td><strong>GDEP015OC1</strong>&nbsp;<sup>2</sup></td>
-            <td align="center"><img alt="Front" src="Identification/GDEP015OC1-Front.jpg" /></td>
-            <td align="center"><img alt="Rear" src="Identification/GDEP015OC1-Rear.jpg" /></td>            
-            <td>1.54&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2</td>
+            <td><strong>DEPG0150BNS810</strong></td>
+            <td>FPC-8101</td>
+            <td align="center"><img alt="Front" src="Identification/DEPG0150BNS810-Front.jpg" /></td>
+            <td align="center"><img alt="Rear" src="Identification/DEPG0150BNS810-Rear.jpg" /></td>
             <td>Black, White</td>
-            <td>Blue Tab</td>
-            <td>HINK-E0154A05-A2</td>
+            <td>Red Tab</td>
             <td>200 x 200</td>
             <td>Yes</td>
         </tr>
         <tr>
-            <td><strong>DEPG0213RWS800</strong>&nbsp;<sup>3</sup></td>
+            <td><strong>GDEP015OC1</strong>&nbsp;<sup>1</sup></td>
+            <td>HINK-E0154A05-A2</td>
+            <td align="center"><img alt="Front" src="Identification/GDEP015OC1-Front.jpg" /></td>
+            <td align="center"><img alt="Rear" src="Identification/GDEP015OC1-Rear.jpg" /></td>            
+            <td>Black, White</td>
+            <td>Blue Tab</td>
+            <td>200 x 200</td>
+            <td>Yes</td>
+        </tr>
+    </tbody>
+</table>
+
+<sup>1</sup> Closest match. No official information available. <br />
+
+
+### 2.13 Inch
+
+<table>
+    <thead>
+        <tr>
+            <th>Model Name</th>
+            <th><a href="FlexConnector/flex_labels.md">Flex Connector Label</a></th>
+            <th align="center">Front Image</th>
+            <th align="center">Rear Image</th>
+            <th>Colors</th>
+            <th>Screen Protector</th>
+            <th>Resolution (px)</th>
+            <th><a href="#fast-mode-partial-refresh">Fastmode (partial&nbsp;refresh)</a></th>
+        </tr>            
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>DEPG0213RWS800</strong>&nbsp;<sup>2</sup></td>
+            <td>FPC-7528B</td>
             <td align="center"><img alt="Front" src="Identification/DEPG0213RWS800-Front.jpg" /></td>
             <td align="center"><img alt="Rear" src="Identification/DEPG0213RWS800-Rear.jpg" /></td>            
-            <td>2.13&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2</td>
             <td>Black, White, Red</td>
             <td>Red Tab</td>
-            <td>FPC-7528B</td>
             <td>250 x 122</td>
             <td>No</td>
         </tr>        
         <tr>
-            <td><strong>QYEG0213RWS800</strong>&nbsp;<sup>3</sup></td>
+            <td><strong>QYEG0213RWS800</strong>&nbsp;<sup>2</sup></td>
+            <td>FPC-7528</td>
             <td align="center"><img alt="Front" src="Identification/QYEG0213RWS800-Front.jpg" /></td>
             <td align="center"><img alt="Rear" src="Identification/QYEG0213RWS800-Rear.jpg" /></td>            
-            <td>2.13&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2</td>
             <td>Black, White, Red</td>
             <td>Red Tab</td>
-            <td>FPC-7528</td>
             <td>250 x 122</td>
             <td>No</td>
         </tr>
+    </tbody>
+</table>
+
+<sup>2</sup> Currently, these two displays use the same driver. This is not guaranteed in the future. <br />
+
+### 2.9 Inch
+
+<table>
+    <thead>
         <tr>
-            <td><strong>DEPG0290BNS75A</strong>&nbsp;</td>
-            <td align="center"><img alt="Front" src="Identification/DEPG0290BNS75A-Front.jpg" /></td>
-            <td align="center"><img alt="Rear" src="Identification/DEPG0290BNS75A-Rear.jpg" /></td>            
-            <td>2.9&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2</td>
+            <th>Model Name</th>
+            <th><a href="FlexConnector/flex_labels.md">Flex Connector Label</a></th>
+            <th align="center">Front Image</th>
+            <th align="center">Rear Image</th>
+            <th>Colors</th>
+            <th>Screen Protector</th>
+            <th>Resolution (px)</th>
+            <th><a href="#fast-mode-partial-refresh">Fastmode (partial&nbsp;refresh)</a></th>
+        </tr>            
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>DEPG0290BNS800</strong></td>
+            <td>FPC-7519 rev.b</td>
+            <td align="center"><img alt="Front" src="Identification/DEPG0290BNS800-Front.jpg" /></td>
+            <td align="center"><img alt="Rear" src="Identification/DEPG0290BNS800-Rear.jpg" /></td>            
             <td>Black, White</td>
             <td>Red Tab</td>
-            <td>FPC-750</td>
             <td>296 x 128</td>
             <td>Yes</td>
         </tr>
         <tr>
-            <td><strong>DEPG0290BNS800</strong></td>
-            <td align="center"><img alt="Front" src="Identification/DEPG0290BNS800-Front.jpg" /></td>
-            <td align="center"><img alt="Rear" src="Identification/DEPG0290BNS800-Rear.jpg" /></td>            
-            <td>2.9&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2</td>
+            <td><strong>DEPG0290BNS75A</strong>&nbsp;</td>
+            <td>FPC-750</td>
+            <td align="center"><img alt="Front" src="Identification/DEPG0290BNS75A-Front.jpg" /></td>
+            <td align="center"><img alt="Rear" src="Identification/DEPG0290BNS75A-Rear.jpg" /></td>            
             <td>Black, White</td>
             <td>Red Tab</td>
-            <td>FPC-7519 rev.b</td>
             <td>296 x 128</td>
             <td>Yes</td>
         </tr>
         <tr>
             <td><strong>GDE029A1</strong></td>
+            <td>SYX-1553</td>
             <td align="center"><img alt="Front" src="Identification/GDE029A1-Front.jpg" /></td>
             <td align="center"><img alt="Rear" src="Identification/GDE029A1-Rear.jpg" /></td>
-            <td>2.9&nbsp;Inch&nbsp;E&#8209;ink&nbsp;Display&nbsp;V2</td>
             <td>Black, White</td>
             <td>Blue Tab</td>
-            <td>SYX-1553</td>
             <td>296 x 128</td>
             <td>Yes</td>
         </tr>
     </tbody>
 </table>
 
-<!-- End of table: Display Identification -->
+### Wireless Paper
 
-<sup>1</sup> Fastmode for DEPG0154BNS800 is experimental. Use with caution. <br />
-<sup>2</sup> Closest match. No official information available. <br />
-<sup>3</sup> Currently, these two displays use the same driver. This is not guaranteed in the future.
-
+<table>
+    <thead>
+        <tr>
+            <th>Model Name</th>
+            <th><a href="FlexConnector/flex_labels.md">Flex Connector Label</a></th>
+            <th align="center">Front Image</th>
+            <th align="center">Rear Image</th>
+            <th>Colors</th>
+            <th>Screen Protector</th>
+            <th>Resolution (px)</th>
+            <th><a href="#fast-mode-partial-refresh">Fastmode (partial&nbsp;refresh)</a></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>LCMEN2R13EFC1</strong></td>
+            <td><b>Hidden, printed on back-side</b><br />(HINK-E0213A162-FPC-A0)</td>
+            <td align="center"><img alt="Front" src="Identification/LCMEN2R13EFC1-Front.jpg" /></td>
+            <td align="center"><img alt="Front" src="Identification/LCMEN2R13EFC1-Rear.jpg" /></td>            
+            <td>Black, White</td>
+            <td>Green Tab</td>
+            <td>250 x 122</td>
+            <td>Yes</td>
+        </tr>
+        <tr>
+            <td><strong>DEPG0213BNS800</strong></td>
+            <td>FPC-7528B</td>
+            <td align="center"><img alt="Front" src="Identification/DEPG0213BNS800-Front.jpg" /></td>
+            <td align="center"><img alt="Front" src="Identification/DEPG0213BNS800-Rear.jpg" /></td>
+            <td>Black, White</td>
+            <td>Red Tab</td>
+            <td>250 x 122</td>
+            <td>Yes</td>
+        </tr>
+    </tbody>
+</table>
 
 ## Wiring
 
@@ -170,26 +239,16 @@ See your boards's wiring page for specific information:
 * [**Wiring:** ESP32](/docs/Wiring/wiring_esp32.md)
 * [**Wiring:** ESP8266](/docs/Wiring/wiring_esp8266.md)
 * [**Wiring:** SAMD21G18A](/docs/Wiring/wiring_samd21g18a.md)
+* [Wireless Paper](/docs/WirelessPaper/wireless_paper.md)
 
-## To *page*, or not to *page*
+## Drawing
 
-Older boards, like Arduino UNO R3, do not have enough RAM to render a full screen image. A technique called "paging" lets us get around this issue.
+### Compatibility or Convenience?
 
-On these older boards, your drawing commands are run, over and over, calculating just one small area at a time.
+#### 1. Compatibility
 
-It takes a bit longer, but without paging, Arduino Uno R3 wouldn't stand a chance!
-
-![paging graphic](/docs/paging_graphic.png)
-
-If you have a more powerful board (ESP, SAMD21), the library won't waste time paging. Your image will be calculated once, and once only.
-
-If you board has the resources, paging is disabled automatically.
-If, for any reason, you should want to turn it back on, you can set a `page_height` in your [constructor](/docs/API.md#display-constructors).
-
-**ATmega2560 is marginal.** <br /> Paging is used for some displays. On other displays, a large amount of RAM is occupied.
- DEPG0290BNS800 uses **60% of  ATmega2560's RAM**. If this in unacceptable, enable paging by setting a `page_height` in your [constructor](/docs/API.md#display-constructors).
-
-## Drawing stuff
+The `DRAW()` operation allows for *RAM saving tricks* (paging). Required for older boards, configurable for new boards.<br />
+[More info about paging here.](/docs/Paging/paging.md)
 
 ```c++
 #include "heltec-eink-modules.h"
@@ -199,10 +258,13 @@ DEPG0150BNS810 display(2, 4, 5);
 
 void setup() {
 
-    // Drawing commands go in the DRAW loop
+    // Any config is set first
+    display.setBackgroundColor(BLACK);
+
+    // Drawing action goes inside DRAW()
     DRAW (display) {
-        display.fillCircle(50, 100, 20, BLACK);
-        display.fillCircle(50, 100, 10, WHITE);
+        display.fillCircle(50, 100, 20, WHITE);
+        display.fillCircle(50, 100, 10, BLACK);
     }
 
 }
@@ -210,22 +272,46 @@ void setup() {
 void loop() {}
 ```
 
-A block of `DRAW()` code represents one drawing session.
-`DRAW()` starts as a blank piece of paper, renders your commands, then updates the display.
+#### 2. Convenience
 
-To draw over your existing image, see [setWindow()](/docs/API.md#setwindow)
+If you're using a [fancy new device](/docs/Paging/paging.md), you can choose to avoid the `DRAW()` pattern:
 
-If your board is powerful enough to disable paging, you have an alternative: <br />
-Run drawing commands anywhere you like, then call [update()](/docs/API.md#update)
+```c++
+#include "heltec-eink-modules.h"
 
-### Drawing Commands
+// Use the correct class for your display; set pins for D/C, CS, BUSY
+DEPG0150BNS810 display(2, 4, 5);
 
+void setup() {
+    
+    display.setBackgroundColor(BLACK);
+
+    // Start working on a new drawing (with a BLACK background)
+    display.clearMemory();
+
+    // Draw the same circles from the other example
+    display.fillCircle(50, 100, 20, WHITE);
+    display.fillCircle(50, 100, 10, BLACK);
+    
+    // Whenever you're ready, display your masterpiece
+    display.update();
+
+}
+
+void loop() {}
+```
+
+### Shapes and Text
+
+Drawing operations come from the **Adafruit GFX** library
 You'll find a full list of supported commands in **[the API](/docs/API.md)**. Check out the [examples folder](/examples/) to see them in action.
-
-
 Alternatively, [the official adafruit-gfx tutorial](https://learn.adafruit.com/adafruit-gfx-graphics-library/graphics-primitives) is a good place to start.
 
-### Pre-rendered graphics
+### Fonts
+The library comes with a selection of custom fonts. You can create more with [truetype2gfx](https://rop.nl/truetype2gfx/).<br />
+See the [Fonts example](/examples/fonts/fonts.ino).
+
+### Images
 
 As decided by the Adafruit library, the ancient *"XBitmap"* is the format of choice for pre-rendered graphics. Luckily, GIMP maintains good support for it. If you need a hint on how to use it, I have thrown together a [tutorial on preparing XBitmap images](XBitmapTutorial/README.md).
 
@@ -259,7 +345,11 @@ display.drawRect(   display.bounds.window.left(),
 ```
 
 
-## Configuration Options
+## Configuration
+
+### Model Name
+
+The **Model Name** of your display is used to select the correct driver. [Find your model name.](#supported-displays---identify-your-model)
 
 ### Pins
 
@@ -270,40 +360,49 @@ DEPG0150BNS810 display(dc, cs, busy);
 
 Pass the pin numbers to which the *D/C*, *CS*, and *BUSY* pins from the display are connected.
 
-If you're using ESP32, you are free to set your *SDI*, and *CLK* pins too.<br />
+If you're using ESP32, you are free to set custom *SDI*, and *CLK* pins if you wish.<br />
 If you're using SAMD21G18A, you are able to make *some* changes to *SDI* and *CLK* assignment. See [wiring](/docs/Wiring/wiring_samd21g18a.md#optional-changing-mosi-and-sck-pins).
 
 ```cpp
 DEPG0150BNS810 display(dc, cs, busy, sdi, clk);
 ```
 
-### Page Size
+If you're using a "Wireless Paper" board, you don't need to pass pins; they are already set.
 
-If your Arduino is paging to compensate for low RAM, you may want to adjust how many rows are calculated in each page. The optional ```page_height``` argument sets the number of rows. 
+### Saving RAM
 
-For Uno R3, the default value is 20, meaning the display is calculated 20 rows at a time. Higher values use more RAM.
+On older boards, this library makes use of [paging](/docs/Paging/paging.md).This technique allows drawing with less RAM, with the cost of decreased speed. <br />
+On newer boards, this technique is not required, and is disabled by default (regardless of your [code style](#compatibility-or-convenience))
 
-If you are using a more modern board, paging is disabled by default. Setting `page_height` here will re-enable it.
+If you wish to tweak this speed vs. RAM trade-off, or enable the technique on a newer board, you can usually specificy a custom "page_height" in the display constructor.
+This specifies how many lines of the display should be calculated at once.
 
 ```c++
-DEPG0150BNS810 display(dc, cs, busy, page_height); 
+DEPG0150BNS810 display(dc, cs, busy, page_height);
 ```
 
-### Power Switching ###
+### Saving Flash
 
-Many E-ink manufacturers provide a deep-sleep mode. With Heltec displays, this mode is not usable.
+On older boards in particular, the library can occupy a large portion of the "flash memory". If you need to reduce this, you can manually edit the [optimization.h](/src/optimization.h) file, to disable unused features.
 
-As an alternative, consider using a transistor, or other switching device, to disconnect your display when needed.
+Note: for ATmega328, some of the *more-obscure* features are disabled by default.
 
-The library can make the necessary pin changes for this.
-Configure your switching device with [`useCustomPowerSwitch()`](/docs/API.md#useCustomPowerSwitch), then call [`customPowerOff()`](/docs/API.md#customPoweroff) and [`customPowerOn()`](/docs/API.md#customPoweron) as required.
+### Saving Power ###
+
+Many E-ink manufacturers provide a deep-sleep mode. With Heltec display modules, this mode is often not usable.
+
+#### For "Display Modules":
+Consider using a PNP transistor, or other switching device, to disconnect your display when needed. The library can handle this for you.
+Configure your custom switch hardware with [`useCustomPowerSwitch()`](/docs/API.md#useCustomPowerSwitch), then call [`customPowerOff()`](/docs/API.md#customPoweroff) and [`customPowerOn()`](/docs/API.md#customPoweron) as required.
 
 See your board's [wiring page](#wiring) for a suggested schematic.
 
+#### For "Wireless Paper":
+A low power state is available for the whole board (18μA while sleeping). See [Wireless Paper](/docs/WirelessPaper/wireless_paper.md#deep-sleep)
 
-### Fast mode (Partial Refresh)
+### Fast Mode (Partial Refresh)
 
-E-Ink displays generally take several seconds to refresh. Some displays have a secondary mode, where the image updates much faster. This is known officially as a *"Partial Refresh"*. For the sake of simplicity, this library instead uses the term *"Fast Mode*".
+E-Ink displays generally take several seconds to refresh. Some displays have an alternative mode, where the image updates much faster. This is known officially as a *"Partial Refresh"*. For the sake of simplicity, this library instead uses the term *"Fast Mode*".
 
 The trade-off is that images drawn in fast mode are of a lower quality. The process may also be particularly difficult on the hardware. **Use sparingly.**
 
@@ -318,9 +417,20 @@ Call [`setFastmodeOff()`](/docs/API.md#fastmodeoff) to return to normal.
     On breadboard, or header pins, it is easy to be one row out.<br />
     Make sure to use a level-shifter, if needed.
 
+* **Double-check your constructor**<br />
+    ```c++
+    // Make sure to use the correct class for your display model,
+    // and the correct pins to match your wiring
+
+    DEPG0150BNS810 display(dc, cs, busy);   
+    ```
+
+* **Take a look at the [examples](/examples/), and the [API](/docs/API.md)**<br />
+    Some commands might not work the way you would expect. If unsure, double check.
+
 * **Disconnect and Reconnect**<br />
     If the display has been used incorrectly, it can get "stuck".<br />
-    Remove all power from the display for 5 seconds.
+    Remove all power from the display and Arduino for 5 seconds.
 
 
 ## Installation
@@ -331,7 +441,7 @@ Call [`setFastmodeOff()`](/docs/API.md#fastmodeoff) to return to normal.
 
 ## Acknowledgements
 
-Display information from both [official Heltec sources](https://github.com/HelTecAutomation/e-ink), and  [GxEPD2](https://github.com/ZinggJM/GxEPD2)
+Display information referenced from both [official Heltec sources](https://github.com/HelTecAutomation/e-ink), and  [GxEPD2](https://github.com/ZinggJM/GxEPD2)
 
 Drawing functions provided by [GFX Root](https://github.com/ZinggJM/GFX_Root), which itself is a stripped down version of [Adafruit GFX](https://github.com/adafruit/Adafruit-GFX-Library).
 

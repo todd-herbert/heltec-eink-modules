@@ -4,11 +4,13 @@
 - [Display Constructors](#display-constructors)
   - [`DEPG0150BNS810()`](#depg0150bns810)
   - [`DEPG0154BNS800()`](#depg0154bns800)
+  - [`DEPG0213BWS800`](#depg0213bws800)
   - [`DEPG0213RWS800()`](#depg0213rws800)
   - [`DEPG0290BNS75A()`](#depg0290bns75a)
   - [`DEPG0290BNS800()`](#depg0290bns800)
   - [`GDE029A1()`](#gde029a1)
   - [`GDEP015OC1()`](#gdep015oc1)
+  - [`LCMEN2R13EFC1`](#lcmen2r13efc1)
   - [`QYEG0213RWS800()`](#qyeg0213rws800)
 - [Methods](#methods)
   - [`begin()`](#begin)
@@ -31,12 +33,12 @@
   - [`clear()`](#clear)
   - [`clearMemory()`](#clearmemory)
   - [`DRAW()`](#draw)
-  - [`draw24bitBitmapFile()`](#draw24bitbitmapfile)
+  - [`draw24bitBMP()`](#draw24bitbmp)
   - [`drawBitmap()`](#drawbitmap)
   - [`drawCircle()`](#drawcircle)
   - [`drawCircleHelper()`](#drawcirclehelper)
   - [`drawLine()`](#drawline)
-  - [`drawMonoBitmapFile()`](#drawmonobitmapfile)
+  - [`drawMonoBMP()`](#drawmonobmp)
   - [`drawPixel()`](#drawpixel)
   - [`drawRect()`](#drawrect)
   - [`drawRoundRect()`](#drawroundrect)
@@ -53,6 +55,7 @@
   - [`fillScreen()`](#fillscreen)
   - [`fillTriangle()`](#filltriangle)
   - [`fullscreen()`](#fullscreen)
+  - [`fullscreenBMPValid()`](#fullscreenbmpvalid)
   - [`getBMPHeight()`](#getbmpheight)
   - [`getBMPWidth()`](#getbmpwidth)
   - [`getCursorX()`](#getcursorx)
@@ -64,15 +67,12 @@
   - [`getTextHeight()`](#gettextheight)
   - [`getTextWidth()`](#gettextwidth)
   - [`landscape()`](#landscape)
-  - [`loadCanvas()`](#loadcanvas)
-  - [`loadFullscreenBitmap()`](#loadfullscreenbitmap)
+  - [`loadFullscreenBMP()`](#loadfullscreenbmp)
   - [`portrait()`](#portrait)
-  - [`SAVE_CANVAS()`](#save_canvas)
-  - [`saveCanvas()`](#savecanvas)
+  - [`SAVE_TO_SD()`](#save_to_sd)
+  - [`saveToSD()`](#savetosd)
   - [`SDCardFound()`](#sdcardfound)
   - [`SDFileExists()`](#sdfileexists)
-  - [`SDCanvasExists()`](#sdcanvasexists)
-  - [`SDCanvasValid()`](#sdcanvasvalid)
   - [`setBackgroundColor()`](#setbackgroundcolor)
   - [`setCursor()`](#setcursor)
   - [`setCursorTopLeft()`](#setcursortopleft)
@@ -82,7 +82,6 @@
   - [`setTextColor()`](#settextcolor)
   - [`setTextWrap()`](#settextwrap)
   - [`setWindow()`](#setwindow)
-  - [`sleep()`](#sleep)
   - [`update()`](#update)
   - [`useCustomPowerSwitch()`](#usecustompowerswitch)
   - [`useSD()`](#usesd)
@@ -158,6 +157,30 @@ DEPG0154BNS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32
 #include <heltec-eink-modules.h>
 
 DEPG0154BNS800 display(2, 4, 5);
+```
+
+___
+### `DEPG0213BWS800`
+Create a display controller object, for for model [DEPG0213BWS800](/docs/README.md#wireless-paper), which is used on "Wireless Paper" all-in-one boards.
+
+Display instances of this class should be declared without parentheses, or they will be mistaken for a function prototype. See example.
+
+#### Syntax
+
+```cpp
+DEPG0213BWS800
+```
+
+#### Parameters
+
+None.
+
+#### Example
+
+```cpp
+#include <heltec-eink-modules.h>
+
+DEPG0213BWS800 display;
 ```
 
 ___
@@ -312,6 +335,30 @@ GDEP015OC1(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32 or 
 #include <heltec-eink-modules.h>
 
 GDEP015OC1 display(2, 4, 5);
+```
+
+___
+### `LCMEN2R13EFC1`
+Create a display controller object, for for model [LCMEN2R13EFC1](/docs/README.md#wireless-paper), which is used on "Wireless Paper" all-in-one boards.
+
+Display instances of this class should be declared without parentheses, or they will be mistaken for a function prototype. See example.
+
+#### Syntax
+
+```cpp
+LCMEN2R13EFC1
+```
+
+#### Parameters
+
+None.
+
+#### Example
+
+```cpp
+#include <heltec-eink-modules.h>
+
+LCMEN2R13EFC1 display;
 ```
 
 ___
@@ -1874,8 +1921,7 @@ Output filename can be specified, or instead a prefix and numeric identifier can
 
 #### *On Arduino Uno:* 
 * this feature is disabled by default, to minimize sketch size. See [optimization.h](/src/optimization.h)
-* feature interferes with Serial. The `MinimalSerial` class provided by SdFat should be used instead (todo: explain minimal serial) 
-
+* feature interferes with Serial. The [`MinimalSerial`](/docs/SD/MinimalSerial.md) class provided by SdFat should be used instead
 #### Syntax
 
 ```cpp
