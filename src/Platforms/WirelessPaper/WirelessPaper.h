@@ -56,7 +56,7 @@
         #endif
         #define LED_BUILTIN 18
 
-        #define BUTTON_BUILTIN 0
+        #define BUTTON_PRG 0
 
         // Platform-specific methods
         namespace Platform {
