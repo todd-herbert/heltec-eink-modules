@@ -42,6 +42,18 @@ Make sure to select your [display model](/docs/README.md#wireless-paper) first, 
 
 Most of the other examples will also run on the Wireless Paper board, so long as you select the correct display model.
 
+### PlatformIO
+
+Add the following entry to your `platformio.ini` file
+
+```
+[env:wireless_paper]
+platform = espressif32
+board = heltec_wifi_lora_32_V3
+framework = arduino
+lib_deps = https://github.com/todd-herbert/heltec-eink-modules
+```
+
 ## Things to know
 
 ### `VExtOn()`
