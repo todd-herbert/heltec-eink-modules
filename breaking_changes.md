@@ -9,7 +9,7 @@ Also just, sorry in general.
     * Huge flash saving
     * Can be re-enabled in optimization.h, or with a build flag
   
-*  "External Power" methods renamed to "Custom Power" - emphasize need for use to add hardware
+*  "External Power" methods renamed to "Custom Power" - emphasize need for user to add hardware
     * `usePowerSwitching()` -> `useCustomPowerSwitch()`
     * `externalPowerOff()` -> `customPowerOff()`
     * `externalPowerOn()` -> `customPowerOn()`
