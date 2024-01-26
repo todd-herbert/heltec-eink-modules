@@ -35,12 +35,12 @@
 #include <BLEAdvertisedDevice.h>
 
 // Image resources
-#include "XBitmaps/radiolib1.h"
-#include "XBitmaps/radiolib2.h"
-#include "XBitmaps/radiolib3.h"
-#include "XBitmaps/board_inverse.h"
-#include "XBitmaps/arrow_hooked.h"
-#include "XBitmaps/chess_250x122.h"
+#include "image_radiolib_guide1.h"
+#include "image_radiolib_guide2.h"
+#include "image_radiolib_guide3.h"
+#include "image_board_inverse.h"
+#include "image_arrow_hooked.h"
+#include "image_chess_250x122.h"
 
 // Fonts
 #include "Fonts/FreeSansBold12pt7b.h"

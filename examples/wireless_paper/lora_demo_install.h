@@ -89,12 +89,10 @@ void installRadioLibGuide();
 
         display.print(text_libnotfound);
 
-
         display.update();
-
         delay(8000);
 
-        // Screen 1
+        // Screen 1 - Arduino IDE
 
         // Draw the IDE image
         display.clearMemory();    

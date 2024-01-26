@@ -17,7 +17,7 @@ src/apples*
 src/tests.h
 src/ball.h
 src/window_cartoon.h
-src/XBitmaps*
+src/image_*
 src/ble_demo.h
 src/graphical_elements.h
 src/intro_outro.h
