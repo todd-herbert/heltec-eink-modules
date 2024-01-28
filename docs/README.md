@@ -408,8 +408,8 @@ The trade-off is that images drawn in fast mode are of a lower quality. The proc
 
 *Not all displays support fast mode.*
 
-Call [`setFastmodeOn()`](/docs/API.md#fastmodeon) to enable.<br />
-Call [`setFastmodeOff()`](/docs/API.md#fastmodeoff) to return to normal.
+Call [`fastmodeOn()`](/docs/API.md#fastmodeon) to enable.<br />
+Call [`fastmodeOff()`](/docs/API.md#fastmodeoff) to return to normal.
 
 ## Troubleshooting
 
