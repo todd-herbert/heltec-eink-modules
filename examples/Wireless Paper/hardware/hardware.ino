@@ -16,13 +16,13 @@
     // #include <RadioLib.h>
   
 
-// DEMO: Wireless Paper
+// DEMO: Wireless Paper Hardware
 // --------------------
 // This example is only for Heltec's "Wireless Paper" all-in-one boards.
 // A basic demonstration that the onboard hardware does work with this display library.
 //
 // This example does not demonstrate *good technique* for using the wireless hardware.
-// Please refer to each libraries own documentation before using them in your project.
+// Please refer to each library's own documentation before using them in your project.
 
 
 // For Wifi Demo

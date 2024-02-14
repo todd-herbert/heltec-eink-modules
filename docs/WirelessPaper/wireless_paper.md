@@ -14,6 +14,7 @@ Only the board's E-Ink display falls within the scope of this library.
 - [Getting Started](#getting-started)
   - [Arduino IDE](#arduino-ide)
   - [PlatformIO](#platformio)
+- [Using the library](#using-the-library)
 - [Things to know](#things-to-know)
   - [`VExtOn()`](#vexton)
   - [Deep Sleep](#deep-sleep)
@@ -44,12 +45,6 @@ This may take some time.
 
     ![](ArduinoIDE/select_board.jpg)
 
-You should now be able to upload the the "wireless_paper" example from *File > Examples > heltec-eink-modules > wireless_paper*. The process may be slow, when compiling for the first time.
-
-Make sure to select your [display model](/docs/README.md#wireless-paper) first, at the top of the sketch.
-
-Most of the other examples will also run on the Wireless Paper board, so long as you select the correct display model.
-
 ### PlatformIO
 
 Add the following entry to your `platformio.ini` file
@@ -60,6 +55,44 @@ platform = espressif32
 board = heltec_wifi_lora_32_V3
 framework = arduino
 lib_deps = https://github.com/todd-herbert/heltec-eink-modules
+```
+
+## Using the library
+
+Check out the examples, such as *File > Examples > heltec-eink-modules > WirelessPaper > basic* <br />
+Make sure to select your [display model](/docs/README.md#wireless-paper) first, at the top of the sketch.
+
+The upload process will be slow when compiling for the first time. Saving your sketch allows the IDE to re-use much of the old code, without recompiling.
+
+**Here's a rough idea:**
+```cpp
+#include <heltec-eink-modules.h>
+
+// Pick your display model:
+
+// DEPG0213BNS800 display;     // (Red Tab)
+// LCMEN2R13EFC1 display;      // (Green Tab, V1.1)
+
+void setup() {
+    display.landscape();
+
+    display.print("Hello, World!");
+    display.update();
+
+    delay(2000);
+    
+    display.clearMemory();
+    display.printCenter("Centered Text");
+    display.update();
+
+    delay(2000);
+
+    display.clear();
+}
+
+void loop() {
+
+}
 ```
 
 ## Things to know
