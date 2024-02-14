@@ -144,11 +144,17 @@ class BaseDisplay: public GFX {
             #endif
 
         #endif  // ! DISABLE_SDCARD
-        // ---------------
-
+   
         // Drawing helpers
+        // ----------------
         Bounds bounds;                                                          // Dimension info about screen and window
         bool supportsColor(Color c);                                            // Does display support given color
+
+        void setFlip(Flip flip);                                                // Mirror the display along specified axis                                
+        void setCursorTopLeft(const char* text, uint16_t x, uint16_t y);        // Place text by top-leftmost pixel  
+        void setCursorTopLeft(const String &text, uint16_t x, uint16_t y);
+
+        // Find a text dimension - inefficient but convenient
         uint16_t getTextWidth(const char* text);                                // Width of text, when rendered
         uint16_t getTextWidth(const String &text);                  
         uint16_t getTextHeight(const char* text);                               // Height of text, when rendered
@@ -156,10 +162,16 @@ class BaseDisplay: public GFX {
         uint16_t getTextCenterX(const char* text);                              // X co-ord required to horizontally center text
         uint16_t getTextCenterX(const String &text);            
         uint16_t getTextCenterY(const char* text);                              // Y co-ord required to vertically center text
-        uint16_t getTextCenterY(const String &text);            
-        void setFlip(Flip flip);                                                // Mirror the display along specified axis                                
-        void setCursorTopLeft(const char* text, uint16_t x, uint16_t y);        // Place text by top-leftmost pixel  
-        void setCursorTopLeft(const String &text, uint16_t x, uint16_t y);
+        uint16_t getTextCenterY(const String &text);
+
+        // Print text in center of display
+        void printCenter(const char* text, int16_t offset_x = 0, int16_t offset_y = 0);                        
+        void printCenter(const String &text, int16_t offset_x = 0, int16_t offset_y = 0);                      
+        void printCenter(int32_t num, int16_t offset_x = 0, int16_t offset_y = 0);                             
+        void printCenter(uint32_t num, int16_t offset_x = 0, int16_t offset_y = 0);                            
+        void printCenter(float value, uint8_t decimal_places = 2, int16_t offset_x = 0, int16_t offset_y = 0); 
+        void printCenter(double value, uint8_t decimal_places = 2, int16_t offset_x = 0, int16_t offset_y = 0);
+
         #if __INT_MAX__ != __INT16_MAX__
             // For platforms where int is not 16bit: Fix a parameter issue with AdafruitGFX
             void getTextBounds(const char *str, int16_t x, int16_t y, int16_t *x1, int16_t *y1, uint16_t *w, uint16_t *h);

@@ -9,6 +9,7 @@
         #include <Arduino.h>
         #include <SPI.h>
         #include <wiring_private.h>     // Lower-level pin manipulation - for Platform::setSpiPins()
+        #include <avr/dtostrf.h>        // Double to String (AVR method) - used in printCenter()
 
         // Don't use fallback settings
         #define PLATFORM_SUPPORTED

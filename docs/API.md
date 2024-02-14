@@ -69,6 +69,7 @@
   - [`landscape()`](#landscape)
   - [`loadFullscreenBMP()`](#loadfullscreenbmp)
   - [`print()`](#print)
+  - [`printCenter()`](#printcenter)
   - [`println()`](#println)
   - [`portrait()`](#portrait)
   - [`SAVE_TO_SD()`](#save_to_sd)
@@ -1925,6 +1926,30 @@ print(text)
 * [setCursor()](#setcursor)
 * [setFont()](#setfont)
 * [setTextColor()](#settextcolor)
+
+___
+### `printCenter()`
+
+Center text on-screen, with optional x and y offset.
+
+#### Syntax
+
+```cpp
+printCenter(str, offset_x, offset_y)
+printCenter(int, offset_x, offset_y)
+printCenter(float, decimal_places, offset_x, offset_y)
+printCenter(double, decimal_places, offset_x, offset_y)
+```
+
+#### Parameters
+
+* _str_: text to draw to screen (C-String or Arduino String)
+* _int_: integer value to draw to screen
+* _float_: float value to draw to screen
+* _double_: double value to draw to screen
+* _offset\_x_: (optional) offset left(negative) or right(positive) of center, in pixels. Default 0
+* _offset\_y_: (optional) offset above (negative) or below(positive) of center, in pixels. Default 0
+* _decimal\_places_: (optional) with double or float values, how many decimal places should be printed. Default 2
 
 ___
 ### `println()`

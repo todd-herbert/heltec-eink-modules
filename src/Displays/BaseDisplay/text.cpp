@@ -85,6 +85,78 @@ uint16_t BaseDisplay::getTextCenterY(const String &text) {
     return getTextCenterY(text.c_str());
 }
 
+// Print text in the center of the display, with optional offset
+void BaseDisplay::printCenter(const char* text, int16_t offset_x, int16_t offset_y) {
+    // Find dimensions of the text
+    int16_t text_off_x(0), text_off_y(0);   // How far is text top left from the centerpoint
+    uint16_t width(0), height(0);
+    getTextBounds(text, 0, 0, &text_off_x, &text_off_y, &width, &height);
+
+    // Move the cursor into position
+    uint16_t left = bounds.window.centerX() - text_off_x;
+    uint16_t top = bounds.window.centerY() - text_off_y;
+    setCursor(
+        left - (width / 2) + offset_x,
+        top - (height / 2) + offset_y
+    );
+
+    // Print the text
+    print(text);
+}
+
+// Print an Arduino String in the center of the display, with optional offset
+void BaseDisplay::printCenter(const String &text, int16_t offset_x, int16_t offset_y) {
+    printCenter(text.c_str(), offset_x, offset_y);
+}
+
+// Print an integer in the center of the display, with optional offset
+void BaseDisplay::printCenter(int32_t number, int16_t offset_x, int16_t offset_y) {
+    char text[11];
+    itoa(number, text, 10);
+    printCenter(text, offset_x, offset_y);
+}
+
+// Print an integer in the center of the display, with optional offset
+void BaseDisplay::printCenter(uint32_t number, int16_t offset_x, int16_t offset_y) {
+    char text[11];
+    utoa(number, text, 10);
+    printCenter(text, offset_x, offset_y);
+}
+
+// Print a float in the center of the display, optionally specifying decimal places and offset
+void BaseDisplay::printCenter(float value, uint8_t decimal_places, int16_t offset_x, int16_t offset_y) {
+    printCenter((double) value, decimal_places, offset_x, offset_y);
+}
+
+// Print a double in the center of the display, optionally specifying decimal places and offset
+void BaseDisplay::printCenter(double value, uint8_t decimal_places, int16_t offset_x, int16_t offset_y) {
+    uint8_t length = 0;
+    uint8_t digits_before_decimal = log(abs(value)) + 1;
+
+    // Space for minus sign
+    if (value < 0) 
+        length++;
+
+    // Digits before decimal point
+    length += digits_before_decimal;
+
+    // Space for decimal point
+    if (decimal_places > 0) 
+        length += decimal_places;
+
+    // Null terminator
+    length++;
+
+    // Get the string (dynamic length), then pass through
+    char *text = new char[length];
+
+    // sprintf(text, )
+    dtostrf(value, 0, decimal_places, text);   // Length without the null-term
+    
+    printCenter(text, offset_x, offset_y);
+    delete[] text;
+}
+
 // Virtual AdafruitGFX methods. Tweaked to implement text-wrapping 
 // ================================================================
 
