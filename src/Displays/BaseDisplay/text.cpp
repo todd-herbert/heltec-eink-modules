@@ -58,7 +58,8 @@ uint16_t BaseDisplay::getTextCenterX(const char* text) {
     getTextBounds(text, 0, 0, &offset_x, &offset_y, &width, &height);
 
     uint16_t left = bounds.window.centerX() - offset_x;
-    return max(0, left - (width / 2) );
+    int16_t center = left - (width / 2);
+    return (uint16_t) max((int16_t)0, center);
 }
 
 // Get the required cursor X position to horizontally center an Arduino String
@@ -75,7 +76,8 @@ uint16_t BaseDisplay::getTextCenterY(const char* text) {
     getTextBounds(text, 0, 0, &offset_x, &offset_y, &width, &height);
 
     uint16_t top = bounds.window.centerY() - offset_y;
-    return max(0, top - (height / 2) );
+    int16_t center = top - (height/ 2);
+    return (uint16_t) max( (int16_t) 0, center);
 }
 
 // Get the required cursor Y position to vertically center an Arduino String

@@ -84,7 +84,7 @@ void BaseDisplay::initDrawingParams() {
     // Default drawing config must be set early, as user-config may be issued before begin() is auto-called.
     
     // Calculate pagefile size
-    pagefile_height = constrain(pagefile_height, 1, MAX_PAGE_HEIGHT);
+    pagefile_height = constrain(pagefile_height, (uint16_t)1, (uint16_t)MAX_PAGE_HEIGHT);
     page_bytecount = panel_width * pagefile_height / 8;
     
     // If unpaged drawing possible, allocate the memory, and set library to draw fullscreen
