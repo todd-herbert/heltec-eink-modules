@@ -47,10 +47,6 @@ void setup() {
         display.setCursor(10, 50);              // Set the (word-processor-like) cursor to the abritrary position of x=10, y=50          
         display.print("Fancy font.");
     }   
-    
-    // Note: setCursor needs to run inside of the DRAW() loop.
-    // This way, it is shunted to the start if the DRAW() code needs to repeat, for paging.
-
 }
 
 void loop() {

@@ -195,7 +195,9 @@ class BaseDisplay: public GFX {
         void clearPage();                                                                                   // Fill the pagefile(s) with default_color. Overriden if no "partial window" support
         virtual void clearPageWindow();                                                                     // If controller has no "partial window" support, this behaviour needs to be seperated. By default: a wrapper for clearPage
         void clearAllMemories();                                                                            // Clears the display memory, and if PRESERVE_IMAGE, the pagefile too
- 
+        void storeDrawingConfig();
+        void restoreDrawingConfig();
+
 
         // SD card
         #ifndef DISABLE_SDCARD  // optimization.h, WirelessPaper.h
@@ -268,6 +270,14 @@ class BaseDisplay: public GFX {
         uint16_t page_top, page_bottom;                             // Which rows to be considered when drawing on current page
         uint8_t *page_black;                                        // Dynamic memory which stores black image bits
         uint8_t *page_red;                                          // Dynamic memory which stores red image bits (if required)
+        
+        // Paging: drawing state at start of loop 
+        GFXfont* before_paging_font;                                // Font
+        Color before_paging_text_color;                             // Text Color
+        uint8_t before_paging_text_size;                            // Text Size (scale factor)
+        Rotation before_paging_rotation;                            // Screen (window) rotation
+        uint16_t before_paging_cursor_x;                            // Text Cursor X
+        uint16_t before_paging_cursor_y;                            // Text Cursor Y
 
 
         // Fastmode

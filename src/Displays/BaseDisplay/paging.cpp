@@ -38,6 +38,9 @@ bool BaseDisplay::calculating() {
         // Track state of display memory (re:customPowerOn)
         display_cleared = false;
         just_restarted = false;
+
+        // Preserve the initial state - the config set before we begin loop
+        storeDrawingConfig();
     }
 
     // End of each loop (start of next)
@@ -51,6 +54,9 @@ bool BaseDisplay::calculating() {
         page_top += pagefile_height;
         page_bottom = min((uint16_t)((page_top + pagefile_height) - 1), winrot_bottom);
         pagefile_length = (page_bottom - page_top + 1) * ((winrot_right - winrot_left+1) / 8);
+    
+        // Return to the config which was present at the start of the first loop - incase user setCursor(), etc
+        restoreDrawingConfig();
     }
 
     // Check whether loop should continue
@@ -144,4 +150,25 @@ void BaseDisplay::clearPage() {
 // If controller has no "partial window" support, behaviour needs to be handled seperately, as part of a workaround
 void BaseDisplay::clearPageWindow() {
     clearPage();
+}
+
+// Record the drawing config just before paging loop begins
+void BaseDisplay::storeDrawingConfig() {
+    before_paging_font = gfxFont;
+    before_paging_text_color = (Color) textcolor;
+    before_paging_rotation = (Rotation) rotation;
+    before_paging_cursor_x = getCursorX();
+    before_paging_cursor_y = getCursorY();
+}
+
+// Restore the drawing config at the start of each paging loop - allows setCursor() before DRAW()
+void BaseDisplay::restoreDrawingConfig() {
+    // Compare these first - they take extra work to set
+    if (gfxFont != before_paging_font)
+        setFont(before_paging_font);
+    if (rotation != before_paging_rotation)
+        setRotation(before_paging_rotation);
+
+    setTextColor(before_paging_text_color);
+    setCursor(before_paging_cursor_x, before_paging_cursor_y);
 }
