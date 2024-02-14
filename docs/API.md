@@ -68,6 +68,8 @@
   - [`getTextWidth()`](#gettextwidth)
   - [`landscape()`](#landscape)
   - [`loadFullscreenBMP()`](#loadfullscreenbmp)
+  - [`print()`](#print)
+  - [`println()`](#println)
   - [`portrait()`](#portrait)
   - [`SAVE_TO_SD()`](#save_to_sd)
   - [`saveToSD()`](#savetosd)
@@ -1901,6 +1903,49 @@ display.loadFullscreenBMP(prefix, number)
 
 * [SAVE_TO_SD()](#SAVE_TO_SD)
 * [SD card](/docs/SD/sd.md)
+
+___
+### `print()`
+
+Draw text to screen, at position of `setCursor()`.
+
+#### Syntax
+
+```cpp
+print(text)
+```
+
+#### Parameters
+
+* _text_: printable to draw to screen
+
+#### See also
+
+* [println](#println)
+* [setCursor()](#setcursor)
+* [setFont()](#setfont)
+* [setTextColor()](#settextcolor)
+
+___
+### `println()`
+
+Draw text to screen, followed by a newline, at position of `setCursor()`.
+
+#### Syntax
+
+```cpp
+println(text)
+```
+
+#### Parameters
+
+* _text_: printable to draw to screen
+
+#### See also
+
+* [setCursor()](#setcursor)
+* [setFont()](#setfont)
+* [setTextColor()](#settextcolor)
 
 ___
 ### `portrait()`
