@@ -26,7 +26,7 @@ For more information, see: [wiring](/docs/README.md#wiring).
 * Not all methods available for Uno
     * `draw24BitBMPFile()` consumes too much RAM
     * `SAVE_TO_SD()` must be enabled in [optimization.h](/src/optimization.h)
-    * Uno HardwareSerial does not play nice with `SAVE_TO_SD()`. [Workaround here](/docs/sd/MinimalSerial.md)
+    * Uno Serial does not play nice with `SAVE_TO_SD()`. [Workaround here](/docs/SD/MinimalSerial.md)
 * Card format must be FAT or FAT32
 
 ## loadFullscreenBMP()
@@ -42,7 +42,7 @@ It accepts only a specific type of .bmp image.
 
 Example: DEPG0290BNS75A | Example: QYEG0213RWS800
 ---|---
-![diagram of "canvas"](canvas_depg0290bns75a.png) | ![diagram of "canvas"](canvas_qyeg0213rws800.png)
+![diagram of BMP acceptable for loadFullScreenBMP()](fullscreen_depg0290bns75a.png) | ![diagram of BMP acceptable for loadFullScreenBMP()](fullscreen_qyeg0213rws800.png)
 
 ```cpp
 #include <heltec-eink-modules.h>
@@ -58,7 +58,7 @@ void setup() {
 ```
 ## Save drawing to SD
 
-Instead of drawing to display, the output can be directed into a canvas.
+Instead of drawing to display, the output can be directed to a BMP file on SD card.
 
 *Arduino Uno:* this feature is disabled by default, to minimize sketch size. See [optimization.h](/src/optimization.h)
 
@@ -72,13 +72,13 @@ void setup() {
     display.useSD(7);
 
     // Save by filename
-    SAVE_TO_SD (display, "canvas01.bmp") {
+    SAVE_TO_SD (display, "Demo0001.bmp") {
         //Graphics commands go here, for example:
         display.fillCircle(50, 100, 20, BLACK);
     }
 
     // Or: save by prefix + number
-    SAVE_TO_SD (display, "canvas", 1) {
+    SAVE_TO_SD (display, "Demo", 1) {
         //Graphics commands go here, for example:
         display.fillCircle(50, 100, 20, BLACK);
     }
@@ -86,7 +86,7 @@ void setup() {
 }
 ```
 
-If your microcontroller is powerful enough, you can [skip the `SAVE_TO_SD`](/docs/API.md#save_to_sd) loop (similar to `update()`)
+If your microcontroller is powerful enough, you can avoid the [`SAVE_TO_SD`](/docs/API.md#save_to_sd) block (similar to `update()`)
 
 ```cpp
 DEPG0290BNS75A display(2, 4, 5);
@@ -98,14 +98,14 @@ void setup() {
     display.setCursor(20, 20);
     display.print("Hello, World!");
 
-    display.saveToSD("test_canvas.bmp");
+    display.saveToSD("test_image.bmp");
     
     // If you wish, you can also display the result without re-rendering
     // display.update();
 }
 ```
 
-`SAVE_CANVAS()` and `saveCanvas()` also accept integers, the same as `loadCanvas()` (above)
+`saveToSD()` also accept [prefix + integer](/docs/API.md#savetosd), instead of a filename.
 
 ### Loading a saved image
 
