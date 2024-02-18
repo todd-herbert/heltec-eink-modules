@@ -41,7 +41,7 @@ void DEPG0213BNS800::configPartial() {
     sendData(0x00);
 
     sendCommand(0x3C);  // Border
-    sendData(0x05);
+    sendData(0xC0);     // Floating (less noise-accumulation?)
 
     sendCommand(0x18);  // Temperature sensor
     sendData(0x80);
