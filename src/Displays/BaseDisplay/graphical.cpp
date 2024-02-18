@@ -81,6 +81,10 @@ void BaseDisplay::calculatePixelPageOffset(uint16_t x, uint16_t y, uint16_t &byt
 // Only takes effect at the start of a calculation. At any other time, use fillScreen()
 void BaseDisplay::setBackgroundColor(uint16_t bgcolor) {
     default_color = bgcolor;
+
+    // If user might want update() rather than DRAW(), treat this as a "fill" command
+    if (PRESERVE_IMAGE && pagefile_height == panel_height)
+        clearPage();
 }
 
 // Check if chosen display supports a given color
