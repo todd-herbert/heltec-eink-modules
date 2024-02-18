@@ -445,8 +445,7 @@ Call [`fastmodeOff()`](/docs/API.md#fastmodeoff) to return to normal.
 
 ## Acknowledgements
 
-Display information referenced from both [official Heltec sources](https://github.com/HelTecAutomation/e-ink), and  [GxEPD2](https://github.com/ZinggJM/GxEPD2)
-
-Drawing functions provided by [GFX Root](https://github.com/ZinggJM/GFX_Root), which itself is a stripped down version of [Adafruit GFX](https://github.com/adafruit/Adafruit-GFX-Library).
-
-A bundled version of [SdFat](https://github.com/greiman/SdFat) is used with some platforms.
+* Display information referenced from both [official Heltec sources](https://github.com/HelTecAutomation/e-ink), and [GxEPD2](https://github.com/ZinggJM/GxEPD2).
+* Drawing functions provided by [GFX Root](https://github.com/ZinggJM/GFX_Root), which itself is a stripped down version of [Adafruit GFX](https://github.com/adafruit/Adafruit-GFX-Library).
+* A bundled version of [SdFat](https://github.com/greiman/SdFat) is used with some platforms.
+* [TJpg_Decoder](https://github.com/Bodmer/TJpg_Decoder) is bundled with certain examples.

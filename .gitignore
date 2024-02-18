@@ -25,3 +25,8 @@ src/led_button_demo.h
 src/lora_demo_install.h
 src/sleep_demo.h
 src/wifi_demo.h
+src/TJpg_Decoder.cpp
+src/TJpg_Decoder.h
+src/tjpgd.c
+src/tjpgd.h
+src/tjpgdcnf.h
