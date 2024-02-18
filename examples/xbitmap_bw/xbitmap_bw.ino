@@ -15,7 +15,7 @@
     // -- "Wireless Paper" --
 
     // #define USING_DEPG0213BNS800         // (Red Tab)
-    // #define USING_LCMEN2R13EFC1          // (Green Tab)
+    // #define USING_LCMEN2R13EFC1          // (Green Tab, V1.1)
 
 
 // Find your wiring  -  https://github.com/todd-herbert/heltec-eink-modules#wiring

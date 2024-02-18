@@ -198,7 +198,7 @@ SAMD21G18A  | Protoneer Nano ARM
             <th>Model Name</th>
             <th><a href="FlexConnector/flex_labels.md">Flex Connector Label</a></th>
             <th align="center">Front Image</th>
-            <th align="center">Rear Image</th>
+            <th align="center">Rear Image&nbsp;<sup>3</sup></th>
             <th>Colors</th>
             <th>Screen Protector</th>
             <th>Resolution (px)</th>
@@ -210,7 +210,9 @@ SAMD21G18A  | Protoneer Nano ARM
             <td><strong>LCMEN2R13EFC1</strong></td>
             <td><b>Hidden, printed on back-side</b><br />(HINK-E0213A162-FPC-A0)</td>
             <td align="center"><img alt="Front" src="Identification/LCMEN2R13EFC1-Front.jpg" /></td>
-            <td align="center"><img alt="Front" src="Identification/LCMEN2R13EFC1-Rear.jpg" /></td>            
+            <td align="center">
+            <img alt="Rear" src="Identification/LCMEN2R13EFC1-Rear.jpg" /><br />
+            <img alt="Rear, with sticker" src="Identification/LCMEN2R13EFC1-Rear-Stickered.jpg" /></td>            
             <td>Black, White</td>
             <td>Green Tab</td>
             <td>250 x 122</td>
@@ -220,7 +222,7 @@ SAMD21G18A  | Protoneer Nano ARM
             <td><strong>DEPG0213BNS800</strong></td>
             <td>FPC-7528B</td>
             <td align="center"><img alt="Front" src="Identification/DEPG0213BNS800-Front.jpg" /></td>
-            <td align="center"><img alt="Front" src="Identification/DEPG0213BNS800-Rear.jpg" /></td>
+            <td align="center"><img alt="Rear" src="Identification/DEPG0213BNS800-Rear.jpg" /></td>
             <td>Black, White</td>
             <td>Red Tab</td>
             <td>250 x 122</td>
@@ -228,6 +230,8 @@ SAMD21G18A  | Protoneer Nano ARM
         </tr>
     </tbody>
 </table>
+
+<sup>3</sup> Version-marking sticker is present on *some* LCMEN2R13EFC1 boards.<br />
 
 ## Wiring
 

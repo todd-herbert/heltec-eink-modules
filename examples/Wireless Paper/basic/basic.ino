@@ -6,7 +6,7 @@
     // -- "Wireless Paper" boards only --
 
     // DEPG0213BNS800 display;      // (Red Tab)
-    // LCMEN2R13EFC1 display;       // (Green Tab)  
+    // LCMEN2R13EFC1 display;       // (Green Tab, V1.1)  
 
 
 // DEMO: Wireless Paper - Basic
