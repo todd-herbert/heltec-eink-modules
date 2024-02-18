@@ -70,7 +70,7 @@ void setup() {
 
     display.setCursor(10, 60);
     display.println("clearMemory()");
-    display.print("a blank canvas");
+    display.print("a new drawing");
 
     display.update();
 }
