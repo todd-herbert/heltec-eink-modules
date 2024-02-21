@@ -76,7 +76,7 @@ void setup() {
     // Here's a convenient trick:
     FullBounds f = display.bounds.full;
     
-    display.drawCircle(f.centerX(), f.centerY(), 5, WHITE);   // Draw a smaller white circle inside, giving a "ring" shape
+    display.fillCircle(f.centerX(), f.centerY(), 5, WHITE);   // Draw a smaller white circle inside, giving a "ring" shape
     display.update();
 
     delay(10000);
