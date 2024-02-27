@@ -28,40 +28,6 @@
     // "Wireless Paper" boards: skip this, your wiring is pre-set
 
 
-// (Example automatically picks the correct class and sample image)
-#if     defined USING_DEPG0150BNS810
-    #define     DISPLAY_CLASS       DEPG0150BNS810    
-    #define     PENCILS_H           "pencils_200x200.h"
-#elif   defined USING_DEPG0154BNS800
-    #define     DISPLAY_CLASS       DEPG0154BNS800
-    #define     PENCILS_H           "pencils_152x152.h"
-#elif   defined USING_GDEP015OC1
-    #define     DISPLAY_CLASS       GDEP015OC1
-    #define     PENCILS_H           "pencils_200x200.h"
-#elif   defined USING_DEPG0213RWS800
-    #define     DISPLAY_CLASS       QYEG0213RWS800    
-    #define     PENCILS_H           "pencils_250x122.h"    
-#elif   defined USING_QYEG0213RWS800
-    #define     DISPLAY_CLASS       QYEG0213RWS800    
-    #define     PENCILS_H           "pencils_250x122.h"
-#elif   defined USING_DEPG0290BNS75A
-    #define     DISPLAY_CLASS       DEPG0290BNS75A    
-    #define     PENCILS_H           "pencils_296x128.h"
-#elif   defined USING_DEPG0290BNS800
-    #define     DISPLAY_CLASS       DEPG0290BNS800   
-    #define     PENCILS_H           "pencils_296x128.h"
-#elif   defined USING_GDE029A1
-    #define     DISPLAY_CLASS       GDE029A1    
-    #define     PENCILS_H           "pencils_296x128.h"
-#elif   defined USING_DEPG0213BNS800
-    #define     DISPLAY_CLASS       DEPG0213BNS800
-    #define     PENCILS_H           "pencils_250x122.h"
-#elif   defined USING_LCMEN2R13EFC1
-    #define     DISPLAY_CLASS       LCMEN2R13EFC1  
-    #define     PENCILS_H           "pencils_250x122.h"  
-#endif
-
-
 // DEMO: Bitmap Data
 // -----------------
 // You may sometime have the need to draw raw bitmap data to the screen
@@ -70,10 +36,10 @@
 
 
 #include <heltec-eink-modules.h>
+#include "example_resources.h"
 
 // Sample set of raw bitmap data
 #include PENCILS_H
-
 
 // Create the display
 // (Example auto-picks correct style)
@@ -85,6 +51,10 @@
     // For SPI displays, you would normally set your pins here
     DISPLAY_CLASS display(DC_PIN, CS_PIN, BUSY_PIN);
 #endif
+
+// Instead of all this "auto-picking" stuff:
+//  #include "pencils_200x200.h"
+//  DEPG0150BNS810 display(2, 4, 5);    // Pins for DC, CS, BUSY
 
 
 void setup() {
@@ -116,7 +86,7 @@ void loop() {
 #include <heltec-eink-modules.h>
 #include "pencils_200x200.h"
 
-DEPGDEPG0150BNS810 display(2, 4, 5);
+DEPG0150BNS810 display(2, 4, 5);
 
 void setup() {
 

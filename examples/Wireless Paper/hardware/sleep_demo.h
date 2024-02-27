@@ -7,10 +7,10 @@ void sleepDemo() {
     
     display.setCursor(2, 50);
     display.print( \
-        "Deep sleep current is\n" \
-        "only 18 micro Amps.\n" \
-        "\n"\
-        "Demo will sleep for 10 seconds." \
+        "Prepare display (and LoRa)\n" \
+        "for ESP32 deep sleep:\n" \
+        "\n" \
+        "Platform::prepareToSleep();\n" \
     );
 
     display.update();
@@ -23,10 +23,10 @@ void sleepDemo() {
     drawTitle(title_sleep);
     display.setCursor(2, 50);
     display.print( \
-        "Platform::prepareToSleep();\n" \
-        "\n" \
-        "Prepares display (and LoRa)\n" \
-        "for ESP32 deep sleep." \
+        "Deep sleep current is\n" \
+        "only 18 micro Amps.\n" \
+        "\n"\
+        "Demo will sleep for 10 seconds." \
     );
     display.update();
 

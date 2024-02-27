@@ -28,40 +28,6 @@
     // "Wireless Paper" boards: skip this, your wiring is pre-set
 
 
-// (Example automatically picks the correct class and sample image)
-#if     defined USING_DEPG0150BNS810
-    #define     DISPLAY_CLASS       DEPG0150BNS810    
-    #define     CHESS_H             "chess_200x200.h"
-#elif   defined USING_DEPG0154BNS800
-    #define     DISPLAY_CLASS       DEPG0154BNS800
-    #define     CHESS_H             "chess_152x152.h"
-#elif   defined USING_GDEP015OC1
-    #define     DISPLAY_CLASS       GDEP015OC1
-    #define     CHESS_H             "chess_200x200.h"
-#elif   defined USING_DEPG0213RWS800
-    #define     DISPLAY_CLASS       QYEG0213RWS800    
-    #define     CHESS_H             "chess_250x122.h"    
-#elif   defined USING_QYEG0213RWS800
-    #define     DISPLAY_CLASS       QYEG0213RWS800    
-    #define     CHESS_H             "chess_250x122.h"
-#elif   defined USING_DEPG0290BNS75A
-    #define     DISPLAY_CLASS       DEPG0290BNS75A    
-    #define     CHESS_H             "chess_296x128.h"
-#elif   defined USING_DEPG0290BNS800
-    #define     DISPLAY_CLASS       DEPG0290BNS800   
-    #define     CHESS_H             "chess_296x128.h"
-#elif   defined USING_GDE029A1
-    #define     DISPLAY_CLASS       GDE029A1    
-    #define     CHESS_H             "chess_296x128.h"
-#elif   defined USING_DEPG0213BNS800
-    #define     DISPLAY_CLASS       DEPG0213BNS800
-    #define     CHESS_H             "chess_250x122.h"
-#elif   defined USING_LCMEN2R13EFC1
-    #define     DISPLAY_CLASS       LCMEN2R13EFC1  
-    #define     CHESS_H             "chess_250x122.h"  
-#endif
-
-
 // DEMO: Black & White XBitmap Images
 // -------------------------------------
 
@@ -76,13 +42,21 @@
 // https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/XBitmapTutorial/README.md
 
 
-#include "heltec-eink-modules.h"
+#include <heltec-eink-modules.h>
+#include "example_resources.h"
 
-// Here we are including the xbm image file (chess.h or similar). 
-// In this example, for convenience, an appropriate image for you display has been automatically selected. (See above)
+// Example auto-selects an image
 #include CHESS_H
 
-DISPLAY_CLASS display(DC_PIN, CS_PIN, BUSY_PIN);
+// Example auto-selects correct class
+#ifdef WIRELESS_PAPER
+    // For "Wireless Paper" boards, no need to set pins.
+    DISPLAY_CLASS display;
+#else
+    // For SPI displays, you would normally set your pins here
+    DISPLAY_CLASS display(DC_PIN, CS_PIN, BUSY_PIN);
+#endif
+
 
 void setup() {
     display.setRotation(PINS_LEFT);   // Don't forget to set the rotation, so your image fits how you intended
@@ -95,3 +69,26 @@ void setup() {
 void loop() {
 
 }
+
+// "That was confusing!"
+// Okay, look, here it is without all the tricky stuff to get the example to run with different displays
+
+/*
+
+#include <heltec-eink-modules.h>
+#include "chess_200x200.h"
+
+DEPG0150BNS810 display(2, 4, 5);
+
+void setup() {
+
+    display.setRotation(90); // Landscape
+    
+    DRAW (display) {
+        display.drawXBitmap(0, 0, chess_bits, chess_width, chess_height, BLACK);
+    }
+}
+
+void loop() {}
+
+*/
