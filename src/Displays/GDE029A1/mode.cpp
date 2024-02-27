@@ -69,17 +69,3 @@ void GDE029A1::configPartial() {
     
     wait();
 }
-
-void GDE029A1::configPingPong() {
-    sendCommand(0x37);      // "Write Register for Display Option"
-    sendData(0x00);         // Ping-Pong mode. Image writes to black ram,
-    sendData(0x00);         // display updates, then image is copied to red ram.
-    sendData(0x00);         // On next image, red ram is used as a mask,
-    sendData(0x00);         // To determine which parts of new black ram
-    sendData(0x00);         // should not be set to white...
-    sendData(0x40);
-    sendData(0x00);  
-    sendData(0x00);
-    sendData(0x00);  
-    sendData(0x00);
-}

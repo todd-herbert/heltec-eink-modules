@@ -19,3 +19,54 @@ void GDEP015OC1::activate() {
     // Block while the command runs
     wait();
 }
+
+
+void GDEP015OC1::endImageTxQuiet() {
+    sendCommand(0xFF);  // Terminate frame write without update
+    wait();
+    return;
+}
+
+// Prepare display controller to receive image data, then transfer
+void GDEP015OC1::sendImageData() {
+
+    // IF Fastmode OFF
+    // -------------
+    if (fastmode_state == OFF) {
+
+        // Send black
+        sendCommand(0x24);   // Write "NEW" memory
+        for (uint16_t i = 0; i < pagefile_length; i++)
+            sendData(page_black[i]);
+
+        sendCommand(0x26);   // Write "OLD" memory
+        for (uint16_t i = 0; i < pagefile_length; i++)
+            sendData(page_black[i]);            
+        
+    }
+
+    // IF Fastmode ON - first pass
+    // OR Fastmode TURBO
+    // -------------------------
+    else if (!fastmode_secondpass) {
+        // Send black
+        sendCommand(0x24);   // Write "NEW" memory
+        for (uint16_t i = 0; i < pagefile_length; i++)
+            sendData(page_black[i]);
+    }
+
+    // IF Fastmode OFF - second pass
+    // ----------------------------
+    else {
+        // Send black data to "OLD" memory, for differential update
+        sendCommand(0x26);
+        for (uint16_t i = 0; i < pagefile_length; i++)
+            sendData(page_black[i]);
+
+        // Display's controller moves NEW mem into OLD at update
+        // so we need to refill it now, in case of setWindow() / fastmodeOff()
+        sendCommand(0x24);   // Write "NEW" memory, AGAIN
+        for (uint16_t i = 0; i < pagefile_length; i++)
+            sendData(page_black[i]);
+    }
+}
