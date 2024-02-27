@@ -14,7 +14,7 @@ void LCMEN2R13EFC1::configPartial() {
     sendData(0b11 << 6 | 1 << 5 | 1 << 4 | 1 << 3 | 1 << 2 | 1 << 1 | 1 << 0);       // [7:6] Display Res, [5] LUT, [4] BW / BWR [3] Scan Vert, [2] Shift Horiz, [1] Booster, [0] Reset?
 
     sendCommand(0x50);  // VCOM and data interval setting
-    sendData(0b10 << 6 | 0b01 << 4 | 0b0111 << 0); // [7:6] Border, [5:4] Data polarity (default), [3:0] VCOM and Data interval (default)
+    sendData(0b11 << 6 | 0b01 << 4 | 0b0111 << 0); // [7:6] Border, [5:4] Data polarity (default), [3:0] VCOM and Data interval (default)
 
      // Load the various LUTs
     sendCommand(0x20);                                          // VCOM
