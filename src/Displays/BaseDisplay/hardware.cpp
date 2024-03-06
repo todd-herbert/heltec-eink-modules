@@ -276,6 +276,9 @@ void BaseDisplay::clearAllMemories() {
 
     // Send power-off signal to your custom power switching circuit, and set the display pins to prevent unwanted current flow
     void BaseDisplay::customPowerOff(uint16_t pause) {
+        // Just in-case customPowerOff() gets called in some weird place
+        begin();
+
         // If poweroff is called immediately after drawing, it can compromise the image
         delay(pause);
 
@@ -286,10 +289,20 @@ void BaseDisplay::clearAllMemories() {
         digitalWrite(pin_power, !switch_type);
 
         // Set the logic pins: prevent a small current return path
+        pinMode(pin_dc, OUTPUT);
+        pinMode(pin_cs, OUTPUT);
+        pinMode(pin_sdi, OUTPUT);
+        pinMode(pin_clk, OUTPUT);
         digitalWrite(pin_dc, switch_type);
         digitalWrite(pin_cs, switch_type);
         digitalWrite(pin_sdi, switch_type);
         digitalWrite(pin_clk, switch_type);
+
+        // Prevent some strange leakage through the busy pin (supposedly high-impedance, but..)
+        if (switch_type == PNP) {
+            pinMode(pin_busy, OUTPUT);
+            digitalWrite(pin_busy, LOW);
+        }
 
         // Same, if we're using sd card
         if (pin_cs_card != 0xFF) {
@@ -300,6 +313,8 @@ void BaseDisplay::clearAllMemories() {
 
     // Send power-on signal to your custom power switching circuit, then re-init display
     void BaseDisplay::customPowerOn() {
+        // We set this to OUTPUT in customPowerOff() to prevent current leakage
+        pinMode(pin_busy, INPUT);
 
         // CS pin deselcted; power-up the display
         digitalWrite(pin_cs, HIGH);
@@ -328,7 +343,6 @@ void BaseDisplay::clearAllMemories() {
             writePage();
         else    // If paged - No record of old image, just fill blank    
             clearAllMemories();
-        
     }
 
 #endif
