@@ -1292,11 +1292,12 @@ Not all displays support fast mode.
 
 ```cpp
 display.fastmodeOn()
+display.fastmodeOn(clear_if_reset)
 ```
 
 #### Parameters
 
-None.
+* _clear\_if\_reset_ (optional): Pass false to use the display memory "as-is". Useful after a processor deep sleep. If you intend to use fast-mode, make sure to at least run a normal refresh (or `clear()` / `clearMemory()`) on inital boot. Otherwise, you'll get a whole lot of static.
 
 #### Example
 
@@ -1338,6 +1339,11 @@ void setup() {
 void loop() {}
 ```
 
+#### See also
+
+* [clear()](#clearlear)
+* [clearMemory()](#clearmemory)
+
 ___
 ### `fastmodeTurbo()`
 
@@ -1353,11 +1359,12 @@ This is a quirk of the display controller IC.
 
 ```cpp
 display.fastmodeTurbo()
+display.fastmodeTurbo(clear_if_reset)
 ```
 
 #### Parameters
 
-None.
+* _clear\_if\_reset_ (optional): Pass false to use the display memory "as-is". Useful after a processor deep sleep. If you intend to use fast-mode, make sure to at least run a normal refresh (or `clear()` / `clearMemory()`) on inital boot. Otherwise, you'll get a whole lot of static.
 
 #### Example
 
@@ -1397,6 +1404,11 @@ void setup() {
 
 }
 ```
+
+#### See also
+
+* [clear()](#clearlear)
+* [clearMemory()](#clearmemory)
 
 ___
 ### `fillCircle()`

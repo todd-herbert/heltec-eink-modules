@@ -68,6 +68,6 @@ class QYEG0213RWS800 : public BaseDisplay {
     // Disabled methods
     // ==========================
     private:
-        /* --- Error: Display does not support fastmode (partial refresh) --- */        void fastmodeOn() {}
-        /* --- Error: Display does not support fastmode (partial refresh) --- */        void fastmodeTurbo() {}
+        /* --- Error: Display does not support fastmode (partial refresh) --- */        void fastmodeOn(bool) {}
+        /* --- Error: Display does not support fastmode (partial refresh) --- */        void fastmodeTurbo(bool) {}
 };

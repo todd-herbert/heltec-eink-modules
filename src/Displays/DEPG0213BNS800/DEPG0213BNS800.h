@@ -56,5 +56,5 @@ class DEPG0213BNS800 : public BaseDisplay {
     // Disabled methods
     // ==========================
     private:
-        /* --- Error: TURBO gives no performance boost on Wireless Paper --- */        void fastmodeTurbo() {}
+        /* --- Error: TURBO gives no performance boost on Wireless Paper --- */        void fastmodeTurbo(bool) {}
 };

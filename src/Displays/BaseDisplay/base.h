@@ -46,8 +46,8 @@ class BaseDisplay: public GFX {
         // Fastmode (partial refresh)
         enum Fastmode : int8_t {OFF, ON, TURBO, NOT_SET = -1};      // Different display update techniques. Enum for internal use only
         void fastmodeOff();                                         // Use full refresh
-        virtual void fastmodeOn();                                  // Use Partial refresh, double pass. Deletable by derived class
-        virtual void fastmodeTurbo();                               // Use Partial refresh, single pass. Deletable by derived class
+        virtual void fastmodeOn(bool clear_if_reset = true);         // Use Partial refresh, double pass. Deletable by derived class
+        virtual void fastmodeTurbo(bool clear_if_reset = true);      // Use Partial refresh, single pass. Deletable by derived class
 
 
         // Window (only important when paging)
