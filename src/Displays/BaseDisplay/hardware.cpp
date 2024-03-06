@@ -309,7 +309,7 @@ void BaseDisplay::clearAllMemories() {
         delay(50);
 
         // SPI resumes
-        Platform::beginSPI(display_spi, pin_miso, pin_miso, pin_clk);
+        Platform::beginSPI(display_spi, pin_sdi, pin_miso, pin_clk);
         
         // SAMD21: Move the SPI pins back to custom location
         #ifdef __SAMD21G18A__
