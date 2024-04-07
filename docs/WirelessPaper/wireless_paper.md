@@ -32,16 +32,16 @@ Only the board's E-Ink display falls within the scope of this library.
 
     ![](ArduinoIDE/urls1.jpg)
 
-3. Add the URL: `https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/releases/latest/download/package_heltec_esp32_index.json`
+3. Add the URL: `https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/releases/download/1.0.1/package_heltec_esp32_index.json`
 
     ![](ArduinoIDE/urls2.jpg)
 
-4. Open the Board Manager, search for Heltec, and install the latest version of `Heltec ESP32 Series Dev-boards`. <br />
-This may take some time.
+4. Open the Board Manager, search for Heltec, and install **version 1.0.1** of `Heltec ESP32 Series Dev-boards`. <br />
+*Note:* Heltec ESP32 Series Dev-boards version 1.0.1 or lower should be used. Changes made in Heltec's 3.0.0-alpha are not yet supported.
 
     ![](ArduinoIDE/board_manager.jpg)
 
-5. With your "Wireless Paper" connected, open the board selection drop-dowm, search for "paper", then select Wireless Paper, and your board's serial port.
+1. With your "Wireless Paper" connected, open the board selection drop-dowm, search for "paper", then select Wireless Paper, and your board's serial port.
 
     ![](ArduinoIDE/select_board.jpg)
 
