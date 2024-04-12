@@ -14,22 +14,9 @@
   - [`QYEG0213RWS800()`](#qyeg0213rws800)
 - [Methods](#methods)
   - [`begin()`](#begin)
-  - [`bounds.full.left()`](#boundsfullleft)
-  - [`bounds.full.top()`](#boundsfulltop)
-  - [`bounds.full.right()`](#boundsfullright)
-  - [`bounds.full.bottom()`](#boundsfullbottom)
-  - [`bounds.full.width()`](#boundsfullwidth)
-  - [`bounds.full.height()`](#boundsfullheight)
-  - [`bounds.full.centerX()`](#boundsfullcenterx)
-  - [`bounds.full.centerY()`](#boundsfullcentery)
-  - [`bounds.window.left()`](#boundswindowleft)
-  - [`bounds.window.top()`](#boundswindowtop)
-  - [`bounds.window.right()`](#boundswindowright)
-  - [`bounds.window.bottom()`](#boundswindowbottom)
-  - [`bounds.window.width()`](#boundswindowwidth)
-  - [`bounds.window.height()`](#boundswindowheight)
-  - [`bounds.window.centerX()`](#boundswindowcenterx)
-  - [`bounds.window.centerY()`](#boundswindowcentery)
+  - [`bottom()`](#bottom)
+  - [`centerX()`](#centerx)
+  - [`centerY()`](#centery)
   - [`clear()`](#clear)
   - [`clearMemory()`](#clearmemory)
   - [`DRAW()`](#draw)
@@ -66,12 +53,15 @@
   - [`getTextCenterY()`](#gettextcentery)
   - [`getTextHeight()`](#gettextheight)
   - [`getTextWidth()`](#gettextwidth)
+  - [`height()`](#height)
   - [`landscape()`](#landscape)
+  - [`left()`](#left)
   - [`loadFullscreenBMP()`](#loadfullscreenbmp)
   - [`print()`](#print)
   - [`printCenter()`](#printcenter)
   - [`println()`](#println)
   - [`portrait()`](#portrait)
+  - [`right()`](#right)
   - [`SAVE_TO_SD()`](#save_to_sd)
   - [`saveToSD()`](#savetosd)
   - [`SDCardFound()`](#sdcardfound)
@@ -85,9 +75,19 @@
   - [`setTextColor()`](#settextcolor)
   - [`setTextWrap()`](#settextwrap)
   - [`setWindow()`](#setwindow)
+  - [`top()`](#top)
   - [`update()`](#update)
   - [`useCustomPowerSwitch()`](#usecustompowerswitch)
   - [`useSD()`](#usesd)
+  - [`width()`](#width)
+  - [`window.left()`](#windowleft)
+  - [`window.top()`](#windowtop)
+  - [`window.right()`](#windowright)
+  - [`window.bottom()`](#windowbottom)
+  - [`window.width()`](#windowwidth)
+  - [`window.height()`](#windowheight)
+  - [`window.centerX()`](#windowcenterx)
+  - [`window.centerY()`](#windowcentery)
 - [Constants](#constants)
   - [`Color`](#color)
   - [`Flip`](#flip)
@@ -433,71 +433,14 @@ void setup() {
 ```
 
 ___
-### `bounds.full.left()`
-
-Get the left edge of the display. This will always be zero, but is included for completeness.
-
-#### Syntax
-
-```cpp
-display.bounds.full.left()
-```
-
-#### Parameters
-
-None.
-
-#### Returns
-
-Position of the left edge of the full display, in pixels.
-
-___
-### `bounds.full.top()`
-
-Get the top edge of the display. This will always be zero, but is included for completeness.
-
-#### Syntax
-
-```cpp
-display.bounds.full.top()
-```
-
-#### Parameters
-
-None.
-
-#### Returns
-
-Position of the top edge of the full display, in pixels.
-
-___
-### `bounds.full.right()`
-
-Get the right edge of the display. Value will change to match the current rotation.
-
-#### Syntax
-
-```cpp
-display.bounds.full.right()
-```
-
-#### Parameters
-
-None.
-
-#### Returns
-
-Position of the right edge of the full display, in pixels.
-
-___
-### `bounds.full.bottom()`
+### `bottom()`
 
 Get the bottom edge of the display. Value will change to match the current rotation.
 
 #### Syntax
 
 ```cpp
-display.bounds.full.bottom()
+display.bottom()
 ```
 
 #### Parameters
@@ -509,52 +452,14 @@ None.
 Position bottom edge of the full display, in pixels.
 
 ___
-### `bounds.full.width()`
-
-Get the width of the display. A display with width 200 will have a left edge of 0, and a right edge of 199. Value will change to match the current rotation.
-
-#### Syntax
-
-```cpp
-display.bounds.full.width()
-```
-
-#### Parameters
-
-None.
-
-#### Returns
-
-Width of the full display, in pixels.
-
-___
-### `bounds.full.height()`
-
-Get the height of the display. A display with height 200 will have a top edge of 0, and a bottom edge of 199. Value will change to match the current rotation.
-
-#### Syntax
-
-```cpp
-display.bounds.full.height()
-```
-
-#### Parameters
-
-None.
-
-#### Returns
-
-Height of the full display, in pixels.
-
-___
-### `bounds.full.centerX()`
+### `centerX()`
 
 Get the horizontal midpoint of the display. If the center is between two pixels, the leftmost is returned. Value will change to match the current rotation.
 
 #### Syntax
 
 ```cpp
-display.bounds.full.centerX()
+display.centerX()
 ```
 
 #### Parameters
@@ -566,14 +471,14 @@ None.
 Horizontal center of the full display, in pixels.
 
 ___
-### `bounds.full.centerY()`
+### `centerY()`
 
 Get the vertical midpoint of the display. If the center is between two pixels, the topmost is returned. Value will change to match the current rotation.
 
 #### Syntax
 
 ```cpp
-display.bounds.full.centerY()
+display.centerY()
 ```
 
 #### Parameters
@@ -583,157 +488,6 @@ None.
 #### Returns
 
 Vertical center of the full display, in pixels.
-
-___
-### `bounds.window.left()`
-
-Get the left edge of the current window, after it has been expanded to meet hardware requirements. Value will change to match the current rotation.
-
-#### Syntax
-
-```cpp
-display.bounds.window.left()
-```
-
-#### Parameters
-
-None.
-
-#### Returns
-
-Position of the left edge of the current window, in pixels.
-
-___
-### `bounds.window.top()`
-
-Get the top edge of the current window, after it has been expanded to meet hardware requirements. Value will change to match the current rotation.
-
-#### Syntax
-
-```cpp
-display.bounds.window.top()
-```
-
-#### Parameters
-
-None.
-
-#### Returns
-
-Position of the top edge of the current window, in pixels.
-
-___
-### `bounds.window.right()`
-
-Get the right edge of the current window, after it has been expanded to meet hardware requirements. Value will change to match the current rotation.
-
-#### Syntax
-
-```cpp
-display.bounds.window.right()
-```
-
-#### Parameters
-
-None.
-
-#### Returns
-
-Position of the right edge of the current window, in pixels.
-
-___
-### `bounds.window.bottom()`
-
-Get the bottom edge of the current window, after it has been expanded to meet hardware requirements. Value will change to match the current rotation.
-
-#### Syntax
-
-```cpp
-display.bounds.window.bottom()
-```
-
-#### Parameters
-
-None.
-
-#### Returns
-
-Position bottom edge of the current window, in pixels.
-
-___
-### `bounds.window.width()`
-
-Get the width of the current window. A window with a left edge of 0, and a right edge of 7, would have a width of 8. Value will change to match the current rotation.
-
-#### Syntax
-
-```cpp
-display.bounds.window.width()
-```
-
-#### Parameters
-
-None.
-
-#### Returns
-
-Width of the current window, in pixels.
-
-___
-### `bounds.window.height()`
-
-Get the height of the current window. A window with a top edge of 0, and a bottom edge of 7, would have a height of 8. Value will change to match the current rotation.
-
-#### Syntax
-
-```cpp
-display.bounds.window.height()
-```
-
-#### Parameters
-
-None.
-
-#### Returns
-
-Height of the current window, in pixels.
-
-___
-### `bounds.window.centerX()`
-
-Get the horizontal midpoint of the current window. If the center is between two pixels, the leftmost is returned. Value will change to match the current rotation.
-
-#### Syntax
-
-```cpp
-display.bounds.window.centerX()
-```
-
-#### Parameters
-
-None.
-
-#### Returns
-
-Horizontal center of the current window, in pixels.
-
-___
-### `bounds.window.centerY()`
-
-Get the vertical midpoint of the current window. If the center is between two pixels, the topmost is returned. Value will change to match the current rotation.
-
-#### Syntax
-
-```cpp
-display.bounds.window.centerY()
-```
-
-#### Parameters
-
-None.
-
-#### Returns
-Vertical center of the current window, in pixels.
 
 ___
 ### `clear()`
@@ -1879,6 +1633,25 @@ The width of the string.
 * [getTextWidth()](#gettextbounds)
 
 ___
+### `height()`
+
+Get the height of the display. A display with height 200 will have a top edge of 0, and a bottom edge of 199. Value will change to match the current rotation.
+
+#### Syntax
+
+```cpp
+display.height()
+```
+
+#### Parameters
+
+None.
+
+#### Returns
+
+Height of the full display, in pixels.
+
+___
 ### `landscape()`
 
 Alias for `setRotation(3)`. Enters a landscape orientation. 
@@ -1888,6 +1661,25 @@ Alias for `setRotation(3)`. Enters a landscape orientation.
 
 * [portrait()](#portrait)
 * [setRotation()](#setrotation)
+
+___
+### `left()`
+
+Get the left edge of the display. This will always be zero, but is included for completeness.
+
+#### Syntax
+
+```cpp
+display.left()
+```
+
+#### Parameters
+
+None.
+
+#### Returns
+
+Position of the left edge of the full display, in pixels.
 
 ___
 ### `loadFullscreenBMP()`
@@ -1993,6 +1785,25 @@ Alias for `setRotation(0)`. Enters a portrait orientation.
 
 * [landscape()](#landscape)
 * [setRotation()](#setrotation)
+
+___
+### `right()`
+
+Get the right edge of the display. Value will change to match the current rotation.
+
+#### Syntax
+
+```cpp
+display.right()
+```
+
+#### Parameters
+
+None.
+
+#### Returns
+
+Position of the right edge of the full display, in pixels.
 
 ___
 ### `SAVE_TO_SD()`
@@ -2274,7 +2085,7 @@ Reverse the image, either horizontally, or vertically.
 
 Flip can be applied in the context of the window, or the whole screen. Flip is applied relative to the current rotation.
 
-Because of a hardware limitation, window width (or height, if you are using a landscape rotation) is always a multiple of 8. Be aware that this may affect window dimensions when drawing flipped. If you are using a window, your window's width will be automatically rounded up to the nearest multiple. For your convenience, these new "rounded up" dimensions are available through the `.bounds.window` feature. In this way, you can draw your graphics to cover the slightly expanded window, and work around the limitation. Note that the window will never "round down"; your originally requested region will always fit within the window provided.
+Because of a hardware limitation, window width (or height, if you are using a landscape rotation) is always a multiple of 8. Be aware that this may affect window dimensions when drawing flipped. If you are using a window, your window's width will be automatically rounded up to the nearest multiple. For your convenience, these new "rounded up" dimensions are available through the `.window` feature. In this way, you can draw your graphics to cover the slightly expanded window, and work around the limitation. Note that the window will never "round down"; your originally requested region will always fit within the window provided.
 
 #### Syntax
 
@@ -2320,7 +2131,7 @@ ___
 
 Rotate future drawing operations by a multiple of 90 degrees.  
 
-Because of a hardware limitation, window width (or height, if you are using a landscape rotation) is always a multiple of 8. If you are using a window, your window's width will be automatically rounded up to the nearest multiple. For your convenience, these new "rounded up" dimensions are available through the `.bounds.window` feature. In this way, you can draw your graphics to cover the slightly expanded window, and work around the limitation. Note that the window will never "round down"; your originally requested region will always fit within the window provided.
+Because of a hardware limitation, window width (or height, if you are using a landscape rotation) is always a multiple of 8. If you are using a window, your window's width will be automatically rounded up to the nearest multiple. For your convenience, these new "rounded up" dimensions are available through the `.window` feature. In this way, you can draw your graphics to cover the slightly expanded window, and work around the limitation. Note that the window will never "round down"; your originally requested region will always fit within the window provided.
 
 #### Syntax
 
@@ -2441,7 +2252,7 @@ Draw to only a particular part of the screen ("a window"), leaving the remainder
 
 Window parameters are interpreted in the context of the current rotation and flip.
 
-Because of a hardware limitation, window width (or height, if you are using a landscape rotation) is always a multiple of 8. Any value given will be automatically rounded up to the nearest multiple. For your convenience, these new "rounded up" dimensions are available through the `.bounds.window` feature. In this way, you can draw your graphics to cover the slightly expanded window, and work around the limitation. Note that the window will never "round down"; your originally requested region will always fit within the window provided.
+Because of a hardware limitation, window width (or height, if you are using a landscape rotation) is always a multiple of 8. Any value given will be automatically rounded up to the nearest multiple. For your convenience, these new "rounded up" dimensions are available through the `.window` feature. In this way, you can draw your graphics to cover the slightly expanded window, and work around the limitation. Note that the window will never "round down"; your originally requested region will always fit within the window provided.
 
 #### Syntax
 
@@ -2491,6 +2302,25 @@ void setup() {
 * [fullscreen()](#fullscreen)
 * [setRotation()](#setrotation)
 * [setFlip()](#setflip)
+
+___
+### `top()`
+
+Get the top edge of the display. This will always be zero, but is included for completeness.
+
+#### Syntax
+
+```cpp
+display.top()
+```
+
+#### Parameters
+
+None.
+
+#### Returns
+
+Position of the top edge of the full display, in pixels.
 
 ___
 ### `update()`
@@ -2572,6 +2402,176 @@ display.useSD(cs_pin, miso_pin) // ESP32 or SAMD21G18A only
 #### See also
 
 * [SD card](/docs/SD/sd.md)
+
+___
+### `width()`
+
+Get the width of the display. A display with width 200 will have a left edge of 0, and a right edge of 199. Value will change to match the current rotation.
+
+#### Syntax
+
+```cpp
+display.width()
+```
+
+#### Parameters
+
+None.
+
+#### Returns
+
+Width of the full display, in pixels.
+
+___
+### `window.left()`
+
+Get the left edge of the current window, after it has been expanded to meet hardware requirements. Value will change to match the current rotation.
+
+#### Syntax
+
+```cpp
+display.window.left()
+```
+
+#### Parameters
+
+None.
+
+#### Returns
+
+Position of the left edge of the current window, in pixels.
+
+___
+### `window.top()`
+
+Get the top edge of the current window, after it has been expanded to meet hardware requirements. Value will change to match the current rotation.
+
+#### Syntax
+
+```cpp
+display.window.top()
+```
+
+#### Parameters
+
+None.
+
+#### Returns
+
+Position of the top edge of the current window, in pixels.
+
+___
+### `window.right()`
+
+Get the right edge of the current window, after it has been expanded to meet hardware requirements. Value will change to match the current rotation.
+
+#### Syntax
+
+```cpp
+display.window.right()
+```
+
+#### Parameters
+
+None.
+
+#### Returns
+
+Position of the right edge of the current window, in pixels.
+
+___
+### `window.bottom()`
+
+Get the bottom edge of the current window, after it has been expanded to meet hardware requirements. Value will change to match the current rotation.
+
+#### Syntax
+
+```cpp
+display.window.bottom()
+```
+
+#### Parameters
+
+None.
+
+#### Returns
+
+Position bottom edge of the current window, in pixels.
+
+___
+### `window.width()`
+
+Get the width of the current window. A window with a left edge of 0, and a right edge of 7, would have a width of 8. Value will change to match the current rotation.
+
+#### Syntax
+
+```cpp
+display.window.width()
+```
+
+#### Parameters
+
+None.
+
+#### Returns
+
+Width of the current window, in pixels.
+
+___
+### `window.height()`
+
+Get the height of the current window. A window with a top edge of 0, and a bottom edge of 7, would have a height of 8. Value will change to match the current rotation.
+
+#### Syntax
+
+```cpp
+display.window.height()
+```
+
+#### Parameters
+
+None.
+
+#### Returns
+
+Height of the current window, in pixels.
+
+___
+### `window.centerX()`
+
+Get the horizontal midpoint of the current window. If the center is between two pixels, the leftmost is returned. Value will change to match the current rotation.
+
+#### Syntax
+
+```cpp
+display.window.centerX()
+```
+
+#### Parameters
+
+None.
+
+#### Returns
+
+Horizontal center of the current window, in pixels.
+
+___
+### `window.centerY()`
+
+Get the vertical midpoint of the current window. If the center is between two pixels, the topmost is returned. Value will change to match the current rotation.
+
+#### Syntax
+
+```cpp
+display.window.centerY()
+```
+
+#### Parameters
+
+None.
+
+#### Returns
+Vertical center of the current window, in pixels.
 
 ## Constants
 

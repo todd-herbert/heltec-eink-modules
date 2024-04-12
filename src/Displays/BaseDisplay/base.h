@@ -147,7 +147,19 @@ class BaseDisplay: public GFX {
    
         // Drawing helpers
         // ----------------
-        Bounds bounds;                                                          // Dimension info about screen and window
+        Bounds bounds;                                                          // Dimension info about screen and window. Direct access is now deprecated
+
+        // Expose methods from the "bounds" subclass
+        // This will become the new standard for accessing the information
+        // Refactoring of the Bounds class may occur at some point
+        WindowBounds &window = bounds.window;
+        uint16_t left()     { return bounds.full.left(); }
+        uint16_t right()    { return bounds.full.right(); }
+        uint16_t top()      { return bounds.full.top(); }
+        uint16_t bottom()   { return bounds.full.bottom(); }
+        uint16_t centerX()  { return bounds.full.centerX(); }
+        uint16_t centerY()  { return bounds.full.centerY(); }
+
         bool supportsColor(Color c);                                            // Does display support given color
 
         void setFlip(Flip flip);                                                // Mirror the display along specified axis                                

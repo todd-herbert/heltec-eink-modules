@@ -100,8 +100,8 @@ void setup() {
     display.getTextBounds(sample_text, 0, 0, &offset_left, &offset_top, &text_width, &text_height);
 
     // Where to place cursor: for align bottom-right
-    unsigned int cursor_right = display.bounds.full.right() - (text_width + offset_left);
-    unsigned int cursor_bottom = display.bounds.full.bottom() - (text_height + offset_top);
+    unsigned int cursor_right = display.right() - (text_width + offset_left);
+    unsigned int cursor_bottom = display.bottom() - (text_height + offset_top);
 
     // Where to place cursor: for align top-left
     unsigned int cursor_left = 0 - offset_left;

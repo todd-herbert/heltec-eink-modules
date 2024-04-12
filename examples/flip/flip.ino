@@ -43,20 +43,20 @@ void setup() {
     DRAW (display) {
 
         // Step from left to right, drawing dashes
-        for(unsigned int x = 0; x < display.bounds.full.width(); x += DASH_LENGTH * 2)
+        for(unsigned int x = 0; x < display.width(); x += DASH_LENGTH * 2)
 
             display.drawLine(   x,                                  // dash, left point
-                                display.bounds.full.centerY(),      // (midscreen y)
+                                display.centerY(),      // (midscreen y)
                                 x + (DASH_LENGTH -1),               // dash, right point
-                                display.bounds.full.centerY(),      // (midscreen y)
+                                display.centerY(),      // (midscreen y)
                                 BLACK   );
 
         // Step from top to bottom, drawing dashes
-        for(unsigned int y = 0; y < display.bounds.full.height(); y += DASH_LENGTH * 2)
+        for(unsigned int y = 0; y < display.height(); y += DASH_LENGTH * 2)
 
-            display.drawLine(   display.bounds.full.centerX(),      // (midscreen x)
+            display.drawLine(   display.centerX(),      // (midscreen x)
                                 y,                                  // dash, top point
-                                display.bounds.full.centerX(),      // (midscreen x)
+                                display.centerX(),      // (midscreen x)
                                 y + (DASH_LENGTH - 1),              // dash, bottom point
                                 BLACK   );   
 
@@ -75,15 +75,15 @@ void setup() {
 
     DRAW (display) {
         // Draw a border around the window
-        display.drawRect(   display.bounds.window.left(), 
-                            display.bounds.window.top(), 
-                            display.bounds.window.width(), 
-                            display.bounds.window.height(),
+        display.drawRect(   display.window.left(), 
+                            display.window.top(), 
+                            display.window.width(), 
+                            display.window.height(),
                             BLACK   );
 
         // Some text for reference
-        display.setCursor(  display.bounds.window.left() + 3,
-                            display.bounds.window.top() + 13 );
+        display.setCursor(  display.window.left() + 3,
+                            display.window.top() + 13 );
         
         display.print("NONE");
     }
@@ -98,15 +98,15 @@ void setup() {
     display.setFlip(HORIZONTAL);
     DRAW (display) {
         // Draw a border around the window
-        display.drawRect(   display.bounds.window.left(), 
-                            display.bounds.window.top(), 
-                            display.bounds.window.width(), 
-                            display.bounds.window.height(),
+        display.drawRect(   display.window.left(), 
+                            display.window.top(), 
+                            display.window.width(), 
+                            display.window.height(),
                             BLACK   );
 
         // Some text for reference
-        display.setCursor(  display.bounds.window.left() + 3,
-                            display.bounds.window.top() + 13 );
+        display.setCursor(  display.window.left() + 3,
+                            display.window.top() + 13 );
         
         display.print("HORIZONTAL");
     }
@@ -121,15 +121,15 @@ void setup() {
     display.setFlip(VERTICAL);
     DRAW (display) {
         // Draw a border around the window
-        display.drawRect(   display.bounds.window.left(), 
-                            display.bounds.window.top(), 
-                            display.bounds.window.width(), 
-                            display.bounds.window.height(),
+        display.drawRect(   display.window.left(), 
+                            display.window.top(), 
+                            display.window.width(), 
+                            display.window.height(),
                             BLACK   );
 
         // Some text for reference
-        display.setCursor(  display.bounds.window.left() + 3,
-                            display.bounds.window.top() + 13 );
+        display.setCursor(  display.window.left() + 3,
+                            display.window.top() + 13 );
         
         display.print("VERTICAL");
     }
@@ -146,15 +146,15 @@ void setup() {
 
     DRAW (display) {
         // Draw a border around the window
-        display.drawRect(   display.bounds.window.left(), 
-                            display.bounds.window.top(), 
-                            display.bounds.window.width(), 
-                            display.bounds.window.height(),
+        display.drawRect(   display.window.left(), 
+                            display.window.top(), 
+                            display.window.width(), 
+                            display.window.height(),
                             BLACK   );
 
         // Some text for reference
-        display.setCursor(  display.bounds.window.left() + 3,
-                            display.bounds.window.top() + 13 );
+        display.setCursor(  display.window.left() + 3,
+                            display.window.top() + 13 );
         
         display.print("NONE");
     }
@@ -170,15 +170,15 @@ void setup() {
 
     DRAW (display) {
         // Draw a border around the window
-        display.drawRect(   display.bounds.window.left(), 
-                            display.bounds.window.top(), 
-                            display.bounds.window.width(), 
-                            display.bounds.window.height(),
+        display.drawRect(   display.window.left(), 
+                            display.window.top(), 
+                            display.window.width(), 
+                            display.window.height(),
                             BLACK   );
 
         // Some text for reference
-        display.setCursor(  display.bounds.window.left() + 3,
-                            display.bounds.window.top() + 13 );
+        display.setCursor(  display.window.left() + 3,
+                            display.window.top() + 13 );
         
         display.print("HORIZONTAL_WINDOW");
     }

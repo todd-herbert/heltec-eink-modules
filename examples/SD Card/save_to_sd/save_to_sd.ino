@@ -81,7 +81,7 @@ void setup() {
 
     display.setRotation(PINS_LEFT);             // Rotation: landscape, with pins on screen left
 
-    WindowBounds w = display.bounds.window;     // (saves typing)
+    WindowBounds w = display.window;     // (shortcut, saves typing)
     int height = 30;
     int width = 100;
     int left = w.centerX() - (width / 2);

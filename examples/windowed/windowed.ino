@@ -39,10 +39,6 @@
 const char lorem[] = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " 
                         "Suspendisse massa dui, rhoncus id varius faucibus, tempor quis nulla.";
 
-// Shortcuts to save typing
-FullBounds f = display.bounds.full;
-WindowBounds w = display.bounds.window;
-
 void setup() {
 
     // Lay down a background first - big wall of text
@@ -66,7 +62,7 @@ void setup() {
     display.setRotation(PINS_RIGHT);    // Set rotation before window dimensions
     
     // Pre-calculate window dimensions
-    unsigned int W_LEFT = f.centerX() - (display.getTextWidth(proclamation) / 2) - 10;
+    unsigned int W_LEFT = display.centerX() - (display.getTextWidth(proclamation) / 2) - 10;
     unsigned int W_TOP = 16;
     unsigned int W_WIDTH = display.getTextWidth(proclamation) + 20;
     unsigned int W_HEIGHT = display.getTextHeight(proclamation) + 20;
@@ -80,7 +76,8 @@ void setup() {
 
     DRAW (display)
     {
-        display.drawRect(w.left(), w.top(), w.width(), w.height(), BLACK);  // Put a border around the very edge of the window
+        // Put a border around the very edge of the window
+        display.drawRect(display.window.left(), display.window.top(), display.window.width(), display.window.height(), BLACK);
         display.setCursor(TEXT_X, TEXT_Y);
         display.print(proclamation);
     }
@@ -94,10 +91,13 @@ void setup() {
     #include "window_cartoon.h"
 
     // Pre-calculate the new window dimensions
-    W_LEFT = f.centerX() - (window_cartoon_width / 2);
-    W_TOP = f.centerY() - (window_cartoon_height / 2);
+    W_LEFT = display.centerX() - (window_cartoon_width / 2);
+    W_TOP = display.centerY() - (window_cartoon_height / 2);
     W_WIDTH = window_cartoon_width;
     W_HEIGHT = window_cartoon_height;
+
+    // You might find it convenient to make a shortcut like this?
+    WindowBounds w = display.window;
 
     // Set the new window
     display.setWindow(W_LEFT, W_TOP, W_WIDTH, W_HEIGHT);

@@ -45,15 +45,10 @@
 const unsigned char* hourglasses[] = {hourglass_1_bits, hourglass_2_bits, hourglass_3_bits};
 
 
-// Shortcuts to save typing
-
-FullBounds f = display.bounds.full;
-WindowBounds w = display.bounds.window;
-
 // Pre-calculate postition for "loading icon"
 
-int ICON_L = f.centerX() - (hourglass_1_width / 2);
-int ICON_T = f.centerY() - (hourglass_1_height / 2) - 15;  // Slightly towards screen top
+int ICON_L = display.centerX() - (hourglass_1_width / 2);
+int ICON_T = display.centerY() - (hourglass_1_height / 2) - 15;  // Slightly towards screen top
 
 
 void setup() {
@@ -69,7 +64,7 @@ void setup() {
     // Label text, screen bottom
     // -----------------------------------------
     DRAW (display) {
-        display.setCursor(0, f.bottom() - 30);
+        display.setCursor(0, display.bottom() - 30);
         display.println("Fastmode:");
         display.println("On");
     }
@@ -77,7 +72,7 @@ void setup() {
     // Play loading animation, and countdown in corner
     // ------------------------------------------------
     display.setTextColor(WHITE);
-    display.setWindow( f.left(), f.top(), f.width(), f.height() - 35 ); // Don't overwrite the bottom 35px
+    display.setWindow( display.left(), display.top(), display.width(), display.height() - 35 ); // Don't overwrite the bottom 35px
 
     for (int demo = 0; demo <= 5; demo++) { // Count up to 5
 
@@ -102,10 +97,10 @@ void setup() {
     // Change the label text
     // ----------------------
     display.setTextColor(BLACK);
-    display.setWindow ( f.left(), f.bottom() - 35, f.width(), 35 ); // Only write to the bottom 35px
+    display.setWindow ( display.left(), display.bottom() - 35, display.width(), 35 ); // Only write to the bottom 35px
 
     DRAW (display) {
-        display.setCursor(0, f.bottom() - 30);
+        display.setCursor(0, display.bottom() - 30);
         display.println("Fastmode:");
         display.println("Off");
     }

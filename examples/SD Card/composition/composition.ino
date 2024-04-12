@@ -55,7 +55,7 @@ void setup() {
     display.setRotation(PINS_LEFT);
 
     // Align bottom edge of snowy.bmp with bottom edge of screen
-    int snowy_align = display.bounds.full.height() - display.getBMPHeight("snowy.bmp");
+    int snowy_align = display.height() - display.getBMPHeight("snowy.bmp");
 
     // Draw the base image - a snowy field
     DRAW(display) {
@@ -66,7 +66,7 @@ void setup() {
 
 
     // Same trick as above - align bottom
-    int tree_align = display.bounds.full.height() - display.getBMPHeight("lil_tree.bmp");
+    int tree_align = display.height() - display.getBMPHeight("lil_tree.bmp");
 
     // Draw another tree, top left
     DRAW(display) {
@@ -97,7 +97,7 @@ void setup() {
         // Big boards: carry on then..
             
         // Same trick as above - align bottom
-        int sled_align = display.bounds.full.height() - display.getBMPHeight("sled.bmp");
+        int sled_align = display.height() - display.getBMPHeight("sled.bmp");
 
         // This section is only for powerful boards, so we don't need the DRAW loop anymore.
         // We also don't need to redraw the whole scene. Just the new parts.

@@ -36,10 +36,6 @@
 //  A small demonstration of one way it is possible to work with the library
 
 
-// Shortcut to save typing: Dimension information about fullscreen panel
-FullBounds f = display.bounds.full;
-
-
 void setup() {
     display.setRotation(-90);     // 90 degrees counter-clockwise
 

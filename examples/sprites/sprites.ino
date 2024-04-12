@@ -43,8 +43,8 @@ void setup() {
     display.setRotation(PINS_LEFT);
 
     // Useful drawing aides
-    unsigned int CENTER_X   = display.bounds.full.centerX();
-    unsigned int CENTER_Y   = display.bounds.full.centerY();
+    unsigned int CENTER_X   = display.centerX();
+    unsigned int CENTER_Y   = display.centerY();
 
     unsigned int ball_offset = 53;
 

@@ -20,7 +20,6 @@ Run-time drawing, using Adafruit-GFX.
   - [Fonts](#fonts)
   - [Images](#images)
   - [SD card](#sd-card)
-  - [Shorter code](#shorter-code)
 - [Configuration](#configuration)
   - [Model Name](#model-name)
   - [Pins](#pins)
@@ -322,32 +321,6 @@ As decided by the Adafruit library, the ancient *"XBitmap"* is the format of cho
 ### SD card
 
 It is possible to load and save .bmp images, using a cheap SD card SPI adapter. [Read more](/docs/SD/sd.md)
-
-### Shorter code
-
-One trick you may find useful: 
-```cpp
-FullBounds f = display.bounds.full;
-WindowBounds w = display.bounds.window;
-```
-
-This way, you have a short way to get dimension info.
-
-```cpp
-// These two are the same
-box_width = display.bounds.window.width();
-box_width = w.width();
-
-// See the difference
-display.drawRect(w.left(), w.top(), w.width(), w.height(), BLACK);
-
-display.drawRect(   display.bounds.window.left(),
-                    display.bounds.window.top(),  
-                    display.bounds.window.width(),
-                    display.bounds.window.height(),
-                    BLACK   );
-```
-
 
 ## Configuration
 

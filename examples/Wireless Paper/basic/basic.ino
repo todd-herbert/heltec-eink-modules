@@ -64,8 +64,8 @@ void setup() {
 
     display.fastmodeOff();
     display.fillCircle(
-        display.bounds.full.centerX(),  // X: center screen
-        display.bounds.full.centerY(),  // Y: center screen
+        display.centerX(),  // X: center screen
+        display.centerY(),  // Y: center screen
         10,                             // Radius: 10px
         BLACK                           // Color: black
         );
@@ -73,10 +73,7 @@ void setup() {
 
     delay(2000);
     
-    // Here's a convenient trick:
-    FullBounds f = display.bounds.full;
-    
-    display.fillCircle(f.centerX(), f.centerY(), 5, WHITE);   // Draw a smaller white circle inside, giving a "ring" shape
+    display.fillCircle(display.centerX(), display.centerY(), 5, WHITE);   // Draw a smaller white circle inside, giving a "ring" shape
     display.update();
 
     delay(10000);

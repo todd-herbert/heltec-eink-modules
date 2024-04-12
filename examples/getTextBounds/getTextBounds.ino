@@ -64,8 +64,8 @@ void setup() {
     // We can use this information in our loop to help place the string
     // We'll show off and align our text right
     // setCursor()'s Y value is the imaginary line that the characters sit on. In this case, slightly above the base of the screen
-    unsigned int cursor_demo_x = display.bounds.full.right() - text_width - 5;  // 5px safety margin
-    unsigned int cursor_demo_y = display.bounds.full.bottom() - 30;
+    unsigned int cursor_demo_x = display.right() - text_width - 5;  // 5px safety margin
+    unsigned int cursor_demo_y = display.bottom() - 30;
 
 
 
@@ -78,7 +78,7 @@ void setup() {
         display.print(text);
 
         // Lets draw a line across the screen at cursor height, to really make the point clear
-        display.drawLine(0, cursor_demo_y, display.bounds.full.right(), cursor_demo_y, BLACK);
+        display.drawLine(0, cursor_demo_y, display.right(), cursor_demo_y, BLACK);
         
     }
 
