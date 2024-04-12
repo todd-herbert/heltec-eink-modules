@@ -8,10 +8,9 @@ namespace Platform {
 
     // Enable power to Wireless Paper's interfaces (Display + LoRa)
     void VExtOn() {
-
-        if (digitalRead(PIN_PCB_VEXT) == HIGH) {    // Read, to avoid waiting unnecessariy for power to stabilize
+        pinMode(PIN_PCB_VEXT, OUTPUT);          // OUTPUT, incase this is the first call
         
-            pinMode(PIN_PCB_VEXT, OUTPUT);          // OUTPUT, incase this is the first call
+        if (digitalRead(PIN_PCB_VEXT) == HIGH) {    // Read, to avoid waiting unnecessariy for power to stabilize
             digitalWrite(PIN_PCB_VEXT, LOW);        // Power on (Active LOW)
 
             uint32_t start = millis();              // Non-blocking wait
@@ -80,8 +79,11 @@ namespace Platform {
         digitalWrite(PIN_LORA_NSS, HIGH);
         gpio_hold_en((gpio_num_t) PIN_LORA_NSS);    // "stay where you're told"
 
-        // Set what exactly should be powered down
-        esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_PERIPH, ESP_PD_OPTION_OFF);
+
+        #if !defined(ESP_ARDUINO_VERSION_MAJOR) || ESP_ARDUINO_VERSION_MAJOR < 3   // Broken in Heltec ESP32 Dev Enviornment 3.0.0 (IDF5)
+            // Set what exactly should be powered down
+            esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_PERIPH, ESP_PD_OPTION_OFF);
+        #endif
 
 
         // User: please set the time and start sleep:

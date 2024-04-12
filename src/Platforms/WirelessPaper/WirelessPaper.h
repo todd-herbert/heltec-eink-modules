@@ -1,6 +1,3 @@
-#include <Arduino.h>
-#include <SPI.h>
-
 // Specific options for "Wireless Paper" all-in-one boards
 
 #ifndef __WIRELESS_PAPER_H__
@@ -16,6 +13,7 @@
 
         #include <Arduino.h>
         #include <SPI.h>
+        #include <driver/gpio.h>
 
         // Don't use fallback settings
         #define PLATFORM_SUPPORTED

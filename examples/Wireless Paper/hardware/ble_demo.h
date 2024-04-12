@@ -28,11 +28,18 @@ void BLEDemo() {
 
     // Loop for 10 seconds
     do {
-        // Scan (blocking) for one second
-        BLEScanResults scan_results = scan->start(1, true);
+
+        #if defined(ESP_ARDUINO_VERSION_MAJOR) && ESP_ARDUINO_VERSION_MAJOR == 3    // Heltec ESP32 dev enviornment v3.0.0
+            // Scan (blocking) for one second
+            BLEScanResults *scan_results = scan->start(1, true);
+        #else
+            // Scan (blocking) for one second
+            BLEScanResults scan_results_obj = scan->start(1, true);
+            BLEScanResults *scan_results = &scan_results_obj;   // Only used to make the example compatible with old + new Heltec environment
+        #endif
 
         // If device count increased, print the new data
-        for (; displayed < scan_results.getCount(); displayed++) {
+        for (; displayed < scan_results->getCount(); displayed++) {
 
             display.clearMemory();
             display.setCursor(0, 25);
@@ -60,14 +67,14 @@ void BLEDemo() {
                 display.print(s);
                 // RSSI
                 display.print(": (");
-                display.print(scan_results.getDevice(s).getRSSI());
+                display.print(scan_results->getDevice(s).getRSSI());
                 display.print("dBm) ");
                 // Name, if present
-                if (scan_results.getDevice(s).haveName())
-                    display.println(scan_results.getDevice(s).getName().c_str());
+                if (scan_results->getDevice(s).haveName())
+                    display.println(scan_results->getDevice(s).getName().c_str());
                 // Address, if no name
                 else 
-                    display.println(scan_results.getDevice(s).getAddress().toString().c_str());   
+                    display.println(scan_results->getDevice(s).getAddress().toString().c_str());   
             }             
 
             // Draw the title block over-top (layered effect)

@@ -230,7 +230,7 @@ void SDWrapper::openFile(const char *filename, bool writing) {
 
         // This reading is taken in SDWrapper::openFile.
         if (opened_as_write) {
-            cached_size = max(cached_size, image.size());   // The file may have grown since we opened
+            cached_size = max(cached_size, (uint32_t)image.size());   // The file may have grown since we opened
 
             image.seek(cached_size);
             image.seek(0);  // To be tidy
