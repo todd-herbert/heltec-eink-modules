@@ -13,7 +13,7 @@
 
         #include <Arduino.h>
         #include <SPI.h>
-        #include <driver/gpio.h>
+        #include <../include/driver/gpio.h> // Hack to prevent including the wrong gpio.h, which is bundled with "Heltec_ESP32" library
 
         // Don't use fallback settings
         #define PLATFORM_SUPPORTED
