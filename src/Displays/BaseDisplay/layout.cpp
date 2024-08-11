@@ -80,7 +80,7 @@ void BaseDisplay::setWindow(uint16_t left, uint16_t top, uint16_t width, uint16_
     setWindow(left, top, width, height, true);  // true - clear the page (re: PRESERVE_IMAGE)
 }
 
-// Window update code, with exposed clear_page argument. Prevents image during setRotation, with PRESERVE_IMAGE
+// Window update code, with exposed clear_page argument. Prevents image clear during setRotation, with PRESERVE_IMAGE
 void BaseDisplay::setWindow(uint16_t left, uint16_t top, uint16_t width, uint16_t height, bool clear_page) {
     uint16_t right = left + (width - 1);
     uint16_t bottom = top + (height - 1);

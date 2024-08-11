@@ -46,6 +46,9 @@ bool BaseDisplay::calculating() {
     // End of each loop (start of next)
     // --------------------------------
     else {
+        // Return to the config which was present at the start of the first loop - incase user setCursor(), etc
+        restoreDrawingConfig();
+
         // Check if the last page contained any part of the window
         if (!(winrot_bottom < page_top || winrot_top > page_bottom))
             writePage();    // Send off the old page
@@ -54,9 +57,6 @@ bool BaseDisplay::calculating() {
         page_top += pagefile_height;
         page_bottom = min((uint16_t)((page_top + pagefile_height) - 1), winrot_bottom);
         pagefile_length = (page_bottom - page_top + 1) * ((winrot_right - winrot_left+1) / 8);
-    
-        // Return to the config which was present at the start of the first loop - incase user setCursor(), etc
-        restoreDrawingConfig();
     }
 
     // Check whether loop should continue
