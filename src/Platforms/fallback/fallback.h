@@ -14,8 +14,10 @@
 
         // SPI
         #define CAN_MOVE_SPI_PINS       false
+        #define ALL_IN_ONE              false
         #define DEFAULT_SDI             -1
         #define DEFAULT_CLK             -1
+        #define DEFAULT_MISO            -1
 
         // Paging
         #define DEFAULT_PAGE_HEIGHT     5

@@ -1,6 +1,13 @@
 // This file creates aliases for any renamed displays.
 // For backwards-compatibility
 
+// All-in-one boards
+// ------------------------
+    #define EInkDisplay_WirelessPaperV1 DEPG0213BNS800
+    #define EInkDisplay_WirelessPaperV1_1 LCMEN2R13EFC1
+    #define EInkDisplay_VisionMasterE213 LCMEN2R13EFC1
+    #define EInkDisplay_VisionMasterE290 DEPG0290BNS800
+
 // Renamed Classes
 // ------------------------
     #define HTE029A1 GDE029A1

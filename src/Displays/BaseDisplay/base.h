@@ -37,7 +37,7 @@ class BaseDisplay: public GFX {
         void drawPixel(int16_t x, int16_t y, uint16_t color);       // Where pixel output of AdafruitGFX is intercepted
         void setBackgroundColor(uint16_t bgcolor);                  // Set default background color for drawing
         void setRotation(int16_t r);                                // Store rotation val, and recalculate window dimensions
-        void landscape() { setRotation(3); }                        // Alias for setRotation(3) - ideal orientation for wireless paper
+        void landscape();                                           // Alias for setRotation(3) or setRotation(1), depending on platform
         void portrait() { setRotation(0); }                         // Alias for setRotation(0)
         void setCursor(int16_t x, int16_t y);                       // Hijack the values, then pass through
         void setDefaultColor(uint16_t bgcolor) { setBackgroundColor(bgcolor); }     // DEPRECATED
@@ -56,7 +56,7 @@ class BaseDisplay: public GFX {
         
 
         // Power saving 
-        #ifndef WIRELESS_PAPER
+        #ifndef ALL_IN_ONE
             void useCustomPowerSwitch(uint8_t pin, SwitchType type);    // Store the config for user's power switching circuit
             void customPowerOff(uint16_t pause = 500);                  // "Power off" signal to user's power circuit, and set logic pins appropriately
             void customPowerOn();                                       // "Power on" signal to user's circuit, then re-init display
@@ -86,6 +86,8 @@ class BaseDisplay: public GFX {
 
         // SD card
         // ----------------------------
+        // This is all a bit of a mess.. Have to include / exclude different components to suit the various platforms
+
         #ifndef DISABLE_SDCARD  // optimization.h, WirelessPaper.h
 
             void useSD(uint8_t pin_cs_card);                                                                                            // Store the config needed to use SD Card
@@ -96,15 +98,13 @@ class BaseDisplay: public GFX {
             bool fullscreenBMPValid(const char* filename, bool purge = false);                                                          // Check for corruption in a fullscreen .bmp
             void drawMonoBMP(int16_t left, int16_t top, const char* filename, Color color);                                             // Draw a mono .bmp from SD Card
             void drawMonoBMP(int16_t left, int16_t top, const char* filename, Color foreground_color, Color background_color);          // Draw a mono .bmp from SD Card, with background
-            void loadFullscreenBMP(const char* filename);                                                                               // Draw fullscreen .bmp from SD card, direct to screen
-            void loadFullscreenBMP(const char* prefix, uint32_t number);                                                                // Draw fullscreen .bmp (numbered) from SD, direct to screen 
             uint16_t getBMPWidth(const char* filename);                                                                                 // Read image width from .bmp header, sd card
             uint16_t getBMPHeight(const char* filename);                                                                                // Read image height from .bmp header, sd card        
             #define SAVE_TO_SD(display, ...) while(display.savingBMP(__VA_ARGS__))                                                      // Macro to call while savingBMP()
 
 
             // Configure the SD card reader
-            #if CAN_MOVE_SPI_PINS
+            #if CAN_MOVE_SPI_PINS || ALL_IN_ONE
                 void useSD(uint8_t pin_cs_card, uint8_t pin_miso);
             #else
                 /* --- Error: This model of microcontroller can't move SPI pins around --- */       void useSD(uint8_t pin_cs_card, uint8_t pin_miso) = delete;
@@ -126,8 +126,8 @@ class BaseDisplay: public GFX {
 
             // SD write: Potentially disabled by optimization.h
             #if !defined(__AVR_ATmega328P__) || defined(UNO_ENABLE_SDWRITE)
-                bool savingBMP(const char* filename);                    // Non-paged: write memory to fullscreen.bmp
-                bool savingBMP(const char* prefix, uint32_t number);     // Non-paged: write memory to fullscreen .bmp (iterable)
+                virtual bool savingBMP(const char* filename);                   // Non-paged: write memory to fullscreen.bmp
+                virtual bool savingBMP(const char* prefix, uint32_t number);    // Non-paged: write memory to fullscreen .bmp (iterable)
             #else
                 /* --- Error: SD Write disabled by config in optimization.h --- */                  bool savingBMP(const char* filename) = delete;
                 /* --- Error: SD Write disabled by config in optimization.h --- */                  bool savingBMP(const char* prefix, uint32_t number) = delete;
@@ -141,6 +141,16 @@ class BaseDisplay: public GFX {
             #else
                 /* --- Error: Not enough RAM, use SAVE_TO_SD() instead --- */         void saveToSD(const char* filename) = delete;
                 /* --- Error: Not enough RAM, use SAVE_TO_SD() instead --- */         void saveToSD(const char* prefix, uint32_t number) = delete;
+            #endif
+
+            // Load fullscreen bitmap
+            // Declared virtual only if needed, otherwise it forces ATMega328P to build SD code, bloating by 30%
+            #if ALL_IN_ONE
+                virtual void loadFullscreenBMP(const char* filename);                   // Draw fullscreen .bmp from SD card, direct to screen
+                void loadFullscreenBMP(const char* prefix, uint32_t number);            // Draw fullscreen .bmp (numbered) from SD, direct to screen 
+            #else
+                void loadFullscreenBMP(const char* filename);                           // Draw fullscreen .bmp from SD card, direct to screen
+                void loadFullscreenBMP(const char* prefix, uint32_t number);            // Draw fullscreen .bmp (numbered) from SD, direct to screen 
             #endif
 
         #endif  // ! DISABLE_SDCARD
@@ -269,7 +279,7 @@ class BaseDisplay: public GFX {
 
         // SD
         SDWrapper* sd;                                              // Dynamically allocated SD instance
-        uint8_t pin_miso = MISO;                                    // Set in useSD(). Relevant to SAMD21 pin muxing
+        uint8_t pin_miso = DEFAULT_MISO;                            // Set in useSD(). Relevant to SAMD21 pin muxing
         uint8_t pin_cs_card = -1;                                   // Set in useSD()
         bool saving_to_sd = false;                                  // Are drawing operations currently diverted into a bmp file?
         const char* sd_filename;                                    // Pass filename to writePageToBMP()

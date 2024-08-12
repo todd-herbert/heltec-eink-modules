@@ -18,12 +18,11 @@ class LCMEN2R13EFC1 : public BaseDisplay {
     // ======================
     public:
 
-        #ifdef WIRELESS_PAPER
+        #if defined(WIRELESS_PAPER) || defined(Vision_Master_E213)
             LCMEN2R13EFC1() : BaseDisplay(PIN_DISPLAY_DC, PIN_DISPLAY_CS, PIN_DISPLAY_BUSY, DEFAULT_SDI, DEFAULT_CLK, MAX_PAGE_HEIGHT)
                 { init(); }
-
         #else
-            /* --- ERROR: This display is only used by "Wireless Paper" boards --- */   LCMEN2R13EFC1() = delete;
+            /* --- ERROR: Wrong Enviornment. --- */   LCMEN2R13EFC1() = delete;
         #endif
 
 
@@ -76,8 +75,19 @@ class LCMEN2R13EFC1 : public BaseDisplay {
         void clearPageWindow();                                                                             // No "partial window" support
         void endImageTxQuiet() {}                                                                           // Apparently, no action required to terminate an image tx for this controller(?)
 
+    public:
+    #ifndef DISABLE_SDCARD
+        void loadFullscreenBMP(const char* filename);                                                       // Writes direct to display, not handled by "sendImageData" etc
+        using BaseDisplay::loadFullscreenBMP;                                                               // Don't override overloads from base class
+    #endif
+
     // Disabled methods
     // ==========================
     private:
-        /* --- Error: TURBO gives no performance boost on Wireless Paper --- */        void fastmodeTurbo(bool) {}
+        /* --- Error: TURBO gives no performance boost with the all-in-one boards --- */        void fastmodeTurbo(bool) {}
+
+        #ifndef DISABLE_SDCARD
+        /* --- Error: Saving to SD isn't working for this display --- */                        bool savingBMP(const char* filename) {return false;}               
+        /* --- Error: Saving to SD isn't working for this display --- */                        bool savingBMP(const char* prefix, uint32_t number) {return false;}
+        #endif
 };

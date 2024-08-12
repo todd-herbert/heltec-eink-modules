@@ -6,7 +6,9 @@
 #include <Arduino.h>
 
 // Supported
-#include "Platforms/WirelessPaper/WirelessPaper.h"  // Specific - define before generic ESP32 platform
+#include "Platforms/WirelessPaper/WirelessPaper.h"
+#include "Platforms/VisionMasterE213/VisionMasterE213.h"
+#include "Platforms/VisionMasterE290/VisionMasterE290.h"
 
 #include "Platforms/M328P/M328P.h"
 #include "Platforms/ESP32/ESP32.h"

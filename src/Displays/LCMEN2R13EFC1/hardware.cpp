@@ -29,8 +29,9 @@ void LCMEN2R13EFC1::activate() {
 // Soft-reset the display
 void LCMEN2R13EFC1::reset() {
 
-    // On "Wireless Paper" platforms: ensure peripheral power is on, then briefly pull the display's reset pin to ground
-    #ifdef WIRELESS_PAPER
+    // On "all-in-one" platforms: ensure peripheral power is on, then briefly pull the display's reset pin to ground
+    // Reason: these boards do actually connect the RST pin
+    #if ALL_IN_ONE
         Platform::VExtOn();
         Platform::toggleResetPin();
         wait();

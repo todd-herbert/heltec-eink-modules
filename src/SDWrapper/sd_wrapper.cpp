@@ -22,8 +22,12 @@ SDWrapper::~SDWrapper() {
     delete[] filename;
 }
 
-bool SDWrapper::begin(uint8_t pin_cs) {
-    return SD.begin(pin_cs);
+bool SDWrapper::begin(uint8_t pin_cs, SPIClass *spi) {
+    #ifdef ESP32
+        return SD.begin(pin_cs, *spi); // Might want to use HSPI
+    #else
+        return SD.begin(pin_cs);
+    #endif
 }
 
 // Move to byte offset in file
@@ -46,13 +50,13 @@ void SDWrapper::write(uint8_t b) {
 }
 
 uint32_t SDWrapper::fileSize() {
-    #ifdef ESP32
+    #if defined(ESP32) && defined(ESP32_BROKEN_SD_LIB)
         swapToRead();
     #endif
 
     uint32_t size = image.size();
 
-    #ifdef ESP32
+    #if defined(ESP32) && defined(ESP32_BROKEN_SD_LIB)
         swapBack();
     #endif
 
@@ -67,7 +71,7 @@ void SDWrapper::remove(const char* filename) {
 
 void SDWrapper::readBMPHeader() {
     // Bugfix: ESP32 can't read + write. Have to swap between.
-    #ifdef ESP32
+    #if defined(ESP32) && defined(ESP32_BROKEN_SD_LIB)
         swapToRead();
     #endif
 
@@ -103,7 +107,7 @@ void SDWrapper::readBMPHeader() {
 
 
     // Bugfix: ESP32 can't read + write. Have to swap between.
-    #ifdef ESP32
+    #if defined(ESP32) && defined(ESP32_BROKEN_SD_LIB)
         swapBack();
     #endif
 }
@@ -171,14 +175,14 @@ void SDWrapper::processFilename(const char* raw) {
 // Open file to this->image
 void SDWrapper::openFile(const char *filename, bool writing) {
         // ESP32 debug: never read while open for writing
-        #ifdef ESP32
+        #if defined(ESP32) && defined(ESP32_BROKEN_SD_LIB)
             opened_as_write = writing;
         #endif
 
         // Apply forward slash, if platform demands. Store in this->filename
         processFilename(filename);
 
-        #ifdef ESP32
+        #if defined(ESP32) && defined(ESP32_BROKEN_SD_LIB)
             // Bugfix: ESP32 truncates files
             // Workaround: fully traverse files, when opened for writing
 
@@ -198,7 +202,7 @@ void SDWrapper::openFile(const char *filename, bool writing) {
 }
 
 // ESP32 bugfixes: no read + write mode; files truncate if not seek() to end during write
-#ifdef ESP32
+#if defined(ESP32) && defined(ESP32_BROKEN_SD_LIB)
     void SDWrapper::swapToRead() {
         // No need to swap, we are already reading
         if (!opened_as_write)
@@ -211,7 +215,7 @@ void SDWrapper::openFile(const char *filename, bool writing) {
 
     // ESP32 bugfix - no read + write mode. This method: swap back to writing
     void SDWrapper::swapBack() {
-        #ifdef ESP32
+        #if defined(ESP32) && defined(ESP32_BROKEN_SD_LIB)
             // No need to swap back, we weren't writing to begin with
             if (!opened_as_write)
                 return;

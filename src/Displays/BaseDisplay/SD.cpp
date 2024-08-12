@@ -19,7 +19,7 @@ void BaseDisplay::useSD(uint8_t pin_cs_card) {
     this->pin_cs_card = pin_cs_card;
 }
 
-#if CAN_MOVE_SPI_PINS
+#if CAN_MOVE_SPI_PINS || ALL_IN_ONE
     // Configure the SD card connection: CS and MISO pins
     void BaseDisplay::useSD(uint8_t pin_cs_card, uint8_t pin_miso) {
 
@@ -32,9 +32,16 @@ void BaseDisplay::useSD(uint8_t pin_cs_card) {
 
         // Set a MISO pin, if the platform allows, and the user wants
         #if defined(ESP32)
+
             // ES32: Re-init SPI, with the chosen MISO pin
             display_spi->end();
-            Platform::beginSPI(display_spi, pin_miso, pin_miso, pin_clk);
+
+            // Abort anything the display might have been doing
+            pinMode(pin_cs, OUTPUT);
+            digitalWrite(pin_cs, HIGH);
+            reset();
+
+            Platform::beginSPI(display_spi, pin_sdi, pin_miso, pin_clk);
             
         #elif defined( __SAMD21G18A__ )
             // If a custom MISO pin was just specified with useSD, then re-calculate the pin muxing
@@ -48,7 +55,7 @@ void BaseDisplay::initBMP(const char* filename) {
 
     // Open for writing
     sd = new SDWrapper();
-    sd->begin(pin_cs_card);
+    sd->begin(pin_cs_card, display_spi);
     sd->openFile(filename, true);
 
     // Macro: write data. Undefined at end of method.
@@ -169,7 +176,7 @@ void BaseDisplay::drawMonoBMP(int16_t left, int16_t top, const char* filename, C
     sd = new SDWrapper();
 
     // Open card
-    sd->begin(pin_cs_card);
+    sd->begin(pin_cs_card, display_spi);
 
     // Open image
     sd->openFile(filename, false);
@@ -274,7 +281,7 @@ void BaseDisplay::drawMonoBMP(int16_t left, int16_t top, const char* filename, C
         sd = new SDWrapper();
 
         // Open card
-        sd->begin(pin_cs_card);
+        sd->begin(pin_cs_card, display_spi);
 
         // Open image
         sd->openFile(filename, false);
@@ -390,7 +397,7 @@ void BaseDisplay::loadFullscreenBMP(const char* filename) {
     sd = new SDWrapper();
 
     // Open card
-    sd->begin(pin_cs_card);
+    sd->begin(pin_cs_card, display_spi);
 
     // Open image
     sd->openFile(filename, false);
@@ -589,7 +596,7 @@ void BaseDisplay::writePageToBMP() {
     sd = new SDWrapper();                   // Needs to be deleted at end of method
 
     // Open card
-    sd->begin(pin_cs_card);
+    sd->begin(pin_cs_card, display_spi);
 
     // Open image. Filename stored in savingBMP()
     sd->openFile(this->sd_filename, true);
@@ -681,7 +688,7 @@ bool BaseDisplay::SDCardFound() {
 
     // Create SD, check card, delete SD
     sd = new SDWrapper();
-    bool card_result = sd->begin(pin_cs_card);
+    bool card_result = sd->begin(pin_cs_card, display_spi);
     delete sd;
 
     return card_result; 
@@ -692,7 +699,7 @@ bool BaseDisplay::SDFileExists(const char* filename) {
 
     // Create SD, open card, check file, delete SD
     sd = new SDWrapper();
-    sd->begin(pin_cs_card);
+    sd->begin(pin_cs_card, display_spi);
     bool file_result = sd->exists(filename);
     delete sd;
 
@@ -713,7 +720,7 @@ bool BaseDisplay::fullscreenBMPValid(const char* filename, bool purge) {
 
     // Create SD, open card
     sd = new SDWrapper();
-    sd->begin(pin_cs_card);
+    sd->begin(pin_cs_card, display_spi);
     
     // Might as well check if file exists first
     if (!sd->exists(filename)) {
@@ -754,7 +761,7 @@ uint16_t BaseDisplay::getBMPWidth(const char* filename) {
 
     // Create SD, open card, open image
     sd = new SDWrapper();
-    sd->begin(pin_cs_card);
+    sd->begin(pin_cs_card, display_spi);
     sd->openFile(filename);
 
     uint16_t width = sd->BMPWidth();
@@ -768,7 +775,7 @@ uint16_t BaseDisplay::getBMPHeight(const char* filename) {
 
     // Create SD, open card, open image
     sd = new SDWrapper();
-    sd->begin(pin_cs_card);
+    sd->begin(pin_cs_card, display_spi);
     sd->openFile(filename);
 
     uint16_t height = sd->BMPHeight();

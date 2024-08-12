@@ -185,3 +185,12 @@ void BaseDisplay::setWindow(uint16_t left, uint16_t top, uint16_t width, uint16_
         }
     #endif
 }
+
+void BaseDisplay::landscape() {
+    // Orient with LoRa antenna facing up
+    #if defined(Vision_Master_E290)
+        setRotation(1);
+    #else
+        setRotation(3);
+    #endif
+}

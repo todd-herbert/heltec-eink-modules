@@ -14,8 +14,12 @@
 
         // SPI
         #define CAN_MOVE_SPI_PINS       true
+        #define ALL_IN_ONE              false
         #define DEFAULT_SDI             MOSI
         #define DEFAULT_CLK             SCK
+        #define DEFAULT_MISO            MISO
+
+        #define ESP32_BROKEN_SDLIB                      // Use work-arounds for issues with the ESP32 SD library
 
         // Paging
         #define DEFAULT_PAGE_HEIGHT     panel_height    // Indicate that we want the full display 

@@ -14,8 +14,10 @@
 
         // SPI
         #define CAN_MOVE_SPI_PINS       false
+        #define ALL_IN_ONE              false
         #define DEFAULT_SDI             MOSI
         #define DEFAULT_CLK             SCK
+        #define DEFAULT_MISO            MISO
 
         // Paging
         #define DEFAULT_PAGE_HEIGHT     panel_height

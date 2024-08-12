@@ -46,8 +46,9 @@ void BaseDisplay::sendData(uint8_t data) {
 
 // Reset the display
 void BaseDisplay::reset() {
-    // On "Wireless Paper" platforms: ensure peripheral power is on, then briefly pull the display's reset pin to ground
-    #ifdef WIRELESS_PAPER
+    // On all-in-one platforms: ensure peripheral power is on, then briefly pull the display's reset pin to ground
+    // Reason: these boards *do* actually connect the RST pin
+    #if ALL_IN_ONE
         Platform::VExtOn();
         Platform::toggleResetPin();
         wait();
@@ -271,8 +272,8 @@ void BaseDisplay::clearAllMemories() {
 #endif
 
 
-// "Custom power swiitching" is disabled on Wireless Paper platforms - irrelevant and maybe the user will break something?
-#ifndef WIRELESS_PAPER
+// "Custom power switching" is disabled on Wireless Paper platforms - irrelevant and maybe the user will break something?
+#ifndef ALL_IN_ONE
 
     // Send power-off signal to your custom power switching circuit, and set the display pins to prevent unwanted current flow
     void BaseDisplay::customPowerOff(uint16_t pause) {

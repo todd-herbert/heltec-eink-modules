@@ -6,12 +6,12 @@
 
 namespace Platform {
 
-    // Enable power to Wireless Paper's interfaces (Display + LoRa)
+    // Enable power to Wireless Paper's interfaces (Display + LoRa P/A)
     void VExtOn() {
         pinMode(PIN_PCB_VEXT, OUTPUT);          // OUTPUT, incase this is the first call
         
-        if (digitalRead(PIN_PCB_VEXT) == HIGH) {    // Read, to avoid waiting unnecessariy for power to stabilize
-            digitalWrite(PIN_PCB_VEXT, LOW);        // Power on (Active LOW)
+        if (digitalRead(PIN_PCB_VEXT) != VEXT_ACTIVE) {     // Read, to avoid waiting unnecessariy for power to stabilize
+            digitalWrite(PIN_PCB_VEXT, VEXT_ACTIVE);        // Power on (Active LOW)
 
             uint32_t start = millis();              // Non-blocking wait
             while (millis() - start < 50)           // 50 ms
@@ -22,7 +22,7 @@ namespace Platform {
     // Remove power from Wireless Paper's interfaces (Display + LoRa)
     void VExtOff() {
         pinMode(PIN_PCB_VEXT, OUTPUT);
-        digitalWrite(PIN_PCB_VEXT, HIGH);   // ACTIVE LOW
+        digitalWrite(PIN_PCB_VEXT, !VEXT_ACTIVE);   // ACTIVE LOW
     }
 
     void toggleResetPin() {

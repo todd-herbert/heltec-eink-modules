@@ -32,7 +32,7 @@
 class SDWrapper {
     public:
         ~SDWrapper();
-        bool begin(uint8_t pin_cs);
+        bool begin (uint8_t pin_cs, SPIClass *spi);
         void seek(uint32_t pos);
         int16_t read();
         bool exists(const char* filename);

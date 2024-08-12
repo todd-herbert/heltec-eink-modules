@@ -1,10 +1,16 @@
-// Specific options for "Wireless Paper" all-in-one boards
+// Specific options for "Vision Master E213" all-in-one boards
 
-#ifndef __WIRELESS_PAPER_H__
-#define __WIRELESS_PAPER_H__
+#ifndef __VISION_MASTER_E213_H__
+#define __VISION_MASTER_E213_H__
 
-    // If building for "Wireless Paper".
-    #ifdef WIRELESS_PAPER 
+    // Take pity on anyone assuming the macro will be all caps
+    #if defined(VISION_MASTER_E213)
+        #define Vision_Master_E213
+    #endif
+
+    // If building for "Vision Master E213"
+    // PlatformIO users will need to manually define this macro
+    #ifdef Vision_Master_E213
 
         #include <Arduino.h>
         #include <SPI.h>
@@ -16,12 +22,9 @@
         // SPI
         #define CAN_MOVE_SPI_PINS       false
         #define ALL_IN_ONE              true            // Allow a short constructor: display pins are fixed
-        #define DEFAULT_SDI             2
-        #define DEFAULT_CLK             3
-        #define DEFAULT_MISO            33              // Arbitrary, not connected on PCB. Suppress compiler warning.
-
-        // Optimization
-        #define DISABLE_SDCARD                          // Nobody is going to solder an SD Card reader onto these boards.. right?
+        #define DEFAULT_SDI             6
+        #define DEFAULT_CLK             4
+        #define DEFAULT_MISO            33              // Arbitrary, not connected on PCB. Suppress compiler warning
         
         // Paging
         #define DEFAULT_PAGE_HEIGHT     panel_height    // On this platform, these defaults are fixed: there is currently no support for paging
@@ -29,12 +32,12 @@
         #define PRESERVE_IMAGE          true
 
         // PCB Wiring
-        #define PIN_DISPLAY_DC          5
-        #define PIN_DISPLAY_CS          4
-        #define PIN_DISPLAY_BUSY        7
-        #define PIN_DISPLAY_RST         6
-        #define PIN_PCB_VEXT            45              // Power to all peripherals on PCB, active LOW
-        #define VEXT_ACTIVE             LOW
+        #define PIN_DISPLAY_DC          2
+        #define PIN_DISPLAY_CS          5
+        #define PIN_DISPLAY_BUSY        1
+        #define PIN_DISPLAY_RST         3
+        #define PIN_PCB_VEXT            18              // Power to all peripherals on PCB, active HIGH
+        #define VEXT_ACTIVE             HIGH
         
         // PCB Wiring - LoRa - only used for prepareToSleep()
         // Provided for use convenience, and examples
@@ -48,12 +51,13 @@
 
         // Onboard LED
         #ifdef LED_BUILTIN
+            // Board has no LED
             #undef LED_BUILTIN
+            #define LED_BULITIN -1
         #endif
-        #define LED_BUILTIN 18
 
-        #define BUTTON_PRG 0                            // Button is labeled "PRG"
-        #define BUTTON_1 BUTTON_PRG                     // Convention used with Vision Master boards
+        #define BUTTON_1 0
+        #define BUTTON_2 21
 
         // Platform-specific methods
         namespace Platform {
@@ -62,7 +66,6 @@
             extern void VExtOn();                                                                           // Enable power to peripherals
             extern void VExtOff();                                                                          // Disable power to perpiherals
             extern void toggleResetPin();                                                                   // Trigger the displays' reset pin
-            extern void prepareToSleep();                                                                       // Configure the board and peripherals for deep sleep (18μA)
         }
 
     #endif

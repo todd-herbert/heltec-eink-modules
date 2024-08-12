@@ -27,13 +27,20 @@ class DEPG0290BNS800 : public BaseDisplay {
             DEPG0290BNS800(  uint8_t pin_dc, uint8_t pin_cs, uint8_t pin_busy, uint8_t pin_sdi, uint8_t pin_clk, uint16_t page_height = DEFAULT_PAGE_HEIGHT)
                 : BaseDisplay ( pin_dc, pin_cs, pin_busy, pin_sdi, pin_clk, page_height)
                     { init(); }
-
         #else
             // If UNO uses full constructor
             /* --- ERROR: Your board's SPI pinout cannot be customized --- */   DEPG0290BNS800( uint8_t pin_dc, uint8_t pin_sdi, uint8_t pin_cs, 
                                                                                                 uint8_t pin_clk, uint8_t pin_busy, 
                                                                                                 uint16_t page_height = DEFAULT_PAGE_HEIGHT ) = delete;
         #endif                                       
+
+        // Constructor for Vision Master E290 all-in-one board
+        #ifdef Vision_Master_E290
+            DEPG0290BNS800() : BaseDisplay(PIN_DISPLAY_DC, PIN_DISPLAY_CS, PIN_DISPLAY_BUSY, DEFAULT_SDI, DEFAULT_CLK, MAX_PAGE_HEIGHT)
+                { init(); }
+        #else
+            /* --- ERROR: Wrong Environment --- */   DEPG0290BNS800() = delete;  
+        #endif
 
 
     // Look up tables

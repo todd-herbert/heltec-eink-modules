@@ -13,10 +13,11 @@
         #define PLATFORM_SUPPORTED
 
         // SPI
-        #define SPI_BEGIN()             ( SPI.begin() )
         #define CAN_MOVE_SPI_PINS       false
+        #define ALL_IN_ONE              false
         #define DEFAULT_SDI             11
         #define DEFAULT_CLK             13
+        #define DEFAULT_MISO            12
 
         // Paging
         #define DEFAULT_PAGE_HEIGHT     20

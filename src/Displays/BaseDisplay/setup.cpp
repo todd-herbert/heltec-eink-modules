@@ -48,8 +48,8 @@ void BaseDisplay::begin() {
             pin_miso = Platform::setSPIPins(pin_sdi, pin_clk);
     #endif
 
-    // Wireless Paper: power on the peripherals, and hard reset to clear away whatever traumatic experience the display has been through
-    #ifdef WIRELESS_PAPER
+    // All in one boards: power on the peripherals, and hard reset to clear away whatever traumatic experience the display has been through
+    #if ALL_IN_ONE
         Platform::VExtOn();
         Platform::toggleResetPin();
         wait();
@@ -98,7 +98,7 @@ void BaseDisplay::initDrawingParams() {
 }
 
 // "Custom power swiitching" is disabled on Wireless Paper platforms - irrelevant and maybe the user will break something?
-#ifndef WIRELESS_PAPER
+#ifndef ALL_IN_ONE
 
     // Set configuration of custom power-swiching circuit, then power up
     void BaseDisplay::useCustomPowerSwitch(uint8_t pin, SwitchType type) {
