@@ -1,39 +1,40 @@
 #include <heltec-eink-modules.h>
 
-// Find your wiring  -  https://github.com/todd-herbert/heltec-eink-modules#wiring
-// ----------------
+    // "All-in-one" boards
+    // --------------------------------------
 
-    #define PIN_DC      2
-    #define PIN_CS      4
-    #define PIN_BUSY    5
-
-    // Card Adapter 
-    #define PIN_CS_CARD ?
+        // EInkDisplay_VisionMasterE290 display;
 
 
-// Pick your panel  -  https://github.com/todd-herbert/heltec-eink-modules#supported-displays
-// ---------------
+    // SPI Displays
+    // --------------------------------------
 
-    // DEPG0150BNS810 display( PIN_DC, PIN_CS, PIN_BUSY );      // 1.54" - Mono 
-    // DEPG0154BNS800 display( PIN_DC, PIN_CS, PIN_BUSY);       // 1.54" - Mono 
-    // GDEP015OC1 display( PIN_DC, PIN_CS, PIN_BUSY);           // 1.54" - Mono 
-    // DEPG0213RWS800 display( PIN_DC, PIN_CS, PIN_BUSY );      // 2.13" - 3 Color Red
-    // QYEG0213RWS800 display( PIN_DC, PIN_CS, PIN_BUSY );      // 2.13" - 3 Color Red
-    // DEPG0290BNS75A display( PIN_DC, PIN_CS, PIN_BUSY );      // 2.9"  - Mono 
-    // DEPG0290BNS800 display( PIN_DC, PIN_CS, PIN_BUSY );      // 2.9"  - Mono 
-    // GDE029A1 display( PIN_DC, PIN_CS, PIN_BUSY );            // 2.9"  - Mono 
+        // Wiring (SPI Displays only)
+        #define PIN_DC   2
+        #define PIN_CS   4
+        #define PIN_BUSY 5
+
+        // DEPG0150BNS810 display( PIN_DC, PIN_CS, PIN_BUSY );      // 1.54" - Mono 
+        // DEPG0154BNS800 display( PIN_DC, PIN_CS, PIN_BUSY);       // 1.54" - Mono 
+        // GDEP015OC1 display( PIN_DC, PIN_CS, PIN_BUSY);           // 1.54" - Mono 
+        // DEPG0213RWS800 display( PIN_DC, PIN_CS, PIN_BUSY );      // 2.13" - 3 Color Red
+        // QYEG0213RWS800 display( PIN_DC, PIN_CS, PIN_BUSY );      // 2.13" - 3 Color Red
+        // DEPG0290BNS75A display( PIN_DC, PIN_CS, PIN_BUSY );      // 2.9"  - Mono 
+        // DEPG0290BNS800 display( PIN_DC, PIN_CS, PIN_BUSY );      // 2.9"  - Mono 
+        // GDE029A1 display( PIN_DC, PIN_CS, PIN_BUSY );            // 2.9"  - Mono 
 
 
 // DEMO: Save to SD  -  save and load fullscreen .bmp images using SD card
 // ------------------------------------------------------------------------
 // NOTE: SD write is disabled for Arduino UNO (huge saving in Flash Memory)
 // To re-enable it, edit optimization.h in the library's folder
+// Not implemented for Vision Master E213
 
 
 void setup() {
 
-    // Use an SD card adapter; set adapter's CS pin
-    display.useSD(PIN_CS_CARD);
+    // Use an SD card adapter; set adapter's CS pin and MISO pins
+    display.useSD(/*CS*/, /*MISO*/);
 
     // Check if the card is usable
     if ( !display.SDCardFound() ) {
@@ -79,7 +80,7 @@ void setup() {
 
     // Lets add a window to the saved canvas
 
-    display.setRotation(PINS_LEFT);             // Rotation: landscape, with pins on screen left
+    display.setRotation(90);             // Rotation: landscape
 
     WindowBounds w = display.window;     // (shortcut, saves typing)
     int height = 30;

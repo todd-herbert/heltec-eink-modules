@@ -1,31 +1,29 @@
-// Pick your panel  -  https://github.com/todd-herbert/heltec-eink-modules#supported-displays
+// Pick your panel  -  https://github.com/todd-herbert/heltec-eink-modules
 // ---------------
 
-    // -- SPI Displays --
-
-    // #define  USING_DEPG0150BNS810        // 1.54" - Mono 
-    // #define  USING_DEPG0154BNS800        // 1.54" - Mono 
-    // #define  USING_GDEP015OC1            // 1.54" - Mono 
-    // #define  USING_DEPG0213RWS800        // 2.13" - 3 Color Red
-    // #define  USING_QYEG0213RWS800        // 2.13" - 3 Color Red
-    // #define  USING_DEPG0290BNS75A        // 2.9"  - Mono 
-    // #define  USING_DEPG0290BNS800        // 2.9"  - Mono 
-    // #define  USING_GDE029A1              // 2.9"  - Mono 
-
-    // -- "Wireless Paper" --
-
-    // #define USING_DEPG0213BNS800         // (Red Tab)
-    // #define USING_LCMEN2R13EFC1          // (Green Tab, V1.1)
+    // All-in-one boards
+        // #define USING_WIRELESSPAPER_V1
+        // #define USING_WIRELESSPAPER_V1_1
+        // #define USING_VISIONMASTER_E213
+        // #define USING_VISIONMASTER_E290
 
 
-// Find your wiring  -  https://github.com/todd-herbert/heltec-eink-modules#wiring
-// ----------------
+    // SPI Displays
+    // --------------------------------------
 
-    #define DC_PIN 2
-    #define CS_PIN 4
-    #define BUSY_PIN 5
+        // Wiring (SPI Displays only)
+        #define PIN_DC   2
+        #define PIN_CS   4
+        #define PIN_BUSY 5
 
-    // "Wireless Paper" boards: skip this, your wiring is pre-set
+        // #define  USING_DEPG0150BNS810        // 1.54" - Mono 
+        // #define  USING_DEPG0154BNS800        // 1.54" - Mono 
+        // #define  USING_GDEP015OC1            // 1.54" - Mono 
+        // #define  USING_DEPG0213RWS800        // 2.13" - 3 Color Red
+        // #define  USING_QYEG0213RWS800        // 2.13" - 3 Color Red
+        // #define  USING_DEPG0290BNS75A        // 2.9"  - Mono
+        // #define  USING_DEPG0290BNS800        // 2.9"  - Mono
+        // #define  USING_GDE029A1              // 2.9"  - Mono
 
 
 // DEMO: Black & White XBitmap Images
@@ -49,17 +47,17 @@
 #include CHESS_H
 
 // Example auto-selects correct class
-#ifdef WIRELESS_PAPER
-    // For "Wireless Paper" boards, no need to set pins.
+#if ALL_IN_ONE
+    // For "Wireless Paper" and "Vision Master" boards, no need to set pins.
     DISPLAY_CLASS display;
 #else
     // For SPI displays, you would normally set your pins here
-    DISPLAY_CLASS display(DC_PIN, CS_PIN, BUSY_PIN);
+    DISPLAY_CLASS display(PIN_DC, PIN_CS, PIN_BUSY);
 #endif
 
 
 void setup() {
-    display.setRotation(PINS_LEFT);   // Don't forget to set the rotation, so your image fits how you intended
+    display.setRotation(1);   // Don't forget to set the rotation, so your image fits how you intended
 
     DRAW (display) {
         display.drawXBitmap(0, 0, chess_bits, chess_width, chess_height, BLACK);

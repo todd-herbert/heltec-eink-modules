@@ -1,13 +1,18 @@
-# Heltec E-Ink Modules - Wireless Paper
+# Heltec E-Ink Modules - Vision Master
 
-![](promo_paper.jpg)
+![](promo_e213.jpg)
+![](promo_e290.jpg)
 
-In addition to the line of SPI E-Ink displays, Heltec sell an all-in-one board, "Wireless Paper".
+In addition to the line of SPI E-Ink displays, Heltec sell a line of all-in-one "Vision Master" boards. 
+
+Two of these use E-Ink displays:
+* Vision Master E213
+* Vision Master E290
 
 #### Features:
   * ESP32-S3 Microcontroller
-  * 2.13" Black and White E-Ink display
-  * WiFi, Bluetooth & LoRa connectivity
+  * 2.13" or 2.9" Black and White E-Ink display
+  * WiFi, Bluetooth connectivity. LoRa optional.
 
 Only the board's E-Ink display falls within the scope of this library.
 
@@ -17,7 +22,6 @@ Only the board's E-Ink display falls within the scope of this library.
 - [Using the library](#using-the-library)
 - [Things to know](#things-to-know)
   - [`VExtOn()`](#vexton)
-  - [Deep Sleep](#deep-sleep)
 
 
 ## Getting Started
@@ -41,30 +45,44 @@ This may take some time.
 
     ![](ArduinoIDE/board_manager.jpg)
 
-5. With your "Wireless Paper" connected, open the board selection drop-dowm, search for "paper", then select Wireless Paper, and your board's serial port.
+1. With your device connected, open the board selection drop-dowm, search for "vision master", then select your model and serial port.
 
     ![](ArduinoIDE/select_board.jpg)
 
 ### PlatformIO
-
 (Alternative to Arduino IDE)
 
-Add the following entry to your `platformio.ini` file
+Add the following entries to your `platformio.ini` file
 
 ```
-[env:wireless_paper]
+[env:vision-master-e213]
 platform = espressif32
 board = heltec_wifi_lora_32_V3
 framework = arduino
 monitor_speed = 115200
 monitor_filters = esp32_exception_decoder
-lib_deps = https://github.com/todd-herbert/heltec-eink-modules
+board_upload.use_1200bps_touch = true
+build_flags = 
+  -D ARDUINO_USB_CDC_ON_BOOT=1
+  -D Vision_Master_E213
+
+[env:vision-master-e290]
+platform = espressif32
+board = heltec_wifi_lora_32_V3
+framework = arduino
+monitor_speed = 115200
+monitor_filters = esp32_exception_decoder
+board_upload.use_1200bps_touch = true
+build_flags = 
+  -D ARDUINO_USB_CDC_ON_BOOT=1
+  -D Vision_Master_E290
 ```
 
 ## Using the library
 
-Check out the examples, such as *File > Examples > heltec-eink-modules > WirelessPaper > basic* <br />
-Make sure to select your [display model](/docs/README.md#wireless-paper) first, at the top of the sketch.
+Check out the examples, such as *File > Examples > heltec-eink-modules > VisionMaster > basic*
+
+Make sure to select your display model first, at the top of the sketch.
 
 The upload process will be slow when compiling for the first time. Saving your sketch allows the IDE to re-use much of the old code, without recompiling.
 
@@ -74,8 +92,8 @@ The upload process will be slow when compiling for the first time. Saving your s
 
 // Pick your display model:
 
-// EInkDisplay_WirelessPaperV1_1 display;
-// EInkDisplay_WirelessPaperV1 display;
+// EInkDisplay_VisionMasterE213 display;
+// EInkDisplay_VisionMasterE290 display;
 
 void setup() {
     display.landscape();
@@ -102,25 +120,7 @@ void loop() {
 ## Things to know
 
 ### `VExtOn()`
-The display, and wireless hardware, have an ACTIVE LOW power switch on GPIO45. 
+The display has an ACTIVE HIGH power switch on GPIO18. For Vision Master E213, this also enables power to the I2C connector.
 The *heltec-eink-modules* libary will switch this on when first required.
 
 If needed, you can manually power on the hardware with `Platform::VExtOn()`.
-
-### Deep Sleep
-In order to achieve the promised 18uA deep sleep current, a number of config steps must take place.
-
-Calling `Platform::prepareToSleep()` will hopefully take care of this for you.
-
-```cpp
-// Configure hardware for low-power
-Platform::prepareToSleep();
-
-// How long until restart
-esp_sleep_enable_timer_wakeup( SLEEP_TIME_IN_MICROSECONDS );
-
-// Sleep now
-esp_deep_sleep_start();
-```
-
-The 18uA current is only achievable when powering with the battery connector. When USB is connected, an orange LED remains on.

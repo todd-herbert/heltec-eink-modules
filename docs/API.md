@@ -4,10 +4,14 @@
 - [Display Constructors](#display-constructors)
   - [`DEPG0150BNS810()`](#depg0150bns810)
   - [`DEPG0154BNS800()`](#depg0154bns800)
-  - [`DEPG0213BWS800`](#depg0213bws800)
+  - [`DEPG0213BNS800`](#depg0213bns800)
   - [`DEPG0213RWS800()`](#depg0213rws800)
   - [`DEPG0290BNS75A()`](#depg0290bns75a)
   - [`DEPG0290BNS800()`](#depg0290bns800)
+  - [`EInkDisplay_VisionMasterE213`](#einkdisplay_visionmastere213)
+  - [`EInkDisplay_VisionMasterE290`](#einkdisplay_visionmastere290)
+  - [`EInkDisplay_WirelessPaperV1`](#einkdisplay_wirelesspaperv1)
+  - [`EInkDisplay_WirelessPaperV1_1`](#einkdisplay_wirelesspaperv1_1)
   - [`GDE029A1()`](#gde029a1)
   - [`GDEP015OC1()`](#gdep015oc1)
   - [`LCMEN2R13EFC1`](#lcmen2r13efc1)
@@ -163,16 +167,10 @@ DEPG0154BNS800 display(2, 4, 5);
 ```
 
 ___
-### `DEPG0213BWS800`
-Create a display controller object, for for model [DEPG0213BWS800](/docs/README.md#wireless-paper), which is used on "Wireless Paper" all-in-one boards.
+### `DEPG0213BNS800`
+Create a display controller object, for for model DEPG0213BNS800, which is used on original "Wireless Paper" all-in-one boards (V1).
 
 Display instances of this class should be declared without parentheses, or they will be mistaken for a function prototype. See example.
-
-#### Syntax
-
-```cpp
-DEPG0213BWS800
-```
 
 #### Parameters
 
@@ -183,7 +181,7 @@ None.
 ```cpp
 #include <heltec-eink-modules.h>
 
-DEPG0213BWS800 display;
+DEPG0213BNS800 display;
 ```
 
 ___
@@ -259,6 +257,7 @@ DEPG0290BNS800(DC_PIN, CS_PIN, BUSY_PIN)
 DEPG0290BNS800(DC_PIN, CS_PIN, BUSY_PIN, page_height)
 DEPG0290BNS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN)  // ESP32 or SAMD21G18A only
 DEPG0290BNS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32 or SAMD21G18A only
+DEPG0290BNS800 // Vision Master E290
 ```
 
 #### Parameters
@@ -276,6 +275,86 @@ DEPG0290BNS800(DC_PIN, CS_PIN, BUSY_PIN, SDI_PIN, CLK_PIN, page_height) // ESP32
 #include <heltec-eink-modules.h>
 
 DEPG0290BNS800 display(2, 4, 5);
+```
+
+___
+### `EInkDisplay_VisionMasterE213`
+Create a display controller object, for Vision Master E213 boards.
+
+Display instances of this class should be declared without parentheses, or they will be mistaken for a function prototype. See example.
+
+*This is an alias for [`LCMEN2R13EFC1`](#lcmen2r13efc1).*
+
+#### Parameters
+
+None.
+
+#### Example
+
+```cpp
+#include <heltec-eink-modules.h>
+
+EInkDisplay_VisionMasterE213 display;
+```
+
+___
+### `EInkDisplay_VisionMasterE290`
+Create a display controller object, for Vision Master E290 boards.
+
+Display instances of this class should be declared without parentheses, or they will be mistaken for a function prototype. See example.
+
+*This is an alias for [`DEPG0290BNS800`](#depg0290bns800).*
+
+#### Parameters
+
+None.
+
+#### Example
+
+```cpp
+#include <heltec-eink-modules.h>
+
+EInkDisplay_VisionMasterE290 display;
+```
+
+___
+### `EInkDisplay_WirelessPaperV1`
+Create a display controller object, for the original Wireless Paper boards (V1). These models are no longer produced, and have been replaced with the V1.1 version.
+
+Display instances of this class should be declared without parentheses, or they will be mistaken for a function prototype. See example.
+
+*This is an alias for [`DEPG0213BNS800`](#depg0213bns800).*
+
+#### Parameters
+
+None.
+
+#### Example
+
+```cpp
+#include <heltec-eink-modules.h>
+
+EInkDisplay_WirelessPaperV1 display;
+```
+
+___
+### `EInkDisplay_WirelessPaperV1_1`
+Create a display controller object, for Wireless Paper V1.1 boards.
+
+Display instances of this class should be declared without parentheses, or they will be mistaken for a function prototype. See example.
+
+*This is an alias for [`LCMEN2R13EFC1`](#lcmen2r13efc1).*
+
+#### Parameters
+
+None.
+
+#### Example
+
+```cpp
+#include <heltec-eink-modules.h>
+
+EInkDisplay_WirelessPaperV1_1 display;
 ```
 
 ___
@@ -342,7 +421,9 @@ GDEP015OC1 display(2, 4, 5);
 
 ___
 ### `LCMEN2R13EFC1`
-Create a display controller object, for for model [LCMEN2R13EFC1](/docs/README.md#wireless-paper), which is used on "Wireless Paper" all-in-one boards.
+Create a display controller object, for model LCMEN2R13EFC1, which is used on "Wireless Paper" and "Vision Master E213" all-in-one boards.
+
+*`EInkDisplay_WirelessPaperV1_1` and `EInkDisplay_VisionMasterE213` are aliases for this class.*
 
 Display instances of this class should be declared without parentheses, or they will be mistaken for a function prototype. See example.
 
@@ -2148,12 +2229,12 @@ setRotation(rotation)
       * `PINS_ABOVE` &nbsp;(0&deg;)
       * `PINS_LEFT` &nbsp;(90&deg;)
       * `PINS_BELOW` &nbsp;(180&deg;)
-      * `PINS_RIGHT` &nbsp;(279&deg;)
+      * `PINS_RIGHT` &nbsp;(270&deg;)
     * relative to "Wireless Paper" boards' USB connector:
       * `USB_ABOVE` &nbsp;(0&deg;)
       * `USB_LEFT` &nbsp;(90&deg;)
       * `USB_BELOW` &nbsp;(180&deg;)
-      * `USB_RIGHT` &nbsp;(279&deg;)
+      * `USB_RIGHT` &nbsp;(270&deg;)
 
 #### Example
 

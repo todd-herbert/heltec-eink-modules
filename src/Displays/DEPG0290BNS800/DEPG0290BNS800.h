@@ -39,7 +39,7 @@ class DEPG0290BNS800 : public BaseDisplay {
             DEPG0290BNS800() : BaseDisplay(PIN_DISPLAY_DC, PIN_DISPLAY_CS, PIN_DISPLAY_BUSY, DEFAULT_SDI, DEFAULT_CLK, MAX_PAGE_HEIGHT)
                 { init(); }
         #else
-            /* --- ERROR: Wrong Environment --- */   DEPG0290BNS800() = delete;  
+            /* --- ERROR: Wrong build env. See https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/README.md#installation --- */   DEPG0290BNS800() = delete;  
         #endif
 
 

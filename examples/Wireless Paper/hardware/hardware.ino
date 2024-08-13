@@ -1,6 +1,6 @@
 #include <heltec-eink-modules.h>
 
-// Pick your panel  -  https://github.com/todd-herbert/heltec-eink-modules#supported-displays
+// Pick your panel  -  https://github.com/todd-herbert/heltec-eink-modules
 // ---------------
 
     // -- "Wireless Paper" boards only --

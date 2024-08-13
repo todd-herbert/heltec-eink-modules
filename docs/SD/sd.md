@@ -11,6 +11,7 @@ With level-shifter  |   Without level-shifter
 For more information, see: [wiring](/docs/README.md#wiring).
 
 - [Limitations](#limitations)
+- [Wiring (suggested)](#wiring-suggested)
 - [loadFullscreenBMP()](#loadfullscreenbmp)
 - [Save drawing to SD](#save-drawing-to-sd)
   - [Loading a saved image](#loading-a-saved-image)
@@ -23,11 +24,22 @@ For more information, see: [wiring](/docs/README.md#wiring).
 * Low speed
 * Bigger sketches 
 * Higher RAM usage
-* Not all methods available for Uno
-    * `draw24BitBMPFile()` consumes too much RAM
-    * `SAVE_TO_SD()` must be enabled in [optimization.h](/src/optimization.h)
-    * Uno Serial does not play nice with `SAVE_TO_SD()`. [Workaround here](/docs/SD/MinimalSerial.md)
 * Card format must be FAT or FAT32
+* Support varies from platform to platform
+  * Arduino Uno:
+    * `draw24BitBMPFile()` not supported
+    * `SAVE_TO_SD()` must be enabled in [optimization.h](/src/optimization.h)
+    * `SAVE_TO_SD()` causes issues with Serial. [Workaround here](/docs/SD/MinimalSerial.md)
+  * Vision Master E213:
+    * Saving to SD not implemented
+  
+## Wiring (suggested)
+
+* [Arduino Uno R3 / Arduino Nano](/docs/Wiring/wiring_m328p.md#optional-additional-wiring-microsd-card-module)
+* [Arduino Mega 2560](/docs/Wiring/wiring_m2560.md#optional-additional-wiring-microsd-card-module)
+* [ESP32](/docs/Wiring/wiring_esp32.md#optional-additional-wiring-microsd-card-module)
+* [ESP8266](/docs/Wiring/wiring_esp8266.md#optional-additional-wiring-microsd-card-module)
+* [SAMD21G18A](/docs/Wiring/wiring_samd21g18a.md#optional-additional-wiring-microsd-card-module)
 
 ## loadFullscreenBMP()
 
@@ -50,7 +62,7 @@ Example: DEPG0290BNS75A | Example: QYEG0213RWS800
 DEPG0290BNS75A display(2, 4, 5);
 
 void setup() {
-    // Once, set CS pin
+    // At sketch start, set CS pin
     display.useSD(7);
 
     display.loadFullscreeBMP("image.bmp");
@@ -60,7 +72,7 @@ void setup() {
 
 Instead of drawing to display, the output can be directed to a BMP file on SD card.
 
-*Arduino Uno:* this feature is disabled by default, to minimize sketch size. See [optimization.h](/src/optimization.h)
+[Not available for all platforms](#limitations).
 
 ```cpp
 #include <heltec-eink-modules.h>

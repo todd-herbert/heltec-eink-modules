@@ -3,13 +3,12 @@
 // Pick your panel  -  https://github.com/todd-herbert/heltec-eink-modules
 // ---------------
 
-    // EInkDisplay_WirelessPaperV1 display;
-    // EInkDisplay_WirelessPaperV1_1 display;
+    // EInkDisplay_VisionMasterE213 display;
+    // EInkDisplay_VisionMasterE290 display;
 
-
-// DEMO: Wireless Paper - Download
+// DEMO: Vision Master - Download
 // -------------------------------
-// This example is only for Heltec's "Wireless Paper" all-in-one boards.
+// This example is only for Heltec's "Vision Master" all-in-one boards.
 // Downloads a JPG image from a web url, decodes as a mono bitmap, and draws to display.
 //
 // This sketch is NOT a feature of the library, this is only a demonstration.

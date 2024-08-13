@@ -8,7 +8,7 @@
     #define PIN_BUSY    5
 
 
-// Pick your panel  -  https://github.com/todd-herbert/heltec-eink-modules#supported-displays
+// Pick your panel  -  https://github.com/todd-herbert/heltec-eink-modules
 // ---------------
 
     // (Only supported panels with 3-color are shown)
@@ -36,7 +36,7 @@
 #include "apples_red_250x122.h"
 
 void setup() {
-    display.setRotation(PINS_LEFT);   // Don't forget to set the rotation, so your image fits how you intended
+    display.setRotation(1);   // Don't forget to set the rotation, so your image fits how you intended
 
     DRAW (display) {
         // Draw each image to its destination color

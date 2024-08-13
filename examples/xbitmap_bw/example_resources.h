@@ -40,12 +40,20 @@
     #define     DISPLAY_CLASS       GDE029A1    
     #define     CHESS_H             "chess_296x128.h"
 
-#elif defined USING_DEPG0213BNS800
+#elif defined USING_WIRELESSPAPER_V1
     #define     DISPLAY_CLASS       DEPG0213BNS800
     #define     CHESS_H             "chess_250x122.h"
 
-#elif defined USING_LCMEN2R13EFC1
+#elif defined USING_WIRELESSPAPER_V1_1
     #define     DISPLAY_CLASS       LCMEN2R13EFC1  
-    #define     CHESS_H             "chess_250x122.h"  
+    #define     CHESS_H             "chess_250x122.h"
+
+#elif defined USING_VISIONMASTER_E213
+    #define     DISPLAY_CLASS       LCMEN2R13EFC1  
+    #define     CHESS_H             "chess_250x122.h"
+
+#elif defined USING_VISIONMASTER_E290
+    #define     DISPLAY_CLASS       DEPG0290BNS800  
+    #define     CHESS_H             "chess_296x128.h"
 
 #endif

@@ -1,33 +1,33 @@
 #include <heltec-eink-modules.h>
 
-// Find your wiring  -  https://github.com/todd-herbert/heltec-eink-modules#wiring
-// ----------------
-
-    #define PIN_DC      2
-    #define PIN_CS      4
-    #define PIN_BUSY    5
-
-    // "Wireless Paper" boards: skip this, your wiring is pre-set
-
-
-// Pick your panel  -  https://github.com/todd-herbert/heltec-eink-modules#supported-displays
+// Pick your panel  -  https://github.com/todd-herbert/heltec-eink-modules
 // ---------------
 
-    // -- SPI Displays --
+    // "All-in-one" boards
+    // --------------------------------------
 
-    // DEPG0150BNS810 display( PIN_DC, PIN_CS, PIN_BUSY );      // 1.54" - Mono 
-    // DEPG0154BNS800 display( PIN_DC, PIN_CS, PIN_BUSY);       // 1.54" - Mono 
-    // GDEP015OC1 display( PIN_DC, PIN_CS, PIN_BUSY);           // 1.54" - Mono 
-    // DEPG0213RWS800 display( PIN_DC, PIN_CS, PIN_BUSY );      // 2.13" - 3 Color Red
-    // QYEG0213RWS800 display( PIN_DC, PIN_CS, PIN_BUSY );      // 2.13" - 3 Color Red
-    // DEPG0290BNS75A display( PIN_DC, PIN_CS, PIN_BUSY );      // 2.9"  - Mono 
-    // DEPG0290BNS800 display( PIN_DC, PIN_CS, PIN_BUSY );      // 2.9"  - Mono 
-    // GDE029A1 display( PIN_DC, PIN_CS, PIN_BUSY );            // 2.9"  - Mono 
+        // EInkDisplay_WirelessPaperV1 display;
+        // EInkDisplay_WirelessPaperV1_1 display
+        // EInkDisplay_VisionMasterE213 display;
+        // EInkDisplay_VisionMasterE290 display;
 
-    // -- "Wireless Paper" --
 
-    // DEPG0213BNS800 display;      // (Red Tab)
-    // LCMEN2R13EFC1 display;       // (Green Tab, V1.1)
+    // SPI Displays
+    // --------------------------------------
+
+        // Wiring (SPI Displays only)
+        #define PIN_DC   2
+        #define PIN_CS   4
+        #define PIN_BUSY 5
+
+        // DEPG0150BNS810 display( PIN_DC, PIN_CS, PIN_BUSY );      // 1.54" - Mono 
+        // DEPG0154BNS800 display( PIN_DC, PIN_CS, PIN_BUSY);       // 1.54" - Mono 
+        // GDEP015OC1 display( PIN_DC, PIN_CS, PIN_BUSY);           // 1.54" - Mono 
+        // DEPG0213RWS800 display( PIN_DC, PIN_CS, PIN_BUSY );      // 2.13" - 3 Color Red
+        // QYEG0213RWS800 display( PIN_DC, PIN_CS, PIN_BUSY );      // 2.13" - 3 Color Red
+        // DEPG0290BNS75A display( PIN_DC, PIN_CS, PIN_BUSY );      // 2.9"  - Mono 
+        // DEPG0290BNS800 display( PIN_DC, PIN_CS, PIN_BUSY );      // 2.9"  - Mono 
+        // GDE029A1 display( PIN_DC, PIN_CS, PIN_BUSY );            // 2.9"  - Mono 
 
 
 // DEMO: Text

@@ -3,14 +3,13 @@
 // Pick your panel  -  https://github.com/todd-herbert/heltec-eink-modules
 // ---------------
 
-    // EInkDisplay_WirelessPaperV1 display;
-    // EInkDisplay_WirelessPaperV1_1 display;
+    // EInkDisplay_VisionMasterE213 display;
+    // EInkDisplay_VisionMasterE290 display;
 
-
-// DEMO: Wireless Paper - Basic
+// DEMO: Vision Master - Basic
 // --------------------
 // Most of the examples are written to support older hardware.
-// This example shows a more direct way to write display code. It is only for Heltec's "Wireless Paper" all-in-one boards.
+// This example shows a more direct way to write display code. It is only for Heltec's "Vision Master" all-in-one boards.
 
 #include "Fonts/FreeSans9pt7b.h"
 #include "Fonts/FreeSansBold9pt7b.h"
@@ -55,7 +54,7 @@ void setup() {
 
     display.fastmodeOn();
     display.setFont( NULL ); // Default Font
-    display.printCenter("How about a spot?", 0, -40);   // 40px above center
+    display.printCenter("How about a dot?", 0, -40);   // 40px above center
     display.update();
 
     delay(2000);

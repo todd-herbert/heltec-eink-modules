@@ -4,6 +4,10 @@ This file *attempts* to list any breaking changes to look out for.
 It is certainly possible that I've missed something, sorry.
 Also just, sorry in general.
 
+### v4.4.0
+* Wireless Paper, Vision Master: PlatformIO users must configure their platformio.ini files to match Heltec board support package
+  See sample platformio.ini file in repo root
+
 ### v4.0.0
 * ATmega328P: SD Write disabled by default
     * Huge flash saving

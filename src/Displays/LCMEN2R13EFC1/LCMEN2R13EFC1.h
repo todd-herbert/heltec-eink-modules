@@ -22,7 +22,7 @@ class LCMEN2R13EFC1 : public BaseDisplay {
             LCMEN2R13EFC1() : BaseDisplay(PIN_DISPLAY_DC, PIN_DISPLAY_CS, PIN_DISPLAY_BUSY, DEFAULT_SDI, DEFAULT_CLK, MAX_PAGE_HEIGHT)
                 { init(); }
         #else
-            /* --- ERROR: Wrong Enviornment. --- */   LCMEN2R13EFC1() = delete;
+            /* --- ERROR: Wrong build env. See https://github.com/todd-herbert/heltec-eink-modules/blob/main/docs/README.md#installation --- */   LCMEN2R13EFC1() = delete;
         #endif
 
 

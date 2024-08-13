@@ -1,53 +1,128 @@
 # Heltec E-Ink Modules
 
-Third-party Arduino Library for **Heltec E-Ink Module** displays, and **Wireless Paper** boards<br />
+Third-party Arduino Library for **Heltec E-Ink Displays**.<br />
 Run-time drawing, using Adafruit-GFX.
 
 **[Read the API](/docs/API.md)** <br />
 
-**[Get started with "Wireless Paper" boards](/docs/WirelessPaper/wireless_paper.md)** <br />
-
-- [Supported Platforms](#supported-platforms)
-- [Supported Displays - **Identify your model**](#supported-displays---identify-your-model)
-  - [1.54 Inch](#154-inch)
-  - [2.13 Inch](#213-inch)
-  - [2.9 Inch](#29-inch)
-  - [Wireless Paper](#wireless-paper)
-- [Wiring](#wiring)
+- [Vision Master](#vision-master)
+- [Wireless Paper](#wireless-paper)
+- [SPI Displays](#spi-displays)
+  - [Identification](#identification)
+  - [Wiring](#wiring)
+  - [Should I use `update()` or `DRAW()`?](#should-i-use-update-or-draw)
 - [Drawing](#drawing)
-  - [Compatibility or Convenience?](#compatibility-or-convenience)
   - [Shapes and Text](#shapes-and-text)
   - [Fonts](#fonts)
   - [Images](#images)
   - [SD card](#sd-card)
-- [Configuration](#configuration)
-  - [Model Name](#model-name)
-  - [Pins](#pins)
-  - [Saving RAM](#saving-ram)
-  - [Saving Flash](#saving-flash)
-  - [Saving Power](#saving-power)
   - [Fast Mode (Partial Refresh)](#fast-mode-partial-refresh)
 - [Troubleshooting](#troubleshooting)
 - [Installation](#installation)
+  - [Arduino](#arduino)
+  - [PlatformIO](#platformio)
 - [Acknowledgements](#acknowledgements)
 
+## Vision Master
+
+See [Getting Started with Vision Master](/docs/VisionMaster/vision_master.md#getting-started) for instructions on setting up Arduino IDE or PlatformIO.<br />
+<small>(Important platformio.ini config)</small>
+
+<table>
+    <thead>
+        <tr>
+            <th>Model</th>
+            <th>Driver Class</th>
+            <th align="center">Front Image</th>
+            <th align="center">Rear Image</th>
+            <th>Resolution (px)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>E213</strong></td>
+            <td><code>EInkDisplay_VisionMasterE213</code></td>
+            <td align="center"><img alt="Front" src="Identification/VME213-Front.jpg" /></td>
+            <td align="center">
+            <img alt="Rear" src="Identification/VME213-Rear.jpg" /></td>            
+            <td>250 x 122</td>
+        </tr>
+        <tr>
+            <td><strong>E290</strong></td>
+            <td><code>EInkDisplay_VisionMasterE290</code></td>
+            <td align="center"><img alt="Front" src="Identification/VME290-Front.jpg" /></td>
+            <td align="center"><img alt="Rear" src="Identification/VME290-Rear.jpg" /></td>
+            <td>296 x 128</td>
+        </tr>
+    </tbody>
+</table>
+
+```cpp
+#include "heltec-eink-modules.h"
+
+EInkDisplay_VisionMasterE213 display;
+
+void setup() {
+    display.print("Hello, World!");
+    display.update();
+}
+```
+
+## Wireless Paper
+
+See [Getting Started with Wireless Paper](/docs/WirelessPaper/wireless_paper.md) for instructions on setting up Arduino IDE or PlatformIO.<br />
+<small>(Important platformio.ini config)</small>
+
+<table>
+    <thead>
+        <tr>
+            <th>Hardware Version</th>
+            <th>Driver Class</th>
+            <th><a href="FlexConnector/flex_labels.md">Flex Connector Label</a></th>
+            <th align="center">Front Image</th>
+            <th align="center">Rear Image</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>V1.1</strong></td>
+            <td><code>EInkDisplay_WirelessPaperV1_1</code></td>
+            <td>(not visible)</td>
+            <td align="center"><img alt="Front" src="Identification/PaperV1.1-Front.jpg" /></td>
+            <td align="center">
+            <img alt="Rear, with sticker" src="Identification/PaperV1.1-Rear.jpg" /></td>            
+        </tr>
+        <tr>
+            <td><nobr><strong>Original</strong> (V1.0)</nobr></td>
+            <td><code>EInkDisplay_WirelessPaperV1</code></td>
+            <td>FPC-7528B</td>
+            <td align="center"><img alt="Front" src="Identification/PaperV1-Front.jpg" /></td>
+            <td align="center"><img alt="Rear" src="Identification/PaperV1-Rear.jpg" /></td>
+        </tr>
+    </tbody>
+</table>
 
 
-## Supported Platforms
+```cpp
+#include "heltec-eink-modules.h"
 
-Platform    | Tested                        
-------------|-------------------------------
-ATmega328P  | Arduino Uno R3, Arduino Nano
-ATmega2560  | Arduino Mega 2560
-ESP32       | Devkit V1, **Heltec Wireless Paper**
-ESP8266     | NodeMcu v3, LOLIN D1 Mini
-SAMD21G18A  | Protoneer Nano ARM
+EInkDisplay_WirelessPaperV1_1 display;
 
-## Supported Displays - **Identify your model**
+void setup() {
+    display.print("Hello, World!");
+    display.update();
+}
+```
 
-**Pay attention to the model name: you will need it to use the library.**
+A [low power state](/docs/WirelessPaper/wireless_paper.md#deep-sleep) is available for the whole board (18μA while sleeping).
 
-### 1.54 Inch
+## SPI Displays
+
+### Identification
+
+Pay attention to the model name: you will need it to use the library.
+
+#### 1.54 Inch
 
 <table>
     <thead>
@@ -84,7 +159,7 @@ SAMD21G18A  | Protoneer Nano ARM
             <td>Yes</td>
         </tr>
         <tr>
-            <td><strong>GDEP015OC1</strong>&nbsp;<sup>1</sup></td>
+            <td><strong>GDEP015OC1</strong>&nbsp;<sup>?</sup></td>
             <td>HINK-E0154A05-A2</td>
             <td align="center"><img alt="Front" src="Identification/GDEP015OC1-Front.jpg" /></td>
             <td align="center"><img alt="Rear" src="Identification/GDEP015OC1-Rear.jpg" /></td>            
@@ -96,10 +171,8 @@ SAMD21G18A  | Protoneer Nano ARM
     </tbody>
 </table>
 
-<sup>1</sup> Closest match. No official information available. <br />
 
-
-### 2.13 Inch
+#### 2.13 Inch
 
 <table>
     <thead>
@@ -116,7 +189,7 @@ SAMD21G18A  | Protoneer Nano ARM
     </thead>
     <tbody>
         <tr>
-            <td><strong>DEPG0213RWS800</strong>&nbsp;<sup>2</sup></td>
+            <td><strong>DEPG0213RWS800</strong></td>
             <td>FPC-7528B</td>
             <td align="center"><img alt="Front" src="Identification/DEPG0213RWS800-Front.jpg" /></td>
             <td align="center"><img alt="Rear" src="Identification/DEPG0213RWS800-Rear.jpg" /></td>            
@@ -126,7 +199,7 @@ SAMD21G18A  | Protoneer Nano ARM
             <td>No</td>
         </tr>        
         <tr>
-            <td><strong>QYEG0213RWS800</strong>&nbsp;<sup>2</sup></td>
+            <td><strong>QYEG0213RWS800</strong></td>
             <td>FPC-7528</td>
             <td align="center"><img alt="Front" src="Identification/QYEG0213RWS800-Front.jpg" /></td>
             <td align="center"><img alt="Rear" src="Identification/QYEG0213RWS800-Rear.jpg" /></td>            
@@ -138,9 +211,7 @@ SAMD21G18A  | Protoneer Nano ARM
     </tbody>
 </table>
 
-<sup>2</sup> Currently, these two displays use the same driver. This is not guaranteed in the future. <br />
-
-### 2.9 Inch
+#### 2.9 Inch
 
 <table>
     <thead>
@@ -189,50 +260,9 @@ SAMD21G18A  | Protoneer Nano ARM
     </tbody>
 </table>
 
-### Wireless Paper
+___
 
-<table>
-    <thead>
-        <tr>
-            <th>Model Name</th>
-            <th><a href="FlexConnector/flex_labels.md">Flex Connector Label</a></th>
-            <th align="center">Front Image</th>
-            <th align="center">Rear Image&nbsp;<sup>3</sup></th>
-            <th>Colors</th>
-            <th>Screen Protector</th>
-            <th>Resolution (px)</th>
-            <th><a href="#fast-mode-partial-refresh">Fastmode (partial&nbsp;refresh)</a></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><strong>LCMEN2R13EFC1</strong></td>
-            <td><b>Hidden, printed on back-side</b><br />(HINK-E0213A162-FPC-A0)</td>
-            <td align="center"><img alt="Front" src="Identification/LCMEN2R13EFC1-Front.jpg" /></td>
-            <td align="center">
-            <img alt="Rear" src="Identification/LCMEN2R13EFC1-Rear.jpg" /><br />
-            <img alt="Rear, with sticker" src="Identification/LCMEN2R13EFC1-Rear-Stickered.jpg" /></td>            
-            <td>Black, White</td>
-            <td>Green Tab</td>
-            <td>250 x 122</td>
-            <td>Yes</td>
-        </tr>
-        <tr>
-            <td><strong>DEPG0213BNS800</strong></td>
-            <td>FPC-7528B</td>
-            <td align="center"><img alt="Front" src="Identification/DEPG0213BNS800-Front.jpg" /></td>
-            <td align="center"><img alt="Rear" src="Identification/DEPG0213BNS800-Rear.jpg" /></td>
-            <td>Black, White</td>
-            <td>Red Tab</td>
-            <td>250 x 122</td>
-            <td>Yes</td>
-        </tr>
-    </tbody>
-</table>
-
-<sup>3</sup> Version-marking sticker is present on *some* LCMEN2R13EFC1 boards.<br />
-
-## Wiring
+### Wiring
 
 **Warning: in some cases, connecting directly to the display will cause damage!** <br />
 See your boards's wiring page for specific information:
@@ -242,67 +272,43 @@ See your boards's wiring page for specific information:
 * [**Wiring:** ESP32](/docs/Wiring/wiring_esp32.md)
 * [**Wiring:** ESP8266](/docs/Wiring/wiring_esp8266.md)
 * [**Wiring:** SAMD21G18A](/docs/Wiring/wiring_samd21g18a.md)
-* [Wireless Paper](/docs/WirelessPaper/wireless_paper.md)
-
-## Drawing
-
-### Compatibility or Convenience?
-
-#### 1. Compatibility
-
-The `DRAW()` operation allows for *RAM saving tricks* (paging). Required for older boards, configurable for new boards.<br />
-[More info about paging here.](/docs/Paging/paging.md)
 
 ```c++
-#include "heltec-eink-modules.h"
+// Specify your wiring when declaring the display
+DEPG0150BNS810 display(dc, cs, busy);
 
-// Use the correct class for your display; set pins for D/C, CS, BUSY
-DEPG0150BNS810 display(2, 4, 5);
+// Optional: specify SDI and CLK (ESP32 & SAMD21* only)
+DEPG0150BNS810 display(dc, cs, busy, sdi, clk)
+```
 
-void setup() {
+<sub>[See here](/docs/Wiring/wiring_samd21g18a.md#optional-changing-mosi-and-sck-pins) for limitations of SAMD21G18A wiring</sub>
 
-    // Any config is set first
-    display.setBackgroundColor(BLACK);
+___
+### Should I use `update()` or `DRAW()`?
 
-    // Drawing action goes inside DRAW()
-    DRAW (display) {
-        display.fillCircle(50, 100, 20, WHITE);
-        display.fillCircle(50, 100, 10, BLACK);
+The `DRAW()` operation allows for RAM saving tricks (paging). Required for older boards, configurable for new boards.
+[More info about `DRAW()` here](/docs/Paging/paging.md).
+
+```cpp
+/* 
+  Use DRAW() if:
+   - you need to support Arduino Uno R3 / Mega 2560, or
+   - you desperately need to save RAM
+*/
+    DRAW(display) {
+        display.print("Hello, ");
+        dispaly.print("World!");
     }
 
-}
 
-void loop() {}
-```
-
-#### 2. Convenience
-
-If you're using a [fancy new device](/docs/Paging/paging.md), you can choose to avoid the `DRAW()` pattern:
-
-```c++
-#include "heltec-eink-modules.h"
-
-// Use the correct class for your display; set pins for D/C, CS, BUSY
-DEPG0150BNS810 display(2, 4, 5);
-
-void setup() {
-    
-    display.setBackgroundColor(BLACK);
-
-    // Start working on a new drawing (with a BLACK background)
+// Otherwise, you're free to use update() instead
     display.clearMemory();
-
-    // Draw the same circles from the other example
-    display.fillCircle(50, 100, 20, WHITE);
-    display.fillCircle(50, 100, 10, BLACK);
-    
-    // Whenever you're ready, display your masterpiece
+    display.print("Hello, ");
+    display.print("World!");
     display.update();
-
-}
-
-void loop() {}
 ```
+
+## Drawing
 
 ### Shapes and Text
 
@@ -322,64 +328,9 @@ As decided by the Adafruit library, the ancient *"XBitmap"* is the format of cho
 
 It is possible to load and save .bmp images, using a cheap SD card SPI adapter. [Read more](/docs/SD/sd.md)
 
-## Configuration
-
-### Model Name
-
-The **Model Name** of your display is used to select the correct driver. [Find your model name.](#supported-displays---identify-your-model)
-
-### Pins
-
-```c++
-// Make sure to use the correct class for your display model
-DEPG0150BNS810 display(dc, cs, busy);   
-```
-
-Pass the pin numbers to which the *D/C*, *CS*, and *BUSY* pins from the display are connected.
-
-If you're using ESP32, you are free to set custom *SDI*, and *CLK* pins if you wish.<br />
-If you're using SAMD21G18A, you are able to make *some* changes to *SDI* and *CLK* assignment. See [wiring](/docs/Wiring/wiring_samd21g18a.md#optional-changing-mosi-and-sck-pins).
-
-```cpp
-DEPG0150BNS810 display(dc, cs, busy, sdi, clk);
-```
-
-If you're using a "Wireless Paper" board, you don't need to pass pins; they are already set.
-
-### Saving RAM
-
-On older boards, this library makes use of [paging](/docs/Paging/paging.md).This technique allows drawing with less RAM, with the cost of decreased speed. <br />
-On newer boards, this technique is not required, and is disabled by default (regardless of your [code style](#compatibility-or-convenience))
-
-If you wish to tweak this speed vs. RAM trade-off, or enable the technique on a newer board, you can usually specificy a custom "page_height" in the display constructor.
-This specifies how many lines of the display should be calculated at once.
-
-```c++
-DEPG0150BNS810 display(dc, cs, busy, page_height);
-```
-
-### Saving Flash
-
-On older boards in particular, the library can occupy a large portion of the "flash memory". If you need to reduce this, you can manually edit the [optimization.h](/src/optimization.h) file, to disable unused features.
-
-Note: for ATmega328, some of the *more-obscure* features are disabled by default.
-
-### Saving Power ###
-
-Many E-ink manufacturers provide a deep-sleep mode. With Heltec display modules, this mode is often not usable.
-
-#### For "Display Modules":
-Consider using a PNP transistor, or other switching device, to disconnect your display when needed. The library can handle this for you.
-Configure your custom switch hardware with [`useCustomPowerSwitch()`](/docs/API.md#useCustomPowerSwitch), then call [`customPowerOff()`](/docs/API.md#customPoweroff) and [`customPowerOn()`](/docs/API.md#customPoweron) as required.
-
-See your board's [wiring page](#wiring) for a suggested schematic.
-
-#### For "Wireless Paper":
-A low power state is available for the whole board (18μA while sleeping). See [Wireless Paper](/docs/WirelessPaper/wireless_paper.md#deep-sleep)
-
 ### Fast Mode (Partial Refresh)
 
-E-Ink displays generally take several seconds to refresh. Some displays have an alternative mode, where the image updates much faster. This is known officially as a *"Partial Refresh"*. For the sake of simplicity, this library instead uses the term *"Fast Mode*".
+E-Ink displays generally take several seconds to refresh. Some displays have an alternative mode, where the image updates much faster.
 
 The trade-off is that images drawn in fast mode are of a lower quality. The process may also be particularly difficult on the hardware. **Use sparingly.**
 
@@ -387,6 +338,8 @@ The trade-off is that images drawn in fast mode are of a lower quality. The proc
 
 Call [`fastmodeOn()`](/docs/API.md#fastmodeon) to enable.<br />
 Call [`fastmodeOff()`](/docs/API.md#fastmodeoff) to return to normal.
+
+<sub>\* Technically, this mode is not a true "partial refresh", as the whole display image is updated.</sub> 
 
 ## Troubleshooting
 
@@ -396,9 +349,10 @@ Call [`fastmodeOff()`](/docs/API.md#fastmodeoff) to return to normal.
 
 * **Double-check your constructor**<br />
     ```c++
-    // Make sure to use the correct class for your display model,
-    // and the correct pins to match your wiring
+    // Make sure to use the correct class for your display model
+    EInkDisplay_WirelessPaperV1_1 display;
 
+    // SPI displays: make sure your pins are set correctly
     DEPG0150BNS810 display(dc, cs, busy);   
     ```
 
@@ -409,12 +363,21 @@ Call [`fastmodeOff()`](/docs/API.md#fastmodeoff) to return to normal.
     If the display has been used incorrectly, it can get "stuck".<br />
     Remove all power from the display and Arduino for 5 seconds.
 
-
+* **Make sure your build enviorment is configured correctly**<br />
+    * [Vision Master](/docs/VisionMaster/vision_master.md#getting-started)
+    * [Wireless Paper](/docs/WirelessPaper/wireless_paper.md#getting-started)
 ## Installation
 
-**Arduino:** Library can be installed to Arduino IDE with *Sketch* -> *Include Library* -> *Add .Zip Library..*, or through the built-in Library Manager.
+### Arduino
+Library can be installed to Arduino IDE with *Sketch* -> *Include Library* -> *Add .Zip Library..*, or through the built-in Library Manager. 
 
-**Platform.io:** Available through the built-in library registry, or alternatively, can be installed by extracting the Zip file to the lib folder of your project.
+* [Setting up Arduino IDE for Vision Master boards](/docs/VisionMaster/vision_master.md#arduino-ide)
+* [Setting up Arduino IDE for Wireless Paper boards](/docs/WirelessPaper/wireless_paper.md#arduino-ide)
+
+### PlatformIO
+Available through the built-in library registry, or alternatively, can be installed by extracting the Zip file to the lib folder of your project.
+
+For Vision Master and Wireless Paper boards, your platformio.ini file needs to be [correctly configured](/platformio.ini).
 
 ## Acknowledgements
 
