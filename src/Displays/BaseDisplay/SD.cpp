@@ -40,6 +40,7 @@ void BaseDisplay::useSD(uint8_t pin_cs_card) {
             pinMode(pin_cs, OUTPUT);
             digitalWrite(pin_cs, HIGH);
             reset();
+            fastmode_state = NOT_SET; // Ensure we rerun configFull() or similar
 
             Platform::beginSPI(display_spi, pin_sdi, pin_miso, pin_clk);
             
