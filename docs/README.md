@@ -66,6 +66,8 @@ void setup() {
     display.print("Hello, World!");
     display.update();
 }
+
+void loop() {}
 ```
 
 ## Wireless Paper
@@ -112,6 +114,8 @@ void setup() {
     display.print("Hello, World!");
     display.update();
 }
+
+void loop() {}
 ```
 
 A [low power state](/docs/WirelessPaper/wireless_paper.md#deep-sleep) is available for the whole board (18μA while sleeping).
