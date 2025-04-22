@@ -100,4 +100,38 @@ bool BaseDisplay::supportsColor(Color c) {
         writePage();        // Copy the local image data to the display memory
         endImageTxQuiet();  // Terminate the frame without an update
     }
+
+    // Invert black and white value of the existing image
+    // Pixels are modified the in MCU's memory. Requires update() to draw the changes to display.
+    void BaseDisplay::invert() {
+        // Invert all pixels of the existing image
+        for(uint16_t i = 0; i < page_bytecount; i++)
+        page_black[i] = page_black[i] ^ 0xFF;
+    }
+
+    // Invert black and white value of a region of the existing image
+    // Pixels are modified the in MCU's memory. Requires update() to draw the changes to display.
+    // Quick hack. Uses fillRect to generate a mask of the image buffer.
+    // Note: memory intensive operation, may not be suitable for all platforms.
+    void BaseDisplay::invert(uint16_t left, uint16_t top, uint16_t width, uint16_t height) {
+        // Move the existing image data, for temporary storage
+        uint8_t* original_image = page_black;
+
+        // Lazy hack: use AdafruitGFX drawing to generate a mask of which pixels to invert
+        // Lets us use setPixel to handle all the rotation / reflection nonsense
+        page_black = new uint8_t[page_bytecount];
+        memset(page_black, (Color) 0, page_bytecount);
+        fillRect(left, top, width, height, (Color) 1); // 1 = invert, 0 = ignore
+
+        // Grab the mask we generated, and put back the old image data
+        uint8_t* mask = page_black;
+        page_black = original_image;
+
+        // Invert any pixels of the original image which line up with a 1 in the mask
+        for(uint16_t i = 0; i < page_bytecount; i++)
+            page_black[i] = page_black[i] ^ mask[i];
+
+        // Free the memory used by the mask
+        delete[] mask;
+    }    
 #endif

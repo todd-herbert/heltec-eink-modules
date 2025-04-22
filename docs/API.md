@@ -58,6 +58,7 @@
   - [`getTextHeight()`](#gettextheight)
   - [`getTextWidth()`](#gettextwidth)
   - [`height()`](#height)
+  - [`invert()`](#invert)
   - [`landscape()`](#landscape)
   - [`left()`](#left)
   - [`loadFullscreenBMP()`](#loadfullscreenbmp)
@@ -1731,6 +1732,70 @@ None.
 #### Returns
 
 Height of the full display, in pixels.
+
+___
+### `invert()`
+
+**Not supported on all platforms**
+
+Inverts the colors of existing drawing, swapping black and white pixels. 
+
+Changes are applied to the working copy of the image in memory only. You may call `update()` to display the changes immediately, or continue modifying the drawing as usual. 
+
+Calling `invert` does not affect subsequent drawing operations.
+
+#### Syntax
+
+```cpp
+display.invert()
+display.invert(left, top, width, height)
+```
+
+#### Parameters
+
+* _left_: (optional) left edge *
+* _top_: (optional) top edge *
+* _width_: (optional) width *
+* _height_: (optional) height *
+
+<sup>* of region to invert</sup>
+
+#### Example
+
+```cpp
+#include <heltec-eink-modules.h>
+
+EInkDisplay_WirelessPaperV1_1 display;
+
+void setup() {
+    display.print("Hello, world!");
+    display.update();
+
+    delay(2000);
+
+    // Redraw hello world, with inverted colors
+    display.invert();
+    display.update();
+
+    delay(2000);
+
+    // Invert half of the display
+    display.clearMemory();
+    display.printCenter("Half and Half");
+    display.invert(0, 0, display.width() / 2, display.height());
+    display.update();
+
+    delay(2000);
+
+    // Draw over-top
+    display.setTextColor(WHITE);
+    display.setCursor(0, 0);
+    display.print("Top Left");
+    display.update();
+}
+
+void loop() {}
+```
 
 ___
 ### `landscape()`

@@ -53,6 +53,12 @@ class BaseDisplay: public GFX {
         // Window (only important when paging)
         void fullscreen();                                                                  // Use whole screen area for drawing
         void setWindow(uint16_t left, uint16_t top, uint16_t width, uint16_t height);       // Specify a section of screen for drawing
+
+        // Invert colors
+        #ifdef PRESERVE_IMAGE
+            void invert();
+            void invert(uint16_t left, uint16_t top, uint16_t width, uint16_t height);
+        #endif
         
 
         // Power saving 
