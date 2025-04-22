@@ -97,10 +97,10 @@ void BaseDisplay::initDrawingParams() {
     setTextColor(BLACK);
 }
 
-// "Custom power swiitching" is disabled on Wireless Paper platforms - irrelevant and maybe the user will break something?
+// "Custom power switching" is disabled on Wireless Paper platforms - irrelevant and maybe the user will break something?
 #ifndef ALL_IN_ONE
 
-    // Set configuration of custom power-swiching circuit, then power up
+    // Set configuration of custom power-switching circuit, then power up
     void BaseDisplay::useCustomPowerSwitch(uint8_t pin, SwitchType type) {
         this->pin_power = pin;
         this->switch_type = type;

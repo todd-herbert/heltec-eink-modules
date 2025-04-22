@@ -478,7 +478,7 @@ void BaseDisplay::loadFullscreenBMP(const char* filename) {
             return calculating();
         }
 
-        // Subequent loops
+        // Subsequent loops
         else {
 
             // If the usual paging loop is still doing its thing, loop around

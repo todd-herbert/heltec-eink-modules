@@ -5,7 +5,7 @@
             Model: DEPG0290BNS800
             Refresh: Partial
 
-            Source: Custom (Referencng Heltec DEPG0150BNS810)
+            Source: Custom (Referencing Heltec DEPG0150BNS810)
 
             1. Tap existing black pixels into place - helps when initially moving into fastmode
             2. Move new pixels into place - long

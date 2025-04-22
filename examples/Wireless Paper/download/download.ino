@@ -86,7 +86,7 @@ void setup() {
     WiFi.mode(WIFI_STA);
     WiFi.begin(WIFI_SSID, PASSWORD);
     uint32_t wifi_connect_start = millis();
-    logToDisplay("[WiFi] Attemping to connect.");
+    logToDisplay("[WiFi] Attempting to connect.");
     bool logged_stillwaiting = false;
     while (WiFi.status() != WL_CONNECTED) {
         uint32_t now = millis();

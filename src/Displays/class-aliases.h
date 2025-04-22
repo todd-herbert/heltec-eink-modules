@@ -16,7 +16,7 @@
 // -------------------------
     #define DEPG0213RWS800 QYEG0213RWS800
 
-// Aliases - Deprecated - Flex Connector (no longer a unqiue identifier)
+// Aliases - Deprecated - Flex Connector (no longer a unique identifier)
 // ------------------------
 
     #define FPC8101 DEPG0150BNS810

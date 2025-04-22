@@ -51,7 +51,7 @@ class SDWrapper {
         void processFilename(const char* raw);  // ESP32 requires a leading forward-slash
         void readBMPHeader();                   // Load metadata from .bmp file
 
-        uint8_t pin_cs;                         // Pin pased is BaseDisplay::useSD()
+        uint8_t pin_cs;                         // Pin passed is BaseDisplay::useSD()
 
         // Metadata from .bmp files
         uint16_t bmp_width = 0;

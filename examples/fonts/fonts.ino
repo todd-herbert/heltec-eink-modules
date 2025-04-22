@@ -44,7 +44,7 @@ void setup() {
     display.setFont( & FreeSerifBold12pt7b );   // Pass (the address of) the font to the library
 
     DRAW (display) {
-        display.setCursor(10, 50);              // Set the (word-processor-like) cursor to the abritrary position of x=10, y=50          
+        display.setCursor(10, 50);              // Set the (word-processor-like) cursor to the arbitrary position of x=10, y=50          
         display.print("Fancy font.");
     }   
 }

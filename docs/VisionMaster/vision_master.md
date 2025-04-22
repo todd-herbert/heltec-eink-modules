@@ -45,7 +45,7 @@ This may take some time.
 
     ![](ArduinoIDE/board_manager.jpg)
 
-1. With your device connected, open the board selection drop-dowm, search for "vision master", then select your model and serial port.
+1. With your device connected, open the board selection drop-down, search for "vision master", then select your model and serial port.
 
     ![](ArduinoIDE/select_board.jpg)
 
@@ -121,6 +121,6 @@ void loop() {
 
 ### `VExtOn()`
 The display has an ACTIVE HIGH power switch on GPIO18. For Vision Master E213, this also enables power to the I2C connector.
-The *heltec-eink-modules* libary will switch this on when first required.
+The *heltec-eink-modules* library will switch this on when first required.
 
 If needed, you can manually power on the hardware with `Platform::VExtOn()`.

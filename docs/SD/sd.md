@@ -43,7 +43,7 @@ For more information, see: [wiring](/docs/README.md#wiring).
 
 ## loadFullscreenBMP()
 
-This is an efficient method for loading a .bmp file directy to the display.
+This is an efficient method for loading a .bmp file direct to the display.
 
 It accepts only a specific type of .bmp image.
 * 24bit .bmp file
@@ -65,7 +65,7 @@ void setup() {
     // At sketch start, set CS pin
     display.useSD(7);
 
-    display.loadFullscreeBMP("image.bmp");
+    display.loadFullscreenBMP("image.bmp");
 }
 ```
 ## Save drawing to SD

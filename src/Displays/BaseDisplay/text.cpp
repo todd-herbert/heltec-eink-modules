@@ -312,7 +312,7 @@ void BaseDisplay::charBounds(unsigned char c, int16_t *x, int16_t *y, int16_t *m
         if (c == '\n') {        // Newline
             *x = max( (int16_t)bounds.window.left(), cursor_placed_x); // Reset x to line start, advance y by one line
             *y += textsize_y * 8; // advance y one line
-            // min/max x/y unchaged -- that waits for next 'normal' character
+            // min/max x/y unchanged -- that waits for next 'normal' character
         } 
 
         else if (c != '\r') { // Normal char; ignore carriage returns

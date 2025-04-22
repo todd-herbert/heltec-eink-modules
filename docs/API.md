@@ -509,7 +509,7 @@ void setup() {
     display.update();   // Display whatever we've drawn
 
     delay(4000);        // Let user read
-    dispaly.clear();    // Wipe the screen immediately
+    display.clear();    // Wipe the screen immediately
 }
 ```
 
@@ -1132,7 +1132,7 @@ display.fastmodeOn(clear_if_reset)
 
 #### Parameters
 
-* _clear\_if\_reset_ (optional): Pass false to use the display memory "as-is". Useful after a processor deep sleep. If you intend to use fast-mode, make sure to at least run a normal refresh (or `clear()` / `clearMemory()`) on inital boot. Otherwise, you'll get a whole lot of static.
+* _clear\_if\_reset_ (optional): Pass false to use the display memory "as-is". Useful after a processor deep sleep. If you intend to use fast-mode, make sure to at least run a normal refresh (or `clear()` / `clearMemory()`) on initial boot. Otherwise, you'll get a whole lot of static.
 
 #### Example
 
@@ -1199,7 +1199,7 @@ display.fastmodeTurbo(clear_if_reset)
 
 #### Parameters
 
-* _clear\_if\_reset_ (optional): Pass false to use the display memory "as-is". Useful after a processor deep sleep. If you intend to use fast-mode, make sure to at least run a normal refresh (or `clear()` / `clearMemory()`) on inital boot. Otherwise, you'll get a whole lot of static.
+* _clear\_if\_reset_ (optional): Pass false to use the display memory "as-is". Useful after a processor deep sleep. If you intend to use fast-mode, make sure to at least run a normal refresh (or `clear()` / `clearMemory()`) on initial boot. Otherwise, you'll get a whole lot of static.
 
 #### Example
 
@@ -1411,7 +1411,7 @@ display.fullscreenBMPValid(prefix, number, purge)
 #### Parameters
 
 * _filename_: canvas file to check
-* _prefix_: identifies different sets of imagess
+* _prefix_: identifies different sets of images
 * _number_: image's location in the set
 * _purge_ (optional): when purge = true, canvas will be deleted from SD card, if detected as invalid. 
 
@@ -1782,7 +1782,7 @@ display.loadFullscreenBMP(prefix, number)
 #### Parameters
 
 * _filename_: fullscreen .bmp file to load
-* _prefix_: identifies different sets of imagess
+* _prefix_: identifies different sets of images
 * _number_: image's location in the set
 
 #### See also
@@ -1960,7 +1960,7 @@ display.saveToSD(prefix, number)
 #### Parameters
 
 * _filename_: save canvas on SD card with this filename
-* _prefix_: identifies different sets of imagess
+* _prefix_: identifies different sets of images
 * _number_: image's location in the set
 
 #### Example
@@ -2026,7 +2026,7 @@ display.SDFileExits(prefix, number)
 #### Parameters
 
 * _filename_: image file
-* _prefix_: identifies different sets of imagess
+* _prefix_: identifies different sets of images
 * _number_: image's location in the set
 
 #### Returns

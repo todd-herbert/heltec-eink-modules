@@ -43,7 +43,7 @@
 const unsigned char* hourglasses[] = {hourglass_1_bits, hourglass_2_bits, hourglass_3_bits};
 
 
-// Pre-calculate postition for "loading icon"
+// Pre-calculate position for "loading icon"
 
 int ICON_L = display.centerX() - (hourglass_1_width / 2);
 int ICON_T = display.centerY() - (hourglass_1_height / 2) - 15;  // Slightly towards screen top

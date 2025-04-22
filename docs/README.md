@@ -301,7 +301,7 @@ The `DRAW()` operation allows for RAM saving tricks (paging). Required for older
 */
     DRAW(display) {
         display.print("Hello, ");
-        dispaly.print("World!");
+        display.print("World!");
     }
 
 
@@ -367,7 +367,7 @@ Call [`fastmodeOff()`](/docs/API.md#fastmodeoff) to return to normal.
     If the display has been used incorrectly, it can get "stuck".<br />
     Remove all power from the display and Arduino for 5 seconds.
 
-* **Make sure your build enviorment is configured correctly**<br />
+* **Make sure your build environment is configured correctly**<br />
     * [Vision Master](/docs/VisionMaster/vision_master.md#getting-started)
     * [Wireless Paper](/docs/WirelessPaper/wireless_paper.md#getting-started)
 ## Installation

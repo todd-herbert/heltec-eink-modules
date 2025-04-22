@@ -55,7 +55,7 @@ void setup() {
 
     display.fastmodeOn();
     display.setFont( NULL ); // Default Font
-    display.printCenter("How about a spot?", 0, -40);   // 40px above center
+    display.printCenter("How about a dot?", 0, -40);   // 40px above center
     display.update();
 
     delay(2000);

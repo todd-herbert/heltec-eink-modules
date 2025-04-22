@@ -17,7 +17,7 @@ WindowBounds::WindowBounds(  uint16_t drawing_width,
                             uint8_t *rotation, 
                             Flip *imgflip ) 
 {
-    // Store paramaters
+    // Store parameters
     this->drawing_width = drawing_width;
     this->drawing_height = drawing_height;
     edges[T] = top;
@@ -62,7 +62,7 @@ uint16_t WindowBounds::getWindowBounds(WindowBounds::side request) {
     } // -------------- End Flip Part 1 -----------
 
     uint16_t rotated_request = (request + *rotation) % 4;    // Rotate the WindowBounds::side value
-    uint16_t result;    // Build in this varaible    
+    uint16_t result;    // Build in this variable    
 
     // Given our request side and rotation, do we need to measure from opposite edge
     bool rotswap = rotswap_lut[*rotation] & (1 << request);

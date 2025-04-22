@@ -41,7 +41,7 @@ This may take some time.
 
     ![](ArduinoIDE/board_manager.jpg)
 
-5. With your "Wireless Paper" connected, open the board selection drop-dowm, search for "paper", then select Wireless Paper, and your board's serial port.
+5. With your "Wireless Paper" connected, open the board selection drop-down, search for "paper", then select Wireless Paper, and your board's serial port.
 
     ![](ArduinoIDE/select_board.jpg)
 
@@ -103,7 +103,7 @@ void loop() {
 
 ### `VExtOn()`
 The display, and wireless hardware, have an ACTIVE LOW power switch on GPIO45. 
-The *heltec-eink-modules* libary will switch this on when first required.
+The *heltec-eink-modules* library will switch this on when first required.
 
 If needed, you can manually power on the hardware with `Platform::VExtOn()`.
 

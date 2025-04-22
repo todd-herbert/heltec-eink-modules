@@ -227,7 +227,7 @@ class BaseDisplay: public GFX {
         virtual void setMemoryArea(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey);                     // Inform the display of selected memory area. Overriden if no "partial window" support
         void writePage();                                                                                   // Send image data to display memory (no refresh)
         void clearPage();                                                                                   // Fill the pagefile(s) with default_color. Overriden if no "partial window" support
-        virtual void clearPageWindow();                                                                     // If controller has no "partial window" support, this behaviour needs to be seperated. By default: a wrapper for clearPage
+        virtual void clearPageWindow();                                                                     // If controller has no "partial window" support, this behaviour needs to be separated. By default: a wrapper for clearPage
         void clearAllMemories();                                                                            // Clears the display memory, and if PRESERVE_IMAGE, the pagefile too
         void storeDrawingConfig();
         void restoreDrawingConfig();
@@ -321,7 +321,7 @@ class BaseDisplay: public GFX {
 
 
         // Window
-        uint16_t window_left, window_top, window_right, window_bottom;      // Window boundaries: reference frame of current retation
+        uint16_t window_left, window_top, window_right, window_bottom;      // Window boundaries: reference frame of current rotation
         uint16_t winrot_left, winrot_top, winrot_right, winrot_bottom;      // Window boundaries in reference frame of rotation(0)
 
 

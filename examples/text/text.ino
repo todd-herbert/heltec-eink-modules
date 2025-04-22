@@ -49,7 +49,7 @@ void setup() {
 
     // --------------------------------
 
-    display.setRotation(90);                // Rotate 90deg clocklwise - more room
+    display.setRotation(90);                // Rotate 90deg clockwise - more room
     display.setFont( & FreeSerif9pt7b );    // Set font - pass the address (&) of the font 
     display.setBackgroundColor(BLACK);      // Background: BLACK
     display.setTextColor(WHITE);            // Text: WHITE

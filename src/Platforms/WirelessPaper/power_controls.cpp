@@ -10,7 +10,7 @@ namespace Platform {
     void VExtOn() {
         pinMode(PIN_PCB_VEXT, OUTPUT);          // OUTPUT, incase this is the first call
         
-        if (digitalRead(PIN_PCB_VEXT) != VEXT_ACTIVE) {     // Read, to avoid waiting unnecessariy for power to stabilize
+        if (digitalRead(PIN_PCB_VEXT) != VEXT_ACTIVE) {     // Read, to avoid waiting unnecessarily for power to stabilize
             digitalWrite(PIN_PCB_VEXT, VEXT_ACTIVE);        // Power on (Active LOW)
 
             uint32_t start = millis();              // Non-blocking wait
@@ -67,7 +67,7 @@ namespace Platform {
 
         VExtOff();
 
-        // LoRa pins to high-impedence
+        // LoRa pins to high-impedance
         pinMode(PIN_LORA_NRST, ANALOG);
         pinMode(PIN_LORA_BUSY, ANALOG);
         pinMode(PIN_LORA_SCK, ANALOG);

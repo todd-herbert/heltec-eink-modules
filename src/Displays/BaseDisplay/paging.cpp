@@ -147,7 +147,7 @@ void BaseDisplay::clearPage() {
 }
 
 // By default, just a wrapper for clearPage()
-// If controller has no "partial window" support, behaviour needs to be handled seperately, as part of a workaround
+// If controller has no "partial window" support, behaviour needs to be handled separately, as part of a workaround
 void BaseDisplay::clearPageWindow() {
     clearPage();
 }

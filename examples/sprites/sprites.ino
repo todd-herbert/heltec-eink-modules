@@ -32,7 +32,7 @@
 
 // DEMO: Sprites
 // -------------
-    // XBitmaps are well suited for storing graphic elements that can be pre-rendered and then placed where neeeded
+    // XBitmaps are well suited for storing graphic elements that can be pre-rendered and then placed where needed
 
 
 // Here we are including a small image of a ball

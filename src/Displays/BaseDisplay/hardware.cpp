@@ -10,7 +10,7 @@
 void BaseDisplay::grabPageMemory() {
     page_black = new uint8_t[page_bytecount];
 
-    if (supportsColor(RED))     // Only if 3-color disply
+    if (supportsColor(RED))     // Only if 3-color display
         page_red = new uint8_t[page_bytecount];
 }
 
@@ -317,7 +317,7 @@ void BaseDisplay::clearAllMemories() {
         // We set this to OUTPUT in customPowerOff() to prevent current leakage
         pinMode(pin_busy, INPUT);
 
-        // CS pin deselcted; power-up the display
+        // CS pin deselected; power-up the display
         digitalWrite(pin_cs, HIGH);
         digitalWrite(pin_power, switch_type);
 

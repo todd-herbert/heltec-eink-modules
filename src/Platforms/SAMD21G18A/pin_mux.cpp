@@ -70,7 +70,7 @@ namespace Platform {
             if (sdi_conf.pin != sdi)
                 continue;
 
-            // Re-check aganst the options list: find a suitable CLK option
+            // Re-check against the options list: find a suitable CLK option
             for( uint8_t c = 0; c < sizeof(available_options) / sizeof(MuxOption); c++ ) {
 
                 // Inspect as potential CLK config
@@ -106,7 +106,7 @@ namespace Platform {
                 else if(sdi_conf.pad == 0 && clk_conf.pad == 3)
                     tx_pad = SPI_PAD_0_SCK_3;
 
-                else    // No suitable pad setting (for user resquested pins)
+                else    // No suitable pad setting (for user requested pins)
                     continue;
 
                 // Check list of options for a valid MISO config
