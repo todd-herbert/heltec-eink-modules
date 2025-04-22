@@ -46,9 +46,9 @@
 
         // Onboard LED
         #ifdef LED_BUILTIN
-            // Board has no LED
+            // Note: early version of this board had no LED
             #undef LED_BUILTIN
-            #define LED_BULITIN -1
+            #define LED_BUILTIN 45
         #endif
 
         #define BUTTON_1 0
