@@ -124,3 +124,5 @@ esp_deep_sleep_start();
 ```
 
 The 18uA current is only achievable when powering with the battery connector. When USB is connected, an orange LED remains on.
+
+The library will automatically reverse this sleep state when the display is next used. If you need to use the LoRa radio before this, you may need to manually call `Platform::VExtOn()`.

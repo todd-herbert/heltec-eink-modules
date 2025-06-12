@@ -8,6 +8,8 @@ namespace Platform {
 
     // Enable power to Wireless Paper's interfaces (Display + LoRa P/A)
     void VExtOn() {
+        gpio_hold_dis((gpio_num_t)PIN_LORA_NSS); // Release any hold on LoRa radio's CS pin (see Platform::prepareToSleep)
+
         pinMode(PIN_PCB_VEXT, OUTPUT);          // OUTPUT, incase this is the first call
         
         if (digitalRead(PIN_PCB_VEXT) != VEXT_ACTIVE) {     // Read, to avoid waiting unnecessarily for power to stabilize
