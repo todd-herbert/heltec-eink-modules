@@ -74,6 +74,8 @@ The upload process will be slow when compiling for the first time. Saving your s
 
 // Pick your display model:
 
+// EInkDisplay_WirelessPaperV1_2 display;
+// EInkDisplay_WirelessPaperV1_1_1 display;
 // EInkDisplay_WirelessPaperV1_1 display;
 // EInkDisplay_WirelessPaperV1 display;
 

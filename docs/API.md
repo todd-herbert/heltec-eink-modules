@@ -8,10 +8,14 @@
   - [`DEPG0213RWS800()`](#depg0213rws800)
   - [`DEPG0290BNS75A()`](#depg0290bns75a)
   - [`DEPG0290BNS800()`](#depg0290bns800)
+  - [`E0213A367()`](#e0213a367)
   - [`EInkDisplay_VisionMasterE213`](#einkdisplay_visionmastere213)
+  - [`EInkDisplay_VisionMasterE213V1_1`](#einkdisplay_visionmastere213v1_1)
   - [`EInkDisplay_VisionMasterE290`](#einkdisplay_visionmastere290)
   - [`EInkDisplay_WirelessPaperV1`](#einkdisplay_wirelesspaperv1)
   - [`EInkDisplay_WirelessPaperV1_1`](#einkdisplay_wirelesspaperv1_1)
+  - [`EInkDisplay_WirelessPaperV1_1_1`](#einkdisplay_wirelesspaperv1_1_1)
+  - [`EInkDisplay_WirelessPaperV1_2`](#einkdisplay_wirelesspaperv1_2)
   - [`GDE029A1()`](#gde029a1)
   - [`GDEP015OC1()`](#gdep015oc1)
   - [`LCMEN2R13EFC1`](#lcmen2r13efc1)
@@ -279,6 +283,32 @@ DEPG0290BNS800 display(2, 4, 5);
 ```
 
 ___
+### `E0213A367()`
+Create a display controller object, for model E0213A367, which is used on Wireless Paper V1.1.1, V1.2 and Vision Master E213 V1.1 all-in-one boards.
+
+*`EInkDisplay_WirelessPaperV1_1_1`, `EInkDisplay_WirelessPaperV1_2` and `EInkDisplay_VisionMasterE213V1_1` are aliases for this class.*
+
+Display instances of this class should be declared without parentheses, or they will be mistaken for a function prototype. See example.
+
+#### Syntax
+
+```cpp
+E0213A367
+```
+
+#### Parameters
+
+None.
+
+#### Example
+
+```cpp
+#include <heltec-eink-modules.h>
+
+E0213A367 display;
+```
+
+___
 ### `EInkDisplay_VisionMasterE213`
 Create a display controller object, for Vision Master E213 boards.
 
@@ -296,6 +326,26 @@ None.
 #include <heltec-eink-modules.h>
 
 EInkDisplay_VisionMasterE213 display;
+```
+
+___
+### `EInkDisplay_VisionMasterE213V1_1`
+Create a display controller object, for Vision Master E213 V1.1 boards.
+
+Display instances of this class should be declared without parentheses, or they will be mistaken for a function prototype. See example.
+
+*This is an alias for [`E0213A367`](#e0213a367).*
+
+#### Parameters
+
+None.
+
+#### Example
+
+```cpp
+#include <heltec-eink-modules.h>
+
+EInkDisplay_VisionMasterE213V1_1 display;
 ```
 
 ___
@@ -356,6 +406,46 @@ None.
 #include <heltec-eink-modules.h>
 
 EInkDisplay_WirelessPaperV1_1 display;
+```
+
+___
+### `EInkDisplay_WirelessPaperV1_1_1`
+Create a display controller object, for Wireless Paper V1.1.1 boards.
+
+Display instances of this class should be declared without parentheses, or they will be mistaken for a function prototype. See example.
+
+*This is an alias for [`E0213A367`](#e0213a367).*
+
+#### Parameters
+
+None.
+
+#### Example
+
+```cpp
+#include <heltec-eink-modules.h>
+
+EInkDisplay_WirelessPaperV1_1_1 display;
+```
+
+___
+### `EInkDisplay_WirelessPaperV1_2`
+Create a display controller object, for Wireless Paper V1.2 boards.
+
+Display instances of this class should be declared without parentheses, or they will be mistaken for a function prototype. See example.
+
+*This is an alias for [`E0213A367`](#e0213a367).*
+
+#### Parameters
+
+None.
+
+#### Example
+
+```cpp
+#include <heltec-eink-modules.h>
+
+EInkDisplay_WirelessPaperV1_2 display;
 ```
 
 ___

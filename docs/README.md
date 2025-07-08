@@ -40,6 +40,14 @@ See [Getting Started with Vision Master](/docs/VisionMaster/vision_master.md#get
     </thead>
     <tbody>
         <tr>
+            <td><strong>E213 V1.1</strong></td>
+            <td><code>EInkDisplay_VisionMasterE213V1_1</code></td>
+            <td align="center"><img alt="Front" src="Identification/VME213V1.1-Front.jpg" /></td>
+            <td align="center">
+            <img alt="Rear" src="Identification/VME213V1.1-Rear.jpg" /></td>            
+            <td>250 x 122</td>
+        </tr>    
+        <tr>
             <td><strong>E213</strong></td>
             <td><code>EInkDisplay_VisionMasterE213</code></td>
             <td align="center"><img alt="Front" src="Identification/VME213-Front.jpg" /></td>
@@ -87,12 +95,25 @@ See [Getting Started with Wireless Paper](/docs/WirelessPaper/wireless_paper.md)
     </thead>
     <tbody>
         <tr>
+            <td><strong>V1.2</strong></td>
+            <td><code>EInkDisplay_WirelessPaperV1_2</code></td>
+            <td>(not visible)</td>
+            <td align="center">(no image available)</td>
+            <td align="center">(no image available)</td>            
+        </tr>
+        <tr>
+            <td><strong>V1.1.1</strong></td>
+            <td><code>EInkDisplay_WirelessPaperV1_1_1</code></td>
+            <td>(not visible)</td>
+            <td align="center">(no image available)</td>
+            <td align="center">(no image available)</td>            
+        </tr>
+        <tr>
             <td><strong>V1.1</strong></td>
             <td><code>EInkDisplay_WirelessPaperV1_1</code></td>
             <td>(not visible)</td>
             <td align="center"><img alt="Front" src="Identification/PaperV1.1-Front.jpg" /></td>
-            <td align="center">
-            <img alt="Rear, with sticker" src="Identification/PaperV1.1-Rear.jpg" /></td>            
+            <td align="center"><img alt="Rear, with sticker" src="Identification/PaperV1.1-Rear.jpg" /></td>            
         </tr>
         <tr>
             <td><nobr><strong>Original</strong> (V1.0)</nobr></td>

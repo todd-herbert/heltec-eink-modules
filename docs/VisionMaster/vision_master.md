@@ -93,6 +93,7 @@ The upload process will be slow when compiling for the first time. Saving your s
 // Pick your display model:
 
 // EInkDisplay_VisionMasterE213 display;
+// EInkDisplay_VisionMasterE213V1_1 display;
 // EInkDisplay_VisionMasterE290 display;
 
 void setup() {
