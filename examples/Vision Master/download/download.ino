@@ -4,6 +4,7 @@
 // ---------------
 
     // EInkDisplay_VisionMasterE213 display;
+    // EInkDisplay_VisionMasterE213V1_1 display;
     // EInkDisplay_VisionMasterE290 display;
 
 // DEMO: Vision Master - Download

@@ -49,8 +49,20 @@
     #define     DISPLAY_CLASS       LCMEN2R13EFC1  
     #define     PENCILS_H           "pencils_250x122.h"
 
+#elif defined USING_WIRELESSPAPER_V1_1_1
+    #define     DISPLAY_CLASS       E0213A367
+    #define     PENCILS_H           "pencils_250x122.h"
+
+#elif defined USING_WIRELESSPAPER_V1_2
+    #define     DISPLAY_CLASS       E0213A367
+    #define     PENCILS_H           "pencils_250x122.h"
+
 #elif defined USING_VISIONMASTER_E213
     #define     DISPLAY_CLASS       LCMEN2R13EFC1  
+    #define     PENCILS_H           "pencils_250x122.h"
+
+#elif defined USING_VISIONMASTER_E213_V1_1
+    #define     DISPLAY_CLASS       E0213A367 
     #define     PENCILS_H           "pencils_250x122.h"
 
 #elif defined USING_VISIONMASTER_E290

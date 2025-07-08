@@ -5,6 +5,8 @@
 
     // EInkDisplay_WirelessPaperV1 display;
     // EInkDisplay_WirelessPaperV1_1 display;
+    // EInkDisplay_WirelessPaperV1_1_1 display;
+    // EInkDisplay_WirelessPaperV1_2 display;
 
 
 // DEMO: Wireless Paper - Basic

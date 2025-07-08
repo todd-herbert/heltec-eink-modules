@@ -7,6 +7,7 @@
 
     // DEPG0213BNS800 display;      // (Red Tab)
     // LCMEN2R13EFC1 display;       // (Green Tab, V1.1)
+    // E0213A367 display;           // (V1.1.1, V1.2)  
 
 
 // Enable LoRa demo?

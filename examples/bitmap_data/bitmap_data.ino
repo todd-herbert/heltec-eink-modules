@@ -6,7 +6,10 @@
 
         // #define USING_WIRELESSPAPER_V1
         // #define USING_WIRELESSPAPER_V1_1
+        // #define USING_WIRELESSPAPER_V1_1_1
+        // #define USING_WIRELESSPAPER_V1_2
         // #define USING_VISIONMASTER_E213
+        // #define USING_VISIONMASTER_E213_V1_1
         // #define USING_VISIONMASTER_E290
 
 

@@ -7,10 +7,12 @@
     // --------------------------------------
 
         // EInkDisplay_WirelessPaperV1 display;
-        // EInkDisplay_WirelessPaperV1_1 display
+        // EInkDisplay_WirelessPaperV1_1 display;
+        // EInkDisplay_WirelessPaperV1_1_1 display;
+        // EInkDisplay_WirelessPaperV1_2 display;
         // EInkDisplay_VisionMasterE213 display;
+        // EInkDisplay_VisionMasterE213V1_1 display;
         // EInkDisplay_VisionMasterE290 display;
-
 
     // SPI Displays
     // --------------------------------------
