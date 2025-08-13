@@ -24,7 +24,7 @@
         #define ALL_IN_ONE              true            // Allow a short constructor: display pins are fixed
         #define DEFAULT_SDI             6
         #define DEFAULT_CLK             4
-        #define DEFAULT_MISO            33              // Arbitrary, not connected on PCB. Suppress compiler warning
+        #define DEFAULT_MISO            40              // Arbitrary, not connected on PCB. Suppress compiler warning
         
         // Paging
         #define DEFAULT_PAGE_HEIGHT     panel_height    // On this platform, these defaults are fixed: there is currently no support for paging
